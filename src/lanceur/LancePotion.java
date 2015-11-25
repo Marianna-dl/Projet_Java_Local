@@ -9,12 +9,12 @@ import utilitaires.logger.MyLogger;
 
 public class LancePotion {
 	
-	private static String USAGE = "USAGE : java " + LancePotion.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ nom_arene ] ]";
 
 	public static void main(String[] args) {
 		// init des variables
 		String nom = "Anduril";
-		String groupe = "B"+Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
+		String groupe = "B" + Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
 					// vous ne pourrez pas participer au tournoi si ce n'est pas fait
 		
 		// init des arguments
@@ -23,17 +23,17 @@ public class LancePotion {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(USAGE);
+				Erreur.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.too_much_arg.erreur(USAGE);
+				Erreur.TOO_MUCH_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.port_NaN.erreur(USAGE);
+				Erreur.PORT_NAN.erreur(usage);
 			}
 			
 			if (args.length == 2) {
@@ -41,7 +41,7 @@ public class LancePotion {
 			}
 		}
 		
-		// création du logger
+		// creation du logger
 		MyLogger logger = null;
 		try {
 			logger = new MyLogger(true, "potion_"+nom+groupe);
@@ -61,7 +61,7 @@ public class LancePotion {
 							Calculs.randomNumber(-100, 100),
 							Calculs.randomNumber(-100, 100),
 							Calculs.randomNumber(-100, 100)));
-			logger.info("lanceur", "Lancement de la potion réussi");
+			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

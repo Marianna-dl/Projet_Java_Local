@@ -16,13 +16,13 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	
 	private static final long serialVersionUID = 1L;
 
-	private int REF;
-	private int TYPE;
-	public int NOM;
-	private int GROUPE;
-	private int DEBUT_CARACT;
-	private int FIN_CARACT;
-	private int PHRASE;
+	private int ref;
+	private int type;
+	private int nom;
+	private int groupe;
+	private int debutCaract;
+	private int finCaract;
+	private int phrase;
 
 	private List<VueElement> enAttente = new ArrayList<VueElement>();
 
@@ -30,13 +30,13 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	
 
 	public ObjetTableModel() {
-		REF = -1;
-		TYPE = 0;
-		NOM = TYPE + 1;
-		GROUPE 	= NOM + 1;
-		DEBUT_CARACT = GROUPE + 1;
-		FIN_CARACT = DEBUT_CARACT + Caracteristique.nbCaract() - 1;
-		PHRASE = FIN_CARACT + 1;
+		ref = -1;
+		type = 0;
+		nom = type + 1;
+		groupe 	= nom + 1;
+		debutCaract = groupe + 1;
+		finCaract = debutCaract + Caracteristique.nbCaract() - 1;
+		phrase = finCaract + 1;
 	}
 
 	@Override 
@@ -46,7 +46,7 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	
     @Override
     public int getColumnCount() {
-        // Nom, Groupe, Phrase, Type 4 caractéristiques
+        // Nom, Groupe, Phrase, Type 4 caracteristiques
         return 4 + Caracteristique.nbCaract();
     }
     
@@ -58,19 +58,19 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
         else
         	vue = getVues().get(rowIndex);
         
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return vue.getRefRMI();
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return vue.getNom();
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return vue.getGroupe();
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return vue.getPhrase();
-        if (columnIndex == TYPE)
+        if (columnIndex == type)
         	return vue.getType().nom;
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return vue.getCaract(caracts[columnIndex - DEBUT_CARACT]);
+            return vue.getCaract(caracts[columnIndex - debutCaract]);
         }
         return null;
     }
@@ -78,18 +78,18 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
     @Override
     public int getColumnWidth(int columnIndex) {       
 
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return 40;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return 0;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return 0;
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return 200; 
-        if (columnIndex == TYPE)
+        if (columnIndex == type)
         	return 60;
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	return 40; 
         }       
         return 0;
@@ -97,20 +97,20 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
     
     @Override
     public String getColumnName(int columnIndex){                
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return "Ref";
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return "Nom";
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return "Groupe";
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return "Phrase"; 
-        if (columnIndex == TYPE)
+        if (columnIndex == type)
         	return "Type";
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return caracts[columnIndex - DEBUT_CARACT].toString();
+            return caracts[columnIndex - debutCaract].toString();
         }
         return "";
     }    
@@ -119,18 +119,18 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
         
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return Integer.class;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return String.class;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return String.class;
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return String.class;
-        if (columnIndex == TYPE)
+        if (columnIndex == type)
             return String.class;
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT)
+        if (columnIndex >= debutCaract && columnIndex <= finCaract)
             return Integer.class;
 
         return String.class;
@@ -145,8 +145,8 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	}
 	
 	/**
-	 * Permet de savoir si une l'élément correspondant à une ligne est en attente
-	 * @param row ligne pour laquelle on souhaite savoir si l'élément est en attente
+	 * Permet de savoir si une l'element correspondant a une ligne est en attente
+	 * @param row ligne pour laquelle on souhaite savoir si l'element est en attente
 	 * @return true si la ligne est en attente, false sinon
 	 */
 	public boolean isWaiting(int row){
@@ -154,8 +154,8 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 	}
 	
 	/**
-	 * Défini les éléments en attente
-	 * @param waitingObject liste des éléments en attente
+	 * Defini les elements en attente
+	 * @param waitingObject liste des elements en attente
 	 */
 	public void setWaiting(List<VueElement> waitingObject) {
 		this.enAttente = waitingObject;
@@ -175,6 +175,10 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
 			return enAttente.get(row - getVues().size()).isSelected();
 		else
 			return super.isSelected(row);
+	}
+
+	public int getNom() {
+		return nom;
 	}
    
 }

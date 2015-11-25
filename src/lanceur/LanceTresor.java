@@ -8,12 +8,12 @@ import utilitaires.logger.MyLogger;
 
 public class LanceTresor {
 	
-	private static String USAGE = "USAGE : java " + LanceTresor.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LanceTresor.class.getName() + " [ port [ nom_arene ] ]";
 
 	public static void main(String[] args) {
 		// init des variables
-		String nom = "Trésor";
-		String groupe = "B"+Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
+		String nom = "Tresor";
+		String groupe = "B" + Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
 					// vous ne pourrez pas participer au tournoi si ce n'est pas fait
 		
 		// init des arguments
@@ -22,17 +22,17 @@ public class LanceTresor {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(USAGE);
+				Erreur.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.too_much_arg.erreur(USAGE);
+				Erreur.TOO_MUCH_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.port_NaN.erreur(USAGE);
+				Erreur.PORT_NAN.erreur(usage);
 			}
 			
 			if (args.length == 2) {
@@ -40,7 +40,7 @@ public class LanceTresor {
 			}
 		}
 		
-		// création du logger
+		// creation du logger
 		MyLogger logger = null;
 		try {
 			logger = new MyLogger(true, "tresor_"+nom+groupe);
@@ -55,7 +55,7 @@ public class LanceTresor {
 
 			logger.info("lanceur", "Lancement du tresor sur le serveur...");
 			arene.ajouterTresor(nom,groupe,1000);
-			logger.info("lanceur", "Lancement du trésor réussi");
+			logger.info("lanceur", "Lancement du tresor reussi");
 			
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

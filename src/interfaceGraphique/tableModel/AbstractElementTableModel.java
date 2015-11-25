@@ -17,7 +17,7 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Liste des vues à afficher dans le tableau
+	 * Liste des vues a afficher dans le tableau
 	 */
 	private List<V> vues = new ArrayList<V>();  
     
@@ -29,14 +29,14 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
 
 	@Override
     public boolean isCellEditable(int rowIndex, int colIndex){
-        // Aucunes cellules ne sont éditables
+        // Aucunes cellules ne sont editables
 		return false;
     }	
 
 	/**
-	 * Recupere la reference correspondant à une ligne donnée
-	 * @param row ligne pour laquelle on souhaite recuperer la réference
-	 * @return reference de l'element de la ligne, -1 si la ligne ne correspond à aucun élément
+	 * Recupere la reference correspondant a une ligne donnee
+	 * @param row ligne pour laquelle on souhaite recuperer la reference
+	 * @return reference de l'element de la ligne, -1 si la ligne ne correspond a aucun element
 	 */
 	public int getRef(int row) {
 		if (row < vues.size())		
@@ -46,9 +46,9 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
 	}
 	
 	/**
-	 * Recupere la VueElement correspondant à une ligne donnée
+	 * Recupere la VueElement correspondant a une ligne donnee
 	 * @param row ligne pour laquelle on souhaite recuperer la VueElement
-	 * @return VueElement de l'élément de la ligne, null si la ligne ne correspond à aucun élément
+	 * @return VueElement de l'element de la ligne, null si la ligne ne correspond a aucun element
 	 */
 	public V getVue(int row) {
 		if (row < vues.size())		
@@ -58,9 +58,9 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
 	} 
 	
 	/**
-	 * Recupere la couleur correspondant à une ligne donnée
+	 * Recupere la couleur correspondant a une ligne donnee
 	 * @param row ligne pour laquelle on souhaite recuperer la couleur
-	 * @return Couleur de l'élément de la ligne, null si la ligne ne correspond à aucun élément
+	 * @return Couleur de l'element de la ligne, null si la ligne ne correspond a aucun element
 	 */
 	public Color getColor(int row) {
         if (row < vues.size())
@@ -70,9 +70,9 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
     }
 
 	/**
-	 * Permet de savoir si une ligne est séléctionnée
-	 * @param row ligne pour laquelle on souhaite savoir si elle est selectionnée
-	 * @return true si la ligne est selectionnée, false sinon
+	 * Permet de savoir si une ligne est selectionnee
+	 * @param row ligne pour laquelle on souhaite savoir si elle est selectionnee
+	 * @return true si la ligne est selectionnee, false sinon
 	 */
 	public boolean isSelected(int row) {
 		if (row < vues.size())
@@ -82,7 +82,7 @@ public abstract class AbstractElementTableModel <V extends VueElement> extends A
 	}	
 
 	/**
-	 * Permet de récuperer toutes les VueElement du tableau
+	 * Permet de recuperer toutes les VueElement du tableau
 	 * @return liste de toutes les VueElement
 	 */
     public List<V> getVues() {

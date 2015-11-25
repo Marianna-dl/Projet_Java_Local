@@ -7,7 +7,7 @@ import java.awt.Polygon;
 import javax.swing.JPanel;
 
 /**
- * Panneau permettant de dessiner le portrait d'un élément
+ * Panneau permettant de dessiner le portrait d'un element
  *
  */
 public class Portrait extends JPanel{

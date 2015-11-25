@@ -8,8 +8,7 @@ import serveur.element.Caracteristique;
 import serveur.element.PersonnageServeur;
 
 /**
- * Toutes les données que le serveur doit conserver sur chacun de ces clients
- * @author cricri
+ * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
  */
 public class ClientPersonnage extends ClientElement {
 
@@ -21,7 +20,7 @@ public class ClientPersonnage extends ClientElement {
 	private String ipAddress = "localhost";
 	
 	/**
-	 * Le booléen spécifiant si une action a été executée ce tour-ci
+	 * booleen specifiant si une action a ete executee ce tour-ci
 	 */
 	private boolean actionExecutee;
 	
@@ -86,7 +85,7 @@ public class ClientPersonnage extends ClientElement {
 	}
 	
 	/**
-	 * Action a faire à la fin de ce tour
+	 * Action a faire a la fin de ce tour
 	 */
 	public void finTour() {
 		TTL--;

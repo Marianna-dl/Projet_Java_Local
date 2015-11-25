@@ -24,15 +24,15 @@ public class SaisiePosition extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Champ de saisie correspondant à la valeur X d'une position
+	 * Champ de saisie correspondant a la valeur X d'une position
 	 */
 	private JTextField xPosition;
 	/**
-	 * Champ de saisie correspondant à la valeur Y d'une position
+	 * Champ de saisie correspondant a la valeur Y d'une position
 	 */
 	private JTextField yPosition;
 	/**
-	 * CheckBox permettant la selection de l'aléatoire
+	 * CheckBox permettant la selection de l'aleatoire
 	 */
 	private JCheckBox randomPosition;
 	
@@ -65,7 +65,7 @@ public class SaisiePosition extends JPanel{
         closeParenthese.setText(")");
         this.add(closeParenthese);
         
-        randomPosition.setText("Aléatoire");
+        randomPosition.setText("Aleatoire");
         randomPosition.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
@@ -78,20 +78,20 @@ public class SaisiePosition extends JPanel{
 	}
 
     /**
-     * Récupere la position saisie
-	 * Déclenche une exception si la position n'est pas valide
-     * @return Point correspondant à la position saisie
+     * Recupere la position saisie
+	 * Declenche une exception si la position n'est pas valide
+     * @return Point correspondant a la position saisie
      * @throws PositionNotValidException
      */
 	public Point getPosition() throws PositionNotValidException{
-		// Si aleatoire activée
+		// Si aleatoire activee
 		if (randomPosition.isSelected()){
 			// Generation d'une position
 			int x = Calculs.randomNumber(Arene.XMIN, Arene.XMAX);
 			int y = Calculs.randomNumber(Arene.YMIN, Arene.YMAX);
 			return new Point(x,y);
 		} else {
-			// Récuperation de la saisie
+			// Recuperation de la saisie
 			try {
 	    		int x = Integer.parseInt(xPosition.getText());
 	    		int y = Integer.parseInt(yPosition.getText());
@@ -106,7 +106,7 @@ public class SaisiePosition extends JPanel{
 	}
 	
 	/**
-	 * Affiche une position donnée dans les champs de saisie
+	 * Affiche une position donnee dans les champs de saisie
 	 * @param p
 	 */
 	public void setPosition(Point p){

@@ -10,7 +10,7 @@ import serveur.element.Caracteristique;
 /**
  * Definit la representation d'un element par sa vue : coordonnees, reference dans l'annuaire RMI, console, message... 
  */
-public class VueElement implements Serializable{
+public class VueElement implements Serializable {
 		
 	private static final long serialVersionUID = 6528222745182073351L;
 	
@@ -43,7 +43,7 @@ public class VueElement implements Serializable{
 	
 	/**
 	 * Renvoie la reference de l'element sur le serveur
-	 * @return reference RMI de l'élément
+	 * @return reference RMI de l'element
 	 */
 	public int getRefRMI() {
 		return refRMI;
@@ -51,7 +51,7 @@ public class VueElement implements Serializable{
 	
 	/**
 	 * Renvoie le point sur lequel l'element se trouve
-	 * @return position de l'élément
+	 * @return position de l'element
 	 */
 	public Point getPosition() {
 		return position;
@@ -65,15 +65,15 @@ public class VueElement implements Serializable{
 	}
 	/**
 	 * Permet de changer le message que doit communiquer l'element 
-	 * @param phrase phrase que doit communiquer l'élément
+	 * @param phrase phrase que doit communiquer l'element
 	 */
 	public void setPhrase(String phrase) {
 		this.phrase = phrase;
 	}	
 
 	/**
-	 * Renvoi le nom de l'élément
-	 * @return nom de l'élément
+	 * Renvoi le nom de l'element
+	 * @return nom de l'element
 	 */
 	public String getNom() {
 		return nom;
@@ -81,24 +81,24 @@ public class VueElement implements Serializable{
     
 	/**
 	 * Renvoi le groupe de l'element
-	 * @return groupe de l'élément
+	 * @return groupe de l'element
 	 */
 	public String getGroupe() {
 		return groupe;
 	}
 	
 	/**
-	 * Renvoi la couleur de l'élement
-	 * @return couleur de l'élément
+	 * Renvoi la couleur de l'element
+	 * @return couleur de l'element
 	 */
 	public Color getColor() {
 		return color;
 	}
 	
 	/**
-	 * Renvoi la valeur de la caractéristique donné
-	 * @param car caractéristique voulu
-	 * @return valeur de la caractéristique
+	 * Renvoi la valeur de la caracteristique donne
+	 * @param car caracteristique voulu
+	 * @return valeur de la caracteristique
 	 */
 	public int getCaract(Caracteristique car) {
 		if (caracts.containsKey(car))
@@ -108,23 +108,23 @@ public class VueElement implements Serializable{
 	}
 	
 	/**
-	 * Permet de savoir si l'élément est selectionné dans l'IHM
-	 * @return vrai si la vue est selectionné dans le tableau, faux sinon
+	 * Permet de savoir si l'element est selectionne dans l'IHM
+	 * @return vrai si la vue est selectionne dans le tableau, faux sinon
 	 */
 	public boolean isSelected() {
 		return selected;
 	}
 
 	/**
-	 * Défini si l'élément est selectionné ou pas
-	 * @param selected selectionné ou pas
+	 * Defini si l'element est selectionne ou pas
+	 * @param selected selectionne ou pas
 	 */
 	public void setSelected(boolean selected) {
 		this.selected = selected;
 	}
 
 	/**
-	 * Permet de savoir si l'élément courant est en attente
+	 * Permet de savoir si l'element courant est en attente
 	 * @return vrai si il est en attente, faux sinon
 	 */
 	public boolean isEnAttente() {

@@ -34,7 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import serveur.IArene;
-import utilitaires.Util;
+import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
 
 /**
@@ -81,7 +81,7 @@ public class IHM extends JFrame implements Runnable {
 	 */
 	private MyLogger myLogger;
 	/**
-	 * VueElement correspondant à l'élement selectionnée dans le tableau
+	 * VueElement correspondant a l'element selectionnee dans le tableau
 	 */
 	private VueElement elementSelectionne;
 
@@ -94,19 +94,16 @@ public class IHM extends JFrame implements Runnable {
 
 	private JLabel timerLabel;
 
-	public static Color GRIS_FONCE = new Color(115, 115, 115);
-	public static Color NOIR = new Color(33, 33, 33);
-	public static Color GRIS_CLAIR = new Color(200, 200, 200);
+	public static Color grisFonce = new Color(115, 115, 115);
+	public static Color noir = new Color(33, 33, 33);
+	public static Color grisClair = new Color(200, 200, 200);
 
 	/**
 	 * Initialise l'IHM
 	 * 
-	 * @param port
-	 *            port de communication avec l'arène
-	 * @param ipArene
-	 *            ip de communication avec l'arène
-	 * @param logger
-	 *            gestionnaire de log
+	 * @param port port de communication avec l'arene
+	 * @param ipArene ip de communication avec l'arene
+	 * @param logger gestionnaire de log
 	 */
 	public IHM(int port, String ipArene, MyLogger logger) {
 		myLogger = logger;
@@ -127,11 +124,10 @@ public class IHM extends JFrame implements Runnable {
 		setLocation(screenSize.width / 10, screenSize.height / 10);
 
 		// cree un titre de la fenetre
-		String titre = "Arène";
+		String titre = "Arene";
 		setTitle(titre);
 
-		// ajout une operation si le bouton de fermeture de la fenetre est
-		// clique
+		// ajout une operation si le bouton de fermeture de la fenetre est cliquee
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		initMenuBar();
@@ -166,19 +162,20 @@ public class IHM extends JFrame implements Runnable {
 		// creation d'un menu Fichier avec deux options - quitter et a propos
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("Fichier");
-		// Ajout d'une action pour afficher la fenètre "À propos"
+		
+		// ajout d'une action pour afficher la fenetre "a propos"
 		Action aboutAction = new AbstractAction("A propos") {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent ae) {
 				JOptionPane.showMessageDialog(null,
-						"Arène\nInspiree des TP de L3\nRemise au goût du jout par les soins de\nClément Chaumel,\nValentin Chevalier,\n et Christophe Claustre\n", "À propos",
+						"Arene\nInspiree des TP de L3\nRemise au goût du jout par les soins de\nClement Chaumel,\nValentin Chevalier,\n et Christophe Claustre\n", "a propos",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		};
 		fileMenu.add(aboutAction);
 
-		// Ajout d'une action pour arreter l'execution de l'interface graphique
+		// ajout d'une action pour arreter l'execution de l'interface graphique
 		Action exitAction = new AbstractAction("Quitter") {
 			private static final long serialVersionUID = 1L;
 
@@ -186,6 +183,7 @@ public class IHM extends JFrame implements Runnable {
 				System.exit(0);
 			}
 		};
+		
 		fileMenu.add(exitAction);
 		menuBar.add(fileMenu);
 
@@ -201,14 +199,6 @@ public class IHM extends JFrame implements Runnable {
 			}
 		});
 
-		/*
-		 * Action controleAction = new
-		 * AbstractAction("Afficher le panneau de contrôle") { private static
-		 * final long serialVersionUID = 1L;
-		 * 
-		 * public void actionPerformed(ActionEvent ae) { afficherControle(); }
-		 * };
-		 */
 
 		affichageMenu.add(affichageJauge);
 		// affichageMenu.add(controleAction);
@@ -217,27 +207,28 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Méthode appelé a tous les tours de jeu
+	 * Methode appele a tous les tours de jeu
 	 */
 	public void repaint() {
 		if ((state == State.INIT) || (cnxError)) {
 			// affiche le message correspondant
-			if (!cnxError)
-				arenePanel
-						.afficherMessage("Connexion en cours sur le serveur Arene...");
-			else
+			if (!cnxError) {
+				arenePanel.afficherMessage("Connexion en cours sur le serveur Arene...");
+			} else {
 				arenePanel.afficherMessage("Erreur de connexion !");
+			}
+			
 			// verifie si la connexion a ete realisee
 			// isAlive (Thread)==true si on est en cours de connexion
 			if ((connexion != null) && (!connexion.isAlive())) {
-				// mets a jour l'etat de l'arene
+				// met a jour l'etat de l'arene
 				state = State.PLAYING;
-				// remets la connexion a null pour une autre execution
+				// remet la connexion a null pour une autre execution
 				connexion = null;
 			}
 		} else {
 			try {
-				// mets a jour la liste des elements de l'arene
+				// met a jour la liste des elements de l'arene
 				List<VuePersonnage> personnages = serveur.getPersonnages();
 				List<VuePersonnageDeconnecte> deconnected = serveur.getHell();
 				List<VueElement> objetsEnAttente = serveur.getObjetsEnAttente();
@@ -250,14 +241,14 @@ public class IHM extends JFrame implements Runnable {
 				// MAJ du timer
 				int tempsRestant = serveur.getNbToursRestants();
 				int nbTour = serveur.getNbTour();
-				timerLabel.setText("Durée de la partie : "
-						+ Util.timerToString(nbTour)
+				timerLabel.setText("Duree de la partie : "
+						+ Calculs.timerToString(nbTour)
 						+ "   -   Temps restant : "
-						+ Util.timerToString(tempsRestant));
+						+ Calculs.timerToString(tempsRestant));
 
 				if (!isPartieCommencee())
 					arenePanel
-							.afficherMessage("La partie n'a pas encore commencé");
+							.afficherMessage("La partie n'a pas encore commence");
 
 			} catch (RemoteException e) {
 				erreurConnexion(e);
@@ -277,20 +268,17 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Traitement à réaliser lors d'une erreur de connexion
-	 * 
-	 * @param e
-	 *            exception ayant entrainer l'erreur de connexion
-	 * @param message
-	 *            message à afficher
+	 * Traitement a realiser lors d'une erreur de connexion
+	 * @param e exception ayant entrainer l'erreur de connexion
+	 * @param message message a afficher
 	 */
 	protected void erreurConnexion(Exception e) {
 		// en cas de deconnexion ou erreur du serveur
-		// remets l'etat de l'arene a jour
+		// remet l'etat de l'arene a jour
 		state = State.INIT;
 		String message = "Impossible de se connecter au serveur sur le port "
 				+ port + " !\n(le serveur ne doit pas etre actif...)";
-		// "Erreur de connexion !\nLe serveur ne doit plus être actif."
+		// "Erreur de connexion !\nLe serveur ne doit plus etre actif."
 		// affiche un dialog avec le message d'erreur
 		JOptionPane.showMessageDialog(this,
 				message + "\n\nRaison : " + e.getMessage(),
@@ -302,17 +290,15 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Renvoi la vue correspondant à l'element selectionné dans l'IHM
-	 * 
-	 * @return vue selectionnée
+	 * Renvoie la vue correspondant a l'element selectionne dans l'IHM
+	 * @return vue selectionnee
 	 */
 	public VueElement getSelected() {
 		return elementSelectionne;
 	}
 
 	/**
-	 * Defini la vue correspondant à l'élément selectionné dans l'IHM
-	 * 
+	 * Definit la vue correspondant a l'element selectionne dans l'IHM
 	 * @param vue
 	 */
 	public void setSelectedElement(VueElement vue) {
@@ -320,9 +306,8 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Affiche la fenetre de détail de l'élément selectionné positionne la
-	 * fenetre au point donné
-	 * 
+	 * Affiche la fenetre de detail de l'element selectionne positionne la
+	 * fenetre au point donne
 	 * @param point
 	 */
 	public void detaillerSelected(Point point) {
@@ -373,17 +358,17 @@ public class IHM extends JFrame implements Runnable {
 			this.setHorizontalAlignment(JLabel.CENTER);
 			this.setVerticalAlignment(JLabel.CENTER);
 			this.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
-			this.setForeground(GRIS_FONCE);
-			this.setBackground(GRIS_CLAIR);
+			this.setForeground(grisFonce);
+			this.setBackground(grisClair);
 			this.setOpaque(true);
 			this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0,
-					GRIS_FONCE));
+					grisFonce));
 			this.setPreferredSize(new Dimension(0, 50));
 		}
 	}
 
 	/**
-	 * Recharge l'IHM toutes le 0,5 secondes
+	 * Recharge l'IHM toutes les 0,5 secondes
 	 */
 	@Override
 	public void run() {

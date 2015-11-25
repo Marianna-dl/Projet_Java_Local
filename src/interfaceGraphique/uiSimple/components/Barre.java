@@ -8,8 +8,8 @@ import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
 /**
- * Barre permettant de représenter une caractéristique
- * Cette barre charge de manière progressive
+ * Barre permettant de representer une caracteristique
+ * Cette barre charge de maniere progressive
  *
  */
 public class Barre extends JProgressBar implements ActionListener {

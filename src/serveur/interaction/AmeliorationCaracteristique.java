@@ -24,7 +24,7 @@ public class AmeliorationCaracteristique {
 
 	/**
 	 * Lance l'amelioration
-	 * @return true si l'amelioration a fonctionné, false si elle a échoué
+	 * @return true si l'amelioration a fonctionne, false si elle a echoue
 	 * @throws RemoteException
 	 */
 	public boolean ameliorer() throws RemoteException {
@@ -42,7 +42,7 @@ public class AmeliorationCaracteristique {
 	/**
 	 * Ajoute les caracteristiques au beneficiaire
 	 * Si les valeurs des caracteristiques depassent leurs limites respectives,
-	 * elles sont capées mais leur prix est quand même prelevé 
+	 * elles sont capees mais leur prix est quand meme preleve 
 	 * @throws RemoteException
 	 */
 	private void ajouterCaracteristiques() throws RemoteException {

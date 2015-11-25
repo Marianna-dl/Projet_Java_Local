@@ -41,13 +41,13 @@ public interface IConsole extends Remote {
 	public int getRefRMI() throws RemoteException;
 	
 	/**
-	 * Renvoi l'arène à laquelle est rattachée la console
+	 * Renvoi l'arene a laquelle est rattachee la console
 	 * @throws RemoteException
 	 */
 	public IArene getArene() throws RemoteException;
 	
 	/**
-	 * Défini la phrase que la console vas dire
+	 * Defini la phrase que la console vas dire
 	 * @param s nouvelle phrase
 	 * @throws RemoteException
 	 */
@@ -80,10 +80,10 @@ public interface IConsole extends Remote {
 	public VueElement getVueElement() throws RemoteException;
 	
 	/**
-	 * demande sur l'accord de rejoindre une équipe contre une somme d'argent (extorsion)
+	 * demande sur l'accord de rejoindre une equipe contre une somme d'argent (extorsion)
 	 * @param extorsion
 	 * @param element
-	 * @return la réponse du personnage
+	 * @return la reponse du personnage
 	 */
 	public boolean extorsion(int extorsion, Element element) throws RemoteException;
 }

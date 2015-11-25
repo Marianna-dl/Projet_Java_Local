@@ -57,12 +57,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Duree de vie du serveur en tour de jeu
 	 */
-	private long TTL = 60 * 30;
+	private long ttl = 60 * 30;
 
 	/**
-	 * Nombre de tour de jeu
+	 * Nombre de tours de jeu
 	 */
-	private int nbTour;
+	private int nbTours;
 
 	/**
 	 * Nombre d'elements connectes au serveur.
@@ -80,12 +80,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	private Hashtable<Integer, ClientElement> clientsObjets = null;
 
 	/**
-	 * Liste des éléments déconnectées de l'arène
+	 * Liste des elements deconnectees de l'arene
 	 */
 	private List<VuePersonnageDeconnecte> deconnectedElements = new ArrayList<VuePersonnageDeconnecte>();	
 
 	/**
-	 * Map des trésor tombes pendant un tour
+	 * Map des tresor tombes pendant un tour
 	 */
 	private HashMap<Tresor, Point> tresorsProchainTour = new HashMap<Tresor, Point>();
 	
@@ -102,7 +102,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Tour To Live du client ~ 20 minutes
 	 */
-	private static final int TTL_Client = 60 * 20;
+	private static final int TTL_CLIENT = 60 * 20;
 	
 	public static final int XMIN = 0;
 	public static final int XMAX = 100;
@@ -113,16 +113,17 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * Constructeur 
 	 * @param port le port de connexion
 	 * @param ipName nom de la machine qui heberge l'arene
-	 * @param TTL duree de vue du serveur en tour de jeu
+	 * @param ttl duree de vue du serveur en tour de jeu
 	 * @param logger gestionnire de log qui va etre utilise 
 	 * @throws Exception
 	 */
-	public Arene(int port, String ipName, long TTL, MyLogger logger) throws Exception {
+	public Arene(int port, String ipName, long ttl, MyLogger logger) throws Exception {
 		super();
 		this.port=port;
 		this.ipName = ipName;
-		if (TTL != 0)
-			this.TTL = TTL;
+		if (ttl != 0) {
+			this.ttl = ttl;
+		}
 
 		clientsPersonnages = new Hashtable<Integer, ClientPersonnage>();
 		clientsObjets = new Hashtable<Integer, ClientElement>();
@@ -136,15 +137,15 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}	
 
 	/**
-	 * Construis l'adresse complète de l'arene sous forme de String
-	 * @return adresse complète de l'arene
+	 * Construit l'adresse complete de l'arene sous forme de String
+	 * @return adresse complete de l'arene
 	 */
 	private String adrToString() {
 		return "rmi://"+ipName+":"+port+"/Arene";
 	}
 
 	/**
-	 * la synchro permet de garantir l'acces à un seul thread a la fois au compteur++
+	 * la synchro permet de garantir l'acces a un seul thread a la fois au compteur++
 	 */
 	@Override
 	public synchronized int allocateRef() throws RemoteException {
@@ -229,12 +230,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					} // Fin try catch
 				} // Fin for
 			} // Fin synchronize
-			nbTour++;
+			nbTours++;
 			
 			updatePartieFinie();
 			
 			try {
-				// Lance tous les trésors tombé pendant le tour
+				// Lance tous les tresors tombe pendant le tour
 				lancerTresorsTombes();
 				// dormir 'au plus' 1 seconde (difference temps execution est 1sec.)
 				// pour permettre connexion/deconnexion des consoles
@@ -275,13 +276,13 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	/**
-	 * Renvoi la liste des référence trié par ordre de passage
-	 * @return Liste de toutes les references des personnages de la partie
+	 * Renvoie la liste des references triees par ordre de passage
+	 * @return liste de toutes les references des personnages de la partie
 	 */
 	private List<Integer> getSortedRefs(){
 		List<PaireRefIntitiative> listRefsInitiative = new ArrayList<PaireRefIntitiative>();
 		
-		// On crée une liste de paires Refernece -> Initiative
+		// On cree une liste de paires Refernece -> Initiative
 		for(ClientPersonnage client : clientsPersonnages.values()){			
 			listRefsInitiative.add(new PaireRefIntitiative(
 					client.getRef(), 
@@ -289,7 +290,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		}	
 		/*
 		 *  Tri des paires selon l'initiative
-		 *  Si égalité alors aléatoire
+		 *  Si egalite alors aleatoire
 		 */
 		Collections.sort(listRefsInitiative, new Comparator<PaireRefIntitiative>() {
 
@@ -303,7 +304,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			}			
 		});
 		
-		// On récupere juste les références
+		// On recupere juste les references
 		List<Integer> listRefsSorted = new ArrayList<Integer>();
 		for (PaireRefIntitiative paire : listRefsInitiative){
 			listRefsSorted.add(paire.getRef());
@@ -343,7 +344,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * Verifie les conditions de victoire de l'arene
 	 */
 	public void updatePartieFinie() {
-		setPartieFinie(TTL > 0 && nbTour > TTL);
+		setPartieFinie(ttl > 0 && nbTours > ttl);
 	}
 	
 	protected void setPartieFinie(boolean b){
@@ -392,7 +393,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	/*
-	 * Ajout d'élément dans l'arène
+	 * Ajout d'element dans l'arene
 	 */
 	
 	@Override
@@ -403,7 +404,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 		try {
 			myLogger.info(this.getClass().toString(), "Demande de connexion ("+adr+")");
-			clientsPersonnages.put(refRMI, new ClientPersonnage(ipConsole, pers, TTL_Client, position, refRMI));
+			clientsPersonnages.put(refRMI, new ClientPersonnage(ipConsole, pers, TTL_CLIENT, position, refRMI));
 
 			myLogger.info(this.getClass().toString(), "Connexion accepte ("+adr+")");
 			printElements();
@@ -432,7 +433,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 	
 	/**
-	 * Ajoute un objet dans l'arène
+	 * Ajoute un objet dans l'arene
 	 * @param element
 	 * @throws RemoteException
 	 */
@@ -447,20 +448,20 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		if (element instanceof Potion)
 			type = "de la potion";
 		if (element instanceof Tresor)
-			type = "du trésor";
+			type = "du tresor";
 		myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
 		printElements();
 	}
 
 	/*
-	 * Deconnexion des éléments
+	 * Deconnexion des elements
 	 */
 	
 	@Override
 	public void deconnecterConsole(IConsole console, String cause) throws RemoteException {
 		
 		// Enregistrement des infos de la console lors de sa deconnexion
-		// le but étant de garder des informations sur les déconnectés
+		// le but etant de garder des informations sur les deconnectes
 		int ref = console.getRefRMI();
 		Element element = clientsPersonnages.get(ref).getElement();
 		
@@ -471,7 +472,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				element.getGroupe(), 
 				true, 
 				element.getCaracts(), 
-				nbTour);
+				nbTours);
 		
 		deconnectedElements.add(deconnectedElements.size(), vue);
 		
@@ -488,7 +489,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 	private void ejecterPersonnage(int refRMI) {
 		clientsPersonnages.remove(refRMI);
-		myLogger.info(this.getClass().toString(), "Console "+refRMI+" éjectée du registres !");
+		myLogger.info(this.getClass().toString(), "Console "+refRMI+" ejectee du registres !");
 	}	
 
 	/**
@@ -500,7 +501,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	/*
-	 * Accesseur sur les liste d'éléments
+	 * Accesseur sur les liste d'elements
 	 */
 	
 	@Override
@@ -567,7 +568,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			/* 
 			 * n'est pas voisin de ce client :
 			 *  - le client lui meme
-			 *  - tout element situe à une distance > 30 + taille de l'equipe du client
+			 *  - tout element situe a une distance > 30 + taille de l'equipe du client
 			 *  - tout element deja mort
 			 */
 			if (refVoisin != ref && (Calculs.distanceChebyshev(positionVoisin, positionConsole)) <= (30 + this.getTailleEquipe(ref))
@@ -575,13 +576,13 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
-		// Récuperation des objets
+		// Recuperation des objets
 		for(int refVoisin : clientsObjets.keySet()) {
 			Point positionVoisin = clientsObjets.get(refVoisin).getPosition();			
 			/* 
 			 * n'est pas voisin de ce client :
 			 *  - le client lui meme
-			 *  - tout element situe à une distance > 30 + taille de l'equipe du client
+			 *  - tout element situe a une distance > 30 + taille de l'equipe du client
 			 *  - tout element deja mort
 			 */
 			if (refVoisin != ref && (Calculs.distanceChebyshev(positionVoisin, positionConsole)) <= (30 + this.getTailleEquipe(ref))
@@ -597,7 +598,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	
 	/**
-	 * Affiche dans le logger tous les éléments présent dans l'arène
+	 * Affiche dans le logger tous les elements present dans l'arene
 	 */
 	public void printElements() {
 		String msg = getPrintElementsMessage();
@@ -644,13 +645,13 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	/**
-	 * Renvoi la liste des clients vivant trié par classement
+	 * Renvois la liste des clients vivants tries par classement
 	 * @return liste des personnages
 	 */
 	private List<ClientPersonnage> getPersonnageClassement() {
 		List<ClientPersonnage> classement = new ArrayList<ClientPersonnage>();
 		
-		// Récuperation des personnages en vie
+		// Recuperation des personnages en vie
 		for(ClientPersonnage client : clientsPersonnages.values()) {
 			classement.add(client);
 		}
@@ -666,8 +667,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	/**
-	 * Renvoi la liste des éléments déconnectées triées par ordre de déconnexion
-	 * @return liste des éléments déconnectés
+	 * Renvoie la liste des elements deconnectees tries par ordre de deconnexion
+	 * @return liste des elements deconnectes
 	 */
 	private List<VuePersonnageDeconnecte> getDeconnectedClassement() {
 		List<VuePersonnageDeconnecte> persosDeconnected = new ArrayList<VuePersonnageDeconnecte>();
@@ -831,8 +832,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					myLogger.info(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+" attaque "+nomRaccourciClient(consoleAdv.getRefRMI()));
 			
 					/*
-					 *  demande à l'adversaire si il accepte l'extorsion
-					 *  Si l'extorsion n'es pas acceptée, l'action est annulé
+					 *  demande a l'adversaire si il accepte l'extorsion
+					 *  Si l'extorsion n'es pas acceptee, l'action est annule
 					 */
 					if (consoleFromRef(refAdv).extorsion(argentDemande, getAnElement(console.getRefRMI()))) {
 						new Extorsion(this, client, clientAdv, argentDemande).interagir();
@@ -896,14 +897,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 	
 	/* ***************************************************
-	 * changement de l'état des ElementServeur
+	 * changement de l'etat des ElementServeur
 	 */	
 	/**
-	 * Ajoute l'increment à la caracteristique carac de l'elementServeur correspondant au client
+	 * Ajoute l'increment a la caracteristique carac de l'elementServeur correspondant au client
 	 * L'increment peut etre positif ou negatif
-	 * @param client le client qui doit être mis à jour
-	 * @param carac la caracteristique à mettre à jour
-	 * @param increment l'increment à ajouter au valeur courante de l'élément
+	 * @param client le client qui doit etre mis a jour
+	 * @param carac la caracteristique a mettre a jour
+	 * @param increment l'increment a ajouter au valeur courante de l'element
 	 * @throws RemoteException
 	 */
 	public void ajouterCaractElement(ClientPersonnage client, Caracteristique carac, int increment) throws RemoteException {
@@ -931,8 +932,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 	/**
 	 * Supprime une somme d'argent au client
-	 * @param client client à debiter
-	 * @param montant montant à debiter
+	 * @param client client a debiter
+	 * @param montant montant a debiter
 	 * @throws RemoteException
 	 */
 	public void debiter(ClientPersonnage client, int montant) throws RemoteException{
@@ -952,9 +953,9 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}		
 	
 	/**
-	 * Ajoute un trésor dans la file d'attente pour le prochaine tour
-	 * @param tresor tresor à envoyer
-	 * @param position position du trésor
+	 * Ajoute un tresor dans la file d'attente pour le prochain tour
+	 * @param tresor tresor a envoyer
+	 * @param position position du tresor
 	 */
 	private void ajouterTresorProchainTour(Tresor tresor, Point position) {
 		tresorsProchainTour.put(tresor, position);
@@ -1105,14 +1106,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		
 		int refOldLeader = pers.getLeader();
 		
-		// Si le personnage a déja un leader
+		// Si le personnage a deja un leader
 		if (refOldLeader != -1){
-			// Le personnage change d'équipe
+			// Le personnage change d'equipe
 			PersonnageServeur oldLeader = (PersonnageServeur) getAnyElement(refOldLeader);
 			oldLeader.enleverEquipier(ref);
 		}
 
-		// Si le personnage était leader
+		// Si le personnage etait leader
 		if (pers.getEquipe().size() > 0){
 			transfererEquipe(ref, refLeader);
 		}
@@ -1202,7 +1203,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Retourne la taille de l'equipe du leader
 	 * @param console
-	 * @return taille de l'équipe
+	 * @return taille de l'equipe
 	 * @throws RemoteException
 	 */
 	private int getTailleEquipe(int ref){
@@ -1237,11 +1238,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	public int getNbToursRestants() throws RemoteException {
-		return (int) (TTL - nbTour);
+		return (int) (ttl - nbTours);
 	}
 
 	public int getNbTour() throws RemoteException{
-		return nbTour;
+		return nbTours;
 	}
 	
 	public void ajouterClientEnJeu(int ref, ClientElement client) {
@@ -1297,7 +1298,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	/*
-	 * MÉTHODES NE FAISANT RIEN POUR UNE ARÈNE SIMPLE
+	 * MeTHODES NE FAISANT RIEN POUR UNE AReNE SIMPLE
 	 */
 	
 	@Override
@@ -1318,7 +1319,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 
 	@Override
-	public void ajouterTresorSecurisee(String nom, int montant, Point position, String mdp)
+	public void ajouterTresorSecurise(String nom, int montant, Point position, String mdp)
 			throws RemoteException {	
 	}
 

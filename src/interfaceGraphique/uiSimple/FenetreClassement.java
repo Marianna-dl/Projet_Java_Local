@@ -45,14 +45,14 @@ public class FenetreClassement extends JFrame {
 		
 		tableClassement = new JTable();
         
-        // Mise en place du model
+        // mise en place du model
         ClassementTableModel model = new ClassementTableModel(); 
         
         tableClassement.setModel(model);
 
         model.setVues(classement);
         
-        // Ajustement de la taille des colonnes
+        // ajustement de la taille des colonnes
         for (int i = 0; i < model.getColumnCount(); i++){
         	int width = model.getColumnWidth(i);
         	if (width != 0){
@@ -62,8 +62,8 @@ public class FenetreClassement extends JFrame {
         }
                 
         
-        tableClassement.setDefaultRenderer(Object.class, new NormalRenderer(IHM.GRIS_CLAIR, IHM.NOIR));
-        tableClassement.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.GRIS_CLAIR, IHM.NOIR));              
+        tableClassement.setDefaultRenderer(Object.class, new NormalRenderer(IHM.grisClair, IHM.noir));
+        tableClassement.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.grisClair, IHM.noir));              
         
         tableClassement.setIntercellSpacing(new Dimension(0, 0));
         tableClassement.setRowHeight(35);
@@ -81,7 +81,7 @@ public class FenetreClassement extends JFrame {
         tableClassement.getTableHeader().setDefaultRenderer(new HeaderRenderer());
 
         JScrollPane scrollPane = new JScrollPane();
-        scrollPane.getViewport().setBackground(IHM.GRIS_FONCE);
+        scrollPane.getViewport().setBackground(IHM.grisFonce);
         
         scrollPane.setViewportView(tableClassement);
      

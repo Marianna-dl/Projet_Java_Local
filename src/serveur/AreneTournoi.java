@@ -29,12 +29,13 @@ public class AreneTournoi extends Arene {
 	private String motDePasse;
 	
 	/**
-	 * Booleen permettant de savoir si la partie est commencée
+	 * Booleen permettant de savoir si la partie est commencee
 	 */
 	protected boolean partieCommencee;
 
 	/**
-	 * Repertoire des refRMI et des instances de la classe ClientObjet contenant toutes les donnees des objets qui devront être mis en jeu plus tard
+	 * Repertoire des refRMI et des instances de la classe ClientObjet contenant 
+	 * toutes les donnees des objets qui devront etre mis en jeu plus tard
 	 */
 	private Hashtable<Integer, ClientElement> clientObjetNonEnJeu = null;
 
@@ -57,7 +58,7 @@ public class AreneTournoi extends Arene {
 	
 	@Override
 	public void run() {
-		// Tant que la partie n'est pas commencée, on attend
+		// Tant que la partie n'est pas commencee, on attend
 		while (!partieCommencee) {
 			try {
 				Thread.sleep(500);
@@ -74,14 +75,14 @@ public class AreneTournoi extends Arene {
 	@Override
 	public void updatePartieFinie(){
 		super.updatePartieFinie();
-		// La partie est terminée si il y a un seul personnage ou une seul equipe
+		// La partie est terminee si il y a un seul personnage ou une seul equipe
 		setPartieFinie(countPersonnages() <= 1 || isPartieFinie());
 	}
 
 	/**
 	 * permet d'ajouter une potion dans l'arene a n'importe qu'elle moment, mais il faut le mot de passe
 	 * @param nom le nom de la potion
-	 * @param carac les données de la potion
+	 * @param carac les donnees de la potion
 	 * @param position la position ou la potion doit etre depose
 	 * @param mdp le mot de passe d'administrateur
 	 * @throws RemoteException
@@ -98,7 +99,7 @@ public class AreneTournoi extends Arene {
 	 * @param mdp le mot de passe d'administrateur
 	 * @throws RemoteException
 	 */
-	public synchronized void ajouterTresorSecurisee(String nom, int montant, Point position, String mdp) throws RemoteException {
+	public synchronized void ajouterTresorSecurise(String nom, int montant, Point position, String mdp) throws RemoteException {
 		ajouterObjetSecurisee(nom, new Tresor(nom, "Arene", montant), position, mdp);			
 	}
 	
@@ -112,11 +113,11 @@ public class AreneTournoi extends Arene {
 			if (element instanceof Potion)
 				type = "de la potion";
 			if (element instanceof Tresor)
-				type = "du trésor";
+				type = "du tresor";
 			myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
 			printElements();
 		} else {
-			myLogger.info("Tentative d'ajout d'objet avec mot de passe erroné");
+			myLogger.info("Tentative d'ajout d'objet avec mot de passe errone");
 		}
 	}
 
@@ -124,7 +125,7 @@ public class AreneTournoi extends Arene {
 	 * ajoute une potion dans la salle d'attente de l'arene tournoi
 	 * @param nom le nom de la potion
 	 * @param groupe le groupe de la potion
-	 * @param carac les données de la potion
+	 * @param carac les donnees de la potion
 	 * @throws RemoteException
 	 */
 	public synchronized void ajouterPotion(String nom, String groupe, Hashtable<Caracteristique,Integer> carac) throws RemoteException {
@@ -158,14 +159,14 @@ public class AreneTournoi extends Arene {
 		if (element instanceof Potion)
 			type = "de la potion";
 		if (element instanceof Tresor)
-			type = "du trésor";
+			type = "du tresor";
 		myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ Arene.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
 		printElements();
 	}
 
 	/**
-	 * Lance un objet de la salle d'attente dans l'arène
-	 * @param ref reference de la potion à lancer
+	 * Lance un objet de la salle d'attente dans l'arene
+	 * @param ref reference de la potion a lancer
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
@@ -180,13 +181,13 @@ public class AreneTournoi extends Arene {
 			myLogger.info(this.getClass().toString(), "Lancement de la potion "+ client.getElement().getNomGroupe()+" ("+ref+") dans la partie");
 			printElements();
 		} else {
-			myLogger.info("Tentative de lancement de potion en attente avec mot de passe erroné");			
+			myLogger.info("Tentative de lancement de potion en attente avec mot de passe errone");			
 		}
 	}	
 
 
 	/**
-	 * Récupere tous les éléments en attente de connexion
+	 * Recupere tous les elements en attente de connexion
 	 */
 	public List<VueElement> getObjetsEnAttente() throws RemoteException{
 		ArrayList<VueElement> aux = new ArrayList<VueElement>();
@@ -204,7 +205,7 @@ public class AreneTournoi extends Arene {
 			partieCommencee = true;
 			myLogger.info("Demarrage de la partie");
 		} else {
-			myLogger.info("Tentative de lancement de partie avec mot de passe erroné");
+			myLogger.info("Tentative de lancement de partie avec mot de passe errone");
 		}
 	}
 
@@ -215,10 +216,10 @@ public class AreneTournoi extends Arene {
 			if (console == null){
 				ejecterObjet(getClientElement(joueur.getRefRMI()));
 			} else {
-				deconnecterConsole(console, "Vous avez été renvoyé du salon.");
+				deconnecterConsole(console, "Vous avez ete renvoye du salon.");
 			}
 		} else {
-			myLogger.info("Tentative d'exclusion de personnage avec mot de passe erroné");
+			myLogger.info("Tentative d'exclusion de personnage avec mot de passe errone");
 		}
 
 	}

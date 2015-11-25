@@ -28,7 +28,7 @@ public class PersonnageServeur extends Element implements Serializable {
 	protected ArrayList<Integer> equipe;
 
 	/**
-	 * Constructeur d'un personnage avec un nom et une quantite de force et de charisme.
+	 * Constructeur d'un personnage avec un nom et un groupe.
 	 * Au depart, le personnage n'a ni leader ni equipe.
 	 * @param nom du personnage
 	 * @param groupe groupe du personnage
@@ -41,36 +41,28 @@ public class PersonnageServeur extends Element implements Serializable {
 	}
 	
 		
-	/** ----------------------------------------------------------
-	 * 		public int getLeader()
-	 *  ----------------------------------------------------------
+	/**
 	 * Retourne le leader.
 	 * @return leader (-1 si aucun)
-	 *  ---------------------------------------------------------- */
+	 */
 	public int getLeader() {
 		return leader;
 	}
 
 	
-	/** ----------------------------------------------------------
-	 * 		public ArrayList<Integer> getEquipe
-	 *  ----------------------------------------------------------
+	/** 
 	 * Retourne la liste des personnages de l'equipe.
 	 * @return equipe
-	 * -------------------------------------------------------- */
+	 */
 	public ArrayList<Integer> getEquipe() {
 		return equipe;
 	}
 	
 
 	@Override
-	/** ----------------------------------------------------------
-	 * 		public String toString
-	 *  ----------------------------------------------------------
+	/** 
 	 *  Cette methode determine l'affichage des differentes stats
-	 *  ----------------------------------------------------------
-	 * @return string
-	 * ------------------------------------------------------- */
+	 */
 	public String toString() {
 		String lead = (leader != -1)? ", leader: " + leader: "";
 		String eq = "";
@@ -103,8 +95,6 @@ public class PersonnageServeur extends Element implements Serializable {
 		caract.put(c, Calculs.caperCarac(c, val));
 	}
 
-	/** 
-	 */
 	/**
 	 * definie qui est le leader
 	 * @param ref ref du leader
@@ -122,15 +112,15 @@ public class PersonnageServeur extends Element implements Serializable {
 	
 	/**
 	 * Ajoute une ref dans l'equipe du personnage
-	 * @param ref reference de l'équipier
+	 * @param ref reference de l'equipier
 	 */
 	public void ajouterEquipier(int ref) {
 		equipe.add((Integer) ref);
 	}
 
 	/**
-	 * Enleve une ref de l'équipe du personnage
-	 * @param ref reference de l'équipier
+	 * Enleve une ref de l'equipe du personnage
+	 * @param ref reference de l'equipier
 	 */
 	public void enleverEquipier(int ref) {
 		equipe.remove((Integer) ref);
@@ -138,7 +128,7 @@ public class PersonnageServeur extends Element implements Serializable {
 
 
 	/**
-	 * Vide l'équipe du personnage
+	 * Vide l'equipe du personnage
 	 */
 	public void enleverTouteEquipe() {
 		equipe.clear();

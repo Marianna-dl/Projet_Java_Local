@@ -6,7 +6,7 @@ import java.util.ListIterator;
 import serveur.element.Caracteristique;
 
 /**
- * Exception renvoyé lors de la saisie de caractéristiques
+ * Exception renvoye lors de la saisie de caracteristiques
  * si elles sont invalides
  *
  */
@@ -15,7 +15,7 @@ public class CaractNotValidException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Liste des caractéristiques non valides
+	 * Liste des caracteristiques non valides
 	 */
 	private List<Caracteristique> listeCaractNotValid;
 	

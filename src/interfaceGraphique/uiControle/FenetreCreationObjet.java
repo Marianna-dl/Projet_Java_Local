@@ -49,7 +49,7 @@ public class FenetreCreationObjet extends JFrame {
 	private JRadioButton tresorRadioButton;
 	
 	/**
-	 * Liste des panels de caractéristique
+	 * Liste des panels de caracteristique
 	 */
 	private List<SaisieCaracteristique> caractPanels;
 	
@@ -122,7 +122,7 @@ public class FenetreCreationObjet extends JFrame {
         potionRadioButton.setSelected(true);
 
         choixTypeObjet.add(tresorRadioButton);
-        tresorRadioButton.setText("Trésor");
+        tresorRadioButton.setText("Tresor");
         
         
         JPanel panelType = new JPanel();
@@ -154,7 +154,7 @@ public class FenetreCreationObjet extends JFrame {
         lanceObjet = new JButton(); 
         
 
-        clicPourPoser.setText("Cliquer sur l'arène pour poser l'objet");
+        clicPourPoser.setText("Cliquer sur l'arene pour poser l'objet");
         clicPourPoser.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -257,7 +257,7 @@ public class FenetreCreationObjet extends JFrame {
 				caracts = getCaracts();
 			} catch (CaractNotValidException e){
 				validValues = false;
-				erreurMessage.add("Les caractéristiques suivantes ne sont pas valides : <br>"
+				erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
 						+ e.afficherCaracts());					
 			}
 		}
@@ -266,7 +266,7 @@ public class FenetreCreationObjet extends JFrame {
 				montant = getMontant();
 			} catch (CaractNotValidException e){
 				validValues = false;
-				erreurMessage.add("Les caractéristiques suivantes ne sont pas valides : <br>"
+				erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
 						+ e.afficherCaracts());					
 			}
 		}
@@ -275,7 +275,7 @@ public class FenetreCreationObjet extends JFrame {
 			position = getPosition();			
 		} catch (PositionNotValidException e) {
 			validValues = false;
-			erreurMessage.add("La position saisie est invalide (X et Y doivent être compris entre "+Arene.XMIN+" et "+Arene.XMAX+").");
+			erreurMessage.add("La position saisie est invalide (X et Y doivent etre compris entre "+Arene.XMIN+" et "+Arene.XMAX+").");
 		}
 		
 		if (validValues){
@@ -303,7 +303,7 @@ public class FenetreCreationObjet extends JFrame {
     
 	/**
 	 * Recupere le nom saisi
-	 * Déclenche une exception si le nom n'est pas valide
+	 * Declenche une exception si le nom n'est pas valide
 	 * @return nom 
 	 * @throws NomNotValidException
 	 */
@@ -315,8 +315,8 @@ public class FenetreCreationObjet extends JFrame {
 	}   
 
     /**
-     * Récupere les caractéristique saisies
-	 * Déclenche une exception si au moins une caractéristique n'est pas valide
+     * Recupere les caracteristique saisies
+	 * Declenche une exception si au moins une caracteristique n'est pas valide
      * @return Hashtable de Caracteristique -> valeur
      * @throws CaractNotValidException
      */
@@ -359,9 +359,9 @@ public class FenetreCreationObjet extends JFrame {
 	}
     
     /**
-     * Récupere la position saisie
-	 * Déclenche une exception si la position n'est pas valide
-     * @return Point correspondant à la position saisie
+     * Recupere la position saisie
+	 * Declenche une exception si la position n'est pas valide
+     * @return Point correspondant a la position saisie
      * @throws PositionNotValidException
      */
     private Point getPosition() throws PositionNotValidException{
@@ -369,7 +369,7 @@ public class FenetreCreationObjet extends JFrame {
     }
     
     /**
-     * Défini une nouvelle position
+     * Defini une nouvelle position
      * @param p
      */
     public void setPosition(Point p){

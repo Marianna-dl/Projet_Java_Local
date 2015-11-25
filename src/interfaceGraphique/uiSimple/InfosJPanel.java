@@ -35,13 +35,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.JTableHeader;
 
 /**
- * Panneau contenant les tableaux des éléments de la partie
+ * Panneau contenant les tableaux des elements de la partie
  */
 public class InfosJPanel extends JPanel {
-
-    /**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	/**
@@ -51,16 +48,16 @@ public class InfosJPanel extends JPanel {
 
     	
     /**
-     * IHM à laquelle appartient ce panneau
+     * IHM a laquelle appartient ce panneau
      */
 	private IHM ihm;
 	
 	/**
-	 * Modèle de la table des personnages
+	 * Modele de la table des personnages
 	 */
 	private PersonnageTableModel modelTablePersos;
 	/**
-	 * Modèle de la table des objets
+	 * Modele de la table des objets
 	 */
 	private ObjetTableModel modelTableObjets;
 	
@@ -91,14 +88,14 @@ public class InfosJPanel extends JPanel {
     	setPreferredSize(new Dimension(800,600));
         setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 
-        // Initialisation des tables
+        // initialisation des tables
         initTablePersos();        
         initTableObjets();
         
-        // Initialisation du menu de clic droit
+        // initialisation du menu de clic droit
         initMenuClickDroit();
 
-        // Création et ajout du listener de clic sur les tables
+        // creation et ajout du listener de clic sur les tables
         MouseListener listener = new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -109,7 +106,7 @@ public class InfosJPanel extends JPanel {
         jTablePersos.addMouseListener(listener); 
         jTableObjets.addMouseListener(listener);
 		
-		// Ajout des composants
+		// ajout des composants
         jSplitPane = new JSplitPane();
         jSplitPane.setDividerLocation(350);
         jSplitPane.setOrientation(javax.swing.JSplitPane.VERTICAL_SPLIT);
@@ -127,7 +124,7 @@ public class InfosJPanel extends JPanel {
     private void initMenuClickDroit() {
         detail = new JMenuItem();
         rightClicMenu = new JPopupMenu();
-        detail.setText("Afficher la vue detaillée");
+        detail.setText("Afficher la vue detaillee");
         rightClicMenu.add(detail);
         detail.addActionListener(new ActionListener() {
 			
@@ -146,11 +143,11 @@ public class InfosJPanel extends JPanel {
 	private void initTablePersos() {
 		jTablePersos = new JTable();
 
-        // Mise en place du model
+        // mise en place du model
         modelTablePersos = new PersonnageTableModel();         
         jTablePersos.setModel(modelTablePersos);
         
-        // Ajustement de la taille des colonnes
+        // ajustement de la taille des colonnes
         for (int i = 0; i < modelTablePersos.getColumnCount(); i++){
         	int width = modelTablePersos.getColumnWidth(i);
         	if (width != 0){
@@ -160,8 +157,8 @@ public class InfosJPanel extends JPanel {
         }
         
         
-        jTablePersos.setDefaultRenderer(Object.class, new NormalRenderer(IHM.GRIS_CLAIR, IHM.NOIR));
-        jTablePersos.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.GRIS_CLAIR, IHM.NOIR));              
+        jTablePersos.setDefaultRenderer(Object.class, new NormalRenderer(IHM.grisClair, IHM.noir));
+        jTablePersos.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.grisClair, IHM.noir));              
         
         jTablePersos.setIntercellSpacing(new Dimension(0, 0));
         jTablePersos.setRowHeight(35);
@@ -199,11 +196,11 @@ public class InfosJPanel extends JPanel {
 	private void initTableObjets() {
 		jTableObjets = new JTable();
         
-        // Mise en place du model
+        // mise en place du model
         modelTableObjets = new ObjetTableModel();         
         jTableObjets.setModel(modelTableObjets);
         
-        // Ajustement de la taille des colonnes
+        // ajustement de la taille des colonnes
         for (int i = 0; i < modelTableObjets.getColumnCount(); i++){
         	int width = modelTableObjets.getColumnWidth(i);
         	if (width != 0){
@@ -213,8 +210,8 @@ public class InfosJPanel extends JPanel {
         }
                 
         
-        jTableObjets.setDefaultRenderer(Object.class, new NormalRenderer(IHM.NOIR, IHM.GRIS_CLAIR));
-        jTableObjets.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.NOIR, IHM.GRIS_CLAIR));              
+        jTableObjets.setDefaultRenderer(Object.class, new NormalRenderer(IHM.noir, IHM.grisClair));
+        jTableObjets.setDefaultRenderer(Integer.class, new NormalRenderer(IHM.noir, IHM.grisClair));              
         
         jTableObjets.setIntercellSpacing(new Dimension(0, 0));
         jTableObjets.setRowHeight(35);
@@ -232,7 +229,7 @@ public class InfosJPanel extends JPanel {
         jTableObjets.getTableHeader().setDefaultRenderer(new HeaderRenderer());
 
         jScrollPaneObjets = new JScrollPane();
-        jScrollPaneObjets.getViewport().setBackground(IHM.GRIS_FONCE);
+        jScrollPaneObjets.getViewport().setBackground(IHM.grisFonce);
         jScrollPaneObjets.setBorder(BorderFactory.createTitledBorder(
         		null, 
         		"Objets", 
@@ -246,16 +243,16 @@ public class InfosJPanel extends JPanel {
 
 
 	/**
-	 * Traitement à réaliser lors du clic sur une table
+	 * Traitement a realiser lors du clic sur une table
 	 * @param e
 	 */
 	private void clickOnTable(MouseEvent e) {
-		// Vue cliqué
+		// vue clique
 		VueElement newSelect = null;
-		// Vue déja selectionné
+		// vue deja selectionne
 		VueElement prevSelect = ihm.getSelected();
 		
-		// Récuperation de la vue cliqué
+		// recuperation de la vue clique
 		JTable table = ((JTable) e.getSource());
 		int selectedLine = table.rowAtPoint(e.getPoint());
 		if (selectedLine != -1){
@@ -265,46 +262,47 @@ public class InfosJPanel extends JPanel {
 				newSelect = ((ObjetTableModel) table.getModel()).getVue(selectedLine);
 			}
 		}
-		// Selection dans l'ihm de la vue cliqué 
+		// selection dans l'ihm de la vue clique 
 		ihm.setSelectedElement(newSelect);
 		
 		int buttonDown = e.getButton();
 		
-		// Clic gauche
+		// clic gauche
 		if (buttonDown == MouseEvent.BUTTON1) {
-			// si selection de l'élément déja selectionné,
+			// si selection de l'element deja selectionne,
 			// on le deselectionne dans l'ihm
 			if(prevSelect != null && newSelect != null && newSelect.getRefRMI() == prevSelect.getRefRMI())
 				ihm.setSelectedElement(null);
 			
 		} else if(buttonDown == MouseEvent.BUTTON3) {
-			// Si clic droit, on affiche le menu contextuel
+			// si clic droit, on affiche le menu contextuel
 	    	rightClicMenu.show(table, e.getX(), e.getY());
 	    }
 	}
 
 	/**
-	 * Défini les éléments de la partie
-	 * @param persos personnage présent dans l'arène
-	 * @param objets objets présents dans l'arène
-	 * @param persosDeconnected personnages déconnectés de l'arène
-	 * @param objetsEnAttente objets en attente de rentrer sur l'arène
+	 * Defini les elements de la partie
+	 * @param persos personnage present dans l'arene
+	 * @param objets objets presents dans l'arene
+	 * @param persosDeconnected personnages deconnectes de l'arene
+	 * @param objetsEnAttente objets en attente de rentrer sur l'arene
 	 */
-	public void setElements(List<VuePersonnage> persos, List<VueElement> objets, List<VuePersonnageDeconnecte> persosDeconnected, List<VueElement> objetsEnAttente){
+	public void setElements(List<VuePersonnage> persos, List<VueElement> objets, 
+			List<VuePersonnageDeconnecte> persosDeconnected, List<VueElement> objetsEnAttente){
 				
-		
-		// Comparator permettant le tri des vueElement selon leur refRMI
+		// comparator permettant le tri des vueElement selon leur refRMI
 		Comparator<VueElement> vueComparator = new Comparator<VueElement>() {
 			@Override
 			public int compare(VueElement v1, VueElement v2) {
 				return v1.getRefRMI() - v2.getRefRMI();
 			}
 		};
-		// Tri des objets et des personnages
+		
+		// tri des objets et des personnages
 		Collections.sort(persos, vueComparator);
 		Collections.sort(objets, vueComparator);
 		
-		// Personnages deconnectés
+		// personnages deconnectes
 		Comparator<VuePersonnageDeconnecte> deconnectedComparator = new Comparator<VuePersonnageDeconnecte>() {
 			@Override
 			public int compare(VuePersonnageDeconnecte v1, VuePersonnageDeconnecte v2) {
@@ -317,7 +315,7 @@ public class InfosJPanel extends JPanel {
 		Collections.sort(persosDeconnected, deconnectedComparator);
 		
 		if (ihm.getSelected() != null){
-			/* Recherche de l'élément selectionné */
+			/* Recherche de l'element selectionne */
 			for (VuePersonnage vp : persos){
 				if (vp.getRefRMI() == ihm.getSelected().getRefRMI())
 					vp.setSelected(true);					

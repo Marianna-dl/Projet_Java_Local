@@ -14,7 +14,7 @@ public enum Caracteristique {
 	private final String fullName;
 	public final int min;
 	public final int max;
-	// Valeur initiale de la caractéristique
+	// valeur initiale de la caracteristique
 	public int init;
 	private int prix;
 
@@ -77,7 +77,7 @@ public enum Caracteristique {
 	
 	/**
 	 * Calcule le prix de quantites de caracteristiques
-	 * @param caracts liste de Caract -> quantite
+	 * @param caracts liste de caract -> quantite
 	 * @return prix total
 	 */
 	public static int calculerPrix(Hashtable<Caracteristique, Integer> caracts) {

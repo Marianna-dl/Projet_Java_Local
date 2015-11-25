@@ -13,7 +13,7 @@ import serveur.element.Tresor;
 import utilitaires.Calculs;
 
 /**
- * Toutes les données que le serveur doit conserver sur chacun de ces clients
+ * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
  * @author cricri
  */
 public class ClientElement {
@@ -29,17 +29,17 @@ public class ClientElement {
 	protected Point position;
 	
 	/**
-	 * La référence
+	 * La reference
 	 */
 	protected int ref;
 	
 	/**
-	 * Couleur de l'élément
+	 * Couleur de l'element
 	 */
 	protected Color color;
 	
 	/**
-	 * Phrase de l'élément
+	 * Phrase de l'element
 	 */
 	private String phrase = "";
 	

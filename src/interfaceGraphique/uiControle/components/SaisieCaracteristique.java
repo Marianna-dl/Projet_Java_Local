@@ -17,7 +17,7 @@ import serveur.element.Caracteristique;
 import utilitaires.Calculs;
 
 /**
- * Panel permettant la saisie d'une caractéristique donnée
+ * Panel permettant la saisie d'une caracteristique donnee
  *
  */
 public class SaisieCaracteristique extends JPanel{
@@ -25,20 +25,20 @@ public class SaisieCaracteristique extends JPanel{
 	private static final long serialVersionUID = 1L;		
 
 	/**
-	 * Champ de saisie de la caractéristique
+	 * Champ de saisie de la caracteristique
 	 */
 	private JTextField valueCaract;
 	/**
-	 * CheckBox permettant la selection de l'aléatoire
+	 * CheckBox permettant la selection de l'aleatoire
 	 */
 	private JCheckBox randomCaract;
 	/**
-	 * ComboBox permettant de selectionner l'interval pour l'aléatoire
+	 * ComboBox permettant de selectionner l'interval pour l'aleatoire
 	 */
 	private JComboBox randomRangeCaract;
 
 	/**
-	 * Caractéristique à laquelle correspond le panel
+	 * Caracteristique a laquelle correspond le panel
 	 */
 	private Caracteristique caracteristique;
 
@@ -53,7 +53,7 @@ public class SaisieCaracteristique extends JPanel{
 	}
 
 	/**
-	 * Renvoi la Caractéristique
+	 * Renvoi la Caracteristique
 	 * @return caracteristique correspondant au panel
 	 */
 	public Caracteristique getCaracteristique() {
@@ -61,7 +61,7 @@ public class SaisieCaracteristique extends JPanel{
 	}
 
 	/**
-	 * Permet de récuperer la valeur saisie ou générée aléatoirement
+	 * Permet de recuperer la valeur saisie ou generee aleatoirement
 	 * @return valeur 
 	 */
 	public int getValue() {
@@ -104,7 +104,7 @@ public class SaisieCaracteristique extends JPanel{
 		maxCaract.setPreferredSize(new Dimension(31,16));
 		this.add(maxCaract);
 
-		randomCaract.setText("Aléatoire");
+		randomCaract.setText("Aleatoire");
 		/*randomCaract.addActionListener(new ActionListener() {
 
 			@Override
@@ -145,7 +145,7 @@ public class SaisieCaracteristique extends JPanel{
 	}
 
 	/**
-	 * Renvoi le minimum de l'interval selectionné pour l'aléatoire		
+	 * Renvoi le minimum de l'interval selectionne pour l'aleatoire		
 	 * @return minimum de l'interval
 	 */
 	private int getMinRange(){
@@ -159,7 +159,7 @@ public class SaisieCaracteristique extends JPanel{
 	}
 	
 	/**
-	 * Renvoi le maximum de l'interval selectionné pour l'aléatoire		
+	 * Renvoi le maximum de l'interval selectionne pour l'aleatoire		
 	 * @return maximum de l'interval
 	 */
 	private int getMaxRange(){

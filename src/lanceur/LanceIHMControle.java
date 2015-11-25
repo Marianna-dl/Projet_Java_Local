@@ -11,7 +11,7 @@ import utilitaires.logger.MyLogger;
  */
 public class LanceIHMControle {
 	
-	private static String USAGE = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ nom_arene ] ]";
 
 	public static void main(String[] args) {		
 		// init des arguments
@@ -20,17 +20,17 @@ public class LanceIHMControle {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(USAGE);
+				Erreur.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.too_much_arg.erreur(USAGE);
+				Erreur.TOO_MUCH_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.port_NaN.erreur(USAGE);
+				Erreur.PORT_NAN.erreur(usage);
 			}
 			
 			if (args.length == 2) {
@@ -38,7 +38,7 @@ public class LanceIHMControle {
 			}
 		}
 		
-		// création du logger
+		// creation du logger
 		MyLogger logger = null;
 		try {
 			logger = new MyLogger(true,"IHM");
@@ -54,7 +54,7 @@ public class LanceIHMControle {
 
 			logger.info("lanceur", "Connexion de l'IHM au serveur...");
 			ihmc.connect();
-			logger.info("lanceur", "Connexion de l'IHM au serveur réussie");
+			logger.info("lanceur", "Connexion de l'IHM au serveur reussie");
 			ihmc.start();
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

@@ -26,12 +26,12 @@ public class FenetreDetail extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Vue de l'élément à detailler
+	 * Vue de l'element a detailler
 	 */
 	private VueElement vue;
 	
 	/**
-	 * Liste des panel affichant les différentes caractéristiques
+	 * Liste des panels affichant les differentes caracteristiques
 	 */
 	private List<DetailCaracteristique> caractPanels;
 

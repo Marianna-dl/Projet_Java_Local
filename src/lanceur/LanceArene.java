@@ -7,11 +7,11 @@ import serveur.Arene;
 import utilitaires.logger.MyLogger;
 
 /**
- * Lancement de l'Arene. A lancer en premier. Arguments : numero de port et duree de vie (en nombre de tour)
+ * Lancement de l'Arene. A lancer en premier. Arguments : numero de port et duree de vie (en nombre de tours)
  */
 public class LanceArene {
 	
-	private static String USAGE = "USAGE : java " + LanceArene.class.getName() + " [ port [ TTL_serveur ] ]";
+	private static String usage = "USAGE : java " + LanceArene.class.getName() + " [ port [ TTL_serveur ] ]";
 
 	public static void main(String[] args) {
 		// init des variables
@@ -19,34 +19,34 @@ public class LanceArene {
 
 		// init des arguments
 		int port = 5099;
-		long duree = 60 * 30; // Tour To Live du serveur
+		long duree = 60 * 1; // tours to live du serveur
 							// en sachant qu'un tour dure environ 1 seconde,
-							// on se retrouve avec un temps par défaut de 30min
-							// Si negatif, durée illimité
+							// on se retrouve avec un temps par defaut de 30 min
+							// si negatif, duree illimite
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(USAGE);
+				Erreur.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.too_much_arg.erreur(USAGE);
+				Erreur.TOO_MUCH_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.port_NaN.erreur(USAGE);
+				Erreur.PORT_NAN.erreur(usage);
 			}
 			
 			try {
 				duree = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
-				Erreur.ttl_incorrect.erreur(USAGE);
+				Erreur.INCORRECT_TTL.erreur(usage);
 			}
 		}
 		
-		// création du logger
+		// creation du logger
 		MyLogger logger = null;
 		try {
 			logger = new MyLogger(false);
@@ -68,6 +68,7 @@ public class LanceArene {
 			logger.info("lanceur", "Creation du serveur sur le port "+port+"...");
 			new Arene(port, ipNameArene, duree, logger);
 			logger.info("lanceur", "Creation du serveur reussie");
+			
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
 			e.printStackTrace();

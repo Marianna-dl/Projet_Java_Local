@@ -1,10 +1,10 @@
 package lanceur;
 
 public enum Erreur {
-	too_much_arg	(1, "Trop d'argument !"),
-	port_NaN		(2, "Le premier argument doit être une nombre entre 0 et 65535 !"),
-	ip_incorrect	(3, "Adresse IP de l'arene incorrect !"),
-	ttl_incorrect	(4,"Le TTL doit être un nombre positif");
+	TOO_MUCH_ARGS	(1, "Trop d'arguments !"),
+	PORT_NAN		(2, "Le premier argument doit etre une nombre entre 0 et 65535 !"),
+	INCORRECT_IP	(3, "Adresse IP de l'arene incorrect !"),
+	INCORRECT_TTL	(4, "Le TTL doit etre un nombre positif");
 	
 	public static int suivant = 5;
 	
@@ -27,7 +27,7 @@ public enum Erreur {
 		System.out.println();
 		System.out.println("Ce programme fait partie d'une suite de logiciels"
 						+ "servant pour le projet de programmation de L3 de la"
-						+ "licence d'informatique de l'université paul sabatier.");
+						+ "licence d'informatique de l'universite Paul Sabatier.");
 		System.out.println();
 		System.out.println("Voici la liste des codes de retour valable pour toute la suite logiciel :");
 		System.out.println("\tCode 0 : Aucun probleme d'execution");

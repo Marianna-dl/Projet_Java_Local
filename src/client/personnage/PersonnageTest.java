@@ -26,7 +26,7 @@ public class PersonnageTest extends Personnage {
 	/** --------------------------------------------------------------------
 	 * 	public void strategie(VueElement ve, Hashtable<Integer,VueElement> voisins, Integer refRMI) throws RemoteException
 	 *  --------------------------------------------------------------------
-	 *  Classe à modifier pour la stratégie à adopter par votre personnage.
+	 *  Classe a modifier pour la strategie a adopter par votre personnage.
 	 *  --------------------------------------------------------------------
 	 * Met en place la strategie. On ne peut utiliser que les methodes de la 
 	 * classe Arene.

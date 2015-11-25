@@ -51,19 +51,19 @@ public class NormalRenderer extends JLabel implements TableCellRenderer {
 			if (!model.isConnected(row)){
 				setBackground(model.getColor(row));				
 			} else {
-				if (isSelected || model.isSelected(row) || column == model.NOM)
+				if (isSelected || model.isSelected(row) || column == model.getNom())
 					setBackground(model.getColor(row));
 			}
 		}
 		if (table.getModel() instanceof ObjetTableModel){
 			ObjetTableModel model = (ObjetTableModel) table.getModel();
 
-			if (isSelected || model.isSelected(row) || column == model.NOM)
+			if (isSelected || model.isSelected(row) || column == model.getNom())
 				setBackground(model.getColor(row));
 		}
 		if (table.getModel() instanceof ClassementTableModel){
 			ClassementTableModel model = (ClassementTableModel) table.getModel();
-			if (column == model.NOM)
+			if (column == model.getNom())
 				setBackground(model.getColor(row));
 		}
 		return this;

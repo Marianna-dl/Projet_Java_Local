@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.util.Hashtable;
 
 import serveur.element.Caracteristique;
-import utilitaires.Util;
+import utilitaires.Calculs;
 
 
 public class VuePersonnageDeconnecte extends VuePersonnage {
@@ -24,7 +24,7 @@ public class VuePersonnageDeconnecte extends VuePersonnage {
 
 	@Override
 	public String getPhrase() {
-		return "Mort à " + Util.timerToString(getTourDeconnexion());
+		return "Mort a " + Calculs.timerToString(getTourDeconnexion());
 	}
 	
 	public int getTourDeconnexion() {

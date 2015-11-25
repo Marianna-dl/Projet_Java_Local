@@ -9,30 +9,31 @@ import serveur.element.Caracteristique;
 public class ClassementTableModel extends AbstractElementTableModel<VuePersonnage> {
 
 	private static final long serialVersionUID = -476363672825620047L;
+	
 	/**
-	 * rangs correspondant aux colonnes
+	 * Rangs correspondant aux colonnes
 	 */
-	public int NOM;
-	private int GROUPE;
-	private int DEBUT_CARACT;
-	private int FIN_CARACT;
-	private int POSITION;
-	private int LEADER;
-	private int EQUIPE;
+	private int nom;
+	private int groupe;
+	private int debutCaract;
+	private int finCaract;
+	private int position;
+	private int leader;
+	private int equipe;
     
 	public ClassementTableModel() {
-		POSITION = 0;
-		NOM = 1;
-		GROUPE 	= 2;
-		DEBUT_CARACT = 3;
-		FIN_CARACT = DEBUT_CARACT + Caracteristique.nbCaract() - 1;
-		LEADER = FIN_CARACT + 1;
-		EQUIPE	= LEADER + 1;
+		position = 0;
+		nom = 1;
+		groupe 	= 2;
+		debutCaract = 3;
+		finCaract = debutCaract + Caracteristique.nbCaract() - 1;
+		leader = finCaract + 1;
+		equipe	= leader + 1;
 	}
 
     @Override
     public int getColumnCount() {
-        // position, Nom, Groupe, leader, equipe + nombre de caractéristiques
+        // position, Nom, Groupe, leader, equipe + nombre de caracteristiques
         return 5 + Caracteristique.nbCaract();
     }
     
@@ -40,38 +41,38 @@ public class ClassementTableModel extends AbstractElementTableModel<VuePersonnag
     public Object getValueAt(int rowIndex, int columnIndex) {
     	VuePersonnage vue = getVues().get(rowIndex);	        
 
-        if (columnIndex == POSITION)
+        if (columnIndex == position)
             return rowIndex+1;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return vue.getNom();
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return vue.getGroupe();
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return vue.equipeToString(); 
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return vue.leaderToString();  
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return vue.getCaract(caracts[columnIndex - DEBUT_CARACT]);
+            return vue.getCaract(caracts[columnIndex - debutCaract]);
         }
         return null;
     }
     
     public int getColumnWidth(int columnIndex) {  
 
-        if (columnIndex == POSITION)
+        if (columnIndex == position)
             return 60; 
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return 0;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return 0;
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return 150;
-        if (columnIndex == LEADER) 
+        if (columnIndex == leader) 
             return 47;
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT)
+        if (columnIndex >= debutCaract && columnIndex <= finCaract)
         	return 40;
         return 0;
     }
@@ -79,20 +80,20 @@ public class ClassementTableModel extends AbstractElementTableModel<VuePersonnag
     @Override
     public String getColumnName(int columnIndex){
 
-        if (columnIndex == POSITION)
+        if (columnIndex == position)
             return "Classmt";
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return "Nom";
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return "Groupe";
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return "Equipe";
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return "Leader";
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return caracts[columnIndex - DEBUT_CARACT].toString();
+            return caracts[columnIndex - debutCaract].toString();
         }
         return "";
     }
@@ -100,18 +101,18 @@ public class ClassementTableModel extends AbstractElementTableModel<VuePersonnag
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 
-        if (columnIndex == POSITION)
+        if (columnIndex == position)
             return String.class;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return String.class;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return String.class;
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return String.class;
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return String.class; 
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT)
+        if (columnIndex >= debutCaract && columnIndex <= finCaract)
             return Integer.class;
         
         return String.class;
@@ -120,6 +121,10 @@ public class ClassementTableModel extends AbstractElementTableModel<VuePersonnag
 	@Override
 	public Color getColor(int rowIndex) {
         return super.getColor(rowIndex);
+	}
+
+	public int getNom() {
+		return nom;
 	}
 
 

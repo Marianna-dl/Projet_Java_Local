@@ -6,8 +6,8 @@ public class Tresor extends Element {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Constructeur d'une potion avec un nom et une quantite de force et de charisme
-	 * (ces quantites sont celles ajoutees lorsqu'un Personnage ramasse cette potion).
+	 * Constructeur d'une potion avec un nom, un groupe et un montant 
+	 * (ce montant est ajoute lorsqu'un Personnage ramasse ce tresor).
 	 * @param nom
 	 * @param groupe
 	 * @param montant
@@ -18,13 +18,6 @@ public class Tresor extends Element {
 	
 	
 	@Override
-	/** ----------------------------------------------------------
-	 * 		public String toString
-	 *  ----------------------------------------------------------
-	 *  Cette methode determine l'affichage des differentes stats
-	 *  ----------------------------------------------------------
-	 * @return string
-	 * ------------------------------------------------------- */
 	public String toString(){
 		return super.toString() + " " + Caracteristique.hachageToString(caract);
 	}

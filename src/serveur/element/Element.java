@@ -12,12 +12,12 @@ public abstract class Element implements Serializable {
 	protected Patronyme patronyme;
 
 	/**
-	 * est ce que l'element est toujours vivant ??
+	 * vrai si l'element est toujours vivant
 	 */
 	protected boolean alive;
 	
 	/**
-	 * Caracteristiques de l'element (au moins HP).
+	 * caracteristiques de l'element (au moins HP)
 	 */
 	protected Hashtable<Caracteristique, Integer> caract = new Hashtable<Caracteristique,Integer>();
 	
@@ -53,7 +53,7 @@ public abstract class Element implements Serializable {
 	}
 
 	/**
-	 * Retourne la valeur associee a la caracteristique specifiee.
+	 * Retourne la valeur associee a la caracteristique specifiee
 	 * @param c caracterisique
 	 * @return valeur correspondant a la caracteristique, ou null si elle n'existe pas
 	 */
@@ -62,8 +62,8 @@ public abstract class Element implements Serializable {
 	}
 
 	/** 
-	 * Retourne toute la table des caracteristiques.
-	 * @return the caract
+	 * Retourne toute la table des caracteristiques
+	 * @return caracteristiques
 	 */
 	public Hashtable<Caracteristique, Integer> getCaracts() {
 		return caract;

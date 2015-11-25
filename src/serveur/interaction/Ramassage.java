@@ -13,10 +13,10 @@ import serveur.element.Caracteristique;
 public class Ramassage extends EntreElement <ClientElement> {
 
 	/**
-	 * Constructeur paramétré
-	 * @param arene l'arene sur lequel à lieu le ramassage
+	 * Constructeur parametre
+	 * @param arene l'arene sur lequel a lieu le ramassage
 	 * @param ramasseur le ramasseur de l'objet
-	 * @param objet l'objet qui est ramassé
+	 * @param objet l'objet qui est ramasse
 	 */
 	public Ramassage(Arene arene, ClientPersonnage ramasseur, ClientElement objet) {
 		super(arene, ramasseur, objet);
@@ -53,7 +53,7 @@ public class Ramassage extends EntreElement <ClientElement> {
 			arene.ajouterCaractElement(attaquant, caractEntry.getKey(), caractEntry.getValue());
 
 		if (! attaquant.getElement().isAlive())
-			arene.setPhrase(attaquant, "Je me suis empoisonné, je meurs ");
+			arene.setPhrase(attaquant, "Je me suis empoisonne, je meurs ");
 				
 		// Deconnecte l'objet
 		arene.ejecterObjet(defenseur);

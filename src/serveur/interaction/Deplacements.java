@@ -88,8 +88,8 @@ public class Deplacements {
 				Calculs.caperNumber(Arene.YMIN, Arene.YMAX, objectif.y));
 		
 		Point dest = position;
-		// on fait un déplacement d'une case le nombre de fois qu'on a de vitesse
-		// Sauf si on est arrivé à destination
+		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse
+		// Sauf si on est arrive a destination
 		for (int i = 0; i < vitesse && !dest.equals(cible); i++) {
 			dest = calculProchaineCase(dest, cible);
 		}

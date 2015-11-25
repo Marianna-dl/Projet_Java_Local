@@ -14,7 +14,7 @@ public class DetailCaracteristique extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Barre de la caractéristique
+	 * Barre de la caracteristique
 	 */
 	private Barre barre;
 	/**
@@ -26,20 +26,20 @@ public class DetailCaracteristique extends JPanel {
 	public DetailCaracteristique(Caracteristique caract, int valeur, Color color) {
 		
 		Color couleur = color;
-		int valeurUtilisee = valeur; // cette valeur sert à ramener toutes les valeurs sur 100 pour que les barres chargent à la même vitesse
+		int valeurUtilisee = valeur; // cette valeur sert a ramener toutes les valeurs sur 100 pour que les barres chargent a la meme vitesse
 		switch(caract){
 			case FORCE : couleur = Color.RED; 
 					     break;
 			case VIE : couleur = Color.GREEN; 
 					   break;
 			case VITESSE : couleur = Color.ORANGE;
-						   valeurUtilisee = 25 * valeur; // on ramène à 100
+						   valeurUtilisee = 25 * valeur; // on ramene a 100
 						   break;
 			case INITIATIVE : couleur = Color.CYAN;
-							  valeurUtilisee = valeur / 10; // on ramène à 100
+							  valeurUtilisee = valeur / 10; // on ramene a 100
 							  break;
 			case ARGENT : couleur = Color.YELLOW; 
-						  valeurUtilisee = valeur / 10; // on ramène à 100
+						  valeurUtilisee = valeur / 10; // on ramene a 100
 						  break;
 		}
 		

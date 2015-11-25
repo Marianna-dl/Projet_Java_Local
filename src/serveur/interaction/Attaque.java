@@ -32,8 +32,8 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 			int perteArgent = 0;
 			int perteVie = 0;
 			
-			// Calcule de la quantité d'argent et de vie que vas perdre l'adversaire
-			// Fait perdre autant de pièce que possible avec la force disponible
+			// Calcule de la quantite d'argent et de vie que vas perdre l'adversaire
+			// Fait perdre autant de piece que possible avec la force disponible
 			// Fait perdre la force restante en vie (10%)
 			if (forceDisponibleAttaquant > argentDefenseur){
 				perteArgent = argentDefenseur;
@@ -45,7 +45,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 
 			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
 
-			// Ejection du défenseur
+			// Ejection du defenseur
 			defenseur.setPosition(positionEjection);
 
 			Point positionArgent = positionPerteArgent(positionEjection, attaquant.getPosition(), forceAttaquant);
@@ -53,14 +53,14 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 			// Chute d'argent
 			if (perteArgent > 0) {
 				arene.faireTomberTresor(defenseur, perteArgent, positionArgent);
-				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) +" pousse violement "+ Arene.nomRaccourciClient(defenseur) +". "+ perteArgent +" tombé par terre.");
+				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) +" pousse violement "+ Arene.nomRaccourciClient(defenseur) +". "+ perteArgent +" tombe par terre.");
 			}
 
 			// Blessure
 			if (perteVie > 0) {
 				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) + " colle une beigne ("
-						+ perteVie +" points de dégats) à " + Arene.nomRaccourciClient(defenseur));
+						+ perteVie +" points de degats) a " + Arene.nomRaccourciClient(defenseur));
 			}
 			
 			incrementerInitiative(defenseur);
@@ -100,7 +100,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 	}
 
 	/**
-	 * Permet de trouver la position ou le personnage sera ejecté
+	 * Permet de trouver la position ou le personnage sera ejecte
 	 * @param positionOrigine position d'origine du tresor
 	 * @param positionCoup position du coup
 	 * @param distance distance de projection
@@ -127,7 +127,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 	}
 	
 	/**
-	 * Calcule la distance à laquelle est projeté quelqu'un suite à un coup
+	 * Calcule la distance a laquelle est projete quelqu'un suite a un coup
 	 * @param force force du coup
 	 * @return distance de projection
 	 */

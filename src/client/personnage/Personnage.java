@@ -30,10 +30,10 @@ public class Personnage {
 	 * Constructeur d'un personnage avec un nom, un groupe et une position
 	 * Au depart, le personnage n'a ni leader ni equipe.
 	 * @param nom nom du personnage
-	 * @param groupe groupe de l'étudiant
+	 * @param groupe groupe de l'etudiant
 	 * @param position position du personnage
-	 * @param port port de communication avec l'arène
-	 * @param ipArene ip de communication avec l'arène
+	 * @param port port de communication avec l'arene
+	 * @param ipArene ip de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
 	 * @param logger gestionnaire de log
 	 */
@@ -45,13 +45,13 @@ public class Personnage {
 			console = new Console(this, new PersonnageServeur(nom, groupe), position, port, ipArene, ipConsole, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 		} catch (Exception e) {
-			logger.info("Personnage", "Erreur lors de la création de la console : \n"+e.toString());
+			logger.info("Personnage", "Erreur lors de la creation de la console : \n"+e.toString());
 			e.printStackTrace();
 		}
 	}
 
 	/** --------------------------------------------------------------------
-	 *  Classe à modifier pour la stratégie à adopter par votre personnage.
+	 *  Classe a modifier pour la strategie a adopter par votre personnage.
 	 *  --------------------------------------------------------------------
 	 * Met en place la strategie. On ne peut utiliser que les methodes de la 
 	 * classe Arene.
@@ -59,7 +59,7 @@ public class Personnage {
 	 * @throws RemoteException
 	 */
 	public void strategie(Hashtable<Integer, Point> voisins) throws RemoteException {
-		//TODO établir une stratégie afin d'évoluer dans l'arène de combat
+		//TODO etablir une strategie afin d'evoluer dans l'arene de combat
 		
 		IArene arene = console.getArene();
 		
@@ -128,7 +128,7 @@ public class Personnage {
 	}
 
 	public boolean extorsion(int extorsion, Element element) {
-		//TODO établir une stratégie qui détermine l'accord ou le refus de rentrer dans une équipe
+		//TODO etablir une strategie qui determine l'accord ou le refus de rentrer dans une equipe
 		return (element.getCaract(Caracteristique.ARGENT) > 300 && extorsion > 50);
 	}
 }

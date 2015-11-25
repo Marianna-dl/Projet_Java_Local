@@ -30,23 +30,23 @@ public class VictoryScreen extends JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		// Dessine un rectangle noir transparent de la taille de la fenêtre
+		// dessine un rectangle noir transparent de la taille de la fenetre
 		g.setColor(new Color(0, 0, 0, 0.5f));
 		g.fillRect(0, 0, this.getWidth(), this.getHeight());
 		
-		// Dessine le disque de la couleur du gagnant puis ajoute l'image par dessus
+		// dessine le disque de la couleur du gagnant puis ajoute l'image par dessus
 		g.setColor(new Color(color.getRGB(), false));
 		g.fillOval(240, 160, 200, 200);
 		Image logo;
 		try {
-			logo = ImageIO.read(new File("src/Images/WinScreen.png"));
+			logo = ImageIO.read(new File("images/WinScreen.png"));
 			g.drawImage(logo, 50, 0, null);
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		// Ajuste l'emplacement et la taille du nom en fonction du nombre de caractères.
+		// ajuste l'emplacement et la taille du nom en fonction du nombre de caracteres
 		Font of = g.getFont();
 		g.setColor(new Color(250, 179, 98));
 		if (nom.length() >= 7) {

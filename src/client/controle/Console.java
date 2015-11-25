@@ -65,8 +65,8 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 * @param per personnage de la console
 	 * @param pers personnage serveur de la console
 	 * @param position position de la console
-	 * @param port port de communication avec l'arène
-	 * @param ipArene ip de communication avec l'arène
+	 * @param port port de communication avec l'arene
+	 * @param ipArene ip de communication avec l'arene
 	 * @param ipConsole ip de la console
 	 * @param myLogger gestionnaire de log
 	 * @throws RemoteException
@@ -122,7 +122,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 
 	@Override
 	public void run() throws RemoteException {
-		//mets a jour ses voisins 
+		//met a jour ses voisins 
 		Hashtable<Integer, Point> voisins = arene.voisins(this);
 		//applique la strategie du personnage
 		per.strategie(voisins);

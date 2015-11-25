@@ -28,9 +28,9 @@ public class ControleJPanel extends JPanel {
 	public ControleJPanel(IHMControle ihm){
 		this.ihmControle = ihm;	
 
-		this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, IHM.GRIS_FONCE));
+		this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, IHM.grisFonce));
 
-		this.setBackground(IHM.GRIS_CLAIR);
+		this.setBackground(IHM.grisClair);
 		this.setOpaque(true);
 		
 		kickerButton = new JButton("Renvoyer le joueur");
@@ -38,7 +38,7 @@ public class ControleJPanel extends JPanel {
 		lancerPartieButton = new JButton("Lancer la partie");
 		ajouterObjetButton = new JButton("Ajouter un objet");
 		envoyerObjetButton = new JButton("Envoyer l'objet");
-		deverrouillerButton = new JButton("Déverouiller");	
+		deverrouillerButton = new JButton("Deverouiller");	
 		
 		/*
 		 * Ajout des listeners sur chacun des boutons

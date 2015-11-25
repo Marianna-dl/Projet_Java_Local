@@ -33,14 +33,14 @@ public class Extorsion extends EntreElement <ClientPersonnage> {
 		int argentDefenseur = pDefenseur.getCaract(Caracteristique.ARGENT);
 		int argentAttaquant = pAttaquant.getCaract(Caracteristique.ARGENT);
 		
-		// calcul de l'argent extorqué
+		// calcul de l'argent extorque
 		int incrementArgent = (argentDefenseur<=extorsion)?argentDefenseur:extorsion;
 		
 		// extorsion
 		arene.ajouterCaractElement(defenseur, Caracteristique.ARGENT, - incrementArgent);
 		arene.ajouterCaractElement(attaquant, Caracteristique.ARGENT, + incrementArgent);
 		
-		// ajout dans l'équipe ?
+		// ajout dans l'equipe ?
 		if (argentDefenseur - incrementArgent < argentAttaquant + incrementArgent && pDefenseur.getLeader() == -1) {
 			arene.ajouterPersonnageEquipe(attaquant, defenseur.getRef());
 		}

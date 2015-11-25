@@ -43,9 +43,9 @@ public class VuePersonnage extends VueElement {
 	}
 
 	/**
-	 * Renvoi l'équipe de l'élément sous forme de chaine
+	 * Renvoie l'equipe de l'element sous forme de chaine
 	 * Si l'element n'est pas un leader, renvoi "-"
-	 * @return equipe de l'élément sous forme de String
+	 * @return equipe de l'element sous forme de String
 	 */	
 	public String equipeToString(){
 		String res = "-";
@@ -59,9 +59,9 @@ public class VuePersonnage extends VueElement {
 	}
 
 	/**
-	 * Renvoi le leader de l'élément sous forme de chaine
+	 * Renvoi le leader de l'element sous forme de chaine
 	 * Si l'element n'a pas de leader, renvoi "-"
-	 * @return leader de l'élément sous forme de String
+	 * @return leader de l'element sous forme de String
 	 */
 	public String leaderToString(){
 		String s;
@@ -74,7 +74,7 @@ public class VuePersonnage extends VueElement {
 	}
 	
 	/**
-	 * Permet de savoir si l'élément est un leader ou pas
+	 * Permet de savoir si l'element est un leader ou pas
 	 * @return vrai si l'element est un leader, faux sinon
 	 */
 	public boolean isLeader() {
@@ -82,10 +82,10 @@ public class VuePersonnage extends VueElement {
 	}
 	
 	/**
-	 * Permet de connaitre le nombre d'équipier de l'élément
-	 * @return nombre de personnages dans l'équipe de l'élément
+	 * Permet de connaitre le nombre d'equipier de l'element
+	 * @return nombre de personnages dans l'equipe de l'element
 	 */
-	public int getNombreEquipier(){
+	public int getNombreEquipiers(){
 		return equipe.size();
 	}
 }

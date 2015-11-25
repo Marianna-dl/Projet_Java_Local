@@ -81,9 +81,9 @@ public class Calculs {
 
 	/**
 	 * Cherche l'element le plus proche vers lequel se didiger
-	 * @param origine position à partir de laquelle on cherche
+	 * @param origine position a partir de laquelle on cherche
 	 * @param voisins liste des voisins
-	 * @return reference de l'élément le plus proche, 0 si il n'y en a pas
+	 * @return reference de l'element le plus proche, 0 si il n'y en a pas
 	 */
 	public static int chercherElementProche(Point origine, Hashtable<Integer, Point> voisins) {
 		int distPlusProche = 100;
@@ -99,9 +99,9 @@ public class Calculs {
 	}
 	
 	/**
-	 * Genere un entier correpondant à une caractéristique
-	 * @param c caractéristique pour laquelle on souhaite une valeur
-	 * @return valeur générée
+	 * Genere un entier correpondant a une caracteristique
+	 * @param c caracteristique pour laquelle on souhaite une valeur
+	 * @return valeur generee
 	 */
 	public static int randomCarac(Caracteristique c) {
 		return randomNumber(c.min, c.max);
@@ -111,7 +111,7 @@ public class Calculs {
 	 * Genere un entier dans un interval
 	 * @param min borne inferieure de l'interval
 	 * @param max borne superieure de l'interval
-	 * @return valeur générée
+	 * @return valeur generee
 	 */
 	public static int randomNumber(int min, int max) {
 		Random r = new Random(System.currentTimeMillis() + token);
@@ -124,21 +124,21 @@ public class Calculs {
 	}
 	
 	/**
-	 * Cape une valeur correspondant à une caractéristique
-	 * @param c caractéristique pour laquelle on souhaite caper une valeur
-	 * @param val valeur à caper
-	 * @return valeur capée
+	 * Cape une valeur correspondant a une caracteristique
+	 * @param c caracteristique pour laquelle on souhaite caper une valeur
+	 * @param val valeur a caper
+	 * @return valeur capee
 	 */
 	public static int caperCarac(Caracteristique c, int val) {		
 		return caperNumber(c.min, c.max, val);
 	}
 
 	/**
-	 * Cape une valeur dans un interval
-	 * @param min borne inferieure de l'interval
-	 * @param max borne superieure de l'interval
-	 * @param val valeur à caper
-	 * @return valeur capée
+	 * Cape une valeur dans un intervalle
+	 * @param min borne inferieure de l'intervalle
+	 * @param max borne superieure de l'intervalle
+	 * @param val valeur a caper
+	 * @return valeur capee
 	 */
 	public static int caperNumber(int min, int max, int val) {
 		if (max < 0){
@@ -160,5 +160,30 @@ public class Calculs {
 		return new Point(
 				Calculs.randomNumber(Arene.XMIN, Arene.XMAX), 
 				Calculs.randomNumber(Arene.YMIN, Arene.YMAX));
+	}
+
+	/**
+	 * Transforme une duree en Chaine de caractere de type H:M:S
+	 * @param duree
+	 * @return la duree sous forme de chaine H:M:S
+	 */
+	public static String timerToString(int duree) {
+		if (duree < 0) {
+			return "illimite";
+		}
+		
+		int heure, minute, seconde;
+		seconde = duree % 60;
+		minute = duree / 60;
+		heure = minute / 60;
+		minute = minute % 60;
+		
+		String res;
+		if (heure == 0){
+			res = minute + ":" + ((seconde<10) ? "0" : "") + seconde ;
+		} else {
+			res = heure + ":" + ((minute<10) ? "0" : "") + minute + ":" + ((seconde<10) ? "0" : "") + seconde;				
+		}
+		return res;
 	}
 }

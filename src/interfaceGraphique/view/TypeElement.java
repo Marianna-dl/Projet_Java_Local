@@ -3,7 +3,7 @@ package interfaceGraphique.view;
 public enum TypeElement {
 	PERSONNAGE("Personnage"),
 	POTION("Potion"),
-	TRESOR("Trésor"), 
+	TRESOR("Tresor"), 
 	OBJET("Objet");
 	
 	public String nom;

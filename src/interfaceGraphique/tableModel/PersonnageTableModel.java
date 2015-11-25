@@ -18,31 +18,31 @@ public class PersonnageTableModel extends AbstractElementTableModel <VuePersonna
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * rangs correspondant aux colonnes
+	 * Rangs correspondant aux colonnes
 	 */
-	private int REF;
-	public int NOM;
-	private int GROUPE;
-	private int DEBUT_CARACT;
-	private int FIN_CARACT;
-	private int PHRASE;
-	private int LEADER;
-	private int EQUIPE;
+	private int ref;
+	private int nom;
+	private int groupe;
+	private int debutCaract;
+	private int finCaract;
+	private int phrase;
+	private int leader;
+	private int equipe;
 
 	/**
-	 * Liste des personnages déconnectés
+	 * Liste des personnages deconnectes
 	 */
 	private List<VuePersonnageDeconnecte> deconnected = new ArrayList<VuePersonnageDeconnecte>();
     
 	public PersonnageTableModel() {
-		REF = 0;
-		NOM = REF + 1;
-		GROUPE 	= NOM + 1;
-		DEBUT_CARACT = GROUPE + 1;
-		FIN_CARACT = DEBUT_CARACT + Caracteristique.nbCaract() - 1;
-		PHRASE = FIN_CARACT + 1;
-		LEADER 	= PHRASE + 1;
-		EQUIPE 	= LEADER + 1;
+		ref = 0;
+		nom = ref + 1;
+		groupe 	= nom + 1;
+		debutCaract = groupe + 1;
+		finCaract = debutCaract + Caracteristique.nbCaract() - 1;
+		phrase = finCaract + 1;
+		leader 	= phrase + 1;
+		equipe 	= leader + 1;
 	}
     
     @Override 
@@ -52,7 +52,7 @@ public class PersonnageTableModel extends AbstractElementTableModel <VuePersonna
 
     @Override
     public int getColumnCount() {
-        // Ref, Nom, Groupe, Phrase, leader, equipe + nombre de caractéristiques
+        // Ref, Nom, Groupe, Phrase, leader, equipe + nombre de caracteristiques
         return 6 + Caracteristique.nbCaract();
     }
     
@@ -65,83 +65,83 @@ public class PersonnageTableModel extends AbstractElementTableModel <VuePersonna
         	vue = deconnected.get(rowIndex - getVues().size());
         }
         
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return vue.getRefRMI();
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return vue.getNom();
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return vue.getGroupe();
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return vue.getPhrase();
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return vue.equipeToString(); 
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return vue.leaderToString();  
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return vue.getCaract(caracts[columnIndex - DEBUT_CARACT]);
+            return vue.getCaract(caracts[columnIndex - debutCaract]);
         }
         return null;
     }
     
     public int getColumnWidth(int columnIndex) {            
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return 40;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return 0;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return 0;
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return 200; 
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return 150;
-        if (columnIndex == LEADER) 
+        if (columnIndex == leader) 
             return 47;
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT)
+        if (columnIndex >= debutCaract && columnIndex <= finCaract)
         	return 40;
         return 0;
     }
 
     @Override
     public String getColumnName(int columnIndex){
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return "Ref";
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return "Nom";
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return "Groupe";
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return "Phrase";
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return "Equipe";
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return "Leader";
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT){
+        if (columnIndex >= debutCaract && columnIndex <= finCaract){
         	Caracteristique[] caracts = Caracteristique.values();
-            return caracts[columnIndex - DEBUT_CARACT].toString();
+            return caracts[columnIndex - debutCaract].toString();
         }
         return "";
     }
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == REF)
+        if (columnIndex == ref)
             return Integer.class;
-        if (columnIndex == NOM)
+        if (columnIndex == nom)
             return String.class;
-        if (columnIndex == GROUPE)
+        if (columnIndex == groupe)
             return String.class;
-        if (columnIndex == PHRASE)
+        if (columnIndex == phrase)
             return String.class;
-        if (columnIndex == EQUIPE)
+        if (columnIndex == equipe)
             return String.class;
-        if (columnIndex == LEADER)
+        if (columnIndex == leader)
             return String.class; 
         
-        if (columnIndex >= DEBUT_CARACT && columnIndex <= FIN_CARACT)
+        if (columnIndex >= debutCaract && columnIndex <= finCaract)
             return Integer.class;
         
         return String.class;
@@ -156,8 +156,8 @@ public class PersonnageTableModel extends AbstractElementTableModel <VuePersonna
 	}
 
 	/**
-	 * Permet de savoir si une l'élément correspondant à une ligne est connecté
-	 * @param row ligne pour laquelle on souhaite savoir si l'élément est connecté
+	 * Permet de savoir si une l'element correspondant a une ligne est connecte
+	 * @param row ligne pour laquelle on souhaite savoir si l'element est connecte
 	 * @return true si la ligne est en attente, false sinon
 	 */
 	public boolean isConnected(int row) {
@@ -165,11 +165,15 @@ public class PersonnageTableModel extends AbstractElementTableModel <VuePersonna
 	}
 
 	/**
-	 * Definis la liste des déconnectés
-	 * @param deconnected liste des éléments déconnectés
+	 * Definis la liste des deconnectes
+	 * @param deconnected liste des elements deconnectes
 	 */
 	public void setDeconnected(List<VuePersonnageDeconnecte> deconnected) {
 		this.deconnected = deconnected;
+	}
+
+	public int getNom() {
+		return nom;
 	}
     
     
