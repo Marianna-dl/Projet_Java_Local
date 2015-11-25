@@ -1,0 +1,35 @@
+package interfaceGraphique.view;
+
+import java.awt.Color;
+import java.awt.Point;
+import java.util.Hashtable;
+
+import serveur.element.Caracteristique;
+import utilitaires.Util;
+
+
+public class VuePersonnageDeconnecte extends VuePersonnage {
+
+	private static final long serialVersionUID = 6432052249501146906L;
+	
+	private int tourDeconnexion;
+	
+	public VuePersonnageDeconnecte(int refRMI, Point position, String nom,
+			String groupe, boolean personnage,
+			Hashtable<Caracteristique, Integer> caract, int tourDeconnexion) {
+		super(refRMI, position, nom, groupe, caract, new Color(112,112,112), "");
+		
+		this.tourDeconnexion = tourDeconnexion;
+	}
+
+	@Override
+	public String getPhrase() {
+		return "Mort à " + Util.timerToString(getTourDeconnexion());
+	}
+	
+	public int getTourDeconnexion() {
+		return tourDeconnexion;
+	}
+
+
+}
