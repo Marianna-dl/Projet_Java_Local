@@ -40,32 +40,41 @@ public class NormalRenderer extends JLabel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		
-		if (value != null)
+		if (value != null) {
 			this.setText(value.toString());
+		}
 		
 		setForeground(cellForeground);
 		setBackground(cellBackground);
 		
-		if (table.getModel() instanceof PersonnageTableModel){
+		if (table.getModel() instanceof PersonnageTableModel) {
+			
 			PersonnageTableModel model = (PersonnageTableModel) table.getModel();
+			
 			if (!model.isConnected(row)){
 				setBackground(model.getColor(row));				
 			} else {
-				if (isSelected || model.isSelected(row) || column == model.getNom())
+				if (isSelected || model.isSelected(row) || column == model.getIndexNom()) {
 					setBackground(model.getColor(row));
+				}
 			}
 		}
+		
 		if (table.getModel() instanceof ObjetTableModel){
 			ObjetTableModel model = (ObjetTableModel) table.getModel();
 
-			if (isSelected || model.isSelected(row) || column == model.getNom())
+			if (isSelected || model.isSelected(row) || column == model.getIndexNom()) {
 				setBackground(model.getColor(row));
+			}
 		}
+		
 		if (table.getModel() instanceof ClassementTableModel){
 			ClassementTableModel model = (ClassementTableModel) table.getModel();
-			if (column == model.getNom())
+			if (column == model.getIndexNom()) {
 				setBackground(model.getColor(row));
+			}
 		}
+		
 		return this;
 	}
 

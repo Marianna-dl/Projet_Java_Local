@@ -1,180 +1,114 @@
 package interfaceGraphique.tableModel;
 
-
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
 import serveur.element.Caracteristique;
 
 /**
- * Table model des personnages
+ * TableModel des personnages, connectes ou deconnectes.
+ * 
  */
-public class PersonnageTableModel extends AbstractElementTableModel <VuePersonnage> {
+public class PersonnageTableModel extends AbstractElementTableModel<VuePersonnage> {
 
 	private static final long serialVersionUID = 1L;
-	
-	/**
-	 * Rangs correspondant aux colonnes
-	 */
-	private int ref;
-	private int nom;
-	private int groupe;
-	private int debutCaract;
-	private int finCaract;
-	private int phrase;
-	private int leader;
-	private int equipe;
 
 	/**
 	 * Liste des personnages deconnectes
 	 */
-	private List<VuePersonnageDeconnecte> deconnected = new ArrayList<VuePersonnageDeconnecte>();
+	private List<VuePersonnageDeconnecte> deconnectes = new ArrayList<VuePersonnageDeconnecte>();
     
+	
 	public PersonnageTableModel() {
-		ref = 0;
-		nom = ref + 1;
-		groupe 	= nom + 1;
-		debutCaract = groupe + 1;
-		finCaract = debutCaract + Caracteristique.nbCaract() - 1;
-		phrase = finCaract + 1;
-		leader 	= phrase + 1;
-		equipe 	= leader + 1;
+		colonnes = new ArrayList<InformationColonne<VuePersonnage>>();
+		indexNom = 1;
+		
+		// reference RMI
+		colonnes.add(new InformationColonne<VuePersonnage>("Ref", 40, Integer.class, 
+				new IValeurColonne<VuePersonnage>() {
+					@Override
+					public Object valeurColonne(int rowIndex, VuePersonnage vue) {
+						return vue.getRefRMI();
+					}
+				}
+		)); 
+		
+		// nom du personnage (index 1)
+		colonnes.add(new InformationColonne<VuePersonnage>("Nom", 0, String.class, new ValeurColonneNom())); 
+		
+		// groupe du personnage
+		colonnes.add(new InformationColonne<VuePersonnage>("Groupe", 0, String.class, new ValeurColonneGroupe()));
+		
+		// caracteristiques
+		for(Caracteristique car : Caracteristique.values()) {
+			colonnes.add(new InformationColonne<VuePersonnage>(car.toString(), 40, Integer.class, new ValeurColonneCaract(car)));
+		}
+		
+		// phrase du personnage
+		colonnes.add(new InformationColonne<VuePersonnage>("Phrase", 200, String.class, new ValeurColonnePhrase())); 
+		
+		// leader du personnage
+		colonnes.add(new InformationColonne<VuePersonnage>("Leader", 47, String.class, new ValeurColonneLeader())); 
+		
+		// equipe du personnage
+		colonnes.add(new InformationColonne<VuePersonnage>("Equipe", 150, String.class, new ValeurColonneEquipe())); 
 	}
     
     @Override 
     public int getRowCount() {
-        return super.getRowCount() + deconnected.size();
+        return super.getRowCount() + deconnectes.size();
     }
 
     @Override
-    public int getColumnCount() {
-        // Ref, Nom, Groupe, Phrase, leader, equipe + nombre de caracteristiques
-        return 6 + Caracteristique.nbCaract();
-    }
+	public Color getColor(int rowIndex) {
+		Color res;
+		
+	    if (isConnected(rowIndex)) {
+	    	res = super.getColor(rowIndex);
+	    } else {
+	    	res = deconnectes.get(rowIndex - getVues().size()).getColor();
+	    }
+	    
+	    return res;
+	}
+    
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        Object res = null;
     	VuePersonnage vue;
-        if (isConnected(rowIndex)){
-        	vue = getVues().get(rowIndex);	        
+    	
+        if (isConnected(rowIndex)) {
+        	vue = getVue(rowIndex);	        
         } else {
-        	vue = deconnected.get(rowIndex - getVues().size());
+        	vue = deconnectes.get(rowIndex - getVues().size());
         }
-        
-        if (columnIndex == ref)
-            return vue.getRefRMI();
-        if (columnIndex == nom)
-            return vue.getNom();
-        if (columnIndex == groupe)
-            return vue.getGroupe();
-        if (columnIndex == phrase)
-            return vue.getPhrase();
-        if (columnIndex == equipe)
-            return vue.equipeToString(); 
-        if (columnIndex == leader)
-            return vue.leaderToString();  
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract){
-        	Caracteristique[] caracts = Caracteristique.values();
-            return vue.getCaract(caracts[columnIndex - debutCaract]);
-        }
-        return null;
-    }
-    
-    public int getColumnWidth(int columnIndex) {            
-        if (columnIndex == ref)
-            return 40;
-        if (columnIndex == nom)
-            return 0;
-        if (columnIndex == groupe)
-            return 0;
-        if (columnIndex == phrase)
-            return 200; 
-        if (columnIndex == equipe)
-            return 150;
-        if (columnIndex == leader) 
-            return 47;
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract)
-        	return 40;
-        return 0;
+    	
+    	if(columnIndex < getColumnCount()) {
+    		res = colonnes.get(columnIndex).getValeur(rowIndex, vue);
+    	}
+    	
+    	return res;
     }
 
-    @Override
-    public String getColumnName(int columnIndex){
-        if (columnIndex == ref)
-            return "Ref";
-        if (columnIndex == nom)
-            return "Nom";
-        if (columnIndex == groupe)
-            return "Groupe";
-        if (columnIndex == phrase)
-            return "Phrase";
-        if (columnIndex == equipe)
-            return "Equipe";
-        if (columnIndex == leader)
-            return "Leader";
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract){
-        	Caracteristique[] caracts = Caracteristique.values();
-            return caracts[columnIndex - debutCaract].toString();
-        }
-        return "";
-    }
-
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-        if (columnIndex == ref)
-            return Integer.class;
-        if (columnIndex == nom)
-            return String.class;
-        if (columnIndex == groupe)
-            return String.class;
-        if (columnIndex == phrase)
-            return String.class;
-        if (columnIndex == equipe)
-            return String.class;
-        if (columnIndex == leader)
-            return String.class; 
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract)
-            return Integer.class;
-        
-        return String.class;
-	}
-	
-	@Override
-	public Color getColor(int rowIndex) {
-        if (isConnected(rowIndex))
-			return super.getColor(rowIndex);
-        else
-        	return deconnected.get(rowIndex - getVues().size()).getColor();
+	/**
+	 * Permet de savoir si l'element a la ligne donnee est connecte.
+	 * @param rowIndex ligne de l'element
+	 * @return true si la ligne est connectee, false sinon
+	 */
+	public boolean isConnected(int rowIndex) {
+		return rowIndex < getVues().size();
 	}
 
 	/**
-	 * Permet de savoir si une l'element correspondant a une ligne est connecte
-	 * @param row ligne pour laquelle on souhaite savoir si l'element est connecte
-	 * @return true si la ligne est en attente, false sinon
+	 * Modifie la liste des deconnectes.
+	 * @param deconnectes liste des elements deconnectes
 	 */
-	public boolean isConnected(int row) {
-		return row < getVues().size();
+	public void setDeconnectes(List<VuePersonnageDeconnecte> deconnectes) {
+		this.deconnectes = deconnectes;
 	}
-
-	/**
-	 * Definis la liste des deconnectes
-	 * @param deconnected liste des elements deconnectes
-	 */
-	public void setDeconnected(List<VuePersonnageDeconnecte> deconnected) {
-		this.deconnected = deconnected;
-	}
-
-	public int getNom() {
-		return nom;
-	}
-    
     
 }

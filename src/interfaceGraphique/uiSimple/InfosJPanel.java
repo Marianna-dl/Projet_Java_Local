@@ -335,11 +335,11 @@ public class InfosJPanel extends JPanel {
 		}		
 		
     	modelTablePersos.setVues(persos);
-    	modelTablePersos.setDeconnected(persosDeconnected);
+    	modelTablePersos.setDeconnectes(persosDeconnected);
     	modelTablePersos.fireTableDataChanged();
     	
     	modelTableObjets.setVues(objets);
-    	modelTableObjets.setWaiting(objetsEnAttente);
+    	modelTableObjets.setEnAttente(objetsEnAttente);
     	modelTableObjets.fireTableDataChanged();    	
     }              
 }

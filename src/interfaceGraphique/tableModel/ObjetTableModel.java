@@ -1,42 +1,53 @@
 package interfaceGraphique.tableModel;
 
-
-import interfaceGraphique.view.VueElement;
-
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import interfaceGraphique.view.VueElement;
 import serveur.element.Caracteristique;
 
 /**
- * Table model des objets
+ * TableModel des objets, envoyes ou en attente.
+ * 
  */
-public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
+public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
 	
 	private static final long serialVersionUID = 1L;
 
-	private int ref;
-	private int type;
-	private int nom;
-	private int groupe;
-	private int debutCaract;
-	private int finCaract;
-	private int phrase;
-
+	/**
+	 * Liste des objets en attente d'etre envoyes.
+	 */
 	private List<VueElement> enAttente = new ArrayList<VueElement>();
 
-    
 	
-
 	public ObjetTableModel() {
-		ref = -1;
-		type = 0;
-		nom = type + 1;
-		groupe 	= nom + 1;
-		debutCaract = groupe + 1;
-		finCaract = debutCaract + Caracteristique.nbCaract() - 1;
-		phrase = finCaract + 1;
+		colonnes = new ArrayList<InformationColonne<VueElement>>();
+		indexNom = 1;
+		
+		// type de l'objet
+		colonnes.add(new InformationColonne<VueElement>("Type", 60, String.class, 
+				new IValeurColonne<VueElement>() {
+					@Override
+					public Object valeurColonne(int rowIndex, VueElement vue) {
+						return vue.getType().getNom();
+					}
+				}
+		)); 
+		
+		// nom de l'objet (index 1)
+		colonnes.add(new InformationColonne<VueElement>("Nom", 0, String.class, new ValeurColonneNom())); 
+		
+		// groupe de l'objet
+		colonnes.add(new InformationColonne<VueElement>("Groupe", 0, String.class, new ValeurColonneGroupe()));
+		
+		// caracteristiques
+		for(Caracteristique car : Caracteristique.values()) {
+			colonnes.add(new InformationColonne<VueElement>(car.toString(), 40, Integer.class, new ValeurColonneCaract(car)));
+		}
+		
+		// phrase du personnage
+		colonnes.add(new InformationColonne<VueElement>("Phrase", 200, String.class, new ValeurColonnePhrase())); 
 	}
 
 	@Override 
@@ -45,140 +56,72 @@ public class ObjetTableModel extends AbstractElementTableModel <VueElement>{
     }
 	
     @Override
-    public int getColumnCount() {
-        // Nom, Groupe, Phrase, Type 4 caracteristiques
-        return 4 + Caracteristique.nbCaract();
-    }
+	public VueElement getVue(int rowIndex) {
+    	VueElement res;
+    	
+		if (estEnAttente(rowIndex)) {
+			res = enAttente.get(rowIndex - getVues().size());
+		} else {
+			res = super.getVue(rowIndex);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public Color getColor(int row) {
+		Color res;
+		
+		if (estEnAttente(row)) {
+			res = new Color(112, 112, 112);
+		} else {
+			res = super.getColor(row);
+		}
+		
+		return res;
+	}
+
+	@Override
+	public boolean isSelected(int row) {
+		boolean res;
+		
+		if (estEnAttente(row)) {
+			res = enAttente.get(row - getVues().size()).isSelected();
+		} else {
+			res = super.isSelected(row);
+		}
+		
+		return res;
+	}
+
     
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        VueElement vue;
-        if (isWaiting(rowIndex))
-        	vue = enAttente.get(rowIndex - getVues().size());
-        else
-        	vue = getVues().get(rowIndex);
+        Object res = null;
+        VueElement vue = getVue(rowIndex);
         
-        if (columnIndex == ref)
-            return vue.getRefRMI();
-        if (columnIndex == nom)
-            return vue.getNom();
-        if (columnIndex == groupe)
-            return vue.getGroupe();
-        if (columnIndex == phrase)
-            return vue.getPhrase();
-        if (columnIndex == type)
-        	return vue.getType().nom;
-        if (columnIndex >= debutCaract && columnIndex <= finCaract){
-        	Caracteristique[] caracts = Caracteristique.values();
-            return vue.getCaract(caracts[columnIndex - debutCaract]);
-        }
-        return null;
+    	if(columnIndex < getColumnCount()) {
+    		res = colonnes.get(columnIndex).getValeur(rowIndex, vue);
+    	}
+    	
+    	return res;
     }
-    
-    @Override
-    public int getColumnWidth(int columnIndex) {       
 
-        if (columnIndex == ref)
-            return 40;
-        if (columnIndex == nom)
-            return 0;
-        if (columnIndex == groupe)
-            return 0;
-        if (columnIndex == phrase)
-            return 200; 
-        if (columnIndex == type)
-        	return 60;
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract){
-        	return 40; 
-        }       
-        return 0;
-    }  
-    
-    @Override
-    public String getColumnName(int columnIndex){                
-        if (columnIndex == ref)
-            return "Ref";
-        if (columnIndex == nom)
-            return "Nom";
-        if (columnIndex == groupe)
-            return "Groupe";
-        if (columnIndex == phrase)
-            return "Phrase"; 
-        if (columnIndex == type)
-        	return "Type";
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract){
-        	Caracteristique[] caracts = Caracteristique.values();
-            return caracts[columnIndex - debutCaract].toString();
-        }
-        return "";
-    }    
-
-
-	@Override
-	public Class<?> getColumnClass(int columnIndex) {
-        
-        if (columnIndex == ref)
-            return Integer.class;
-        if (columnIndex == nom)
-            return String.class;
-        if (columnIndex == groupe)
-            return String.class;
-        if (columnIndex == phrase)
-            return String.class;
-        if (columnIndex == type)
-            return String.class;
-        
-        if (columnIndex >= debutCaract && columnIndex <= finCaract)
-            return Integer.class;
-
-        return String.class;
-	}
-	
-	@Override
-	public Color getColor(int row) {
-		if (isWaiting(row))
-			return new Color(112,112,112);
-		else
-			return super.getColor(row);
-	}
-	
 	/**
-	 * Permet de savoir si une l'element correspondant a une ligne est en attente
-	 * @param row ligne pour laquelle on souhaite savoir si l'element est en attente
+	 * Permet de savoir si l'element a la ligne donnee est en attente/
+	 * @param rowIndex ligne de l'element
 	 * @return true si la ligne est en attente, false sinon
 	 */
-	public boolean isWaiting(int row){
-		return row >= getVues().size();
+	public boolean estEnAttente(int rowIndex) {
+		return rowIndex >= getVues().size();
 	}
 	
 	/**
-	 * Defini les elements en attente
-	 * @param waitingObject liste des elements en attente
+	 * Modifie les elements en attente.
+	 * @param enAttente liste des elements en attente
 	 */
-	public void setWaiting(List<VueElement> waitingObject) {
-		this.enAttente = waitingObject;
-	}
-
-	@Override
-	public VueElement getVue(int row) {		
-		if (isWaiting(row))
-			return enAttente.get(row - getVues().size());
-		else
-			return super.getVue(row);
-	} 
-	
-	@Override
-	public boolean isSelected(int row) {
-		if (isWaiting(row))
-			return enAttente.get(row - getVues().size()).isSelected();
-		else
-			return super.isSelected(row);
-	}
-
-	public int getNom() {
-		return nom;
+	public void setEnAttente(List<VueElement> enAttente) {
+		this.enAttente = enAttente;
 	}
    
 }

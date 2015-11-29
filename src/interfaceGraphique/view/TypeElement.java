@@ -6,10 +6,14 @@ public enum TypeElement {
 	TRESOR("Tresor"), 
 	OBJET("Objet");
 	
-	public String nom;
+	private String nom;
 	
 	private TypeElement(String nom){
 		this.nom = nom;
+	}
+
+	public String getNom() {
+		return nom;
 	}
 	
 	
