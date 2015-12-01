@@ -1,9 +1,7 @@
 package serveur.element;
 
 import java.io.Serializable;
-import java.util.Hashtable;
-
-import serveur.element.Patronyme;
+import java.util.HashMap;
 
 public abstract class Element implements Serializable {
 	
@@ -19,9 +17,9 @@ public abstract class Element implements Serializable {
 	/**
 	 * caracteristiques de l'element (au moins HP)
 	 */
-	protected Hashtable<Caracteristique, Integer> caract = new Hashtable<Caracteristique,Integer>();
+	protected HashMap<Caracteristique, Integer> caract = new HashMap<Caracteristique,Integer>();
 	
-	public Element (String nom, String groupe, Hashtable<Caracteristique, Integer> ht) {	
+	public Element (String nom, String groupe, HashMap<Caracteristique, Integer> ht) {	
 		patronyme = new Patronyme(nom, groupe);
 		caract = ht;
 		alive = true;
@@ -65,7 +63,7 @@ public abstract class Element implements Serializable {
 	 * Retourne toute la table des caracteristiques
 	 * @return caracteristiques
 	 */
-	public Hashtable<Caracteristique, Integer> getCaracts() {
+	public HashMap<Caracteristique, Integer> getCaracts() {
 		return caract;
 	}
 }

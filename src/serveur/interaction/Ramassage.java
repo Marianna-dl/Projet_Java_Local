@@ -1,7 +1,7 @@
 package serveur.interaction;
 
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -47,7 +47,7 @@ public class Ramassage extends EntreElement <ClientElement> {
 	 * @throws RemoteException
 	 */
 	private void ramasserObjet() throws RemoteException {
-		Hashtable<Caracteristique, Integer> valeursObjet = defenseur.getElement().getCaracts();
+		HashMap<Caracteristique, Integer> valeursObjet = defenseur.getElement().getCaracts();
 		
 		for (Entry<Caracteristique, Integer> caractEntry : valeursObjet.entrySet())
 			arene.ajouterCaractElement(attaquant, caractEntry.getKey(), caractEntry.getValue());

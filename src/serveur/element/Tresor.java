@@ -13,12 +13,12 @@ public class Tresor extends Element {
 	 * @param montant
 	 */
 	public Tresor(String nom, String groupe, int montant) {
-		super(nom,groupe,Caracteristique.hachageDeTresor(montant));
+		super(nom,groupe,Caracteristique.caracteristiquesTresor(montant));
 	}
 	
 	
 	@Override
 	public String toString(){
-		return super.toString() + " " + Caracteristique.hachageToString(caract);
+		return super.toString() + " " + Caracteristique.caracteristiquesToString(caract);
 	}
 }

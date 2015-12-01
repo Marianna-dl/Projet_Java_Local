@@ -6,7 +6,7 @@ package client.personnage;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import client.controle.Console;
 import serveur.IArene;
@@ -58,7 +58,7 @@ public class Personnage {
 	 * @param voisins element voisins de cet element
 	 * @throws RemoteException
 	 */
-	public void strategie(Hashtable<Integer, Point> voisins) throws RemoteException {
+	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
 		//TODO etablir une strategie afin d'evoluer dans l'arene de combat
 		
 		IArene arene = console.getArene();

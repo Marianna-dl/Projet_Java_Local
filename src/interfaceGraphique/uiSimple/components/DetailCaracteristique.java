@@ -50,7 +50,7 @@ public class DetailCaracteristique extends JPanel {
         barre.setPreferredSize(new Dimension(250,20));
         label = new JLabel();
         
-        label.setText(caract.fullName()+" : " + valeur + "/"+caract.max);
+        label.setText(caract.getNomComplet()+" : " + valeur + "/"+caract.max);
         label.setPreferredSize(new Dimension(150,20));
         
         this.add(barre);

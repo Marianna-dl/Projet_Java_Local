@@ -3,7 +3,7 @@ package interfaceGraphique.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 
 import serveur.element.Caracteristique;
@@ -16,7 +16,7 @@ public class VuePersonnage extends VueElement {
 	private int leader;
 
 	public VuePersonnage(int refRMI, Point position, String nom, String groupe,
-			Hashtable<Caracteristique, Integer> caracts, Color color,
+			HashMap<Caracteristique, Integer> caracts, Color color,
 			String phrase, List<Integer> equipe, int leader) {
 		super(refRMI, position, nom, groupe, caracts, color, phrase, TypeElement.PERSONNAGE);
 		
@@ -25,7 +25,7 @@ public class VuePersonnage extends VueElement {
 	}
 	
 	public VuePersonnage(int refRMI, Point position, String nom, String groupe,
-			Hashtable<Caracteristique, Integer> caracts, Color color,
+			HashMap<Caracteristique, Integer> caracts, Color color,
 			String phrase) {
 		super(refRMI, position, nom, groupe, caracts, color, phrase, TypeElement.PERSONNAGE);
 		

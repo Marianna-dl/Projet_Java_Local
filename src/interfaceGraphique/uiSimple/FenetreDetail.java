@@ -91,7 +91,7 @@ public class FenetreDetail extends JFrame {
         
         this.add(jPanelNorth, BorderLayout.NORTH);
 		
-		JPanel panelCaracts = new JPanel(new GridLayout(Caracteristique.nbCaract(), 1));
+		JPanel panelCaracts = new JPanel(new GridLayout(Caracteristique.nbCaracts(), 1));
 		caractPanels =  new ArrayList<DetailCaracteristique>();
 		for (Caracteristique caract : Caracteristique.values()){
 			DetailCaracteristique caractPanel = new DetailCaracteristique(caract, vue.getCaract(caract), Color.BLUE);

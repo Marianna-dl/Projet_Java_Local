@@ -57,7 +57,7 @@ public class LancePotion {
 			logger.info("lanceur", "Lancement de la potion sur le serveur...");
 			arene.ajouterPotion(
 					nom, groupe,
-					Caracteristique.hachageDePotion(
+					Caracteristique.caracteristiquesPotion(
 							Calculs.randomNumber(-100, 100),
 							Calculs.randomNumber(-100, 100),
 							Calculs.randomNumber(-100, 100)));

@@ -2,7 +2,7 @@ package serveur.interaction;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
@@ -23,7 +23,7 @@ public class Deplacements {
 	/**
 	 * Ref RMI et les vues des voisins.
 	 */
-	private Hashtable<Integer, Point> voisins;
+	private HashMap<Integer, Point> voisins;
 	
 	/**
 	 * Position de l'element
@@ -32,13 +32,13 @@ public class Deplacements {
 	
 	private int vitesse;
 	
-	public Deplacements(Arene arene, int ref, Point position, Hashtable<Integer, Point> voisins) {
+	public Deplacements(Arene arene, int ref, Point position, HashMap<Integer, Point> voisins) {
 		this.arene = arene;
 		this.ref = ref;
 		this.position = position;
 
 		if (voisins == null) {
-			this.voisins = new Hashtable<Integer, Point>();
+			this.voisins = new HashMap<Integer, Point>();
 		} else {
 			this.voisins = voisins;
 		}

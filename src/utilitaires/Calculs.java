@@ -3,8 +3,8 @@ package utilitaires;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Random;
 
 import serveur.Arene;
@@ -29,19 +29,21 @@ public class Calculs {
 	}
 
 	/**
-	 * Verifie si un element parmi les voisins occupe la position
+	 * Verifie si un element parmi les voisins occupe la position donnee. 
 	 * @param p une position   
 	 * @param voisins des elements (Point)
 	 * @return true si la case est vide et false si la case est occupe
 	 */
-	public static boolean caseVide(Point p, Hashtable<Integer, Point> voisins){
+	public static boolean caseVide(Point p, HashMap<Integer, Point> voisins){
 		boolean trouve = false;
 		Point pAux = null;
-		Enumeration<Point> enump = voisins.elements();
-		while (!trouve && enump.hasMoreElements()) {
-			pAux = enump.nextElement();
+		Iterator<Point> it = voisins.values().iterator();
+		
+		while (!trouve && it.hasNext()) {
+			pAux = it.next();
 			trouve = p.equals(pAux); 
-		}		
+		}
+		
 		return !trouve;
 	}
 	
@@ -52,7 +54,7 @@ public class Calculs {
 	 * @param voisins le positionement des autres elements dans l'arene
 	 * @return le meilleur point libre dans la direction de la cible
 	 */
-	public static Point meilleurPoint(Point depart, Point objectif, Hashtable<Integer, Point> voisins){
+	public static Point meilleurPoint(Point depart, Point objectif, HashMap<Integer, Point> voisins){
 		//liste contenant tous les positions vers lesquelles l'element peut avancer
 		ArrayList<Point> listePossibles = new ArrayList<Point>();		
 		//pour chaque de 8 cases autour de lui
@@ -85,7 +87,7 @@ public class Calculs {
 	 * @param voisins liste des voisins
 	 * @return reference de l'element le plus proche, 0 si il n'y en a pas
 	 */
-	public static int chercherElementProche(Point origine, Hashtable<Integer, Point> voisins) {
+	public static int chercherElementProche(Point origine, HashMap<Integer, Point> voisins) {
 		int distPlusProche = 100;
 		int refPlusProche = 0;
 		for(Integer refVoisin : voisins.keySet()) {

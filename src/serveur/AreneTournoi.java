@@ -1,15 +1,15 @@
 package serveur;
 
-import interfaceGraphique.view.VueElement;
-
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
 import client.controle.IConsole;
+import interfaceGraphique.view.VueElement;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Potion;
@@ -87,7 +87,7 @@ public class AreneTournoi extends Arene {
 	 * @param mdp le mot de passe d'administrateur
 	 * @throws RemoteException
 	 */
-	public synchronized void ajouterPotionSecurisee(String nom, Hashtable<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException {
+	public synchronized void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException {
 		ajouterObjetSecurisee(nom, new Potion(nom, "Arene", carac), position, mdp);				
 	}
 	
@@ -128,7 +128,7 @@ public class AreneTournoi extends Arene {
 	 * @param carac les donnees de la potion
 	 * @throws RemoteException
 	 */
-	public synchronized void ajouterPotion(String nom, String groupe, Hashtable<Caracteristique,Integer> carac) throws RemoteException {
+	public synchronized void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException {
 
 		int ref = allocateRef();
 		ClientElement client = new ClientElement(

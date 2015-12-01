@@ -35,7 +35,7 @@ public class PersonnageServeur extends Element implements Serializable {
 	 */
 	public PersonnageServeur(String nom, String groupe) {
 		// Caracteristiques de base
-		super(nom, groupe, Caracteristique.hachageDeCaracInitPerso());
+		super(nom, groupe, Caracteristique.caracteristiquesDefaut());
 		leader = -1;
 		equipe = new ArrayList<Integer>();
 	}
@@ -79,7 +79,7 @@ public class PersonnageServeur extends Element implements Serializable {
 			}
 		}
 		
-		return super.toString() + "[" + Caracteristique.hachageToString(caract) + lead + eq + "]";
+		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caract) + lead + eq + "]";
 	}
 	
 	/**

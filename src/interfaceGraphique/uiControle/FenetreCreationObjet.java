@@ -1,13 +1,6 @@
 package interfaceGraphique.uiControle;
 
 
-import interfaceGraphique.IHMControle;
-import interfaceGraphique.uiControle.components.SaisieCaracteristique;
-import interfaceGraphique.uiControle.components.SaisiePosition;
-import interfaceGraphique.uiControle.exceptionSaisie.CaractNotValidException;
-import interfaceGraphique.uiControle.exceptionSaisie.NomNotValidException;
-import interfaceGraphique.uiControle.exceptionSaisie.PositionNotValidException;
-
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -16,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -30,6 +23,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
+import interfaceGraphique.IHMControle;
+import interfaceGraphique.uiControle.components.SaisieCaracteristique;
+import interfaceGraphique.uiControle.components.SaisiePosition;
+import interfaceGraphique.uiControle.exceptionSaisie.CaractNotValidException;
+import interfaceGraphique.uiControle.exceptionSaisie.NomNotValidException;
+import interfaceGraphique.uiControle.exceptionSaisie.PositionNotValidException;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 
@@ -83,7 +82,7 @@ public class FenetreCreationObjet extends JFrame {
         setResizable(false);
         setAlwaysOnTop(true);
         // Grid layout de 1 colonne et de nbCaract - 1 (INITIATIVE) + 3 lignes (nom, type, position, bouton)
-        getContentPane().setLayout(new GridLayout(Caracteristique.nbCaract() + 4, 1, 0, 0));        
+        getContentPane().setLayout(new GridLayout(Caracteristique.nbCaracts() + 4, 1, 0, 0));        
 
     	
     	// Nom
@@ -240,7 +239,7 @@ public class FenetreCreationObjet extends JFrame {
 		List<String> erreurMessage = new ArrayList<String>();
 		Point position = null;
 		String nom = null;
-		Hashtable<Caracteristique, Integer> caracts = null;
+		HashMap<Caracteristique, Integer> caracts = null;
 		int montant = 0;
 		boolean validValues = true;
 		
@@ -320,8 +319,8 @@ public class FenetreCreationObjet extends JFrame {
      * @return Hashtable de Caracteristique -> valeur
      * @throws CaractNotValidException
      */
-    public Hashtable<Caracteristique, Integer> getCaracts() throws CaractNotValidException {
-    	Hashtable<Caracteristique, Integer> ht = new Hashtable<Caracteristique, Integer>();
+    public HashMap<Caracteristique, Integer> getCaracts() throws CaractNotValidException {
+    	HashMap<Caracteristique, Integer> ht = new HashMap<Caracteristique, Integer>();
     	List<Caracteristique> listErreur = new ArrayList<Caracteristique>();
     	boolean error = false;
     	for (SaisieCaracteristique cPanel : caractPanels)	{

@@ -3,7 +3,7 @@ package interfaceGraphique.view;
 import java.awt.Color;
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import serveur.element.Caracteristique;
 
@@ -19,7 +19,7 @@ public class VueElement implements Serializable {
 	private String nom;
 	private String groupe;
 	private Color color;
-	private Hashtable<Caracteristique, Integer> caracts = new Hashtable<Caracteristique,Integer>();
+	private HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique,Integer>();
 	
 	private boolean selected = false;
 	private boolean enAttente = false;
@@ -30,7 +30,7 @@ public class VueElement implements Serializable {
 	
 	
 	public VueElement(int refRMI, Point position, String nom, String groupe,
-			Hashtable<Caracteristique, Integer> caracts, Color color, String phrase, TypeElement type) {
+			HashMap<Caracteristique, Integer> caracts, Color color, String phrase, TypeElement type) {
 		this.refRMI = refRMI;
 		this.position = position;
 		this.nom = nom;

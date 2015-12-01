@@ -3,7 +3,7 @@ package client.personnage;
 import java.awt.Point;
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import serveur.IArene;
 import serveur.element.Caracteristique;
@@ -34,7 +34,7 @@ public class PersonnageTest extends Personnage {
 	 * @throws RemoteException
 	 */
 	@Override
-	public void strategie(Hashtable<Integer, Point> voisins) throws RemoteException{				
+	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException{				
 		
 		IArene arene = console.getArene();
 		
@@ -51,7 +51,7 @@ public class PersonnageTest extends Personnage {
 		// Si c'est le premier tour
 		if (firstTurn) {
 			// On ameliore ses caracteristiques
-			arene.ameliorerCaracteristique(console, Caracteristique.hachageDePotion(0, Calculs.randomNumber(0, 100), 0));
+			arene.ameliorerCaracteristique(console, Caracteristique.caracteristiquesPotion(0, Calculs.randomNumber(0, 100), 0));
 			firstTurn = false;
 		} else {
 			if (0 == voisins.size()) {

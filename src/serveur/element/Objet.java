@@ -1,7 +1,7 @@
 package serveur.element;
 
 import java.io.Serializable;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 /**
  * Un element du jeu : un personnage ou une potion, avec un nom, une liste 
@@ -21,7 +21,7 @@ public abstract class Objet extends Element implements Serializable {
 	 * Constructeur (le nombre de vies est par defaut initialise a 1)
 	 * @param nom le nom de l'element a creer
 	 */
-	public Objet(String nom, String groupe, Hashtable<Caracteristique, Integer> ht) {	
+	public Objet(String nom, String groupe, HashMap<Caracteristique, Integer> ht) {	
 		super(nom, groupe, ht);
 		taken = false;
 	}

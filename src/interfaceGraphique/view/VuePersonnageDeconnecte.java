@@ -2,7 +2,7 @@ package interfaceGraphique.view;
 
 import java.awt.Color;
 import java.awt.Point;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import serveur.element.Caracteristique;
 import utilitaires.Calculs;
@@ -16,7 +16,7 @@ public class VuePersonnageDeconnecte extends VuePersonnage {
 	
 	public VuePersonnageDeconnecte(int refRMI, Point position, String nom,
 			String groupe, boolean personnage,
-			Hashtable<Caracteristique, Integer> caract, int tourDeconnexion) {
+			HashMap<Caracteristique, Integer> caract, int tourDeconnexion) {
 		super(refRMI, position, nom, groupe, caract, new Color(112,112,112), "");
 		
 		this.tourDeconnexion = tourDeconnexion;

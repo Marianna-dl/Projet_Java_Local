@@ -7,7 +7,7 @@ import interfaceGraphique.view.VuePersonnageDeconnecte;
 import java.awt.Point;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 
 import client.controle.IConsole;
@@ -73,7 +73,7 @@ public interface IArene extends Remote {
 	 * @return table des couples reference/coordonnees des voisins
 	 * @throws RemoteException
 	 */
-	public Hashtable<Integer, Point> voisins(IConsole console) throws RemoteException;
+	public HashMap<Integer, Point> voisins(IConsole console) throws RemoteException;
 
 	
 	/**
@@ -118,7 +118,7 @@ public interface IArene extends Remote {
 	 * @param carac les donnees de la potion
 	 * @throws RemoteException
 	 */
-	public void ajouterPotion(String nom, String groupe, Hashtable<Caracteristique,Integer> carac) throws RemoteException;
+	public void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException;
 		
 	
 	public void ajouterTresor(String nom, String groupe, int montant) throws RemoteException;
@@ -131,7 +131,7 @@ public interface IArene extends Remote {
 	 * @return true si l'amelioration a eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean ameliorerCaracteristique(IConsole console, Hashtable<Caracteristique, Integer> caracts) throws RemoteException;
+	public boolean ameliorerCaracteristique(IConsole console, HashMap<Caracteristique, Integer> caracts) throws RemoteException;
 	
 	/**
 	 * Demande au serveur de ramasser une potion
@@ -250,7 +250,7 @@ public interface IArene extends Remote {
 	 * @param mdp mot de passe d'administrateur
 	 * @throws RemoteException
 	 */
-	public void ajouterPotionSecurisee(String nom, Hashtable<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException;
+	public void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException;
 	
 	/**
 	 * permet d'ajouter un tresor dans l'arene a n'importe quel moment

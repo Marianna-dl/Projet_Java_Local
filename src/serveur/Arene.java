@@ -1,9 +1,5 @@
 package serveur;
 
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-
 import java.awt.Point;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -22,6 +18,9 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 
 import client.controle.IConsole;
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.PersonnageServeur;
@@ -382,7 +381,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @return true si caracteristique valide
 	 */
 	private boolean verifCaract (PersonnageServeur elems) {
-		Hashtable<Caracteristique, Integer> caracts = elems.getCaracts();
+		HashMap<Caracteristique, Integer> caracts = elems.getCaracts();
 		for (Entry<Caracteristique, Integer> caractEntry : caracts.entrySet()){
 			Caracteristique c = caractEntry.getKey();
 			int valeur = caractEntry.getValue();
@@ -419,7 +418,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 
 	@Override
-	public synchronized void ajouterPotion(String nom, String groupe, Hashtable<Caracteristique,Integer> ht) throws RemoteException {
+	public synchronized void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> ht) throws RemoteException {
 		Point position = Calculs.randomPosition();
 		ajouterObjet(new Potion(nom, groupe, ht), position);
 	}
@@ -557,8 +556,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public Hashtable<Integer, Point> voisins(IConsole console) throws RemoteException {
-		Hashtable<Integer, Point> aux = new Hashtable<Integer, Point>();
+	public HashMap<Integer, Point> voisins(IConsole console) throws RemoteException {
+		HashMap<Integer, Point> aux = new HashMap<Integer, Point>();
 
 		int ref = console.getRefRMI();
 		Point positionConsole = clientsPersonnages.get(ref).getPosition();
@@ -726,7 +725,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public boolean ameliorerCaracteristique(IConsole console, Hashtable<Caracteristique, Integer> caracts) throws RemoteException {
+	public boolean ameliorerCaracteristique(IConsole console, HashMap<Caracteristique, Integer> caracts) throws RemoteException {
 		
 		int ref = console.getRefRMI();
 		ClientPersonnage client = clientsPersonnages.get(ref);
@@ -1313,7 +1312,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 	@Override
 	public void ajouterPotionSecurisee(String nom,
-			Hashtable<Caracteristique, Integer> ht, Point position, String mdp)
+			HashMap<Caracteristique, Integer> ht, Point position, String mdp)
 			throws RemoteException {	
 	}
 	

@@ -1,7 +1,7 @@
 package serveur.interaction;
 
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import serveur.Arene;
@@ -12,11 +12,11 @@ import serveur.element.Element;
 public class AmeliorationCaracteristique {
 
 	private ClientPersonnage client;
-	private Hashtable<Caracteristique, Integer> caracts;
+	private HashMap<Caracteristique, Integer> caracts;
 	private Arene arene;
 
 	public AmeliorationCaracteristique(Arene arene, ClientPersonnage client,
-			Hashtable<Caracteristique, Integer> caracts) {
+			HashMap<Caracteristique, Integer> caracts) {
 		this.client = client;
 		this.caracts = caracts;
 		this.arene = arene;

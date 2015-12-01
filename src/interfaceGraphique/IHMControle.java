@@ -1,9 +1,5 @@
 package interfaceGraphique;
 
-import interfaceGraphique.uiControle.ControleJPanel;
-import interfaceGraphique.uiControle.FenetreCreationObjet;
-import interfaceGraphique.view.VueElement;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -13,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -21,6 +17,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.Timer;
 
+import interfaceGraphique.uiControle.ControleJPanel;
+import interfaceGraphique.uiControle.FenetreCreationObjet;
+import interfaceGraphique.view.VueElement;
 import serveur.element.Caracteristique;
 import utilitaires.logger.MyLogger;
 
@@ -237,7 +236,7 @@ public class IHMControle extends IHM {
 	 * @param ht caracteristiques de la potion
 	 * @param position position de la potion
 	 */
-	public void lancerPotion(String nom, Hashtable<Caracteristique, Integer> ht, Point position){
+	public void lancerPotion(String nom, HashMap<Caracteristique, Integer> ht, Point position){
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
