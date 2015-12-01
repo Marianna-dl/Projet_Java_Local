@@ -23,7 +23,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import interfaceGraphique.IHMControle;
+import interfaceGraphique.IHMTournoi;
 import interfaceGraphique.uiControle.components.SaisieCaracteristique;
 import interfaceGraphique.uiControle.components.SaisiePosition;
 import interfaceGraphique.uiControle.exceptionSaisie.CaractNotValidException;
@@ -63,13 +63,13 @@ public class FenetreCreationObjet extends JFrame {
 	private JButton lanceObjet;	
 
 
-	private IHMControle ihmControle;
+	private IHMTournoi ihmControle;
 
 	private JCheckBox clicPourPoser;
 
 
 	
-    public FenetreCreationObjet(IHMControle ihmControle) {
+    public FenetreCreationObjet(IHMTournoi ihmControle) {
     	this.ihmControle = ihmControle;
         initComponents();
     }

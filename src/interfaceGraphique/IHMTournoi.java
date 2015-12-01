@@ -24,10 +24,10 @@ import serveur.element.Caracteristique;
 import utilitaires.logger.MyLogger;
 
 /**
- * Interface graphique de controle :
+ * Interface graphique pour le tournoi :
  * rajoute les fonctionnalites d'admin a l'IHM de base.
  */
-public class IHMControle extends IHM {
+public class IHMTournoi extends IHM {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -63,7 +63,7 @@ public class IHMControle extends IHM {
 	 * @param ipArene IP de communication avec l'arene
 	 * @param logger gestionnaire de log
 	 */
-	public IHMControle(int port, String ipArene, MyLogger logger) {
+	public IHMTournoi(int port, String ipArene, MyLogger logger) {
 		super(port, ipArene, logger);
 		controlePanel = new ControleJPanel(this);
 		

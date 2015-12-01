@@ -1,6 +1,6 @@
 package lanceur;
 
-import interfaceGraphique.IHMControle;
+import interfaceGraphique.IHMTournoi;
 
 import java.io.IOException;
 
@@ -49,7 +49,7 @@ public class LanceIHMControle {
 		
 		try {
 			logger.info("lanceur", "Creation de l'IHM...");
-			IHMControle ihmc = new IHMControle(port, ipArene, logger);
+			IHMTournoi ihmc = new IHMTournoi(port, ipArene, logger);
 			logger.info("lanceur", "Creation de l'IHM reussie");
 
 			logger.info("lanceur", "Connexion de l'IHM au serveur...");

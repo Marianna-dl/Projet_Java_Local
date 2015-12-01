@@ -1,7 +1,7 @@
 package interfaceGraphique.uiControle;
 
 import interfaceGraphique.IHM;
-import interfaceGraphique.IHMControle;
+import interfaceGraphique.IHMTournoi;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,11 +21,11 @@ public class ControleJPanel extends JPanel {
 	private JButton envoyerObjetButton;
 	private JButton deverrouillerButton;
 
-	private final IHMControle ihmControle;
+	private final IHMTournoi ihmControle;
 
 
 	
-	public ControleJPanel(IHMControle ihm){
+	public ControleJPanel(IHMTournoi ihm){
 		this.ihmControle = ihm;	
 
 		this.setBorder(BorderFactory.createMatteBorder(2, 0, 0, 0, IHM.grisFonce));
