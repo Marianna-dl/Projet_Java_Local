@@ -1328,7 +1328,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public void renvoyer(VueElement joueur, String motDePasse) throws RemoteException {		
+	public void ejecter(VueElement joueur, String motDePasse) throws RemoteException {		
 	}
 	
 	@Override

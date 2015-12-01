@@ -25,61 +25,63 @@ import serveur.element.Caracteristique;
 import utilitaires.logger.MyLogger;
 
 /**
- * IHM de controle
- * Rajoute les fonctionnalites d'admin a l'IHM de base
+ * Interface graphique de controle :
+ * rajoute les fonctionnalites d'admin a l'IHM de base.
  */
 public class IHMControle extends IHM {
 
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Mot de passe saisi
+	 * Mot de passe saisi.
 	 */
 	private String motDePasse;
 
 	/**
-	 * Flag permettant de savoir si le mot de passe saisi est OK
+	 * Vrai si le mot de passe saisi est le bon.
 	 */
 	private boolean motDePasseOK = false;
 
 	/**
-	 * Panneau de controle
+	 * Panneau de controle.
 	 */
 	private ControleJPanel controlePanel;
 
 	/**
-	 * Fenetre de creation dynamique de potion 
+	 * Fenetre de creation de potion.
 	 */
-	private FenetreCreationObjet fenPotion;
+	private FenetreCreationObjet fenetrePotion;
 
+	/**
+	 * Timer indiquant le temps de partie restant. 
+	 */
 	private Timer timer;
 	
 	/**
-	 * Initialise l'IHM de controle
+	 * Initialise l'IHM de controle.
 	 * @param port port de communication avec l'arene
-	 * @param ipArene ip de communication avec l'arene
-	 * @param mylogger gestionnaire de log
+	 * @param ipArene IP de communication avec l'arene
+	 * @param logger gestionnaire de log
 	 */
-	public IHMControle(int port, String ipArene, MyLogger mylogger) {
-		super(port, ipArene, mylogger);
+	public IHMControle(int port, String ipArene, MyLogger logger) {
+		super(port, ipArene, logger);
 		controlePanel = new ControleJPanel(this);
 		
 		// ajout de panneau de controle au panneau de gauche
-		leftPanel.add(controlePanel, BorderLayout.SOUTH);
-		leftPanel.repaint();
-		leftPanel.invalidate();
-		leftPanel.validate();	
-		
+		gauchePanel.add(controlePanel, BorderLayout.SOUTH);
+		gauchePanel.repaint();
+		gauchePanel.invalidate();
+		gauchePanel.validate();	
 
-		fenPotion = new FenetreCreationObjet(this);
+		fenetrePotion = new FenetreCreationObjet(this);
 		 
 		// ajout d'un listener de clic sur l'arene permettant l'envoi de potion dynamiquement
 		arenePanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (fenPotion != null && fenPotion.isVisible()){
-					fenPotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
-					if (fenPotion.isClicToPoseSelect()){
-						fenPotion.lancerObjet();
+				if (fenetrePotion != null && fenetrePotion.isVisible()){
+					fenetrePotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
+					if (fenetrePotion.isClicToPoseSelect()){
+						fenetrePotion.lancerObjet();
 					}
 				}
 			}
@@ -94,10 +96,9 @@ public class IHMControle extends IHM {
 				
 	}	
 
-
 	@Override
-	public void connect() {
-		super.connect();
+	public void connecte() {
+		super.connecte();
 		demanderMotDePasse();
 	}
 
@@ -120,20 +121,23 @@ public class IHMControle extends IHM {
 				JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 		
 		// traitement de la reponse
-		if (option == 1){
-			 // pressing OK button
+		if (option == 1) {
+			 // clic sur le bouton OK
 			try {
 				if (serveur.verifMotDePasse(pass.getPassword())) {
 					this.motDePasse = "";
 					for (int i = 0; i < pass.getPassword().length; i++) {
 						this.motDePasse += pass.getPassword()[i];
 					}
+					
 					motDePasseOK = true;
 					unlockControle();
+					
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Ce n'est pas le bon mot de passe.", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
+					
 					lockControle();
 					demanderMotDePasse();
 				}
@@ -144,11 +148,12 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Lance le compte a rebours
+	 * Lance le compte a rebours.
 	 */
-	public void lancerCompteARebours(){
+	public void lancerCompteARebours() {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
+			
 		} else {
 			arenePanel.lancerCompteARebours();
 			timer.start();
@@ -157,12 +162,13 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Lance la partie
+	 * Lance la partie.
 	 */
-	public void lancerPartie(){
+	public void lancerPartie() {
 		try {
 			serveur.commencerPartie(motDePasse);
 			timer.stop();
+			
 			if(serveur.isPartieCommencee()){
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
@@ -172,15 +178,16 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Renvoie du serveur l'element selectionne
+	 * Ejecte l'element selectionne du serveur.
 	 */
-	public void renvoyerSelected(){
+	public void ejecteSelectionne() {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
+			
 		} else {
-			if(getSelected() != null){
+			if(getElementSelectionne() != null) {
 				try {
-					serveur.renvoyer(getSelected(), motDePasse);
+					serveur.ejecter(getElementSelectionne(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -189,15 +196,15 @@ public class IHMControle extends IHM {
 	}
 
 	/**
-	 * Envoie la potion (en attente) selectionnee dans la partie
+	 * Envoie la potion (en attente) selectionnee dans la partie.
 	 */
 	public void envoyerPotionSelected() {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
-			if (getSelected().isEnAttente()){
+			if (getElementSelectionne().isEnAttente()){
 				try {
-					serveur.lancerObjetEnAttente(getSelected().getRefRMI(), motDePasse);
+					serveur.lancerObjetEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -206,7 +213,7 @@ public class IHMControle extends IHM {
 	}	
 
 	/**
-	 * Affiche la fenetre de creation de potion
+	 * Affiche la fenetre de creation de potion.
 	 */
 	public void afficherFenetrePotion() {
 		if (!motDePasseOK) {
@@ -214,16 +221,16 @@ public class IHMControle extends IHM {
 		} else {
 			Toolkit kit = Toolkit.getDefaultToolkit();
 			Dimension screenSize = kit.getScreenSize();
-			int x = ((int) screenSize.getWidth() / 2 ) - (fenPotion.getWidth() / 2);
-			int y = ((int) screenSize.getHeight() / 2 ) - (fenPotion.getHeight() / 2);
+			int x = ((int) screenSize.getWidth() / 2 ) - (fenetrePotion.getWidth() / 2);
+			int y = ((int) screenSize.getHeight() / 2 ) - (fenetrePotion.getHeight() / 2);
 			Point point = new Point(x,y);
-			fenPotion.setLocation(point);
-			fenPotion.setVisible(true);
+			fenetrePotion.setLocation(point);
+			fenetrePotion.setVisible(true);
 		}		
 	}
 	
 	/**
-	 * Lance une potion sur le serveur
+	 * Lance une potion sur le serveur.
 	 * @param nom nom de la potion
 	 * @param ht caracteristiques de la potion
 	 * @param position position de la potion
@@ -241,13 +248,12 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Lance un tresor sur le serveur
+	 * Lance un tresor sur le serveur.
 	 * @param nom nom du tresor
 	 * @param montant montant du tresor
 	 * @param position position du tresor
 	 */
 	public void lancerTresor(String nom, int montant, Point position) {
-		
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
@@ -260,33 +266,36 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Definit l'element selectionne dans le tableau des elements
+	 * Modifie l'element selectionne dans le tableau des elements.
 	 */
-	public void setSelectedElement(VueElement vue){
-		super.setSelectedElement(vue);
+	public void setElementSelectionne(VueElement vue){
+		super.setElementSelectionne(vue);
 
 		updateControleUI();		
 	}
 
 	/**
-	 * Met a jour du panneau de controle
+	 * Met a jour du panneau de controle.
 	 */
 	private void updateControleUI() {
-		// MAJ selon qu'un element soit selectionne ou non
-		if(getSelected() == null){
+		// MAJ selon si un element est selectionne ou non
+		if(getElementSelectionne() == null) {
 			controlePanel.getKickerButton().setEnabled(false);
 			controlePanel.getDetaillerButton().setEnabled(false);
 			controlePanel.getEnvoyerPotionButton().setEnabled(false);
-		}else{
+			
+		} else {
 			controlePanel.getDetaillerButton().setEnabled(true);
 			controlePanel.getKickerButton().setEnabled(true);
-			if (getSelected().isEnAttente()){
+			
+			if (getElementSelectionne().isEnAttente()){
 				controlePanel.getEnvoyerPotionButton().setEnabled(true);
 			} else {
 				controlePanel.getEnvoyerPotionButton().setEnabled(false);
 			}
 		}
-		// MAJ selon que la partie soit commencee ou non
+		
+		// MAJ selon si la partie est commencee ou non
 		try {
 			if(serveur.isPartieCommencee()){
 				controlePanel.getLancerPartieButton().setVisible(false);
@@ -297,14 +306,14 @@ public class IHMControle extends IHM {
 	}	
 
 	/**
-	 * Verouille le panneau de controle
+	 * Verouille le panneau de controle.
 	 */
 	private void lockControle() {
 		controlePanel.lock();
 	}
 
 	/**
-	 * Deverouille le panneau de controle
+	 * Deverouille le panneau de controle.
 	 */
 	private void unlockControle() {
 		controlePanel.unlock();

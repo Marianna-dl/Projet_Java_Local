@@ -209,7 +209,7 @@ public class AreneTournoi extends Arene {
 		}
 	}
 
-	public void renvoyer(VueElement joueur, String motDePasse)
+	public void ejecter(VueElement joueur, String motDePasse)
 			throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
 			IConsole console = consoleFromRef(joueur.getRefRMI());

@@ -130,8 +130,8 @@ public class InfosJPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ihm.getSelected() != null){
-					ihm.detaillerSelected(MouseInfo.getPointerInfo().getLocation()); 
+				if (ihm.getElementSelectionne() != null){
+					ihm.detailleSelectionne(MouseInfo.getPointerInfo().getLocation()); 
 				}
 			}
 		});
@@ -250,7 +250,7 @@ public class InfosJPanel extends JPanel {
 		// vue clique
 		VueElement newSelect = null;
 		// vue deja selectionne
-		VueElement prevSelect = ihm.getSelected();
+		VueElement prevSelect = ihm.getElementSelectionne();
 		
 		// recuperation de la vue clique
 		JTable table = ((JTable) e.getSource());
@@ -263,7 +263,7 @@ public class InfosJPanel extends JPanel {
 			}
 		}
 		// selection dans l'ihm de la vue clique 
-		ihm.setSelectedElement(newSelect);
+		ihm.setElementSelectionne(newSelect);
 		
 		int buttonDown = e.getButton();
 		
@@ -272,7 +272,7 @@ public class InfosJPanel extends JPanel {
 			// si selection de l'element deja selectionne,
 			// on le deselectionne dans l'ihm
 			if(prevSelect != null && newSelect != null && newSelect.getRefRMI() == prevSelect.getRefRMI())
-				ihm.setSelectedElement(null);
+				ihm.setElementSelectionne(null);
 			
 		} else if(buttonDown == MouseEvent.BUTTON3) {
 			// si clic droit, on affiche le menu contextuel
@@ -314,22 +314,22 @@ public class InfosJPanel extends JPanel {
 		};
 		Collections.sort(persosDeconnected, deconnectedComparator);
 		
-		if (ihm.getSelected() != null){
+		if (ihm.getElementSelectionne() != null){
 			/* Recherche de l'element selectionne */
 			for (VuePersonnage vp : persos){
-				if (vp.getRefRMI() == ihm.getSelected().getRefRMI())
+				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					vp.setSelected(true);					
 			}
 			for (VueElement ve : objets){
-				if (ve.getRefRMI() == ihm.getSelected().getRefRMI())
+				if (ve.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					ve.setSelected(true);					
 			}
 			for (VueElement ve : objetsEnAttente){
-				if (ve.getRefRMI() == ihm.getSelected().getRefRMI())
+				if (ve.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					ve.setSelected(true);					
 			}
 			for (VuePersonnageDeconnecte vpd : persosDeconnected){
-				if (vpd.getRefRMI() == ihm.getSelected().getRefRMI())
+				if (vpd.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					vpd.setSelected(true);					
 			}
 		}		

@@ -17,7 +17,7 @@ public class PersonnageTableModel extends AbstractElementTableModel<VuePersonnag
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Liste des personnages deconnectes
+	 * Liste des personnages deconnectes.
 	 */
 	private List<VuePersonnageDeconnecte> deconnectes = new ArrayList<VuePersonnageDeconnecte>();
     

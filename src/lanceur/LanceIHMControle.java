@@ -53,7 +53,7 @@ public class LanceIHMControle {
 			logger.info("lanceur", "Creation de l'IHM reussie");
 
 			logger.info("lanceur", "Connexion de l'IHM au serveur...");
-			ihmc.connect();
+			ihmc.connecte();
 			logger.info("lanceur", "Connexion de l'IHM au serveur reussie");
 			ihmc.start();
 		} catch (Exception e) {

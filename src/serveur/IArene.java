@@ -284,7 +284,7 @@ public interface IArene extends Remote {
 	 * @param motDePasse mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void renvoyer(VueElement joueur, String motDePasse) throws RemoteException;
+	public void ejecter(VueElement joueur, String motDePasse) throws RemoteException;
 	
 	/**
 	 * Permet de verifier un mot de passe

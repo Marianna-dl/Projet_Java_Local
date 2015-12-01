@@ -38,25 +38,29 @@ import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
 
 /**
- * Gestionnaire de l'interface graphique
+ * Interface graphique.
  */
 public class IHM extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Port par defaut pour communiquer avec l'arene;
+	 * Port de communication avec l'arene. 
+	 * Initialise au port par defaut (5099).
 	 */
 	private int port = 5099;
+	
 	/**
-	 * Adresse IP de la machine hebergeant l'arene.
+	 * Adresse IP de la machine hebergeant l'arene. 
+	 * Initialise a la machine par defaut (localhost).
 	 */
 	private String ipArene = "localhost";
 
 	/**
-	 * Enumeration des etats de l'interface.
+	 * Etats de l'interface : initialisation ou en jeu.
+	 * 
 	 */
-	enum State {
+	private enum State {
 		INIT, PLAYING
 	};
 
@@ -64,55 +68,101 @@ public class IHM extends JFrame implements Runnable {
 	 * Etat de l'interface.
 	 */
 	private State state = State.INIT;
+	
 	/**
 	 * Serveur.
 	 */
 	protected IArene serveur;
+	
 	/**
 	 * Thread de connexion au serveur.
 	 */
 	private Thread connexion = null;
+	
 	/**
-	 * Vrai si erreur de connexion.
+	 * Vrai s'il y a eu une erreur de connexion.
 	 */
-	private boolean cnxError = false;
+	private boolean erreurConnexion = false;
+	
 	/**
-	 * Le gestionnaire des logs
+	 * Gestionnaire de log.
 	 */
-	private MyLogger myLogger;
+	private MyLogger logger;
+	
 	/**
-	 * VueElement correspondant a l'element selectionnee dans le tableau
+	 * VueElement correspondant a l'element actuellement selectionnee dans le 
+	 * tableau.
 	 */
 	private VueElement elementSelectionne;
+
+	/**
+	 * JLabel affichant le timer. 
+	 */
+	private class TimerLabel extends JLabel {
+		private static final long serialVersionUID = 1L;
+	
+		public TimerLabel() {
+			super(" ");
+			this.setHorizontalAlignment(JLabel.CENTER);
+			this.setVerticalAlignment(JLabel.CENTER);
+			this.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
+			this.setForeground(grisFonce);
+			this.setBackground(grisClair);
+			this.setOpaque(true);
+			this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0,
+					grisFonce));
+			this.setPreferredSize(new Dimension(0, 50));
+		}
+	}
 
 	/*
 	 * ELEMENTS DE L'UI
 	 */
+	/**
+	 * Panel affichant l'arene.
+	 */
 	protected AreneJPanel arenePanel;
+	
+	/**
+	 * Panel affichant les tableaux des elements participants a la partie :
+	 * personnages et objets.
+	 */
 	protected InfosJPanel infosPanel;
-	protected JPanel leftPanel;
+	
+	/**
+	 * Panel affichant le timer et le panel de l'arene.
+	 */
+	protected JPanel gauchePanel;
 
+	/**
+	 * Label affichant le timer.
+	 */
 	private JLabel timerLabel;
-
+	
+	/**
+	 * Couleurs predefinies.
+	 */
 	public static Color grisFonce = new Color(115, 115, 115);
 	public static Color noir = new Color(33, 33, 33);
 	public static Color grisClair = new Color(200, 200, 200);
 
 	/**
-	 * Initialise l'IHM
-	 * 
+	 * Initialise l'IHM.
 	 * @param port port de communication avec l'arene
-	 * @param ipArene ip de communication avec l'arene
+	 * @param ipArene IP de communication avec l'arene
 	 * @param logger gestionnaire de log
 	 */
 	public IHM(int port, String ipArene, MyLogger logger) {
-		myLogger = logger;
+		this.logger = logger;
 		this.port = port;
 		this.ipArene = ipArene;
-		initComponents();
+		initComposants();
 	}
 
-	private void initComponents() {
+	/**
+	 * Initialise les composants de l'IHM. 
+	 */
+	private void initComposants() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 
@@ -127,7 +177,7 @@ public class IHM extends JFrame implements Runnable {
 		String titre = "Arene";
 		setTitle(titre);
 
-		// ajout une operation si le bouton de fermeture de la fenetre est cliquee
+		// ajoute une operation si le bouton de fermeture de la fenetre est cliquee
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		initMenuBar();
@@ -135,16 +185,16 @@ public class IHM extends JFrame implements Runnable {
 		timerLabel = new TimerLabel();
 		arenePanel = new AreneJPanel();
 
-		leftPanel = new JPanel(new BorderLayout());
-		leftPanel.add(timerLabel, BorderLayout.NORTH);
-		leftPanel.add(arenePanel, BorderLayout.CENTER);
+		gauchePanel = new JPanel(new BorderLayout());
+		gauchePanel.add(timerLabel, BorderLayout.NORTH);
+		gauchePanel.add(arenePanel, BorderLayout.CENTER);
 
 		infosPanel = new InfosJPanel(this);
 
 		JSplitPane jSplitPane = new JSplitPane();
 		int dividerLocation = fenWidth / 2;
 		jSplitPane.setDividerLocation(dividerLocation);
-		jSplitPane.setLeftComponent(leftPanel);
+		jSplitPane.setLeftComponent(gauchePanel);
 		jSplitPane.setRightComponent(infosPanel);
 
 		setVisible(true);
@@ -152,18 +202,17 @@ public class IHM extends JFrame implements Runnable {
 		getContentPane().add(jSplitPane);
 
 		pack();
-
 	}
 
 	/**
-	 * Initialise la JMenuBar
+	 * Initialise la JMenuBar. 
 	 */
 	private void initMenuBar() {
-		// creation d'un menu Fichier avec deux options - quitter et a propos
+		// creation d'un menu "Fichier" avec deux options : "Quitter" et "A propos"
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("Fichier");
 		
-		// ajout d'une action pour afficher la fenetre "a propos"
+		// ajout d'une action pour afficher la fenetre "A propos"
 		Action aboutAction = new AbstractAction("A propos") {
 			private static final long serialVersionUID = 1L;
 
@@ -207,22 +256,25 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Methode appele a tous les tours de jeu
+	 * Methode de rafraichissement appelee a tous les tours de jeu.
 	 */
 	public void repaint() {
-		if ((state == State.INIT) || (cnxError)) {
+		// erreur ou en initialisation
+		if ((state == State.INIT) || (erreurConnexion)) {
 			// affiche le message correspondant
-			if (!cnxError) {
+			if (!erreurConnexion) {
 				arenePanel.afficherMessage("Connexion en cours sur le serveur Arene...");
 			} else {
 				arenePanel.afficherMessage("Erreur de connexion !");
 			}
 			
 			// verifie si la connexion a ete realisee
-			// isAlive (Thread)==true si on est en cours de connexion
+			// un thread est "alive" si on est en cours de connexion
 			if ((connexion != null) && (!connexion.isAlive())) {
+				
 				// met a jour l'etat de l'arene
 				state = State.PLAYING;
+				
 				// remet la connexion a null pour une autre execution
 				connexion = null;
 			}
@@ -258,6 +310,10 @@ public class IHM extends JFrame implements Runnable {
 		super.repaint();
 	}
 
+	/**
+	 * Teste si la partie a commence sur le serveur.
+	 * @return vrai si la partie a commence
+	 */
 	private boolean isPartieCommencee() {
 		try {
 			return serveur.isPartieCommencee();
@@ -268,51 +324,50 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Traitement a realiser lors d'une erreur de connexion
-	 * @param e exception ayant entrainer l'erreur de connexion
-	 * @param message message a afficher
+	 * Traite une erreur de connexion.
+	 * @param e exception ayant entraine l'erreur de connexion
 	 */
 	protected void erreurConnexion(Exception e) {
 		// en cas de deconnexion ou erreur du serveur
 		// remet l'etat de l'arene a jour
 		state = State.INIT;
 		String message = "Impossible de se connecter au serveur sur le port "
-				+ port + " !\n(le serveur ne doit pas etre actif...)";
-		// "Erreur de connexion !\nLe serveur ne doit plus etre actif."
+				+ port + " !\n(le serveur ne doit pas etre actif)";
+		
 		// affiche un dialog avec le message d'erreur
 		JOptionPane.showMessageDialog(this,
 				message + "\n\nRaison : " + e.getMessage(),
 				"Erreur de connexion au serveur", JOptionPane.ERROR_MESSAGE);
-		cnxError = true;
+		erreurConnexion = true;
 		e.printStackTrace();
-		myLogger.info("IHM", "Erreur de connexion : " + e.getMessage());
-
+		logger.info("IHM", "Erreur de connexion : " + e.getMessage());
 	}
 
 	/**
-	 * Renvoie la vue correspondant a l'element selectionne dans l'IHM
+	 * Renvoie la vue correspondant a l'element selectionne dans l'IHM.
 	 * @return vue selectionnee
 	 */
-	public VueElement getSelected() {
+	public VueElement getElementSelectionne() {
 		return elementSelectionne;
 	}
 
 	/**
-	 * Definit la vue correspondant a l'element selectionne dans l'IHM
-	 * @param vue
+	 * Definit la vue correspondant a l'element selectionne dans l'IHM.
+	 * @param vue vue a selectionner
 	 */
-	public void setSelectedElement(VueElement vue) {
+	public void setElementSelectionne(VueElement vue) {
 		this.elementSelectionne = vue;
 	}
 
 	/**
-	 * Affiche la fenetre de detail de l'element selectionne positionne la
-	 * fenetre au point donne
-	 * @param point
+	 * Affiche la fenetre de details de l'element selectionne. Positionne la
+	 * fenetre au point donne.
+	 * @param point point ou afficher la fenetre
 	 */
-	public void detaillerSelected(Point point) {
-		if (getSelected() != null) {
-			FenetreDetail fenetre = new FenetreDetail(getSelected());
+	public void detailleSelectionne(Point point) {
+		if (getElementSelectionne() != null) {
+			FenetreDetail fenetre = new FenetreDetail(getElementSelectionne());
+			
 			if (point == null) {
 				// Centrage de la fenetre
 				Toolkit kit = Toolkit.getDefaultToolkit();
@@ -323,6 +378,7 @@ public class IHM extends JFrame implements Runnable {
 						- (fenetre.getHeight() / 2);
 				point = new Point(x, y);
 			}
+			
 			fenetre.setLocation(point);
 			fenetre.setVisible(true);
 			fenetre.go();
@@ -331,9 +387,9 @@ public class IHM extends JFrame implements Runnable {
 	}
 
 	/**
-	 * Lance une connexion au serveur dans un thread separe
+	 * Lance une connexion au serveur dans un thread separe.
 	 */
-	public void connect() {
+	public void connecte() {
 		connexion = new Thread() {
 			public void run() {
 				try {
@@ -344,31 +400,12 @@ public class IHM extends JFrame implements Runnable {
 				}
 			}
 		};
+		
 		connexion.start();
 	}
 
 	/**
-	 * JLabel pour afficher le timer
-	 */
-	private class TimerLabel extends JLabel {
-		private static final long serialVersionUID = 1L;
-
-		public TimerLabel() {
-			super(" ");
-			this.setHorizontalAlignment(JLabel.CENTER);
-			this.setVerticalAlignment(JLabel.CENTER);
-			this.setFont(new Font("Helvetica Neue", Font.PLAIN, 20));
-			this.setForeground(grisFonce);
-			this.setBackground(grisClair);
-			this.setOpaque(true);
-			this.setBorder(BorderFactory.createMatteBorder(0, 0, 2, 0,
-					grisFonce));
-			this.setPreferredSize(new Dimension(0, 50));
-		}
-	}
-
-	/**
-	 * Recharge l'IHM toutes les 0,5 secondes
+	 * Recharge l'IHM toutes les 0,5 secondes.
 	 */
 	@Override
 	public void run() {

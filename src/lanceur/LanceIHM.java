@@ -53,7 +53,7 @@ public class LanceIHM {
 			logger.info("lanceur", "Creation de l'IHM reussie");
 
 			logger.info("lanceur", "Connexion de l'IHM au serveur...");
-			ihm.connect();
+			ihm.connecte();
 			logger.info("lanceur", "Connexion de l'IHM au serveur reussie");
 			ihm.start();
 			logger.info("lanceur", "Mise en route de l'IHM reussie");

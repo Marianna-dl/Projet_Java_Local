@@ -51,14 +51,14 @@ public class ControleJPanel extends JPanel {
 		
 		kickerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		ihmControle.renvoyerSelected();
+        		ihmControle.ejecteSelectionne();
             }
         });
 		kickerButton.setEnabled(false);
 		
 		detaillerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		ihmControle.detaillerSelected(null);
+        		ihmControle.detailleSelectionne(null);
             }
         });
 		detaillerButton.setEnabled(false);

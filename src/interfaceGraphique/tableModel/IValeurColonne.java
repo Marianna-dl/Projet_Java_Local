@@ -3,8 +3,9 @@ package interfaceGraphique.tableModel;
 import interfaceGraphique.view.VueElement;
 
 /**
- * Comportement d'une classe permettant de recuperer la valeur d'une vue dans
- * une colonne.
+ * Comportement permettant de recuperer la valeur d'une vue dans une colonne.
+ * Utilisation du design pattern "strategie", permettant de selectionner le 
+ * comportement lors de l'execution. 
  *
  */
 public interface IValeurColonne<V extends VueElement> {
