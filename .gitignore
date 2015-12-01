@@ -12,3 +12,7 @@
 hs_err_pid*
 /bin/
 /bin/
+
+# server and client logs
+/logs_client/
+/logs_server/
