@@ -53,7 +53,8 @@ public class IHMControle extends IHM {
 	private FenetreCreationObjet fenetrePotion;
 
 	/**
-	 * Timer indiquant le temps de partie restant. 
+	 * Timer indiquant le compte a rebours initial, avant le lancement de la 
+	 * partie.
 	 */
 	private Timer timer;
 	
@@ -87,9 +88,10 @@ public class IHMControle extends IHM {
 			}
 		});
 		
-		// timer correspondant au compte a rebours affiche
+		// timer correspondant au compte a rebours affiche avant la partie
+		// (5 secondes)
 		timer = new Timer(5000, new ActionListener(){			
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ev) {
 				lancerPartie();
 			}
 		});

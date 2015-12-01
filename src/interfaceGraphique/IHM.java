@@ -94,6 +94,8 @@ public class IHM extends JFrame implements Runnable {
 	 * tableau.
 	 */
 	private VueElement elementSelectionne;
+	
+	
 
 	/**
 	 * JLabel affichant le timer. 
@@ -115,9 +117,6 @@ public class IHM extends JFrame implements Runnable {
 		}
 	}
 
-	/*
-	 * ELEMENTS DE L'UI
-	 */
 	/**
 	 * Panel affichant l'arene.
 	 */
