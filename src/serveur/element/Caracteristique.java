@@ -1,7 +1,6 @@
 package serveur.element;
 
 import java.util.HashMap;
-import java.util.Map.Entry;
 
 /**
  * Caracteristiques possibles pour les personnages et les objets. 
@@ -12,25 +11,17 @@ public enum Caracteristique {
 	/**
 	 * Points de vie.
 	 */
-	VIE("Vie", "VIE", 0, 100, 100, 1),
+	VIE("Vie", "VIE", 0, 100, 100),
 	
 	/**
 	 * Force : indique les degats infliges. 
 	 */
-	FORCE("Force", "FOR", 0, 100, 0, 1),
-	
-
-	
-	/**
-	 * Nombre de pieces possedees. 
-	 */
-	ARGENT("Argent", "ARG", 0, Integer.MAX_VALUE, 100, -1),
-	
+	FORCE("Force", "FOR", 0, 100, 0),
+		
 	/**
 	 * Definit l'ordre d'action des personnages lors d'un tour de jeu. 
 	 */
-	INITIATIVE("Initiative", "INIT", 0, 1000, 50, -1);
-	
+	INITIATIVE("Initiative", "INIT", 0, 1000, 50);
 	
 	/**
 	 * Nom complet.
@@ -58,11 +49,6 @@ public enum Caracteristique {
 	public int init;
 	
 	/**
-	 * Prix d'achat d'un point dans la caracteristique courante. 
-	 */
-	private int prix;
-
-	/**
 	 * Cree une caracteristique.
 	 * @param nomComplet nom complet
 	 * @param nomCourt nom raccourci
@@ -71,13 +57,12 @@ public enum Caracteristique {
 	 * @param init valeur initiale
 	 * @param prix prix d'achat
 	 */
-	private Caracteristique(String nomComplet, String nomCourt, int min, int max, int init, int prix) {
+	private Caracteristique(String nomComplet, String nomCourt, int min, int max, int init) {
 		this.nomComplet = nomComplet;
 		this.nomCourt = nomCourt;
 		this.min = min;
 		this.max = max;
 		this.init = init;
-		this.prix = prix;
 	}
 
 	public String toString() {
@@ -100,17 +85,6 @@ public enum Caracteristique {
 		return caractsValues;
 	}
 
-	/**
-	 * Cree un map de caracteristiques specifiques a un tresor : argent.
-	 * @param argent quantite d'argent
-	 * @return map caracteristique/valeur contenant la valeur donnee
-	 */
-	public static HashMap<Caracteristique, Integer> caracteristiquesTresor(int argent) {
-		HashMap<Caracteristique, Integer> caractsValues = new HashMap<Caracteristique, Integer>();
-		caractsValues.put(ARGENT, argent);
-		
-		return caractsValues;
-	}
 
 	/**
 	 * Cree un map de caracteristiques contenant toutes les caracteristiques 
@@ -155,27 +129,6 @@ public enum Caracteristique {
 		return nomComplet;
 	}
 
-	public int getPrix() {
-		return prix;
-	}
+
 	
-	/**
-	 * Calcule le prix d'un map de caracteristiques/quantite. 
-	 * @param caracts caracteristiques
-	 * @return prix total
-	 */
-	public static int calculerPrix(HashMap<Caracteristique, Integer> caracts) {
-		int prix = 0;
-		
-		for (Entry<Caracteristique, Integer> entryCaract : caracts.entrySet()) {
-			int prixUnitaire = entryCaract.getKey().getPrix();
-			int quantite = entryCaract.getValue();
-			
-			if (prixUnitaire >= 0 && quantite > 0) {
-				prix += quantite * prixUnitaire;
-			}
-		}
-		
-		return prix;		
-	}
 }

@@ -6,10 +6,9 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
-import client.personnage.Personnage;
 import serveur.IArene;
-import serveur.element.Element;
 import serveur.element.PersonnageServeur;
+import client.personnage.Personnage;
 
 /**
  * Represente le lien Element - Serveur
@@ -78,14 +77,6 @@ public interface IConsole extends Remote {
 	 * @throws RemoteException
 	 */
 	public VueElement getVueElement() throws RemoteException;
-	
-	/**
-	 * demande sur l'accord de rejoindre une equipe contre une somme d'argent (extorsion)
-	 * @param extorsion
-	 * @param element
-	 * @return la reponse du personnage
-	 */
-	public boolean extorsion(int extorsion, Element element) throws RemoteException;
 }
 
 

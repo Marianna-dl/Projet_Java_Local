@@ -8,15 +8,14 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-import client.controle.Console;
 import serveur.IArene;
-import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.PersonnageServeur;
 import serveur.element.Potion;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
+import client.controle.Console;
 
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
@@ -127,8 +126,5 @@ public class Personnage {
 		}
 	}
 
-	public boolean extorsion(int extorsion, Element element) {
-		//TODO etablir une strategie qui determine l'accord ou le refus de rentrer dans une equipe
-		return (element.getCaract(Caracteristique.ARGENT) > 300 && extorsion > 50);
-	}
+	
 }

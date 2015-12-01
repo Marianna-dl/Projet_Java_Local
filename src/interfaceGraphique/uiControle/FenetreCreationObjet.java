@@ -45,7 +45,6 @@ public class FenetreCreationObjet extends JFrame {
 	 */
 	private ButtonGroup choixTypeObjet;
 	private JRadioButton potionRadioButton;
-	private JRadioButton tresorRadioButton;
 	
 	/**
 	 * Liste des panels de caracteristique
@@ -99,7 +98,6 @@ public class FenetreCreationObjet extends JFrame {
         
         choixTypeObjet = new ButtonGroup();
         potionRadioButton = new JRadioButton();
-        tresorRadioButton = new JRadioButton();
         
         ActionListener listener = new ActionListener() {
 			
@@ -107,28 +105,21 @@ public class FenetreCreationObjet extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (potionRadioButton.isSelected())
 					choixPotion();
-				if (tresorRadioButton.isSelected())
-					choixTresor();
-				
 			}
 		};
 		
 		potionRadioButton.addActionListener(listener);
-		tresorRadioButton.addActionListener(listener);
 
         choixTypeObjet.add(potionRadioButton);
         potionRadioButton.setText("Potion");
         potionRadioButton.setSelected(true);
 
-        choixTypeObjet.add(tresorRadioButton);
-        tresorRadioButton.setText("Tresor");
         
         
         JPanel panelType = new JPanel();
         JLabel labelType = new JLabel("Type de l'objet");
         panelType.add(labelType);
         panelType.add(potionRadioButton);
-        panelType.add(tresorRadioButton);
         
         getContentPane().add(panelType);   
 
@@ -184,9 +175,6 @@ public class FenetreCreationObjet extends JFrame {
     private void choixPotion(){
     	for (SaisieCaracteristique cPanel : caractPanels){
     		switch (cPanel.getCaracteristique()){
-			case ARGENT:
-    			cPanel.setEnabled(false);
-				break;
 			case FORCE:
     			cPanel.setEnabled(true);
 				break;
@@ -203,27 +191,7 @@ public class FenetreCreationObjet extends JFrame {
     	}
     }
     
-    private void choixTresor(){
-    	for (SaisieCaracteristique cPanel : caractPanels){
-    		switch (cPanel.getCaracteristique()){
-			case ARGENT:
-    			cPanel.setEnabled(true);
-				break;
-			case FORCE:
-    			cPanel.setEnabled(false);
-				break;
-			case INITIATIVE:
-    			cPanel.setEnabled(false);
-				break;
-			case VIE:
-    			cPanel.setEnabled(false);
-				break;
-
-			default:
-				break;    			
-    		}
-    	}
-    }
+   
     
     
     /**
@@ -236,7 +204,6 @@ public class FenetreCreationObjet extends JFrame {
 		Point position = null;
 		String nom = null;
 		HashMap<Caracteristique, Integer> caracts = null;
-		int montant = 0;
 		boolean validValues = true;
 		
 		// Gestion des erreurs de saisie
@@ -256,15 +223,6 @@ public class FenetreCreationObjet extends JFrame {
 						+ e.afficherCaracts());					
 			}
 		}
-		if (tresorRadioButton.isSelected()){
-			try{
-				montant = getMontant();
-			} catch (CaractNotValidException e){
-				validValues = false;
-				erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
-						+ e.afficherCaracts());					
-			}
-		}
 		
 		try {
 			position = getPosition();			
@@ -276,8 +234,6 @@ public class FenetreCreationObjet extends JFrame {
 		if (validValues){
 			if (potionRadioButton.isSelected())
 				ihmControle.lancerPotion(nom, caracts, position);
-			if (tresorRadioButton.isSelected())
-				ihmControle.lancerTresor(nom, montant, position);
 		} else {
 			afficherMessageErreur(erreurMessage);
 		}
@@ -333,26 +289,6 @@ public class FenetreCreationObjet extends JFrame {
     }    
 
 
-	private int getMontant() throws CaractNotValidException  {
-		int montant = 0;
-    	List<Caracteristique> listErreur = new ArrayList<Caracteristique>();
-    	boolean error = false;
-    	
-		for (SaisieCaracteristique cPanel : caractPanels)	{
-    		if (cPanel.getCaracteristique().equals(Caracteristique.ARGENT)){
-    			try {
-        			montant = cPanel.getValue();
-        		} catch (NumberFormatException e) {
-        			listErreur.add(cPanel.getCaracteristique());
-        			error = true;
-        		}
-    		}			
-    	}
-		if (error)
-    		throw new CaractNotValidException(listErreur);
-    	return montant;
-	}
-    
     /**
      * Recupere la position saisie
 	 * Declenche une exception si la position n'est pas valide

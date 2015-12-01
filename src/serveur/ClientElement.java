@@ -9,7 +9,6 @@ import java.util.Random;
 
 import serveur.element.Element;
 import serveur.element.Potion;
-import serveur.element.Tresor;
 import utilitaires.Calculs;
 
 /**
@@ -69,9 +68,6 @@ public class ClientElement {
 		TypeElement type = TypeElement.OBJET;
 		if (elem instanceof Potion){
 			type = TypeElement.POTION;
-		}
-		if (elem instanceof Tresor){
-			type = TypeElement.TRESOR;
 		}
 		
 		VueElement ve = new VueElement(

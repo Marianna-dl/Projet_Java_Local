@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 
 import serveur.Arene;
-import serveur.element.Caracteristique;
 import utilitaires.Calculs;
 
 public class Deplacements {
@@ -30,7 +29,6 @@ public class Deplacements {
 	 */
 	private Point position;
 	
-	private int vitesse;
 	
 	public Deplacements(Arene arene, int ref, Point position, HashMap<Integer, Point> voisins) {
 		this.arene = arene;

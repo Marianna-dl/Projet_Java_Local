@@ -2,9 +2,6 @@ package serveur.interaction;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.logging.Level;
 
 import serveur.Arene;
@@ -21,40 +18,16 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 	
 	public void interagir() throws RemoteException {
 		PersonnageServeur pAttaquant = (PersonnageServeur) attaquant.getElement();
-		PersonnageServeur pDefenseur = (PersonnageServeur) defenseur.getElement();		
 		
 		try {
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
-			int forceDisponibleAttaquant = forceAttaquant;
-			
-			int argentDefenseur = pDefenseur.getCaract(Caracteristique.ARGENT);
-			
-			int perteArgent = 0;
-			int perteVie = 0;
-			
-			// Calcule de la quantite d'argent et de vie que vas perdre l'adversaire
-			// Fait perdre autant de piece que possible avec la force disponible
-			// Fait perdre la force restante en vie (10%)
-			if (forceDisponibleAttaquant > argentDefenseur){
-				perteArgent = argentDefenseur;
-				forceDisponibleAttaquant-=perteArgent;
-				perteVie = (int) (0.1 * forceDisponibleAttaquant);
-			} else {
-				perteArgent = forceDisponibleAttaquant;
-			}
+			int perteVie = forceAttaquant;
+		
 
 			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
 
 			// Ejection du defenseur
 			defenseur.setPosition(positionEjection);
-
-			Point positionArgent = positionPerteArgent(positionEjection, attaquant.getPosition(), forceAttaquant);
-
-			// Chute d'argent
-			if (perteArgent > 0) {
-				arene.faireTomberTresor(defenseur, perteArgent, positionArgent);
-				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) +" pousse violement "+ Arene.nomRaccourciClient(defenseur) +". "+ perteArgent +" tombe par terre.");
-			}
 
 			// Blessure
 			if (perteVie > 0) {
@@ -78,27 +51,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 		arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, -10);
 	}
 
-	private Point positionPerteArgent(Point positionEjection, Point positionCoup, int forceAttaquant) {
-		int distance = forceVersDistance(forceAttaquant) - 1;
-		List<Point> listePositionPossible = new ArrayList<Point>();
-		
-		int xMin = positionEjection.x - distance;
-		int xMax = positionEjection.x + distance;
-		int yMin = positionEjection.y - distance;
-		int yMax = positionEjection.y + distance;
-		
-		for (int x = xMin; x <= xMax; x++){
-			for (int y = yMin; y <= yMax; y++){
-				Point p = new Point(x,y);
-				if (Calculs.distanceChebyshev(p, positionCoup) == distance && Calculs.distanceChebyshev(p, positionEjection) == distance)
-					listePositionPossible.add(p);				
-			}
-		}
-		Collections.shuffle(listePositionPossible);		
-		
-		return listePositionPossible.get(0);
-	}
-
+	
 	/**
 	 * Permet de trouver la position ou le personnage sera ejecte
 	 * @param positionOrigine position d'origine du tresor

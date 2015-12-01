@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import client.personnage.Personnage;
 import interfaceGraphique.view.VueElement;
 import serveur.IArene;
-import serveur.element.Element;
 import serveur.element.PersonnageServeur;
 import utilitaires.logger.MyLogger;
 
@@ -173,10 +172,5 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	@Override
 	public VueElement getVueElement() throws RemoteException {
 		return arene.getMyVueElement(this);
-	}
-
-	@Override
-	public boolean extorsion(int extorsion, Element element) throws RemoteException {
-		return per.extorsion(extorsion, element);
 	}
 }

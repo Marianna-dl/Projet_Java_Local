@@ -35,9 +35,7 @@ public class DetailCaracteristique extends JPanel {
 			case INITIATIVE : couleur = Color.CYAN;
 							  valeurUtilisee = valeur / 10; // on ramene a 100
 							  break;
-			case ARGENT : couleur = Color.YELLOW; 
-						  valeurUtilisee = valeur / 10; // on ramene a 100
-						  break;
+
 		}
 		
 		barre = new Barre(valeurUtilisee, couleur);		

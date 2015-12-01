@@ -1,5 +1,7 @@
 package serveur;
 
+import interfaceGraphique.view.VueElement;
+
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -8,14 +10,12 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
-import client.controle.IConsole;
-import interfaceGraphique.view.VueElement;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Potion;
-import serveur.element.Tresor;
 import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
+import client.controle.IConsole;
 
 /**
  * 
@@ -91,18 +91,6 @@ public class AreneTournoi extends Arene {
 		ajouterObjetSecurisee(nom, new Potion(nom, "Arene", carac), position, mdp);				
 	}
 	
-	/**
-	 * permet d'ajouter une potion dans l'arene a n'importe qu'elle moment, mais il faut le mot de passe
-	 * @param nom le nom de la potion
-	 * @param montant montant du tresor
-	 * @param position la position ou la potion doit etre depose
-	 * @param mdp le mot de passe d'administrateur
-	 * @throws RemoteException
-	 */
-	public synchronized void ajouterTresorSecurise(String nom, int montant, Point position, String mdp) throws RemoteException {
-		ajouterObjetSecurisee(nom, new Tresor(nom, "Arene", montant), position, mdp);			
-	}
-	
 	private void ajouterObjetSecurisee(String nom, Element element, Point position, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
 			int ref = allocateRef();
@@ -112,8 +100,6 @@ public class AreneTournoi extends Arene {
 			String type = "de l'objet";
 			if (element instanceof Potion)
 				type = "de la potion";
-			if (element instanceof Tresor)
-				type = "du tresor";
 			myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
 			printElements();
 		} else {
@@ -139,31 +125,6 @@ public class AreneTournoi extends Arene {
 		printElements();
 	}
 	
-	/**
-	 * ajoute une potion dans la salle d'attente de l'arene tournoi
-	 * @param nom le nom de la potion
-	 * @param groupe le groupe de la potion
-	 * @param montant montant du tresor
-	 * @throws RemoteException
-	 */
-	public synchronized void ajouterTresor(String nom, String groupe, int montant) throws RemoteException {
-		ajouterObjet(nom, groupe, new Tresor(nom, groupe, montant));		
-	}
-	
-	private void ajouterObjet(String nom, String groupe, Element element) throws RemoteException{
-		int ref = allocateRef();
-		ClientElement client = new ClientElement( element,
-				new Point(Calculs.randomNumber(XMIN, XMAX), Calculs.randomNumber(YMIN, YMAX)), ref);
-		clientObjetNonEnJeu.put(ref, client);
-		String type = "de l'objet";
-		if (element instanceof Potion)
-			type = "de la potion";
-		if (element instanceof Tresor)
-			type = "du tresor";
-		myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ Arene.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
-		printElements();
-	}
-
 	/**
 	 * Lance un objet de la salle d'attente dans l'arene
 	 * @param ref reference de la potion a lancer

@@ -1,5 +1,9 @@
 package serveur;
 
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
+
 import java.awt.Point;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -17,23 +21,17 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import client.controle.IConsole;
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.PersonnageServeur;
 import serveur.element.Potion;
-import serveur.element.Tresor;
-import serveur.interaction.AmeliorationCaracteristique;
 import serveur.interaction.Attaque;
 import serveur.interaction.Deplacements;
 import serveur.interaction.EntreElement;
-import serveur.interaction.Extorsion;
 import serveur.interaction.Ramassage;
 import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
+import client.controle.IConsole;
 
 /**
  * Definit le serveur de l'arene. 
@@ -83,11 +81,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	private List<VuePersonnageDeconnecte> deconnectedElements = new ArrayList<VuePersonnageDeconnecte>();	
 
-	/**
-	 * Map des tresor tombes pendant un tour
-	 */
-	private HashMap<Tresor, Point> tresorsProchainTour = new HashMap<Tresor, Point>();
-	
 	/**
 	 * Le gestionnaire des logs
 	 */
@@ -234,8 +227,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			updatePartieFinie();
 			
 			try {
-				// Lance tous les tresors tombe pendant le tour
-				lancerTresorsTombes();
 				// dormir 'au plus' 1 seconde (difference temps execution est 1sec.)
 				// pour permettre connexion/deconnexion des consoles
 				long dureeTour = System.currentTimeMillis() - begin;
@@ -423,14 +414,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		ajouterObjet(new Potion(nom, groupe, ht), position);
 	}
 
-	@Override
-	public synchronized void ajouterTresor(String nom, String groupe, int montant) throws RemoteException {		
-		Point position = Calculs.randomPosition();
-		ajouterObjet(new Tresor(nom, groupe, montant), position);		
-	}
-
-
-	
 	/**
 	 * Ajoute un objet dans l'arene
 	 * @param element
@@ -446,8 +429,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		String type = "de l'objet";
 		if (element instanceof Potion)
 			type = "de la potion";
-		if (element instanceof Tresor)
-			type = "du tresor";
 		myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
 		printElements();
 	}
@@ -654,14 +635,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		for(ClientPersonnage client : clientsPersonnages.values()) {
 			classement.add(client);
 		}
-		Comparator<ClientPersonnage> comparator = new Comparator<ClientPersonnage>() {
-			@Override
-			public int compare(ClientPersonnage client1, ClientPersonnage client2) {
-				return client2.getElement().getCaract(Caracteristique.ARGENT) - client1.getElement().getCaract(Caracteristique.ARGENT);
-			}
-		};
+//		Comparator<ClientPersonnage> comparator = new Comparator<ClientPersonnage>() {
+//			@Override
+//			public int compare(ClientPersonnage client1, ClientPersonnage client2) {
+//				return client2.getElement().getCaract(Caracteristique.ARGENT) - client1.getElement().getCaract(Caracteristique.ARGENT);
+//			}
+//		};
 		// Tri des personnages
-		Collections.sort(classement, comparator);
+//		Collections.sort(classement, comparator);
 		return classement;
 	}
 	
@@ -725,41 +706,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public boolean ameliorerCaracteristique(IConsole console, HashMap<Caracteristique, Integer> caracts) throws RemoteException {
-		
-		int ref = console.getRefRMI();
-		ClientPersonnage client = clientsPersonnages.get(ref);
-		if (client.isActionExecutee()) {
-			console.log(Level.WARNING, "AVERTISSEMENT ARENE", "Une action a deja ete execute ce tour-ci !!!");
-			myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+"a tente de jouer plusieurs actions dans le meme tour");
-		} else {
-			console.log(
-					Level.INFO, 
-					this.getClass().toString(), 
-					"J'essaye d'ameliorer mes caracteristiques : "+caracts);
-			boolean ameliorationOK = new AmeliorationCaracteristique(this, client, caracts).ameliorer();
-
-			int montant = Caracteristique.calculerPrix(caracts);
-			if (ameliorationOK){
-				myLogger.info(
-						this.getClass().toString(), 
-						nomRaccourciClient(console.getRefRMI()) + " viens d'ameliorer ses caracteristiques pour un montant de "+montant+"€");
-				console.log(
-						Level.INFO, 
-						this.getClass().toString(), 
-						"Je viens d'ameliorer mes caracteristiques pour un montant de "+montant+"€\nNouvelles valeurs : " +client.getElement().getCaracts());
-				return true;				
-			}			
-		}
-		console.log(
-				Level.INFO, 
-				this.getClass().toString(), 
-				"Impossible d'ameliorer mes caracteristiques, pas assez d'argent!");
-		return false;
-		
-	}
-	
-	@Override
 	public boolean lancerUneAttaque(IConsole console, int refAdv) throws RemoteException {
 		int ref = console.getRefRMI();
 		ClientPersonnage client = clientsPersonnages.get(ref);
@@ -808,60 +754,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return false;
 	}
 	
-	@Override
-	public boolean lancerUneExtorsion(IConsole console, int refAdv, int argentDemande) throws RemoteException {
-		int ref = console.getRefRMI();
-		ClientPersonnage client = clientsPersonnages.get(ref);
-		ClientPersonnage clientAdv = clientsPersonnages.get(refAdv);
-		
-		if (clientsPersonnages.get(ref).isActionExecutee()) {
-			console.log(Level.WARNING, "AVERTISSEMENT ARENE", "Une action a deja ete execute ce tour-ci !!!");
-			myLogger.warning(this.getClass().toString(), nomRaccourciClient(ref)+" a tente de jouer plusieurs actions dans le meme tour");
-		} else {
-			IConsole consoleAdv = consoleFromRef(refAdv);
-			
-			int distance = Calculs.distanceChebyshev(clientsPersonnages.get(ref).getPosition(), clientsPersonnages.get(refAdv).getPosition());
-			if (distance <= EntreElement.distanceMinInteraction) {
-							
-				PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
-				PersonnageServeur persAdv = (PersonnageServeur) getAnyElement(refAdv);
-				if (pers.isAlive() && persAdv.isAlive()) {
-					console.log(Level.INFO, this.getClass().toString(), "J'attaque "+nomRaccourciClient(consoleAdv.getRefRMI()));
-					consoleAdv.log(Level.INFO, this.getClass().toString(), "Je me fait attaquer par "+nomRaccourciClient(console.getRefRMI()));
-					myLogger.info(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+" attaque "+nomRaccourciClient(consoleAdv.getRefRMI()));
-			
-					/*
-					 *  demande a l'adversaire si il accepte l'extorsion
-					 *  Si l'extorsion n'es pas acceptee, l'action est annule
-					 */
-					if (consoleFromRef(refAdv).extorsion(argentDemande, getAnElement(console.getRefRMI()))) {
-						new Extorsion(this, client, clientAdv, argentDemande).interagir();
-						clientsPersonnages.get(ref).actionExecutee();
-						
-						pers = (PersonnageServeur) getAnyElement(ref);
-						persAdv = (PersonnageServeur) getAnyElement(refAdv);
-						
-						if (! persAdv.isAlive()) {
-							setPhrase(console, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
-							console.log(Level.INFO, this.getClass().toString(), "Je tue "+nomRaccourciClient(console.getRefRMI()));
-							myLogger.info(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+" tue "+nomRaccourciClient(consoleAdv.getRefRMI()));
-						}
-						
-						return true;
-					}
-				} else {
-					myLogger.warning(this.getClass().toString(), nomRaccourciClient(ref)+" a tente d'interagir avec "+nomRaccourciClient(refAdv)+", alors qu'il est mort...");
-					console.log(Level.WARNING, this.getClass().toString(), nomRaccourciClient(refAdv)+" est deja mort !");
-				}
-			} else {
-				myLogger.warning(this.getClass().toString(), nomRaccourciClient(ref)+" a tente d'interagir avec "+nomRaccourciClient(refAdv)+", alors qu'il est trop eloigne... Distance de chebyshev = "+distance);
-				console.log(Level.WARNING, "AVERTISSEMENT ARENE", nomRaccourciClient(refAdv)+" est trop eloigne !!!\nDistance de chebyshev = "+distance);
-			}
-		}
-		
-		return false;
-	}
-
 	@Override
 	public boolean deplacer(IConsole console, int refCible) throws RemoteException {
 		int ref = console.getRefRMI();
@@ -929,49 +821,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		setPersServeur(ref, pers);
 	}
 	
-	/**
-	 * Supprime une somme d'argent au client
-	 * @param client client a debiter
-	 * @param montant montant a debiter
-	 * @throws RemoteException
-	 */
-	public void debiter(ClientPersonnage client, int montant) throws RemoteException{
-		ajouterCaractElement(client, Caracteristique.ARGENT, -montant);
-	}
-
-	/**
-	 * Fait tomber un tresor
-	 * @param client 
-	 * @param montant montant du tresro
-	 * @param position position de chute
-	 * @throws RemoteException
-	 */
-	public void faireTomberTresor(ClientPersonnage client, int montant, Point position) throws RemoteException {
-		debiter(client, montant);
-		ajouterTresorProchainTour(new Tresor("Butin "+client.getPersServeur().getNom(), "Arene", montant), position);		
-	}		
-	
-	/**
-	 * Ajoute un tresor dans la file d'attente pour le prochain tour
-	 * @param tresor tresor a envoyer
-	 * @param position position du tresor
-	 */
-	private void ajouterTresorProchainTour(Tresor tresor, Point position) {
-		tresorsProchainTour.put(tresor, position);
-	}
-	
-	/**
-	 * Lance dans la partie les tresors en qui sont tombe pendant le tour
-	 * @throws RemoteException
-	 */
-	private void lancerTresorsTombes() throws RemoteException {
-		for (Entry<Tresor, Point> entry: tresorsProchainTour.entrySet()){
-			ajouterObjet(entry.getKey(), entry.getValue());
-		}
-		tresorsProchainTour.clear();
-	}
-	
-
 	/**
 	 * Modifie le leader (le client et le nouveau leader doivent etre des personnages).
 	 * @param client le client qui change de leader
@@ -1273,9 +1122,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		if (element instanceof Potion){
 			type = "Potion";
 		}
-		if (element instanceof Tresor){
-			type = "Tresor";
-		}
 		return "("+ type + client.getRef() + " * " + client.getElement().toString() + ")";
 	}
 
@@ -1316,11 +1162,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			throws RemoteException {	
 	}
 	
-
-	@Override
-	public void ajouterTresorSecurise(String nom, int montant, Point position, String mdp)
-			throws RemoteException {	
-	}
 
 	@Override
 	public void commencerPartie(String motDePasse) throws RemoteException {		

@@ -121,18 +121,7 @@ public interface IArene extends Remote {
 	public void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException;
 		
 	
-	public void ajouterTresor(String nom, String groupe, int montant) throws RemoteException;
 
-	
-	/**
-	 * Demande au serveur d'ameliorer les caracteristique
-	 * @param console celui qui veut s'ameliorer
-	 * @param caracts amelioration
-	 * @return true si l'amelioration a eu lieu, false sinon
-	 * @throws RemoteException
-	 */
-	public boolean ameliorerCaracteristique(IConsole console, HashMap<Caracteristique, Integer> caracts) throws RemoteException;
-	
 	/**
 	 * Demande au serveur de ramasser une potion
 	 * @param console celui qui veut ramasser une potion
@@ -150,15 +139,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public boolean lancerUneAttaque(IConsole console, int refAdv) throws RemoteException;
-	
-	/**
-	 * Demande au serveur de lancer un duel
-	 * @param console celui qui demande un duel
-	 * @param refAdv l'adversaire de ref au cours de ce duel
-	 * @return true si l'action a bien eu lieu, false sinon
-	 * @throws RemoteException
-	 */
-	public boolean lancerUneExtorsion(IConsole console, int refAdv, int argentDemande) throws RemoteException;
 	
 	/**
 	 * Demande au serveur un deplacement d'un element
@@ -251,17 +231,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException;
-	
-	/**
-	 * permet d'ajouter un tresor dans l'arene a n'importe quel moment
-	 * mais il faut le mot de passe
-	 * @param nom le nom de la potion
-	 * @param montant montant du tresor
-	 * @param position la position ou la potion doit etre depose
-	 * @param mdp mot de passe d'administrateur
-	 * @throws RemoteException
-	 */
-	public void ajouterTresorSecurise(String nom, int montant, Point position, String mdp)	throws RemoteException;
 	
 	/**
 	 * Permet de lancer un objet en attente dans la partie

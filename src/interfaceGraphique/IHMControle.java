@@ -249,24 +249,6 @@ public class IHMControle extends IHM {
 	}
 	
 	/**
-	 * Lance un tresor sur le serveur.
-	 * @param nom nom du tresor
-	 * @param montant montant du tresor
-	 * @param position position du tresor
-	 */
-	public void lancerTresor(String nom, int montant, Point position) {
-		if (!motDePasseOK) {
-			demanderMotDePasse();
-		} else {
-			try {
-				serveur.ajouterTresorSecurise(nom, montant, position, motDePasse);
-			} catch (RemoteException e) {
-				erreurConnexion(e);
-			}
-		}
-	}
-	
-	/**
 	 * Modifie l'element selectionne dans le tableau des elements.
 	 */
 	public void setElementSelectionne(VueElement vue){
