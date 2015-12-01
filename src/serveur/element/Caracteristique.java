@@ -12,7 +12,7 @@ public enum Caracteristique {
 	/**
 	 * Points de vie.
 	 */
-	VIE("Vie", "VIE", 0, 100, 100, 1),
+	VIE("Vie", "VIE2", 0, 100, 100, 1),
 	
 	/**
 	 * Force : indique les degats infliges. 
