@@ -4,7 +4,6 @@ import interfaceGraphique.view.VuePersonnage;
 
 import java.awt.Point;
 
-import serveur.element.Caracteristique;
 import serveur.element.PersonnageServeur;
 
 /**
@@ -12,7 +11,6 @@ import serveur.element.PersonnageServeur;
  */
 public class ClientPersonnage extends ClientElement {
 
-	private static final int NB_TOUR_INCREMENT_INITIATIVE = 10;
 
 	/**
 	 * adresse ip du client
@@ -33,7 +31,6 @@ public class ClientPersonnage extends ClientElement {
 	/**
 	 * Compteur permettant de savoir le nombre de tour restant avant increment
 	 */
-	private int cptTourAvantIncrement = NB_TOUR_INCREMENT_INITIATIVE;
 	
 	public ClientPersonnage(String ipAddress, PersonnageServeur pers, int TTL, Point position, int ref) {
 		super(pers, position, ref);
@@ -89,25 +86,11 @@ public class ClientPersonnage extends ClientElement {
 	 */
 	public void finTour() {
 		TTL--;
-		incrementerInitiative();
 		actionExecutee = false;
 		decrTourSonne();
 	}
 
-	/**
-	 * Increment l'initiative de la valeur de la vitesse
-	 */
-	private void incrementerInitiative() {
-		if (cptTourAvantIncrement <= 0){
-			PersonnageServeur pers = getPersServeur();
-			int increment = pers.getCaract(Caracteristique.VITESSE);
-			int initiative = pers.getCaract(Caracteristique.INITIATIVE) + increment;
-			pers.ajouterCaract(Caracteristique.INITIATIVE, initiative);
-			cptTourAvantIncrement = NB_TOUR_INCREMENT_INITIATIVE;
-		} else {
-			cptTourAvantIncrement--;
-		}
-	}
+
 	
 	private void decrTourSonne () {
 		if (tourSonne > 0) tourSonne--;

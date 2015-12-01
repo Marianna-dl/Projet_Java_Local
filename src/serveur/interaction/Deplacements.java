@@ -43,12 +43,7 @@ public class Deplacements {
 			this.voisins = voisins;
 		}
 		
-		try {
-			vitesse = arene.getAnElement(ref).getCaract(Caracteristique.VITESSE);
-		} catch (RemoteException e) {
-			vitesse = 1;
-			e.printStackTrace();
-		}
+
 	}
 
 	/**
@@ -90,9 +85,9 @@ public class Deplacements {
 		Point dest = position;
 		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse
 		// Sauf si on est arrive a destination
-		for (int i = 0; i < vitesse && !dest.equals(cible); i++) {
+//		for (int i = 0; i < vitesse && !dest.equals(cible); i++) {
 			dest = calculProchaineCase(dest, cible);
-		}
+//		}
 
 		// si le point destination est libre
 		if (Calculs.caseVide(dest, voisins)) {

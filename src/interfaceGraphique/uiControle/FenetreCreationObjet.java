@@ -196,9 +196,7 @@ public class FenetreCreationObjet extends JFrame {
 			case VIE:
     			cPanel.setEnabled(true);
 				break;
-			case VITESSE:
-    			cPanel.setEnabled(true);
-				break;
+			
 			default:
 				break;    			
     		}
@@ -220,9 +218,7 @@ public class FenetreCreationObjet extends JFrame {
 			case VIE:
     			cPanel.setEnabled(false);
 				break;
-			case VITESSE:
-    			cPanel.setEnabled(false);
-				break;
+
 			default:
 				break;    			
     		}

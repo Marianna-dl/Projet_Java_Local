@@ -19,11 +19,7 @@ public enum Caracteristique {
 	 */
 	FORCE("Force", "FOR", 0, 100, 0, 1),
 	
-	/**
-	 * Vitesse : indique le nombre de cases maximum parcourues a chaque 
-	 * deplacement.
-	 */
-	VITESSE("Vitesse", "VIT", 1, 4, 1, 30),
+
 	
 	/**
 	 * Nombre de pieces possedees. 
@@ -100,7 +96,6 @@ public enum Caracteristique {
 		HashMap<Caracteristique, Integer> caractsValues = new HashMap<Caracteristique, Integer>();
 		caractsValues.put(VIE, vie);
 		caractsValues.put(FORCE, force);
-		caractsValues.put(VITESSE, vitesse);
 		
 		return caractsValues;
 	}

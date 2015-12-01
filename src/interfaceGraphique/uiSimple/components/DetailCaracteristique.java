@@ -32,9 +32,6 @@ public class DetailCaracteristique extends JPanel {
 					     break;
 			case VIE : couleur = Color.GREEN; 
 					   break;
-			case VITESSE : couleur = Color.ORANGE;
-						   valeurUtilisee = 25 * valeur; // on ramene a 100
-						   break;
 			case INITIATIVE : couleur = Color.CYAN;
 							  valeurUtilisee = valeur / 10; // on ramene a 100
 							  break;
