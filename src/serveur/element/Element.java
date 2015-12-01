@@ -3,67 +3,87 @@ package serveur.element;
 import java.io.Serializable;
 import java.util.HashMap;
 
+/**
+ * Element du jeu : un objet ou un personnage. 
+ *
+ */
 public abstract class Element implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
-	protected Patronyme patronyme;
+	/**
+	 * Nom de l'element.
+	 */
+	protected String nom;
+	
+	/**
+	 * Groupe a l'origine de l'element. 
+	 */
+	protected String groupe;
 
 	/**
-	 * vrai si l'element est toujours vivant
+	 * Vrai si l'element est toujours vivant (present sur l'arene).
 	 */
 	protected boolean alive;
 	
 	/**
-	 * caracteristiques de l'element (au moins HP)
+	 * Caracteristiques de l'element (au moins vie).
 	 */
-	protected HashMap<Caracteristique, Integer> caract = new HashMap<Caracteristique,Integer>();
+	protected HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique,Integer>();
 	
-	public Element (String nom, String groupe, HashMap<Caracteristique, Integer> ht) {	
-		patronyme = new Patronyme(nom, groupe);
-		caract = ht;
+	/**
+	 * Cree un element avec son nom, son groupe et ses caracteristiques. 
+	 * @param nom nom
+	 * @param groupe groupe
+	 * @param caracts caracteristiques
+	 */
+	public Element (String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {	
+		this.nom = nom;
+		this.groupe = groupe;
+		this.caracts = caracts;
 		alive = true;
 	}
 	
 	public String getNom() {
-		return patronyme.getNom();
+		return nom;
 	}
 	
 	public String getGroupe() {
-		return patronyme.getGroupe();
+		return groupe;
 	}
 	
 	public String getNomGroupe() {
-		return patronyme.getNom()+"_"+patronyme.getGroupe();
+		return nom + "_" + groupe;
 	}
 	
-	@Override
-	public String toString() {
-		return patronyme.toString();
-	}
-
 	public boolean isAlive() {
 		return alive;
 	}
-	
+
+	@Override
+	public String toString() {
+		return getNomGroupe();
+	}
+
 	public void setAlive(boolean alive) {
 		this.alive = alive;
 	}
 
 	/**
-	 * Retourne la valeur associee a la caracteristique specifiee
+	 * Retourne la valeur associee a la caracteristique specifiee.
 	 * @param c caracterisique
-	 * @return valeur correspondant a la caracteristique, ou null si elle n'existe pas
+	 * @return valeur correspondant a la caracteristique, ou null si elle 
+	 * n'existe pas
 	 */
 	public Integer getCaract(Caracteristique c) {
-		return caract.get(c);
+		return caracts.get(c);
 	}
 
 	/** 
-	 * Retourne toute la table des caracteristiques
+	 * Retourne toute la table des caracteristiques.
 	 * @return caracteristiques
 	 */
 	public HashMap<Caracteristique, Integer> getCaracts() {
-		return caract;
+		return caracts;
 	}
 }

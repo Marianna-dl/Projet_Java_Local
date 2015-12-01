@@ -79,7 +79,7 @@ public class PersonnageServeur extends Element implements Serializable {
 			}
 		}
 		
-		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caract) + lead + eq + "]";
+		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caracts) + lead + eq + "]";
 	}
 	
 	/**
@@ -92,7 +92,7 @@ public class PersonnageServeur extends Element implements Serializable {
 		if (c == Caracteristique.VIE && val <= 0) {
 			setAlive(false);
 		}		
-		caract.put(c, Calculs.caperCarac(c, val));
+		caracts.put(c, Calculs.caperCarac(c, val));
 	}
 
 	/**

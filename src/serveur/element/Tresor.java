@@ -19,6 +19,6 @@ public class Tresor extends Element {
 	
 	@Override
 	public String toString(){
-		return super.toString() + " " + Caracteristique.caracteristiquesToString(caract);
+		return super.toString() + " " + Caracteristique.caracteristiquesToString(caracts);
 	}
 }

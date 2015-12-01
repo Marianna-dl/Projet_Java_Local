@@ -23,6 +23,6 @@ public class Potion extends Objet {
 	
 	@Override
 	public String toString(){
-		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caract) + "]";
+		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caracts) + "]";
 	}
 }
