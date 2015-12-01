@@ -16,7 +16,7 @@ public class Deplacements {
 	private Arene arene;	
 
 	/**
-	 * Reference de l'element
+	 * Reference de l'element 
 	 */
 	private int ref;
 	
