@@ -132,14 +132,14 @@ public class IHMTournoi extends IHM {
 					}
 					
 					motDePasseOK = true;
-					unlockControle();
+					deverrouilleControle();
 					
 				} else {
 					JOptionPane.showMessageDialog(null,
 							"Ce n'est pas le bon mot de passe.", "Erreur",
 							JOptionPane.ERROR_MESSAGE);
 					
-					lockControle();
+					verrouilleControle();
 					demanderMotDePasse();
 				}
 			} catch (RemoteException e) {
@@ -290,14 +290,14 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Verouille le panneau de controle.
 	 */
-	private void lockControle() {
+	private void verrouilleControle() {
 		controlePanel.verouiller();
 	}
 
 	/**
 	 * Deverouille le panneau de controle.
 	 */
-	private void unlockControle() {
+	private void deverrouilleControle() {
 		controlePanel.deverouiller();
 		updateControleUI();
 	}

@@ -214,7 +214,9 @@ public class IHM extends JFrame implements Runnable {
 
 			public void actionPerformed(ActionEvent ae) {
 				JOptionPane.showMessageDialog(null,
-						"Arene\nInspiree des TP de L3\nRemise au goût du jout par les soins de\nClement Chaumel,\nValentin Chevalier,\n et Christophe Claustre\n", "a propos",
+						"Arene\nInspiree des TP de L3\n" +
+						"Remise au gout du jout par les soins de\nClement Chaumel," +
+						"\nValentin Chevalier,\n et Christophe Claustre\n", "A propos",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		};
