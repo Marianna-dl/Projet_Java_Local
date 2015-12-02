@@ -96,10 +96,10 @@ public class SaisieCaracteristique extends JPanel{
 		this.add(valueCaract);
 
 		maxCaract.setHorizontalAlignment(SwingConstants.LEFT);
-		if (caracteristique.max < 0)
+		if (caracteristique.getMax() < 0)
 			maxCaract.setText("/∞");
 		else
-			maxCaract.setText("/"+caracteristique.max);
+			maxCaract.setText("/"+caracteristique.getMax());
 			
 		maxCaract.setPreferredSize(new Dimension(31,16));
 		this.add(maxCaract);
@@ -126,7 +126,7 @@ public class SaisieCaracteristique extends JPanel{
 		this.add(randomCaract);
 		
 		ComboBoxModel cbm;
-		if (caracteristique.max < 0)
+		if (caracteristique.getMax() < 0)
 			cbm = new DefaultComboBoxModel(new String[] { 
 					"[0,+∞]",
 					"[-∞,0]", 
@@ -134,9 +134,9 @@ public class SaisieCaracteristique extends JPanel{
 			});
 		else
 			cbm = new DefaultComboBoxModel(new String[] { 
-					"[0,"+caracteristique.max+"]",
-					"[-"+caracteristique.max+",0]", 
-					"[-"+caracteristique.max+","+caracteristique.max+"]" 
+					"[0,"+caracteristique.getMax()+"]",
+					"[-"+caracteristique.getMax()+",0]", 
+					"[-"+caracteristique.getMax()+","+caracteristique.getMax()+"]" 
 			});
 		randomRangeCaract.setModel(cbm);
 		randomRangeCaract.setEnabled(randomCaract.isSelected());
@@ -152,7 +152,7 @@ public class SaisieCaracteristique extends JPanel{
 		switch (randomRangeCaract.getSelectedIndex()) {
 		case 1:
 		case 2:
-			return - caracteristique.max;
+			return - caracteristique.getMax();
 		default:
 			return 0;
 		}
@@ -166,7 +166,7 @@ public class SaisieCaracteristique extends JPanel{
 		switch (randomRangeCaract.getSelectedIndex()) {
 		case 0:
 		case 2:
-			return caracteristique.max;
+			return caracteristique.getMax();
 		default:
 			return 0;
 		}

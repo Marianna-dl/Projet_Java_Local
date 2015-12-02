@@ -11,7 +11,7 @@ import serveur.element.Personnage;
 import client.personnage.StrategiePersonnage;
 
 /**
- * Represente le lien Element - Serveur
+ * Represente un 
  */
 public interface IConsole extends Remote {
 	/**

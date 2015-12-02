@@ -14,7 +14,6 @@ import serveur.element.Personnage;
 import utilitaires.logger.MyLogger;
 
 /**
- * 
  * Se connecte au serveur avec un Element
  * "run" permet a l'Element de se deplacer
  *

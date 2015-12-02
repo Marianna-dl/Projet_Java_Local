@@ -106,7 +106,7 @@ public class Calculs {
 	 * @return valeur generee
 	 */
 	public static int randomCarac(Caracteristique c) {
-		return randomNumber(c.min, c.max);
+		return randomNumber(c.getMin(), c.getMax());
 	}
 	
 	/**
@@ -132,7 +132,7 @@ public class Calculs {
 	 * @return valeur capee
 	 */
 	public static int caperCarac(Caracteristique c, int val) {		
-		return caperNumber(c.min, c.max, val);
+		return caperNumber(c.getMin(), c.getMax(), val);
 	}
 
 	/**

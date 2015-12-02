@@ -40,12 +40,12 @@ public class DetailCaracteristique extends JPanel {
 		
 		barre = new Barre(valeurUtilisee, couleur);		
 		barre.setMaximum(100);
-		barre.setMinimum(caract.min);
+		barre.setMinimum(caract.getMin());
         barre.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
         barre.setPreferredSize(new Dimension(250,20));
         label = new JLabel();
         
-        label.setText(caract.getNomComplet()+" : " + valeur + "/"+caract.max);
+        label.setText(caract.getNomComplet()+" : " + valeur + "/"+caract.getMax());
         label.setPreferredSize(new Dimension(150,20));
         
         this.add(barre);

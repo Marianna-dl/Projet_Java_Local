@@ -3,23 +3,23 @@ package serveur.element;
 import java.util.HashMap;
 
 /**
- * Caracteristiques possibles pour les personnages et les objets. 
+ * Caracteristiques possibles pour les personnages et les potions. 
  *
  */
 public enum Caracteristique {
 	
 	/**
-	 * Points de vie.
+	 * Vie : nombre de points de vie.
 	 */
 	VIE("Vie", "VIE", 0, 100, 100),
 	
 	/**
 	 * Force : indique les degats infliges. 
 	 */
-	FORCE("Force", "FOR", 0, 100, 0),
+	FORCE("Force", "FOR", 0, 100, 1),
 		
 	/**
-	 * Definit l'ordre d'action des personnages lors d'un tour de jeu. 
+	 * Initiative : definit l'ordre d'action des personnages lors d'un tour de jeu. 
 	 */
 	INITIATIVE("Initiative", "INIT", 0, 1000, 50);
 	
@@ -36,17 +36,17 @@ public enum Caracteristique {
 	/**
 	 * Valeur minimale.
 	 */
-	public final int min;
+	private final int min;
 	
 	/**
 	 * Valeur maximale.
 	 */
-	public final int max;
+	private final int max;
 	
 	/**
 	 * Valeur initiale par defaut. 
 	 */
-	public int init;
+	private final int init;
 	
 	/**
 	 * Cree une caracteristique.
@@ -65,56 +65,19 @@ public enum Caracteristique {
 		this.init = init;
 	}
 
-	public String toString() {
-		return nomCourt;
-	}
-
-	/**
-	 * Cree un map de caracteristiques specifiques a une potion : vie, force
-	 * et vitesse.
-	 * @param vie quantite de vie
-	 * @param force quantite de force
-	 * @param vitesse quantite de vitesse
-	 * @return map caracteristique/valeur contenant les valeurs donnees
-	 */
-	public static HashMap<Caracteristique, Integer> caracteristiquesPotion(int vie, int force, int vitesse) {
-		HashMap<Caracteristique, Integer> caractsValues = new HashMap<Caracteristique, Integer>();
-		caractsValues.put(VIE, vie);
-		caractsValues.put(FORCE, force);
-		
-		return caractsValues;
-	}
-
-
 	/**
 	 * Cree un map de caracteristiques contenant toutes les caracteristiques 
 	 * avec leur valeur d'initialisation par defaut. 
 	 * @return map caracteristique/valeur contenant les valeurs par defaut
 	 */
-	public static HashMap<Caracteristique,Integer> caracteristiquesDefaut() {
+	public static HashMap<Caracteristique,Integer> mapCaracteristiquesDefaut() {
 		HashMap<Caracteristique, Integer> caractsValues = new HashMap<Caracteristique, Integer>();
+		
 		for (Caracteristique caract : values()){
 			caractsValues.put(caract, caract.init);
 		}
 		
 		return caractsValues;
-	}
-
-	/**
-	 * Retourne une chaine de caracteres representant les caracteristiques 
-	 * donnees.
-	 * @param caract caracteristiques
-	 * @return string des caracteristiques
-	 */
-	public static String caracteristiquesToString(HashMap<Caracteristique, Integer> caract) {
-		String res = "";
-		
-		for (Caracteristique c : values()) {
-			if (caract.containsKey(c)) {
-				res += c.toString() + ":" + caract.get(c) + " ";
-			}
-		}
-		return res;
 	}
 
 	/**
@@ -127,6 +90,23 @@ public enum Caracteristique {
 	
 	public String getNomComplet() {
 		return nomComplet;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public int getMax() {
+		return max;
+	}
+
+	public int getInit() {
+		return init;
+	}
+
+	@Override
+	public String toString() {
+		return nomCourt;
 	}
 
 

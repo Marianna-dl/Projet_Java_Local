@@ -1,9 +1,5 @@
 package serveur;
 
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-
 import java.awt.Point;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
@@ -21,6 +17,10 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import client.controle.IConsole;
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
@@ -32,7 +32,6 @@ import serveur.interaction.Ramassage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 import utilitaires.logger.MyLogger;
-import client.controle.IConsole;
 
 /**
  * Definit le serveur de l'arene. 
@@ -377,7 +376,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		for (Entry<Caracteristique, Integer> caractEntry : caracts.entrySet()){
 			Caracteristique c = caractEntry.getKey();
 			int valeur = caractEntry.getValue();
-			if (c.max >= 0 && valeur > c.max)
+			if (c.getMax() >= 0 && valeur > c.getMax())
 				return false;
 		}
 		return true;

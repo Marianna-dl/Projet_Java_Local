@@ -1,6 +1,7 @@
 package lanceur;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import serveur.IArene;
 import serveur.element.Caracteristique;
@@ -55,12 +56,15 @@ public class LancePotion {
 			IArene arene = (IArene) java.rmi.Naming.lookup("rmi://"+ipArene+":"+port+"/Arene");
 
 			logger.info("lanceur", "Lancement de la potion sur le serveur...");
-			arene.ajouterPotion(
-					nom, groupe,
-					Caracteristique.caracteristiquesPotion(
-							Calculs.randomNumber(-100, 100),
-							Calculs.randomNumber(-100, 100),
-							Calculs.randomNumber(-100, 100)));
+			
+			// caracteristiques de la potion
+			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
+			caractsPotion.put(Caracteristique.VIE, Calculs.randomNumber(-100, 100));
+			caractsPotion.put(Caracteristique.FORCE, Calculs.randomNumber(-100, 100));
+			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.randomNumber(-100, 100));
+			
+			// ajout de la potion
+			arene.ajouterPotion(nom, groupe, caractsPotion);
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {

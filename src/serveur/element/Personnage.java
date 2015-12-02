@@ -3,15 +3,14 @@
  */
 package serveur.element;
 
-import java.io.Serializable;
-
 import utilitaires.Calculs;
 
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
  * de jouer une strategie.
+ * 
  */
-public class Personnage extends Element implements Serializable {
+public class Personnage extends Element {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -21,12 +20,7 @@ public class Personnage extends Element implements Serializable {
 	 * @param groupe groupe du personnage
 	 */
 	public Personnage(String nom, String groupe) {
-		super(nom, groupe, Caracteristique.caracteristiquesDefaut());
-	}
-	
-	@Override
-	public String toString() {
-		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caracts) + "]";
+		super(nom, groupe, Caracteristique.mapCaracteristiquesDefaut());
 	}
 	
 	/**

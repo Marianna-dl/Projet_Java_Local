@@ -86,7 +86,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 	 */
 	private int forceVersDistance(int force) {
 		int distance;
-		int max = Caracteristique.FORCE.max;
+		int max = Caracteristique.FORCE.getMax();
 		if (force < max / 4)
 			distance = 4;
 		else if (force < max / 2)

@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Une potion: un element donnant des bonus aux caracteristiques de celui qui
  * le ramasse.
  */
-public class Potion extends Objet {
+public class Potion extends Element {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -18,11 +18,6 @@ public class Potion extends Objet {
 	 * @param ht caracteristiques
 	 */
 	public Potion(String nom, String groupe, HashMap<Caracteristique, Integer> ht) {
-		super(nom,groupe,ht);
-	}
-	
-	@Override
-	public String toString(){
-		return super.toString() + "[" + Caracteristique.caracteristiquesToString(caracts) + "]";
+		super(nom, groupe, ht);
 	}
 }
