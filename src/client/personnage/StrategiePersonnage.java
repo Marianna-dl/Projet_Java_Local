@@ -27,7 +27,6 @@ public class StrategiePersonnage {
 
 	/**
 	 * Constructeur d'un personnage avec un nom, un groupe et une position
-	 * Au depart, le personnage n'a ni leader ni equipe.
 	 * @param nom nom du personnage
 	 * @param groupe groupe de l'etudiant
 	 * @param position position du personnage
@@ -62,18 +61,14 @@ public class StrategiePersonnage {
 		
 		IArene arene = console.getArene();
 		
-		Personnage pers = null;
 		int refRMI;
 		Point position = null;
 		try {
-			pers = console.getPersonnageServeur();
 			refRMI = console.getRefRMI();
 			position = arene.getPosition(refRMI);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-
-		int leader = pers.getLeader();
 		
 		if (0 == voisins.size()) { // je n'ai pas de voisins, j'erre
 			console.setPhrase("J'erre...");
@@ -85,43 +80,23 @@ public class StrategiePersonnage {
 
 			Element elemPlusProche = arene.getAnElement(refCible);
 
-			// dans la meme equipe ?
-			boolean memeEquipe = false;
-
-			if(elemPlusProche instanceof Personnage) {
-				Personnage persPlusProche = (Personnage) elemPlusProche;
-				memeEquipe = (leader != -1 && leader == persPlusProche.getLeader()) || // meme leader
-						leader == refCible || // cible est le leader de this
-						persPlusProche.getLeader() == console.getRefRMI(); // this est le leader de cible
-			}
-
-			if(distPlusProche <= EntreElement.distanceMinInteraction) { // si suffisamment proches
+			if(distPlusProche <= EntreElement.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
 				if(elemPlusProche instanceof Potion) { // potion
 					// ramassage
 					console.setPhrase("Je ramasse une potion");
 					arene.ramasserObjet(console, refCible);
 
 				} else { // personnage
-					if(!memeEquipe) { // duel seulement si pas dans la meme equipe (pas de coup d'etat possible dans ce cas)
-						// duel
-						console.setPhrase("Je fais un duel avec " + arene.getAnElement(refCible).getNom());
-						console.getArene().lancerUneAttaque(console, refCible);
-					} else {
-						console.setPhrase("J'erre...");
-						arene.deplacer(console, 0); //errer
-					}
+					// duel
+					console.setPhrase("Je fais un duel avec " + arene.getAnElement(refCible).getNom());
+					console.getArene().lancerUneAttaque(console, refCible);
 				}
+				
 			} else { // si voisins, mais plus eloignes
-				if(!memeEquipe) { // potion ou enemmi 
-					// je vais vers le plus proche
-					
-					console.setPhrase("Je vais vers mon voisin " + arene.getAnElement(refCible).getNom());
-					arene.deplacer(console, refCible);
-
-				} else {
-					console.setPhrase("J'erre...");
-					arene.deplacer(console, 0); //errer
-				}
+				// je vais vers le plus proche
+				
+				console.setPhrase("Je vais vers mon voisin " + arene.getAnElement(refCible).getNom());
+				arene.deplacer(console, refCible);
 			}
 		}
 	}

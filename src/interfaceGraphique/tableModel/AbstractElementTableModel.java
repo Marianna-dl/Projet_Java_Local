@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
 import serveur.element.Caracteristique;
 
 /**
@@ -45,6 +44,18 @@ public abstract class AbstractElementTableModel<V extends VueElement> extends Ab
 	 * pas declares ici, mais directement dans la classe fille correspondante.
 	 */
 	
+	
+	/**
+	 * Affiche la reference RMI.
+	 * 
+	 */
+	protected class ValeurColonneRefRMI implements IValeurColonne<V> {
+		@Override
+		public Object valeurColonne(int rowIndex, V vue) {
+			return vue.getRefRMI();
+		}
+	}
+	
 	/**
 	 * Affiche le nom.
 	 *
@@ -64,28 +75,6 @@ public abstract class AbstractElementTableModel<V extends VueElement> extends Ab
 		@Override
 		public Object valeurColonne(int rowIndex, V vue) {
 			return vue.getGroupe();
-		}
-	}
-
-	/**
-	 * Affiche le leader.
-	 *
-	 */
-	protected class ValeurColonneLeader implements IValeurColonne<VuePersonnage> {
-		@Override
-		public Object valeurColonne(int rowIndex, VuePersonnage vue) {
-			return vue.leaderToString();
-		}
-	}
-
-	/**
-	 * Affiche l'equipe.
-	 *
-	 */
-	protected class ValeurColonneEquipe implements IValeurColonne<VuePersonnage> {
-		@Override
-		public Object valeurColonne(int rowIndex, VuePersonnage vue) {
-			return vue.equipeToString();
 		}
 	}
 

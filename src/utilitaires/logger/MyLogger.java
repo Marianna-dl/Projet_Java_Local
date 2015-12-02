@@ -25,13 +25,13 @@ public class MyLogger implements Serializable {
 	 */
 	private static final long serialVersionUID = 162766580131625298L;
 	
-	private static final String dossier_client = "./logs_client/";
-	private static final String dossier_server = "./logs_server/";
-	private static final String prefixe_client = "logs_client_";
-	private static final String prefixe_server = "logs_server_";
+	private static final String DOSSIER_CLIENT = "./logs_client/";
+	private static final String DOSSIER_SERVEUR = "./logs_server/";
+	private static final String PREFIXE_CLIENT = "logs_client_";
+	private static final String PREFIXE_SERVEUR = "logs_server_";
 	
-	private static final String extension = ".html";
-	private static final DateFormat sdf = new SimpleDateFormat("dd-MM-yy_HH-mm-ss");
+	private static final String EXT = ".html";
+	private static final DateFormat SDF = new SimpleDateFormat("dd-MM-yy_HH-mm-ss");
 	
 	/**
 	 * La liste des log
@@ -56,7 +56,7 @@ public class MyLogger implements Serializable {
 		logs = new ArrayList<String>();
 		logger = Logger.getLogger(loggerStr);
 		
-		String dossier = (isAnClient)?dossier_client:dossier_server;
+		String dossier = (isAnClient)?DOSSIER_CLIENT:DOSSIER_SERVEUR;
 		
 		// creation du dossier au cas ou
 		new File(dossier).mkdirs();
@@ -85,10 +85,10 @@ public class MyLogger implements Serializable {
 	}
 	
 	private static String calcFilename(String suffixeFichier, boolean isAnClient) {
-		String prefixe = (isAnClient)?prefixe_client:prefixe_server;
+		String prefixe = (isAnClient)?PREFIXE_CLIENT:PREFIXE_SERVEUR;
 		String suffixe = "";
 		if (suffixeFichier != null && suffixeFichier != "") suffixe = "_"+suffixeFichier;
-		String loggerStr = prefixe + sdf.format(new Date()) + suffixe + extension;
+		String loggerStr = prefixe + SDF.format(new Date()) + suffixe + EXT;
 		
 		return loggerStr;
 	}

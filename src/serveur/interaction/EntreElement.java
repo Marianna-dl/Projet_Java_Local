@@ -10,7 +10,7 @@ import serveur.ClientPersonnage;
 public abstract class EntreElement <T extends ClientElement> {
 	
 	/**
-	 * Arene (pour retrouver la reference du leader.
+	 * Arene.
 	 */
 	protected Arene arene;
 	/**
@@ -23,7 +23,7 @@ public abstract class EntreElement <T extends ClientElement> {
 	protected T defenseur;
 	
 	
-	public static final int distanceMinInteraction = 2;
+	public static final int DISTANCE_MIN_INTERACTION = 2;
 	
 	/**
 	 * Constructeur

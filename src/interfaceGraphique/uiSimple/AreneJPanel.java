@@ -175,16 +175,7 @@ public class AreneJPanel extends JPanel {
 			g.setColor(vueElement.getColor());
 		}
 		switch (vueElement.getType()){
-		case OBJET:
-			g.fillRect(coordX, coordY, ELEMENT_SIZE, ELEMENT_SIZE);
-			break;
 		case PERSONNAGE:
-			// si le personnage est leader, on lui met une couronne
-			if (((VuePersonnage)vueElement).isLeader()){
-				Polygon couronne = createCouronne(coordX,coordY);
-				g.fillPolygon(couronne);					
-			}
-			
 			// construit un ovale aux coordonnes coordX, coordY de taille ELEMENT_SIZE x ELEMENT_SIZE
 			g.fillOval(coordX, coordY, ELEMENT_SIZE, ELEMENT_SIZE);	
 			break;
@@ -192,11 +183,6 @@ public class AreneJPanel extends JPanel {
 			Polygon p = new Polygon();// Triangle
 			p = createTriangle(coordX + ELEMENT_SIZE/2, coordY + ELEMENT_SIZE/2 - 1, ELEMENT_SIZE);
 			g.fillPolygon(p);
-			break;
-		case TRESOR:
-			
-			g.fillRect(coordX -1, coordY +1, ELEMENT_SIZE + 3, ELEMENT_SIZE - 2);
-			
 			break;
 		default:
 			break;
@@ -323,25 +309,6 @@ public class AreneJPanel extends JPanel {
 	 */
 	public void setAffichageJauge(boolean affichage) {
 		affichageJauge = affichage;
-	}
-	
-	/**
-	 * Creee une couronne
-	 * @param coordX
-	 * @param coordY
-	 * @return polygon correspondant a une couronne
-	 */
-	private Polygon createCouronne(int coordX, int coordY) {
-		int largeur = ELEMENT_SIZE - 2;
-		int x = coordX + 1;
-		int y = coordY - 1;
-		
-		int tailleQuart = largeur / 4;
-					
-		int[] couronneX = {x, x, x + tailleQuart, x + 2* tailleQuart, x + 3* tailleQuart, x + 4* tailleQuart, x + 4* tailleQuart};
-		int[] couronneY = {y, y - 8, y - 4, y - 8, y - 4, y - 8 ,y};
-		
-		return new Polygon(couronneX, couronneY, 7);
 	}
 
 	/**

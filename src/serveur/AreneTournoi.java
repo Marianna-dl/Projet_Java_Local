@@ -75,7 +75,7 @@ public class AreneTournoi extends Arene {
 	@Override
 	public void updatePartieFinie(){
 		super.updatePartieFinie();
-		// La partie est terminee si il y a un seul personnage ou une seul equipe
+		// La partie est terminee si il y a un seul personnage
 		setPartieFinie(countPersonnages() <= 1 || isPartieFinie());
 	}
 

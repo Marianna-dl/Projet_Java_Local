@@ -40,7 +40,8 @@ import javax.swing.table.JTableHeader;
 public class InfosJPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
-	
+
+
 	/**
 	 * Hauteur du header des tableaux
 	 */

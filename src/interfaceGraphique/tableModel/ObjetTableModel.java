@@ -26,14 +26,7 @@ public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
 		indexNom = 1;
 		
 		// type de l'objet
-		colonnes.add(new InformationColonne<VueElement>("Type", 60, String.class, 
-				new IValeurColonne<VueElement>() {
-					@Override
-					public Object valeurColonne(int rowIndex, VueElement vue) {
-						return vue.getType().getNom();
-					}
-				}
-		)); 
+		colonnes.add(new InformationColonne<VueElement>("Ref", 40, Integer.class, new ValeurColonneRefRMI())); 
 		
 		// nom de l'objet (index 1)
 		colonnes.add(new InformationColonne<VueElement>("Nom", 0, String.class, new ValeurColonneNom())); 
@@ -47,7 +40,7 @@ public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
 		}
 		
 		// phrase du personnage
-		colonnes.add(new InformationColonne<VueElement>("Phrase", 200, String.class, new ValeurColonnePhrase())); 
+		colonnes.add(new InformationColonne<VueElement>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
 	}
 
 	@Override 

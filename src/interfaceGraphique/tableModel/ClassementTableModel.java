@@ -37,11 +37,5 @@ public class ClassementTableModel extends AbstractElementTableModel<VuePersonnag
 		for(Caracteristique car : Caracteristique.values()) {
 			colonnes.add(new InformationColonne<VuePersonnage>(car.toString(), 40, Integer.class, new ValeurColonneCaract(car)));
 		}
-		
-		// leader du personnage
-		colonnes.add(new InformationColonne<VuePersonnage>("Leader", 47, String.class, new ValeurColonneLeader())); 
-		
-		// equipe du personnage
-		colonnes.add(new InformationColonne<VuePersonnage>("Equipe", 150, String.class, new ValeurColonneEquipe())); 
 	}
 }

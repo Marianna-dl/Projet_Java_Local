@@ -16,7 +16,7 @@ import serveur.element.Caracteristique;
  */
 public class Calculs {
 
-	private static long token;
+	private static long token; // TODO supprimer
 
 	/**
 	 * Renvoie la distance Chebyshev entre deux points

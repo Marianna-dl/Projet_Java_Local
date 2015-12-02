@@ -62,7 +62,7 @@ public class StrategiePersonnageHerite extends StrategiePersonnage {
 
 			// Si mon voisin le plus proche n'est pas un personnage
 			if (!(elemPlusProche instanceof Personnage)) {
-				if (distPlusProche <= EntreElement.distanceMinInteraction) {
+				if (distPlusProche <= EntreElement.DISTANCE_MIN_INTERACTION) {
 					console.setPhrase("Je ramasse une potion");
 					arene.ramasserObjet(console, refElemPlusProche);
 				} else {
@@ -71,7 +71,7 @@ public class StrategiePersonnageHerite extends StrategiePersonnage {
 					arene.deplacer(console, refElemPlusProche);
 				}
 			} else {
-				if (distPlusProche <= EntreElement.distanceMinInteraction) {
+				if (distPlusProche <= EntreElement.DISTANCE_MIN_INTERACTION) {
 					console.setPhrase("J'attaque "
 							+ arene.getAnElement(refElemPlusProche).getNom());
 					arene.lancerUneAttaque(console, refElemPlusProche);

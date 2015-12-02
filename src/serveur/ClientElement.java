@@ -1,14 +1,12 @@
 package serveur;
 
-import interfaceGraphique.view.TypeElement;
-import interfaceGraphique.view.VueElement;
-
 import java.awt.Color;
 import java.awt.Point;
 import java.util.Random;
 
+import interfaceGraphique.view.TypeElement;
+import interfaceGraphique.view.VueElement;
 import serveur.element.Element;
-import serveur.element.Potion;
 import utilitaires.Calculs;
 
 /**
@@ -65,10 +63,7 @@ public class ClientElement {
 	}
 
 	public VueElement getVue() {
-		TypeElement type = TypeElement.OBJET;
-		if (elem instanceof Potion){
-			type = TypeElement.POTION;
-		}
+		TypeElement type = TypeElement.POTION;
 		
 		VueElement ve = new VueElement(
 				ref, getPosition(), elem.getNom(), 

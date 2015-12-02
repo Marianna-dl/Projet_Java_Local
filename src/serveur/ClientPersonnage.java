@@ -59,8 +59,7 @@ public class ClientPersonnage extends ClientElement {
 		Personnage perso = getPersServeur();
 		VuePersonnage vp = new VuePersonnage(
 				getRef(), getPosition(), perso.getNom(), 
-				perso.getGroupe(), perso.getCaracts(), getColor(), 
-				getPhrase(), perso.getEquipe(), perso.getLeader());
+				perso.getGroupe(), perso.getCaracts(), getColor(), getPhrase());
 		
 		return vp;
 	}

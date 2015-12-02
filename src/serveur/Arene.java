@@ -30,6 +30,7 @@ import serveur.interaction.Deplacements;
 import serveur.interaction.EntreElement;
 import serveur.interaction.Ramassage;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 import utilitaires.logger.MyLogger;
 import client.controle.IConsole;
 
@@ -548,11 +549,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			/* 
 			 * n'est pas voisin de ce client :
 			 *  - le client lui meme
-			 *  - tout element situe a une distance > 30 + taille de l'equipe du client
+			 *  - tout element situe a une distance <= VISION
 			 *  - tout element deja mort
 			 */
-			if (refVoisin != ref && (Calculs.distanceChebyshev(positionVoisin, positionConsole)) <= (30 + this.getTailleEquipe(ref))
-					&& getAnyElement(refVoisin).isAlive()) {
+			if (refVoisin != ref && 
+					Calculs.distanceChebyshev(positionVoisin, positionConsole) <= Constantes.VISION && 
+					getAnyElement(refVoisin).isAlive()) {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
@@ -562,11 +564,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			/* 
 			 * n'est pas voisin de ce client :
 			 *  - le client lui meme
-			 *  - tout element situe a une distance > 30 + taille de l'equipe du client
+			 *  - tout element situe a une distance <= VISION
 			 *  - tout element deja mort
 			 */
-			if (refVoisin != ref && (Calculs.distanceChebyshev(positionVoisin, positionConsole)) <= (30 + this.getTailleEquipe(ref))
-					&& getAnyElement(refVoisin).isAlive()) {
+			if (refVoisin != ref && 
+					Calculs.distanceChebyshev(positionVoisin, positionConsole) <= Constantes.VISION && 
+					getAnyElement(refVoisin).isAlive()) {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
@@ -692,7 +695,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+"a tente de jouer plusieurs actions dans le meme tour");
 		} else {
 			int distance = Calculs.distanceChebyshev(client.getPosition(), clientObjet.getPosition());
-			if (distance <= EntreElement.distanceMinInteraction) {
+			if (distance <= EntreElement.DISTANCE_MIN_INTERACTION) {
 				new Ramassage(this, client, clientObjet).interagir();
 				clientsPersonnages.get(ref).actionExecutee();
 				
@@ -718,7 +721,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			IConsole consoleAdv = consoleFromRef(refAdv);
 			
 			int distance = Calculs.distanceChebyshev(clientsPersonnages.get(ref).getPosition(), clientsPersonnages.get(refAdv).getPosition());
-			if (distance <= EntreElement.distanceMinInteraction) {
+			if (distance <= EntreElement.DISTANCE_MIN_INTERACTION) {
 							
 				Personnage pers = (Personnage) getAnyElement(ref);
 				Personnage persAdv = (Personnage) getAnyElement(refAdv);
@@ -815,170 +818,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		
 		if (carac == Caracteristique.VIE && ! pers.isAlive()) {
 			setPhrase(console, "MORT >_<");
-			enleverTousPersonnagesEquipe(client);
-			changerLeader(ref, -1);
-		}		
+		}
+		
 		setPersServeur(ref, pers);
 	}
 	
-	/**
-	 * Modifie le leader (le client et le nouveau leader doivent etre des personnages).
-	 * @param client le client qui change de leader
-	 * @param refLead reference du nouveau leader
-	 */
-	public void changerLeader(ClientPersonnage client, int refLead) {
-		changerLeader(client.getRef(), refLead);
-	}
-	
-	private void changerLeader(int ref, int refLead) {
-		/*
-		// ancien leader (s'il existe)
-		int refOldLeader = ((PersonnageServeur) getAnyElement(ref)).getLeader();
-		
-		// si existant, enlever this de l'equipe de l'ancien leader (si existant)
-		if(refOldLeader != -1) {
-			enleverPersonnageEquipe(refOldLeader, ref);
-		}
-		*/
-		
-		// si on a un nouveau leader
-		if(refLead != -1) {
-			// ajouter ref a l'equipe du nouveau leader (et modifier le leader)
-			ajouterPersonnageEquipe(refLead, ref);
-
-			// on recupere la version serveur de l'element
-			Personnage pers = (Personnage) getAnyElement(ref);
-
-			// ajouter toute l'equipe de ref a l'equipe du nouveau leader (et modifier leur leader)
-			for(int refEq : pers.getEquipe()) {
-				ajouterPersonnageEquipe(refLead, refEq);
-			}
-			
-			// vider l'equipe de ref
-			pers.enleverTouteEquipe();
-			
-			// on renvoie la version serveur de l'element
-			setPersServeur(ref, pers);
-		}
-	}
-
-	/**
-	 * Ajoute un personnage a l'equipe (l'element courant et lead doivent etre des personnages).
-	 * @param client le leader
-	 * @param refEq nouvel equipier
-	 */
-	public void ajouterPersonnageEquipe(ClientPersonnage client, int refEq) {
-		ajouterPersonnageEquipe(client.getRef(), refEq);
-	}
-	private void ajouterPersonnageEquipe(int refLeader, int refEquipie) {
-		// ajouter refEquipie a l'equipe de refLeader
-		Personnage leader = (Personnage) getAnyElement(refLeader);
-		leader.ajouterEquipier(refEquipie);
-		setPersServeur(refLeader, leader);
-				
-		// changer le refEquipie de eq vers refLeader
-		setLeaderOnly(refEquipie, refLeader);
-	}
-
-	/**
-	 * Enleve un personnage de l'equipe (l'element courant et lead doivent etre des personnages).
-	 * @param client le leader
-	 * @param refEq ancien equipier
-	 */
-	public void enleverPersonnageEquipe(ClientPersonnage client, int refEq) {
-		enleverPersonnageEquipe(client.getRef(), refEq);
-	}
-	private void enleverPersonnageEquipe(int ref, int refEq) {
-		// enlever le leader de eq
-		clearLeaderOnly(refEq);
-
-		// enlever eq de l'equipe de this
-		Personnage pers = (Personnage) getAnyElement(ref);
-		pers.enleverEquipier(refEq);
-		setPersServeur(ref, pers);
-	}
-
-	/**
-	 * Enleve tous les personnages de l'equipe.
-	 * @param client le leader
-	 */
-	public void enleverTousPersonnagesEquipe(ClientPersonnage client) {
-		enleverTousPersonnagesEquipe(client.getRef());
-	}
-	private void enleverTousPersonnagesEquipe(int ref) {
-		Personnage pers = (Personnage) getAnyElement(ref);
-		
-		// efface le leader de tous les personnages de l'equipe de ref
-		for(int r : pers.getEquipe()) {
-			clearLeaderOnly(r);
-		}
-		pers.enleverTouteEquipe();
-		setPersServeur(ref, pers);
-	}
-	
-	/**
-	 * Change le leader (sans modifier son equipe). Ne devrait pas etre utilise seul.
-	 * @param client le client dont il faut changer le leader
-	 * @param refLead nouveau leader
-	 */
-	public void setLeaderOnly(ClientPersonnage client, int refLead) {
-		Personnage pers = (Personnage) getAnyElement(client.getRef());
-		pers.setLeader(refLead);
-		setPersServeur(client.getRef(), pers);
-	}
-	private void setLeaderOnly(int ref, int refLead) {
-		Personnage pers = (Personnage) getAnyElement(ref);
-		pers.setLeader(refLead);
-		setPersServeur(ref, pers);
-	}
-
-	/**
-	 * Supprime le leader (sans modifier son equipe). Ne devrait pas etre utilise seul.
-	 * @throws RemoteException
-	 */
-	public void clearLeaderOnly(ClientPersonnage client) {
-		Personnage pers = (Personnage) getAnyElement(client.getRef());
-		pers.clearLeader();
-		setPersServeur(client.getRef(), pers);
-	}
-	private void clearLeaderOnly(int ref) {
-		Personnage pers = (Personnage) getAnyElement(ref);
-		pers.clearLeader();
-		setPersServeur(ref, pers);
-	}
-	
-
-	
-	public void setLeader(int ref, int refLeader){
-		Personnage pers = (Personnage) getAnyElement(ref);
-		
-		int refOldLeader = pers.getLeader();
-		
-		// Si le personnage a deja un leader
-		if (refOldLeader != -1){
-			// Le personnage change d'equipe
-			Personnage oldLeader = (Personnage) getAnyElement(refOldLeader);
-			oldLeader.enleverEquipier(ref);
-		}
-
-		// Si le personnage etait leader
-		if (pers.getEquipe().size() > 0){
-			transfererEquipe(ref, refLeader);
-		}
-
-		pers.setLeader(refLeader);		
-	}
-	
-	private void transfererEquipe(int ref, int refLeader) {
-		Personnage pers = (Personnage) getAnyElement(ref);
-		Personnage leader = (Personnage) getAnyElement(refLeader);
-		
-		for(int refEquipier : pers.getEquipe()){
-			pers.enleverEquipier(refEquipier);
-			leader.ajouterEquipier(refEquipier);
-		}		
-	}
-
 	@Override
 	public Element getMyElement(IConsole console) throws RemoteException {
 		return getAnyElement(console.getRefRMI());
@@ -1045,24 +889,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		}
 
 		super.finalize();
-	}
-	
-
-	/**
-	 * Retourne la taille de l'equipe du leader
-	 * @param console
-	 * @return taille de l'equipe
-	 * @throws RemoteException
-	 */
-	private int getTailleEquipe(int ref){
-		Element elem = getAnyElement(ref);
-		if (elem instanceof Personnage) {
-			Personnage pers = (Personnage) elem;
-			if (pers.getLeader() != -1)
-				pers = (Personnage) clientsPersonnages.get(pers.getLeader()).getPersServeur();
-			return pers.getEquipe().size();
-		}
-		return 0;
 	}
 	
 	protected ClientElement getClientElement(int ref) {

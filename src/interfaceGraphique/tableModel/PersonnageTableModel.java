@@ -27,14 +27,7 @@ public class PersonnageTableModel extends AbstractElementTableModel<VuePersonnag
 		indexNom = 1;
 		
 		// reference RMI
-		colonnes.add(new InformationColonne<VuePersonnage>("Ref", 40, Integer.class, 
-				new IValeurColonne<VuePersonnage>() {
-					@Override
-					public Object valeurColonne(int rowIndex, VuePersonnage vue) {
-						return vue.getRefRMI();
-					}
-				}
-		)); 
+		colonnes.add(new InformationColonne<VuePersonnage>("Ref", 40, Integer.class, new ValeurColonneRefRMI())); 
 		
 		// nom du personnage (index 1)
 		colonnes.add(new InformationColonne<VuePersonnage>("Nom", 0, String.class, new ValeurColonneNom())); 
@@ -48,13 +41,7 @@ public class PersonnageTableModel extends AbstractElementTableModel<VuePersonnag
 		}
 		
 		// phrase du personnage
-		colonnes.add(new InformationColonne<VuePersonnage>("Phrase", 200, String.class, new ValeurColonnePhrase())); 
-		
-		// leader du personnage
-		colonnes.add(new InformationColonne<VuePersonnage>("Leader", 47, String.class, new ValeurColonneLeader())); 
-		
-		// equipe du personnage
-		colonnes.add(new InformationColonne<VuePersonnage>("Equipe", 150, String.class, new ValeurColonneEquipe())); 
+		colonnes.add(new InformationColonne<VuePersonnage>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
 	}
     
     @Override 
