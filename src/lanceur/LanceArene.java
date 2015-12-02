@@ -3,8 +3,8 @@ package lanceur;
 import java.io.IOException;
 import java.net.InetAddress;
 
+import logger.MyLogger;
 import serveur.Arene;
-import utilitaires.logger.MyLogger;
 
 /**
  * Lancement de l'Arene. A lancer en premier. Arguments : numero de port et duree de vie (en nombre de tours)

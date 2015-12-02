@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
 import interfaceGraphique.view.VueElement;
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * Classe abstraite de Table Model affichant une liste de vueElement.

@@ -1,4 +1,4 @@
-package serveur.element;
+package modele;
 
 import java.util.HashMap;
 

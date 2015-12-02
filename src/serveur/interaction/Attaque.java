@@ -4,10 +4,10 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
+import modele.Caracteristique;
+import modele.Personnage;
 import serveur.Arene;
-import serveur.ClientPersonnage;
-import serveur.element.Caracteristique;
-import serveur.element.Personnage;
+import serveur.infosclient.ClientPersonnage;
 import utilitaires.Calculs;
 
 public class Attaque extends EntreElement <ClientPersonnage> {

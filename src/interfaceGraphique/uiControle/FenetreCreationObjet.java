@@ -29,8 +29,8 @@ import interfaceGraphique.uiControle.components.SaisiePosition;
 import interfaceGraphique.uiControle.exceptionSaisie.CaractNotValidException;
 import interfaceGraphique.uiControle.exceptionSaisie.NomNotValidException;
 import interfaceGraphique.uiControle.exceptionSaisie.PositionNotValidException;
+import modele.Caracteristique;
 import serveur.Arene;
-import serveur.element.Caracteristique;
 
 public class FenetreCreationObjet extends JFrame {
 

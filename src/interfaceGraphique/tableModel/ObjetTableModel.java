@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import interfaceGraphique.view.VueElement;
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * TableModel des objets, envoyes ou en attente.

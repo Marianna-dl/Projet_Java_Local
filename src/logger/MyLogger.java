@@ -1,4 +1,4 @@
-package utilitaires.logger;
+package logger;
 
 import java.io.File;
 import java.io.IOException;

@@ -3,7 +3,7 @@ package interfaceGraphique.tableModel;
 import java.util.ArrayList;
 
 import interfaceGraphique.view.VuePersonnage;
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * TableModel du classement a la fin de la partie. 

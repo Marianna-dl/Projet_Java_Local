@@ -5,7 +5,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * Definit la representation d'un element par sa vue : coordonnees, reference dans l'annuaire RMI, console, message... 

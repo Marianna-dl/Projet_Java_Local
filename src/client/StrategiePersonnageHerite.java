@@ -1,16 +1,16 @@
-package client.personnage;
+package client;
 
 import java.awt.Point;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import logger.MyLogger;
+import modele.Element;
+import modele.Personnage;
 import serveur.IArene;
-import serveur.element.Element;
-import serveur.element.Personnage;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
-import utilitaires.logger.MyLogger;
 
 public class StrategiePersonnageHerite extends StrategiePersonnage {
 

@@ -20,8 +20,8 @@ import javax.swing.Timer;
 import interfaceGraphique.uiControle.ControleJPanel;
 import interfaceGraphique.uiControle.FenetreCreationObjet;
 import interfaceGraphique.view.VueElement;
-import serveur.element.Caracteristique;
-import utilitaires.logger.MyLogger;
+import logger.MyLogger;
+import modele.Caracteristique;
 
 /**
  * Interface graphique pour le tournoi :

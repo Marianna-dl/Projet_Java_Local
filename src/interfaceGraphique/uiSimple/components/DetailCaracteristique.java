@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 public class DetailCaracteristique extends JPanel {
 

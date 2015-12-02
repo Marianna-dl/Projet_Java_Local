@@ -6,7 +6,7 @@ import java.util.List;
 
 import interfaceGraphique.view.VuePersonnage;
 import interfaceGraphique.view.VuePersonnageDeconnecte;
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * TableModel des personnages, connectes ou deconnectes.

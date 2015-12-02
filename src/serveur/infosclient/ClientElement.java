@@ -1,4 +1,4 @@
-package serveur;
+package serveur.infosclient;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -6,7 +6,7 @@ import java.util.Random;
 
 import interfaceGraphique.view.TypeElement;
 import interfaceGraphique.view.VueElement;
-import serveur.element.Element;
+import modele.Element;
 import utilitaires.Calculs;
 
 /**

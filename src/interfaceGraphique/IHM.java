@@ -8,6 +8,7 @@ import interfaceGraphique.uiSimple.components.VictoryScreen;
 import interfaceGraphique.view.VueElement;
 import interfaceGraphique.view.VuePersonnage;
 import interfaceGraphique.view.VuePersonnageDeconnecte;
+import logger.MyLogger;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,7 +36,6 @@ import javax.swing.JSplitPane;
 
 import serveur.IArene;
 import utilitaires.Calculs;
-import utilitaires.logger.MyLogger;
 
 /**
  * Interface graphique.

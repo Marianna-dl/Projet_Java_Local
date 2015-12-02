@@ -13,7 +13,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 import utilitaires.Calculs;
 
 /**

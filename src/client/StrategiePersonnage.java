@@ -1,21 +1,18 @@
-/**
- * 
- */
-package client.personnage;
+package client;
 
 
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import logger.MyLogger;
+import modele.Element;
+import modele.Personnage;
+import modele.Potion;
 import serveur.IArene;
-import serveur.element.Element;
-import serveur.element.Personnage;
-import serveur.element.Potion;
+import serveur.controle.ConsoleElement;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
-import utilitaires.logger.MyLogger;
-import client.controle.Console;
 
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
@@ -23,7 +20,7 @@ import client.controle.Console;
  */
 public class StrategiePersonnage {
 	
-	protected Console console;
+	protected ConsoleElement console;
 
 	/**
 	 * Constructeur d'un personnage avec un nom, un groupe et une position
@@ -40,7 +37,7 @@ public class StrategiePersonnage {
 		
 		logger.info("lanceur", "Creation de la console...");
 		try {
-			console = new Console(this, new Personnage(nom, groupe), position, port, ipArene, ipConsole, logger);
+			console = new ConsoleElement(this, new Personnage(nom, groupe), position, port, ipArene, ipConsole, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 		} catch (Exception e) {
 			logger.info("Personnage", "Erreur lors de la creation de la console : \n"+e.toString());

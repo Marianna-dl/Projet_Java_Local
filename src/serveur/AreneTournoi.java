@@ -1,6 +1,10 @@
 package serveur;
 
 import interfaceGraphique.view.VueElement;
+import logger.MyLogger;
+import modele.Caracteristique;
+import modele.Element;
+import modele.Potion;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
@@ -10,12 +14,9 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
-import serveur.element.Caracteristique;
-import serveur.element.Element;
-import serveur.element.Potion;
+import serveur.controle.IConsoleElement;
+import serveur.infosclient.ClientElement;
 import utilitaires.Calculs;
-import utilitaires.logger.MyLogger;
-import client.controle.IConsole;
 
 /**
  * 
@@ -173,7 +174,7 @@ public class AreneTournoi extends Arene {
 	public void ejecter(VueElement joueur, String motDePasse)
 			throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
-			IConsole console = consoleFromRef(joueur.getRefRMI());
+			IConsoleElement console = consoleFromRef(joueur.getRefRMI());
 			if (console == null){
 				ejecterObjet(getClientElement(joueur.getRefRMI()));
 			} else {

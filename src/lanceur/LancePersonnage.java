@@ -4,9 +4,9 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import client.personnage.StrategiePersonnage;
+import client.StrategiePersonnage;
+import logger.MyLogger;
 import utilitaires.Calculs;
-import utilitaires.logger.MyLogger;
 
 /**
  * Lance une Console avec un Element sur l'Arene (apres lancement Arene). A lancer plusieurs fois.

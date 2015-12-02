@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.util.HashMap;
 
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 import utilitaires.Calculs;
 
 

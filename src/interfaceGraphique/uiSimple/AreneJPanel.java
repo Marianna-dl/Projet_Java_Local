@@ -3,6 +3,7 @@ package interfaceGraphique.uiSimple;
 import interfaceGraphique.view.TypeElement;
 import interfaceGraphique.view.VueElement;
 import interfaceGraphique.view.VuePersonnage;
+import modele.Caracteristique;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -19,7 +20,6 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import serveur.Arene;
-import serveur.element.Caracteristique;
 
 /** 
  * Definit la fenetre de l'arene. 

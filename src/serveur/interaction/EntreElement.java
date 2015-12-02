@@ -4,8 +4,8 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import serveur.Arene;
-import serveur.ClientElement;
-import serveur.ClientPersonnage;
+import serveur.infosclient.ClientElement;
+import serveur.infosclient.ClientPersonnage;
 
 public abstract class EntreElement <T extends ClientElement> {
 	

@@ -1,10 +1,9 @@
 package lanceur;
 
 import interfaceGraphique.IHM;
+import logger.MyLogger;
 
 import java.io.IOException;
-
-import utilitaires.logger.MyLogger;
 
 /**
  * Test de l'interface graphique qui se connecte a l'Arene (apres lancement Arene, avant les Consoles)

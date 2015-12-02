@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
+import modele.Caracteristique;
 import serveur.Arene;
-import serveur.ClientElement;
-import serveur.ClientPersonnage;
-import serveur.element.Caracteristique;
+import serveur.infosclient.ClientElement;
+import serveur.infosclient.ClientPersonnage;
 
 public class Ramassage extends EntreElement <ClientElement> {
 

@@ -4,6 +4,7 @@ import interfaceGraphique.uiSimple.components.DetailCaracteristique;
 import interfaceGraphique.uiSimple.components.Portrait;
 import interfaceGraphique.view.VueElement;
 import interfaceGraphique.view.VuePersonnage;
+import modele.Caracteristique;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,8 +19,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
-
-import serveur.element.Caracteristique;
 
 public class FenetreDetail extends JFrame {
 

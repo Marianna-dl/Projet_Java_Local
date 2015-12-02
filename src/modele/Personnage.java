@@ -1,7 +1,7 @@
 /**
  * 
  */
-package serveur.element;
+package modele;
 
 import utilitaires.Calculs;
 

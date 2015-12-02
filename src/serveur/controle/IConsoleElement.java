@@ -1,19 +1,19 @@
-package client.controle;
+package serveur.controle;
 
 import interfaceGraphique.view.VueElement;
+import modele.Personnage;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
+import client.StrategiePersonnage;
 import serveur.IArene;
-import serveur.element.Personnage;
-import client.personnage.StrategiePersonnage;
 
 /**
  * Represente un 
  */
-public interface IConsole extends Remote {
+public interface IConsoleElement extends Remote {
 	/**
 	 * Deconnexion du controleur du serveur.
 	 * @param cause le message a afficher comme cause de la deconnexion

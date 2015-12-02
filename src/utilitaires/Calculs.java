@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
+import modele.Caracteristique;
 import serveur.Arene;
-import serveur.element.Caracteristique;
 
 /**
  * Classe regroupant quelques methodes utiles pour l'arene (distance, case vide,

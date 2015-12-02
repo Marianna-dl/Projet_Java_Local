@@ -1,10 +1,9 @@
-package serveur;
+package serveur.infosclient;
 
 import interfaceGraphique.view.VuePersonnage;
+import modele.Personnage;
 
 import java.awt.Point;
-
-import serveur.element.Personnage;
 
 /**
  * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
@@ -28,9 +27,7 @@ public class ClientPersonnage extends ClientElement {
 	 * Time To Live
 	 */
 	private int TTL;
-	/**
-	 * Compteur permettant de savoir le nombre de tour restant avant increment
-	 */
+	
 	
 	public ClientPersonnage(String ipAddress, Personnage pers, int TTL, Point position, int ref) {
 		super(pers, position, ref);

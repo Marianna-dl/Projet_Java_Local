@@ -3,7 +3,7 @@ package interfaceGraphique.uiControle.exceptionSaisie;
 import java.util.List;
 import java.util.ListIterator;
 
-import serveur.element.Caracteristique;
+import modele.Caracteristique;
 
 /**
  * Exception renvoye lors de la saisie de caracteristiques

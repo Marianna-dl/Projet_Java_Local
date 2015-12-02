@@ -1,4 +1,4 @@
-package client.controle;
+package serveur.controle;
 
 import java.awt.Point;
 import java.rmi.Naming;
@@ -7,18 +7,18 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import client.personnage.StrategiePersonnage;
+import client.StrategiePersonnage;
 import interfaceGraphique.view.VueElement;
+import logger.MyLogger;
+import modele.Personnage;
 import serveur.IArene;
-import serveur.element.Personnage;
-import utilitaires.logger.MyLogger;
 
 /**
  * Se connecte au serveur avec un Element
  * "run" permet a l'Element de se deplacer
  *
  */
-public class Console extends UnicastRemoteObject implements IConsole {
+public class ConsoleElement extends UnicastRemoteObject implements IConsoleElement {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -68,7 +68,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 * @param myLogger gestionnaire de log
 	 * @throws RemoteException
 	 */
-	public Console(StrategiePersonnage per, Personnage pers, Point position,
+	public ConsoleElement(StrategiePersonnage per, Personnage pers, Point position,
 			int port, String ipArene, String ipConsole, MyLogger myLogger) throws RemoteException {
 		//appel au constructeur de la super-classe -> il peut etre implicite
 		super();
