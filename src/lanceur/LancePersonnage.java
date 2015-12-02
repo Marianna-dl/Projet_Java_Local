@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import client.personnage.PersonnageTest;
+import client.personnage.StrategiePersonnage;
 import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
 
@@ -62,7 +62,7 @@ public class LancePersonnage {
 			logger.info("lanceur", "Creation du personnage...");
 			Point position = new Point(Calculs.randomNumber(0,100), Calculs.randomNumber(0,100));
 			
-			new PersonnageTest(nom, groupe, position, port, ipArene, ipConsole, logger);
+			new StrategiePersonnage(nom, groupe, position, port, ipArene, ipConsole, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

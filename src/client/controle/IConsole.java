@@ -7,8 +7,8 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import serveur.IArene;
-import serveur.element.PersonnageServeur;
-import client.personnage.Personnage;
+import serveur.element.Personnage;
+import client.personnage.StrategiePersonnage;
 
 /**
  * Represente le lien Element - Serveur
@@ -31,7 +31,7 @@ public interface IConsole extends Remote {
 	 * Renvoie l'element associe a la console
 	 * @throws RemoteException
 	 */
-	public Personnage getPersonnage() throws RemoteException;
+	public StrategiePersonnage getPersonnage() throws RemoteException;
 	
 	/**
 	 * Renvoie la ref RMI de la console 
@@ -69,7 +69,7 @@ public interface IConsole extends Remote {
 	 * @return personnage serveur
 	 * @throws RemoteException
 	 */
-	public PersonnageServeur getPersonnageServeur() throws RemoteException;
+	public Personnage getPersonnageServeur() throws RemoteException;
 	
 	/**
 	 * Recupere la VueElement de la console

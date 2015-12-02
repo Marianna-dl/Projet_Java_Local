@@ -7,10 +7,10 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import client.personnage.Personnage;
+import client.personnage.StrategiePersonnage;
 import interfaceGraphique.view.VueElement;
 import serveur.IArene;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 import utilitaires.logger.MyLogger;
 
 /**
@@ -46,7 +46,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	/**
 	 * Element pour lequel le controleur est cree.
 	 */
-	private final Personnage per;
+	private final StrategiePersonnage per;
 
 	/**
 	 * Reference attribuee par le serveur a la connexion.
@@ -69,7 +69,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 * @param myLogger gestionnaire de log
 	 * @throws RemoteException
 	 */
-	public Console(Personnage per, PersonnageServeur pers, Point position,
+	public Console(StrategiePersonnage per, Personnage pers, Point position,
 			int port, String ipArene, String ipConsole, MyLogger myLogger) throws RemoteException {
 		//appel au constructeur de la super-classe -> il peut etre implicite
 		super();
@@ -135,7 +135,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 
 
 	@Override
-	public Personnage getPersonnage() throws RemoteException {
+	public StrategiePersonnage getPersonnage() throws RemoteException {
 		return per;
 	}
 
@@ -165,8 +165,8 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	}
 
 	@Override
-	public PersonnageServeur getPersonnageServeur() throws RemoteException {
-		return (PersonnageServeur) arene.getMyElement(this);
+	public Personnage getPersonnageServeur() throws RemoteException {
+		return (Personnage) arene.getMyElement(this);
 	}
 
 	@Override

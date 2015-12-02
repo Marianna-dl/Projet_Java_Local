@@ -13,7 +13,7 @@ import java.util.List;
 import client.controle.IConsole;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 
 /**
  * Definit les methodes qui pourront s'appliquer a travers l'arene en RMI (toutes celles qui levent RemoteException)
@@ -36,7 +36,7 @@ public interface IArene extends Remote {
 	 * @return true si l'element a ete connecte, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean connect(int refRMI, String ipConsole, PersonnageServeur pers, Point position) throws RemoteException;
+	public boolean connect(int refRMI, String ipConsole, Personnage pers, Point position) throws RemoteException;
 	
 	/**
 	 * Deconnecte un element du serveur

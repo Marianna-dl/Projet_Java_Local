@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import serveur.IArene;
 import serveur.element.Element;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
@@ -21,7 +21,7 @@ import client.controle.Console;
  * Un personnage: un element possedant des caracteristiques et etant capable
  * de jouer une strategie.
  */
-public class Personnage {
+public class StrategiePersonnage {
 	
 	protected Console console;
 
@@ -36,12 +36,12 @@ public class Personnage {
 	 * @param ipConsole ip de la console du personnage
 	 * @param logger gestionnaire de log
 	 */
-	public Personnage(String nom, String groupe, Point position, 
+	public StrategiePersonnage(String nom, String groupe, Point position, 
 			int port, String ipArene, String ipConsole, MyLogger logger) {
 		
 		logger.info("lanceur", "Creation de la console...");
 		try {
-			console = new Console(this, new PersonnageServeur(nom, groupe), position, port, ipArene, ipConsole, logger);
+			console = new Console(this, new Personnage(nom, groupe), position, port, ipArene, ipConsole, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 		} catch (Exception e) {
 			logger.info("Personnage", "Erreur lors de la creation de la console : \n"+e.toString());
@@ -62,7 +62,7 @@ public class Personnage {
 		
 		IArene arene = console.getArene();
 		
-		PersonnageServeur pers = null;
+		Personnage pers = null;
 		int refRMI;
 		Point position = null;
 		try {
@@ -88,8 +88,8 @@ public class Personnage {
 			// dans la meme equipe ?
 			boolean memeEquipe = false;
 
-			if(elemPlusProche instanceof PersonnageServeur) {
-				PersonnageServeur persPlusProche = (PersonnageServeur) elemPlusProche;
+			if(elemPlusProche instanceof Personnage) {
+				Personnage persPlusProche = (Personnage) elemPlusProche;
 				memeEquipe = (leader != -1 && leader == persPlusProche.getLeader()) || // meme leader
 						leader == refCible || // cible est le leader de this
 						persPlusProche.getLeader() == console.getRefRMI(); // this est le leader de cible

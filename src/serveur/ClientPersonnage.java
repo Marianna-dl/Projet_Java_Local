@@ -4,7 +4,7 @@ import interfaceGraphique.view.VuePersonnage;
 
 import java.awt.Point;
 
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 
 /**
  * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
@@ -32,7 +32,7 @@ public class ClientPersonnage extends ClientElement {
 	 * Compteur permettant de savoir le nombre de tour restant avant increment
 	 */
 	
-	public ClientPersonnage(String ipAddress, PersonnageServeur pers, int TTL, Point position, int ref) {
+	public ClientPersonnage(String ipAddress, Personnage pers, int TTL, Point position, int ref) {
 		super(pers, position, ref);
 		this.ipAddress = ipAddress;
 		this.actionExecutee = false;
@@ -47,16 +47,16 @@ public class ClientPersonnage extends ClientElement {
 		return ipAddress;
 	}
 
-	public PersonnageServeur getPersServeur() {
-		return (PersonnageServeur) getElement();
+	public Personnage getPersServeur() {
+		return (Personnage) getElement();
 	}
 	
-	public void setPersServeur(PersonnageServeur pers) {
+	public void setPersServeur(Personnage pers) {
 		this.elem = pers;
 	}
 
 	public VuePersonnage getVue() {
-		PersonnageServeur perso = getPersServeur();
+		Personnage perso = getPersServeur();
 		VuePersonnage vp = new VuePersonnage(
 				getRef(), getPosition(), perso.getNom(), 
 				perso.getGroupe(), perso.getCaracts(), getColor(), 

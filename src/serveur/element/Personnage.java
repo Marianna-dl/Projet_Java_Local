@@ -12,7 +12,7 @@ import utilitaires.Calculs;
  * Un personnage: un element possedant des caracteristiques et etant capable
  * de jouer une strategie.
  */
-public class PersonnageServeur extends Element implements Serializable {
+public class Personnage extends Element implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +33,7 @@ public class PersonnageServeur extends Element implements Serializable {
 	 * @param nom du personnage
 	 * @param groupe groupe du personnage
 	 */
-	public PersonnageServeur(String nom, String groupe) {
+	public Personnage(String nom, String groupe) {
 		// Caracteristiques de base
 		super(nom, groupe, Caracteristique.caracteristiquesDefaut());
 		leader = -1;

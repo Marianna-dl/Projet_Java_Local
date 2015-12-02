@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.ClientPersonnage;
 import serveur.element.Caracteristique;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 import utilitaires.Calculs;
 
 public class Attaque extends EntreElement <ClientPersonnage> {
@@ -17,7 +17,7 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 	}
 	
 	public void interagir() throws RemoteException {
-		PersonnageServeur pAttaquant = (PersonnageServeur) attaquant.getElement();
+		Personnage pAttaquant = (Personnage) attaquant.getElement();
 		
 		try {
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);

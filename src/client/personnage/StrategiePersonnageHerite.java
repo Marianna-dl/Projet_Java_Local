@@ -7,14 +7,14 @@ import java.util.HashMap;
 
 import serveur.IArene;
 import serveur.element.Element;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
 import utilitaires.logger.MyLogger;
 
-public class PersonnageTest extends Personnage {
+public class StrategiePersonnageHerite extends StrategiePersonnage {
 
-	public PersonnageTest(String nom, String groupe, Point position, int port,
+	public StrategiePersonnageHerite(String nom, String groupe, Point position, int port,
 			String ipArene, String ipConsole, MyLogger logger)
 			throws IOException {
 		super(nom, groupe, position, port, ipArene, ipConsole, logger);
@@ -61,7 +61,7 @@ public class PersonnageTest extends Personnage {
 					arene.getPosition(refElemPlusProche));
 
 			// Si mon voisin le plus proche n'est pas un personnage
-			if (!(elemPlusProche instanceof PersonnageServeur)) {
+			if (!(elemPlusProche instanceof Personnage)) {
 				if (distPlusProche <= EntreElement.distanceMinInteraction) {
 					console.setPhrase("Je ramasse une potion");
 					arene.ramasserObjet(console, refElemPlusProche);

@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 import serveur.element.Caracteristique;
 import serveur.element.Element;
-import serveur.element.PersonnageServeur;
+import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.interaction.Attaque;
 import serveur.interaction.Deplacements;
@@ -167,7 +167,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				for (int refRMI : listRef) {
 					try {
 						IConsole console = consoleFromRef(refRMI);
-						PersonnageServeur elems = (PersonnageServeur) getAnyElement(refRMI);
+						Personnage elems = (Personnage) getAnyElement(refRMI);
 						
 						/* peut etre que ce client a ete tue lors d'un
 						 * duel plus tot dans ce tour si c'est le cas,
@@ -204,8 +204,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 									} else if (clientsPersonnages.get(refRMI).getTTL() <= 0) {
 										myLogger.info(this.getClass().toString(), "Fin du TTL de " + nomRaccourciClient(refRMI) + "... Client ejecte");
 										deconnecterConsole(console, "Temps autorise dans l'arene ecoule, vous etes elimine !");
-									} else if (elems instanceof PersonnageServeur) {
-										if (!verifCaract((PersonnageServeur) elems)) {
+									} else if (elems instanceof Personnage) {
+										if (!verifCaract((Personnage) elems)) {
 											myLogger.info( this.getClass().toString(),
 													nomRaccourciClient(refRMI) + " est un tricheur... Client ejecte");
 											deconnecterConsole(console, "Vous etes mort pour cause de triche...");
@@ -371,7 +371,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param elems personnage
 	 * @return true si caracteristique valide
 	 */
-	private boolean verifCaract (PersonnageServeur elems) {
+	private boolean verifCaract (Personnage elems) {
 		HashMap<Caracteristique, Integer> caracts = elems.getCaracts();
 		for (Entry<Caracteristique, Integer> caractEntry : caracts.entrySet()){
 			Caracteristique c = caractEntry.getKey();
@@ -387,7 +387,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	
 	@Override
-	public synchronized boolean connect(int refRMI, String ipConsole, PersonnageServeur pers, Point position) throws RemoteException {
+	public synchronized boolean connect(int refRMI, String ipConsole, Personnage pers, Point position) throws RemoteException {
 		int portConsole = port+refRMI; //on associe un port unique a chaque console
 		String adr = "rmi://"+ipConsole+":"+portConsole+"/Console"+refRMI;
 		
@@ -720,8 +720,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			int distance = Calculs.distanceChebyshev(clientsPersonnages.get(ref).getPosition(), clientsPersonnages.get(refAdv).getPosition());
 			if (distance <= EntreElement.distanceMinInteraction) {
 							
-				PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
-				PersonnageServeur persAdv = (PersonnageServeur) getAnyElement(refAdv);
+				Personnage pers = (Personnage) getAnyElement(ref);
+				Personnage persAdv = (Personnage) getAnyElement(refAdv);
 				if (pers.isAlive() && persAdv.isAlive()) {
 					console.log(Level.INFO, this.getClass().toString(), "J'attaque "+nomRaccourciClient(consoleAdv.getRefRMI()));
 					consoleAdv.log(Level.INFO, this.getClass().toString(), "Je me fait attaquer par "+nomRaccourciClient(console.getRefRMI()));
@@ -731,8 +731,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					clientsPersonnages.get(ref).actionExecutee();
 					clientsPersonnages.get(refAdv).sonne();
 					
-					pers = (PersonnageServeur) getAnyElement(ref);
-					persAdv = (PersonnageServeur) getAnyElement(refAdv);
+					pers = (Personnage) getAnyElement(ref);
+					persAdv = (Personnage) getAnyElement(refAdv);
 					
 					if (! persAdv.isAlive()) {
 						setPhrase(console, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
@@ -802,7 +802,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		int ref = client.getRef();
 		IConsole console = consoleFromRef(ref);
 		
-		PersonnageServeur pers = client.getPersServeur();
+		Personnage pers = client.getPersServeur();
 		pers.ajouterCaract(carac, pers.getCaract(carac) + increment);
 		
 		if (increment < 0) {
@@ -847,7 +847,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			ajouterPersonnageEquipe(refLead, ref);
 
 			// on recupere la version serveur de l'element
-			PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+			Personnage pers = (Personnage) getAnyElement(ref);
 
 			// ajouter toute l'equipe de ref a l'equipe du nouveau leader (et modifier leur leader)
 			for(int refEq : pers.getEquipe()) {
@@ -872,7 +872,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	private void ajouterPersonnageEquipe(int refLeader, int refEquipie) {
 		// ajouter refEquipie a l'equipe de refLeader
-		PersonnageServeur leader = (PersonnageServeur) getAnyElement(refLeader);
+		Personnage leader = (Personnage) getAnyElement(refLeader);
 		leader.ajouterEquipier(refEquipie);
 		setPersServeur(refLeader, leader);
 				
@@ -893,7 +893,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		clearLeaderOnly(refEq);
 
 		// enlever eq de l'equipe de this
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+		Personnage pers = (Personnage) getAnyElement(ref);
 		pers.enleverEquipier(refEq);
 		setPersServeur(ref, pers);
 	}
@@ -906,7 +906,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		enleverTousPersonnagesEquipe(client.getRef());
 	}
 	private void enleverTousPersonnagesEquipe(int ref) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+		Personnage pers = (Personnage) getAnyElement(ref);
 		
 		// efface le leader de tous les personnages de l'equipe de ref
 		for(int r : pers.getEquipe()) {
@@ -922,12 +922,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param refLead nouveau leader
 	 */
 	public void setLeaderOnly(ClientPersonnage client, int refLead) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(client.getRef());
+		Personnage pers = (Personnage) getAnyElement(client.getRef());
 		pers.setLeader(refLead);
 		setPersServeur(client.getRef(), pers);
 	}
 	private void setLeaderOnly(int ref, int refLead) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+		Personnage pers = (Personnage) getAnyElement(ref);
 		pers.setLeader(refLead);
 		setPersServeur(ref, pers);
 	}
@@ -937,12 +937,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @throws RemoteException
 	 */
 	public void clearLeaderOnly(ClientPersonnage client) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(client.getRef());
+		Personnage pers = (Personnage) getAnyElement(client.getRef());
 		pers.clearLeader();
 		setPersServeur(client.getRef(), pers);
 	}
 	private void clearLeaderOnly(int ref) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+		Personnage pers = (Personnage) getAnyElement(ref);
 		pers.clearLeader();
 		setPersServeur(ref, pers);
 	}
@@ -950,14 +950,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 	
 	public void setLeader(int ref, int refLeader){
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
+		Personnage pers = (Personnage) getAnyElement(ref);
 		
 		int refOldLeader = pers.getLeader();
 		
 		// Si le personnage a deja un leader
 		if (refOldLeader != -1){
 			// Le personnage change d'equipe
-			PersonnageServeur oldLeader = (PersonnageServeur) getAnyElement(refOldLeader);
+			Personnage oldLeader = (Personnage) getAnyElement(refOldLeader);
 			oldLeader.enleverEquipier(ref);
 		}
 
@@ -970,8 +970,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	private void transfererEquipe(int ref, int refLeader) {
-		PersonnageServeur pers = (PersonnageServeur) getAnyElement(ref);
-		PersonnageServeur leader = (PersonnageServeur) getAnyElement(refLeader);
+		Personnage pers = (Personnage) getAnyElement(ref);
+		Personnage leader = (Personnage) getAnyElement(refLeader);
 		
 		for(int refEquipier : pers.getEquipe()){
 			pers.enleverEquipier(refEquipier);
@@ -996,7 +996,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param elems
 	 * @throws RemoteException
 	 */
-	private void setPersServeur(int refRMI, PersonnageServeur pers) {
+	private void setPersServeur(int refRMI, Personnage pers) {
 		clientsPersonnages.get(refRMI).setPersServeur(pers);
 	}
 	
@@ -1056,10 +1056,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	private int getTailleEquipe(int ref){
 		Element elem = getAnyElement(ref);
-		if (elem instanceof PersonnageServeur) {
-			PersonnageServeur pers = (PersonnageServeur) elem;
+		if (elem instanceof Personnage) {
+			Personnage pers = (Personnage) elem;
 			if (pers.getLeader() != -1)
-				pers = (PersonnageServeur) clientsPersonnages.get(pers.getLeader()).getPersServeur();
+				pers = (Personnage) clientsPersonnages.get(pers.getLeader()).getPersServeur();
 			return pers.getEquipe().size();
 		}
 		return 0;
@@ -1116,7 +1116,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public static String nomCompletClient(ClientElement client) {
 		Element element = client.getElement();
 		String type = "Client";
-		if (element instanceof PersonnageServeur){
+		if (element instanceof Personnage){
 			type = "Personnage";
 		}
 		if (element instanceof Potion){
