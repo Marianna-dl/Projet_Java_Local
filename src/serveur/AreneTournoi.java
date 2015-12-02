@@ -14,7 +14,7 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
-import serveur.controle.IConsoleElement;
+import serveur.controle.IConsolePersonnage;
 import serveur.infosclient.ClientElement;
 import utilitaires.Calculs;
 
@@ -174,7 +174,7 @@ public class AreneTournoi extends Arene {
 	public void ejecter(VueElement joueur, String motDePasse)
 			throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
-			IConsoleElement console = consoleFromRef(joueur.getRefRMI());
+			IConsolePersonnage console = consoleFromRef(joueur.getRefRMI());
 			if (console == null){
 				ejecterObjet(getClientElement(joueur.getRefRMI()));
 			} else {

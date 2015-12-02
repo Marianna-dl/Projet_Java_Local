@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
-import serveur.controle.IConsoleElement;
+import serveur.controle.IConsolePersonnage;
 
 /**
  * Definit les methodes qui pourront s'appliquer a travers l'arene en RMI (toutes celles qui levent RemoteException)
@@ -44,7 +44,7 @@ public interface IArene extends Remote {
 	 * @param cause cause de la cdeconnexion
 	 * @throws RemoteException
 	 */
-	public void deconnecterConsole(IConsoleElement console, String cause) throws RemoteException;
+	public void deconnecterConsole(IConsolePersonnage console, String cause) throws RemoteException;
 	
 	/**
 	 * Calcule la liste de toutes les representations de personnages presents dans l'arene. 
@@ -73,7 +73,7 @@ public interface IArene extends Remote {
 	 * @return table des couples reference/coordonnees des voisins
 	 * @throws RemoteException
 	 */
-	public HashMap<Integer, Point> voisins(IConsoleElement console) throws RemoteException;
+	public HashMap<Integer, Point> getVoisins(IConsolePersonnage console) throws RemoteException;
 
 	
 	/**
@@ -94,7 +94,7 @@ public interface IArene extends Remote {
 	 * @return une copie de l'ElementServeur correspondant a la console de reference refRMI
 	 * @throws RemoteException
 	 */
-	public Element getMyElement(IConsoleElement console) throws RemoteException;
+	public Element getMyElement(IConsolePersonnage console) throws RemoteException;
 	
 	/**
 	 * Permet de recuperer une copie de l'ElementServeur correspondant a la console de reference refRMI
@@ -129,7 +129,7 @@ public interface IArene extends Remote {
 	 * @return true si l'action a bien eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean ramasserObjet(IConsoleElement console, int refObjet) throws RemoteException;
+	public boolean ramasserObjet(IConsolePersonnage console, int refObjet) throws RemoteException;
 	
 	/**
 	 * Demande au serveur de lancer un duel
@@ -138,7 +138,7 @@ public interface IArene extends Remote {
 	 * @return true si l'action a bien eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean lancerUneAttaque(IConsoleElement console, int refAdv) throws RemoteException;
+	public boolean lancerUneAttaque(IConsolePersonnage console, int refAdv) throws RemoteException;
 	
 	/**
 	 * Demande au serveur un deplacement d'un element
@@ -147,7 +147,7 @@ public interface IArene extends Remote {
 	 * @return true si l'action a bien eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(IConsoleElement console, int refCible) throws RemoteException;
+	public boolean deplacer(IConsolePersonnage console, int refCible) throws RemoteException;
 	
 	/**
 	 * Demande au serveur un deplacement d'un element (attention le point cible sera caper aux limites de la map)
@@ -156,13 +156,13 @@ public interface IArene extends Remote {
 	 * @return true si l'action a bien eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(IConsoleElement console, Point objectif) throws RemoteException;
+	public boolean deplacer(IConsolePersonnage console, Point objectif) throws RemoteException;
 	
 	/* ***************************************************
 	 * accesseurs sur les VueElement
 	 */
 	
-	public void setPhrase(IConsoleElement console, String s) throws RemoteException;
+	public void setPhrase(IConsolePersonnage console, String s) throws RemoteException;
 	
 	
 	/**
@@ -171,7 +171,7 @@ public interface IArene extends Remote {
 	 * @return une copie de la VueElement correspondant a la console de reference refRMI
 	 * @throws RemoteException
 	 */
-	public VueElement getMyVueElement(IConsoleElement console) throws RemoteException;
+	public VueElement getMyVueElement(IConsolePersonnage console) throws RemoteException;
 	
 	/**
 	 * Permet de recuperer une copie de la VueElement correspondant a la console de reference refRMI

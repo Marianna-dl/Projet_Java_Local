@@ -10,7 +10,7 @@ import modele.Element;
 import modele.Personnage;
 import modele.Potion;
 import serveur.IArene;
-import serveur.controle.ConsoleElement;
+import serveur.controle.ConsolePersonnage;
 import serveur.interaction.EntreElement;
 import utilitaires.Calculs;
 
@@ -20,7 +20,7 @@ import utilitaires.Calculs;
  */
 public class StrategiePersonnage {
 	
-	protected ConsoleElement console;
+	protected ConsolePersonnage console;
 
 	/**
 	 * Constructeur d'un personnage avec un nom, un groupe et une position
@@ -37,7 +37,7 @@ public class StrategiePersonnage {
 		
 		logger.info("lanceur", "Creation de la console...");
 		try {
-			console = new ConsoleElement(this, new Personnage(nom, groupe), position, port, ipArene, ipConsole, logger);
+			console = new ConsolePersonnage(ipArene, port, ipConsole, this, new Personnage(nom, groupe), position, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 		} catch (Exception e) {
 			logger.info("Personnage", "Erreur lors de la creation de la console : \n"+e.toString());
