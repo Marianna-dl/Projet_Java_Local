@@ -1,4 +1,4 @@
-package interfaceGraphique.uiControle.exceptionSaisie;
+package interfaceGraphique.uiTournoi.exceptionSaisie;
 
 public class NomNonValideException extends Exception {
 

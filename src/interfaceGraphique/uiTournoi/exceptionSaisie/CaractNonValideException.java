@@ -1,4 +1,4 @@
-package interfaceGraphique.uiControle.exceptionSaisie;
+package interfaceGraphique.uiTournoi.exceptionSaisie;
 
 import java.util.List;
 import java.util.ListIterator;

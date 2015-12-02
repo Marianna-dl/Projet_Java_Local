@@ -1,6 +1,4 @@
-package interfaceGraphique.uiControle.components;
-
-import interfaceGraphique.uiControle.exceptionSaisie.PositionNonValideException;
+package interfaceGraphique.uiTournoi.components;
 
 import java.awt.Point;
 import java.awt.event.ItemEvent;
@@ -12,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import interfaceGraphique.uiTournoi.exceptionSaisie.PositionNonValideException;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 

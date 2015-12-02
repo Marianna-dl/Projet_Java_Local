@@ -1,4 +1,4 @@
-package interfaceGraphique.uiControle.components;
+package interfaceGraphique.uiTournoi.components;
 
 import java.awt.Dimension;
 

@@ -22,11 +22,11 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import interfaceGraphique.IHMTournoi;
-import interfaceGraphique.uiControle.components.SaisieCaracteristique;
-import interfaceGraphique.uiControle.components.SaisiePosition;
-import interfaceGraphique.uiControle.exceptionSaisie.CaractNonValideException;
-import interfaceGraphique.uiControle.exceptionSaisie.NomNonValideException;
-import interfaceGraphique.uiControle.exceptionSaisie.PositionNonValideException;
+import interfaceGraphique.uiTournoi.components.SaisieCaracteristique;
+import interfaceGraphique.uiTournoi.components.SaisiePosition;
+import interfaceGraphique.uiTournoi.exceptionSaisie.CaractNonValideException;
+import interfaceGraphique.uiTournoi.exceptionSaisie.NomNonValideException;
+import interfaceGraphique.uiTournoi.exceptionSaisie.PositionNonValideException;
 import modele.Caracteristique;
 import utilitaires.Constantes;
 
