@@ -102,11 +102,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	private static final int TTL_CLIENT = 60 * 20;
 	
-	public static final int XMIN = 0;
-	public static final int XMAX = 100;
-	public static final int YMIN = 0;
-	public static final int YMAX = 100;
-
 	/**
 	 * Constructeur 
 	 * @param port le port de connexion
@@ -335,11 +330,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		setPartieFinie(ttl > 0 && nbTours > ttl);
 	}
 	
-	protected void setPartieFinie(boolean b){
+	protected void setPartieFinie(boolean b) {
 		partieFinie = b;
 	}
 
-	protected boolean isPartieFinie(){
+	protected boolean isPartieFinie() {
 		return partieFinie;
 	}
 	
@@ -371,7 +366,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	private boolean verifCaract (Personnage elems) {
 		HashMap<Caracteristique, Integer> caracts = elems.getCaracts();
-		for (Entry<Caracteristique, Integer> caractEntry : caracts.entrySet()){
+		for (Entry<Caracteristique, Integer> caractEntry : caracts.entrySet()) {
 			Caracteristique c = caractEntry.getKey();
 			int valeur = caractEntry.getValue();
 			if (c.getMax() >= 0 && valeur > c.getMax())
@@ -585,7 +580,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		myLogger.info(this.getClass().toString(), "Compte-rendu :"+msg);
 	}
 	
-	public String getPrintElementsMessage(){
+	public String getPrintElementsMessage() {
 		String msg = "";
 		for(ClientPersonnage client : clientsPersonnages.values()) {
 			msg += "\n"+Arene.nomCompletClient(client);
@@ -598,7 +593,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 
 	private List<VuePersonnage> getClassementVues() {
 		List<VuePersonnage> classement = new ArrayList<VuePersonnage>();
-		for (ClientPersonnage client : getPersonnageClassement()){
+		for (ClientPersonnage client : getPersonnageClassement()) {
 			classement.add(client.getVue());
 		}
 		classement.addAll(getDeconnectedClassement());		
@@ -612,12 +607,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Affiche dans le logger le classement de la partie
 	 */
-	private void printClassement(){
+	private void printClassement() {
 		List<VuePersonnage> classement = getClassementVues();
 		
 		String msg = "";
 		int i = 1;
-		for (VuePersonnage vue : classement){
+		for (VuePersonnage vue : classement) {
 			msg += "\n"+i+" : "+vue.getNom()+" "+vue.getGroupe()+" "+vue.getPhrase();
 			i++;
 		}
@@ -906,8 +901,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	public void setPosition(int ref, Point position) {
-		position = new Point(Calculs.caperNumber(XMIN, XMAX, position.x),
-				Calculs.caperNumber(YMIN, YMAX, position.y));
+		position = new Point(Calculs.caperNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, position.x),
+				Calculs.caperNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, position.y));
 		clientsPersonnages.get(ref).setPosition(position);
 	}
 	
@@ -942,10 +937,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public static String nomCompletClient(ClientElement client) {
 		Element element = client.getElement();
 		String type = "Client";
-		if (element instanceof Personnage){
+		if (element instanceof Personnage) {
 			type = "Personnage";
 		}
-		if (element instanceof Potion){
+		if (element instanceof Potion) {
 			type = "Potion";
 		}
 		return "("+ type + client.getRef() + " * " + client.getElement().toString() + ")";
@@ -955,7 +950,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return "("+adrToString()+")";
 	}
 
-	public String nomRaccourci(){
+	public String nomRaccourci() {
 		return "(Arene)";
 	}
 

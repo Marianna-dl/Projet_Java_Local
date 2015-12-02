@@ -1,6 +1,6 @@
 package interfaceGraphique.uiControle.exceptionSaisie;
 
-public class NomNotValidException extends Exception {
+public class PositionNonValideException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 

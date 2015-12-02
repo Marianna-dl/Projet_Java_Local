@@ -17,153 +17,121 @@ import modele.Caracteristique;
 import utilitaires.Calculs;
 
 /**
- * Panel permettant la saisie d'une caracteristique donnee
+ * Panel permettant la saisie d'une caracteristique donnee.
  *
  */
-public class SaisieCaracteristique extends JPanel{
+public class SaisieCaracteristique extends JPanel {
 
 	private static final long serialVersionUID = 1L;		
 
 	/**
-	 * Champ de saisie de la caracteristique
-	 */
-	private JTextField valueCaract;
-	/**
-	 * CheckBox permettant la selection de l'aleatoire
-	 */
-	private JCheckBox randomCaract;
-	/**
-	 * ComboBox permettant de selectionner l'interval pour l'aleatoire
-	 */
-	private JComboBox randomRangeCaract;
-
-	/**
-	 * Caracteristique a laquelle correspond le panel
+	 * Caracteristique concernee. 
 	 */
 	private Caracteristique caracteristique;
 
+	/**
+	 * Champ de saisie de la caracteristique.
+	 */
+	private JTextField valeurCaract;
+	
+	/**
+	 * CheckBox permettant de choisir une valeur aleatoire pour la 
+	 * caracteristique.
+	 */
+	private JCheckBox aleatoireCaract;
+	
+	/**
+	 * ComboBox permettant de selectionner l'intervalle de l'aleatoire.
+	 */
+	private JComboBox aleatoireIntervalleCaract;
+
+	/**
+	 * Label affichant le nom de la caracteristique.
+	 */
 	private JLabel labelCaract;
 
+	/**
+	 * Label affichant la valeur max de la caracteristique.
+	 */
 	private JLabel maxCaract;
 
-
-	public SaisieCaracteristique(Caracteristique c){			
+	/**
+	 * Cree un panel de saisie de caracteristique.
+	 * @param c caracteristique
+	 */
+	public SaisieCaracteristique(Caracteristique c) {			
 		this.caracteristique = c;
-		initComponents();	        
+		initComposants();	        
 	}
 
 	/**
-	 * Renvoi la Caracteristique
-	 * @return caracteristique correspondant au panel
+	 * Initialise les composants du panel.
 	 */
-	public Caracteristique getCaracteristique() {
-		return caracteristique;
-	}
-
-	/**
-	 * Permet de recuperer la valeur saisie ou generee aleatoirement
-	 * @return valeur 
-	 */
-	public int getValue() {
-		int value;
-		if (!isEnabled()){
-			return 0;
-		}
-		if (randomCaract.isSelected()){
-			value = Calculs.randomNumber(getMinRange(), getMaxRange());
-		} else {
-			value = Integer.parseInt(valueCaract.getText());				
-		}
-		return value;
-	}
-
-	/**
-	 * Initialise les composant du panel
-	 */
-	private void initComponents() {
+	private void initComposants() {
 		labelCaract = new JLabel();
-		valueCaract = new JTextField();
+		valeurCaract = new JTextField();
 		maxCaract = new JLabel();
-		randomCaract = new JCheckBox();
-		randomRangeCaract = new JComboBox();
-
+		aleatoireCaract = new JCheckBox();
+		aleatoireIntervalleCaract = new JComboBox();
+	
 		labelCaract.setHorizontalAlignment(SwingConstants.CENTER);
 		labelCaract.setText(caracteristique.name());
 		labelCaract.setPreferredSize(new java.awt.Dimension(80, 16));
 		this.add(labelCaract);
-
-		valueCaract.setPreferredSize(new java.awt.Dimension(50, 28));
-		this.add(valueCaract);
-
+	
+		valeurCaract.setPreferredSize(new java.awt.Dimension(50, 28));
+		this.add(valeurCaract);
+	
 		maxCaract.setHorizontalAlignment(SwingConstants.LEFT);
-		if (caracteristique.getMax() < 0)
-			maxCaract.setText("/∞");
-		else
-			maxCaract.setText("/"+caracteristique.getMax());
-			
+		maxCaract.setText("/" + caracteristique.getMax());
 		maxCaract.setPreferredSize(new Dimension(31,16));
 		this.add(maxCaract);
-
-		randomCaract.setText("Aleatoire");
-		/*randomCaract.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				JCheckBox cb = (JCheckBox) e.getSource();
-				valueCaract.setEnabled(!cb.isSelected());
-				randomRangeCaract.setEnabled(cb.isSelected());
-			}
-		});*/
-		randomCaract.addChangeListener(new ChangeListener() {
+	
+		aleatoireCaract.setText("Aleatoire");
+		aleatoireCaract.addChangeListener(new ChangeListener() {
 			
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				JCheckBox cb = (JCheckBox) e.getSource();
-				valueCaract.setEnabled(!cb.isSelected());
-				randomRangeCaract.setEnabled(cb.isSelected());
+				valeurCaract.setEnabled(!cb.isSelected());
+				aleatoireIntervalleCaract.setEnabled(cb.isSelected());
 			}
 		});
-		this.add(randomCaract);
 		
-		ComboBoxModel cbm;
-		if (caracteristique.getMax() < 0)
-			cbm = new DefaultComboBoxModel(new String[] { 
-					"[0,+∞]",
-					"[-∞,0]", 
-					"[-∞,+∞]" 
+		this.add(aleatoireCaract);
+		
+		ComboBoxModel cbm = new DefaultComboBoxModel(new String[] { 
+					"[0," + caracteristique.getMax() + "]",
+					"[-" + caracteristique.getMax() + ",0]", 
+					"[-" + caracteristique.getMax() + "," + caracteristique.getMax() + "]" 
 			});
-		else
-			cbm = new DefaultComboBoxModel(new String[] { 
-					"[0,"+caracteristique.getMax()+"]",
-					"[-"+caracteristique.getMax()+",0]", 
-					"[-"+caracteristique.getMax()+","+caracteristique.getMax()+"]" 
-			});
-		randomRangeCaract.setModel(cbm);
-		randomRangeCaract.setEnabled(randomCaract.isSelected());
-		randomRangeCaract.setPreferredSize(new Dimension(124, 27));
-		this.add(randomRangeCaract);
+		
+		aleatoireIntervalleCaract.setModel(cbm);
+		aleatoireIntervalleCaract.setEnabled(aleatoireCaract.isSelected());
+		aleatoireIntervalleCaract.setPreferredSize(new Dimension(124, 27));
+		this.add(aleatoireIntervalleCaract);
 	}
 
 	/**
-	 * Renvoi le minimum de l'interval selectionne pour l'aleatoire		
-	 * @return minimum de l'interval
+	 * Renvoie le minimum de l'intervalle selectionne pour l'aleatoire.
+	 * @return minimum de l'intervalle
 	 */
-	private int getMinRange(){
-		switch (randomRangeCaract.getSelectedIndex()) {
+	private int getMinRange() {
+		switch (aleatoireIntervalleCaract.getSelectedIndex()) {
 		case 1:
 		case 2:
-			return - caracteristique.getMax();
+			return -caracteristique.getMax();
 		default:
 			return 0;
 		}
 	}
-	
+
 	/**
-	 * Renvoi le maximum de l'interval selectionne pour l'aleatoire		
-	 * @return maximum de l'interval
+	 * Renvoie le maximum de l'intervalle selectionne pour l'aleatoire.
+	 * @return maximum de l'intervalle
 	 */
-	private int getMaxRange(){
-		switch (randomRangeCaract.getSelectedIndex()) {
+	private int getMaxRange() {
+		switch (aleatoireIntervalleCaract.getSelectedIndex()) {
 		case 0:
 		case 2:
 			return caracteristique.getMax();
@@ -172,21 +140,46 @@ public class SaisieCaracteristique extends JPanel{
 		}
 	}
 
+	public Caracteristique getCaracteristique() {
+		return caracteristique;
+	}
+
+	/**
+	 * Permet de recuperer la valeur saisie ou generee aleatoirement.
+	 * @return valeur 
+	 */
+	public int getValeur() {
+		int value;
+		
+		if (!isEnabled()) {
+			value = 0;
+		}
+		
+		if (aleatoireCaract.isSelected()) {
+			value = Calculs.randomNumber(getMinRange(), getMaxRange());
+		} else {
+			value = Integer.parseInt(valeurCaract.getText());				
+		}
+		
+		return value;
+	}
+
+	/**
+	 * Active ou desactive le panel.
+	 */
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		
-		valueCaract.setEnabled(enabled);
-		valueCaract.setEditable(enabled);
-		randomCaract.setEnabled(enabled);
+		valeurCaract.setEnabled(enabled);
+		valeurCaract.setEditable(enabled);
+		aleatoireCaract.setEnabled(enabled);
 		
-		if (enabled == false || randomCaract.isSelected() )
-			randomRangeCaract.setEnabled(enabled);
+		if (enabled == false || aleatoireCaract.isSelected() )
+			aleatoireIntervalleCaract.setEnabled(enabled);
 		
 		labelCaract.setEnabled(enabled);
 		maxCaract.setEnabled(enabled);
-	
-	
 	}
 	
 	

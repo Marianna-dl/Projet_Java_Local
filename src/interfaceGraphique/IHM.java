@@ -70,7 +70,7 @@ public class IHM extends JFrame implements Runnable {
 	/**
 	 * Serveur.
 	 */
-	protected IArene serveur;
+	protected IArene arene;
 	
 	/**
 	 * Thread de connexion au serveur.
@@ -277,18 +277,18 @@ public class IHM extends JFrame implements Runnable {
 		} else {
 			try {
 				// met a jour la liste des elements de l'arene
-				List<VuePersonnage> personnages = serveur.getPersonnages();
-				List<VuePersonnageDeconnecte> deconnected = serveur.getHell();
-				List<VueElement> objetsEnAttente = serveur.getObjetsEnAttente();
-				List<VueElement> objets = serveur.getObjets();
+				List<VuePersonnage> personnages = arene.getPersonnages();
+				List<VuePersonnageDeconnecte> deconnected = arene.getHell();
+				List<VueElement> objetsEnAttente = arene.getObjetsEnAttente();
+				List<VueElement> objets = arene.getObjets();
 
 				infosPanel.setElements(personnages, objets, deconnected,
 						objetsEnAttente);
 				arenePanel.updateWorld(personnages, objets);
 
 				// MAJ du timer
-				int tempsRestant = serveur.getNbToursRestants();
-				int nbTour = serveur.getNbTour();
+				int tempsRestant = arene.getNbToursRestants();
+				int nbTour = arene.getNbTour();
 				timerLabel.setText("Duree de la partie : "
 						+ Calculs.timerToString(nbTour)
 						+ "   -   Temps restant : "
@@ -312,7 +312,7 @@ public class IHM extends JFrame implements Runnable {
 	 */
 	private boolean isPartieCommencee() {
 		try {
-			return serveur.isPartieCommencee();
+			return arene.isPartieCommencee();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -389,7 +389,7 @@ public class IHM extends JFrame implements Runnable {
 		connexion = new Thread() {
 			public void run() {
 				try {
-					serveur = (IArene) Naming.lookup("rmi://" + ipArene + ":"
+					arene = (IArene) Naming.lookup("rmi://" + ipArene + ":"
 							+ port + "/Arene");
 				} catch (Exception e) {
 					erreurConnexion(e);
@@ -406,7 +406,7 @@ public class IHM extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while (state == State.INIT || !serveur.isPartieFinieRMI()) {
+			while (state == State.INIT || !arene.isPartieFinieRMI()) {
 				repaint();
 				try {
 					Thread.sleep(500);
@@ -415,7 +415,7 @@ public class IHM extends JFrame implements Runnable {
 				}
 			}
 
-			if (serveur.isPartieFinieRMI()) {
+			if (arene.isPartieFinieRMI()) {
 				finDePartie();
 			}
 		} catch (RemoteException e) {
@@ -425,10 +425,10 @@ public class IHM extends JFrame implements Runnable {
 
 	private void finDePartie() {
 		try {
-			List<VuePersonnage> classement = serveur.getClassementVuesRMI();
+			List<VuePersonnage> classement = arene.getClassementVuesRMI();
 			new FenetreClassement(classement);
 
-			this.setGlassPane(new VictoryScreen(serveur.getVueGagnant()));
+			this.setGlassPane(new VictoryScreen(arene.getVueGagnant()));
 			((JPanel) this.getGlassPane()).setOpaque(false);
 			((JPanel) this.getGlassPane()).setVisible(true);
 		} catch (RemoteException e) {

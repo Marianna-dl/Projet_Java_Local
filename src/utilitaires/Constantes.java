@@ -26,4 +26,24 @@ public class Constantes {
 	 * possible. 
 	 */
 	public static final int DISTANCE_MIN_INTERACTION = 2;
+
+	/**
+	 * Abscisse minimale de l'arene.
+	 */
+	public static final int XMIN_ARENE = 0;
+
+	/**
+	 * Abscisse maximale de l'arene.
+	 */
+	public static final int XMAX_ARENE = 100;
+	
+	/**
+	 * Ordonnee minimale de l'arene.
+	 */
+	public static final int YMIN_ARENE = 0;
+
+	/**
+	 * Ordonnee maximale de l'arene.
+	 */
+	public static final int YMAX_ARENE = 100;
 }

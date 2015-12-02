@@ -131,7 +131,7 @@ public class InfosJPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (ihm.getElementSelectionne() != null){
+				if (ihm.getElementSelectionne() != null) {
 					ihm.detailleSelectionne(MouseInfo.getPointerInfo().getLocation()); 
 				}
 			}
@@ -149,9 +149,9 @@ public class InfosJPanel extends JPanel {
         jTablePersos.setModel(modelTablePersos);
         
         // ajustement de la taille des colonnes
-        for (int i = 0; i < modelTablePersos.getColumnCount(); i++){
+        for (int i = 0; i < modelTablePersos.getColumnCount(); i++) {
         	int width = modelTablePersos.getColumnWidth(i);
-        	if (width != 0){
+        	if (width != 0) {
         		jTablePersos.getColumnModel().getColumn(i).setMaxWidth(width);
         		jTablePersos.getColumnModel().getColumn(i).setPreferredWidth(width);
         	}
@@ -202,9 +202,9 @@ public class InfosJPanel extends JPanel {
         jTableObjets.setModel(modelTableObjets);
         
         // ajustement de la taille des colonnes
-        for (int i = 0; i < modelTableObjets.getColumnCount(); i++){
+        for (int i = 0; i < modelTableObjets.getColumnCount(); i++) {
         	int width = modelTableObjets.getColumnWidth(i);
-        	if (width != 0){
+        	if (width != 0) {
         		jTableObjets.getColumnModel().getColumn(i).setMaxWidth(width);
         		jTableObjets.getColumnModel().getColumn(i).setPreferredWidth(width);
         	}
@@ -256,8 +256,8 @@ public class InfosJPanel extends JPanel {
 		// recuperation de la vue clique
 		JTable table = ((JTable) e.getSource());
 		int selectedLine = table.rowAtPoint(e.getPoint());
-		if (selectedLine != -1){
-			if (table.getModel() instanceof PersonnageTableModel){
+		if (selectedLine != -1) {
+			if (table.getModel() instanceof PersonnageTableModel) {
 				newSelect = ((PersonnageTableModel) table.getModel()).getVue(selectedLine);
 			} else {
 				newSelect = ((ObjetTableModel) table.getModel()).getVue(selectedLine);
@@ -289,7 +289,7 @@ public class InfosJPanel extends JPanel {
 	 * @param objetsEnAttente objets en attente de rentrer sur l'arene
 	 */
 	public void setElements(List<VuePersonnage> persos, List<VueElement> objets, 
-			List<VuePersonnageDeconnecte> persosDeconnected, List<VueElement> objetsEnAttente){
+			List<VuePersonnageDeconnecte> persosDeconnected, List<VueElement> objetsEnAttente) {
 				
 		// comparator permettant le tri des vueElement selon leur refRMI
 		Comparator<VueElement> vueComparator = new Comparator<VueElement>() {
@@ -315,21 +315,21 @@ public class InfosJPanel extends JPanel {
 		};
 		Collections.sort(persosDeconnected, deconnectedComparator);
 		
-		if (ihm.getElementSelectionne() != null){
+		if (ihm.getElementSelectionne() != null) {
 			/* Recherche de l'element selectionne */
-			for (VuePersonnage vp : persos){
+			for (VuePersonnage vp : persos) {
 				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					vp.setSelected(true);					
 			}
-			for (VueElement ve : objets){
+			for (VueElement ve : objets) {
 				if (ve.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					ve.setSelected(true);					
 			}
-			for (VueElement ve : objetsEnAttente){
+			for (VueElement ve : objetsEnAttente) {
 				if (ve.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					ve.setSelected(true);					
 			}
-			for (VuePersonnageDeconnecte vpd : persosDeconnected){
+			for (VuePersonnageDeconnecte vpd : persosDeconnected) {
 				if (vpd.getRefRMI() == ihm.getElementSelectionne().getRefRMI())
 					vpd.setSelected(true);					
 			}

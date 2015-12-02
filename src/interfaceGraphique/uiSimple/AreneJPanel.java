@@ -4,6 +4,7 @@ import interfaceGraphique.view.TypeElement;
 import interfaceGraphique.view.VueElement;
 import interfaceGraphique.view.VuePersonnage;
 import modele.Caracteristique;
+import utilitaires.Constantes;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -18,8 +19,6 @@ import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
-import serveur.Arene;
 
 /** 
  * Definit la fenetre de l'arene. 
@@ -75,7 +74,7 @@ public class AreneJPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				decompte--;
-				if(decompte == -1){
+				if(decompte == -1) {
 					compteARebours = false;
 					declencheur.stop();
 				}
@@ -169,12 +168,12 @@ public class AreneJPanel extends JPanel {
 	private void drawElementGeometric(Graphics g, VueElement vueElement, int coordX,
 			int coordY) {
 
-		if (vueElement.isSelected()){
+		if (vueElement.isSelected()) {
 			g.setColor(SELECTED_COLOR);
 			g.fillOval(coordX - 5, coordY - 5, ELEMENT_SIZE + 10, ELEMENT_SIZE + 10);
 			g.setColor(vueElement.getColor());
 		}
-		switch (vueElement.getType()){
+		switch (vueElement.getType()) {
 		case PERSONNAGE:
 			// construit un ovale aux coordonnes coordX, coordY de taille ELEMENT_SIZE x ELEMENT_SIZE
 			g.fillOval(coordX, coordY, ELEMENT_SIZE, ELEMENT_SIZE);	
@@ -213,12 +212,12 @@ public class AreneJPanel extends JPanel {
 		
 		// gestion du debordement des infos
 		int coordXString = Math.max(coordX - start, 2);
-		if (coordXString + stringWidth > rect.getWidth()){
+		if (coordXString + stringWidth > rect.getWidth()) {
 			coordXString = (int) (rect.getWidth() - 2 - stringWidth);
 		}
 		int coordYString = coordY - 10;
 		boolean descendu = false;
-		if (coordY < stringHeight){
+		if (coordY < stringHeight) {
 			coordYString = coordY + 29;
 			descendu = true;
 		}
@@ -245,11 +244,11 @@ public class AreneJPanel extends JPanel {
 		
 		// gestion du debordement de la barre
 		int coordXBar = Math.max(coordX - barStart, 2);
-		if (coordXBar + barWidth > rect.getWidth()){
+		if (coordXBar + barWidth > rect.getWidth()) {
 			coordXBar = (int) (rect.getWidth() - 2 - barWidth);
 		}
 		int coordYBar = coordY - 38;
-		if (coordYBar < 0){
+		if (coordYBar < 0) {
 			if (descendu)
 				coordYBar = coordY + 35;
 			else
@@ -344,8 +343,8 @@ public class AreneJPanel extends JPanel {
 		int x = (int) point.getX() - (ELEMENT_SIZE/2);
 		int y = (int) point.getY() - (ELEMENT_SIZE/2);
 		
-		int coordX = (x * Arene.XMAX) / (width - ELEMENT_SIZE);
-		int coordY = (y * Arene.YMAX) / (height - ELEMENT_SIZE);
+		int coordX = (x * Constantes.XMAX_ARENE) / (width - ELEMENT_SIZE);
+		int coordY = (y * Constantes.YMAX_ARENE) / (height - ELEMENT_SIZE);
 
 		return new Point(coordX,coordY);
 	}
@@ -355,7 +354,7 @@ public class AreneJPanel extends JPanel {
 	 * @param point position dans l'arene
 	 * @return position dans le panel
 	 */
-	public Point getRealPosition(Point point){
+	public Point getRealPosition(Point point) {
 
 		Rectangle rect = this.getBounds();
 		
@@ -365,8 +364,8 @@ public class AreneJPanel extends JPanel {
 		int x = (int) point.getX();
 		int y = (int) point.getY();
 		
-		int coordX = x * (width - ELEMENT_SIZE) / Arene.XMAX;
-		int coordY = y * (height - ELEMENT_SIZE) / Arene.YMAX;
+		int coordX = x * (width - ELEMENT_SIZE) / Constantes.XMAX_ARENE;
+		int coordY = y * (height - ELEMENT_SIZE) / Constantes.YMAX_ARENE;
 		
 		return new Point(coordX, coordY);
 	}

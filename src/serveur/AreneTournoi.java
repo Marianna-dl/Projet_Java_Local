@@ -17,6 +17,7 @@ import java.util.Scanner;
 import serveur.controle.IConsolePersonnage;
 import serveur.infosclient.ClientElement;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * 
@@ -74,7 +75,7 @@ public class AreneTournoi extends Arene {
 	
 	
 	@Override
-	public void updatePartieFinie(){
+	public void updatePartieFinie() {
 		super.updatePartieFinie();
 		// La partie est terminee si il y a un seul personnage
 		setPartieFinie(countPersonnages() <= 1 || isPartieFinie());
@@ -120,7 +121,7 @@ public class AreneTournoi extends Arene {
 		int ref = allocateRef();
 		ClientElement client = new ClientElement(
 				new Potion(nom, groupe, carac),
-				new Point(Calculs.randomNumber(XMIN, XMAX), Calculs.randomNumber(YMIN, YMAX)), ref);
+				new Point(Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE), Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE)), ref);
 		clientObjetNonEnJeu.put(ref, client);
 		myLogger.info(this.getClass().toString(), "Ajout de la potion "+ Arene.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
 		printElements();
@@ -135,7 +136,7 @@ public class AreneTournoi extends Arene {
 	public void lancerObjetEnAttente(int ref, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
 			ClientElement client = clientObjetNonEnJeu.get(ref);
-			if (client != null){
+			if (client != null) {
 				clientObjetNonEnJeu.remove(ref);
 				client.getVue().setPhrase("");
 				ajouterClientEnJeu(ref, client);
@@ -175,7 +176,7 @@ public class AreneTournoi extends Arene {
 			throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
 			IConsolePersonnage console = consoleFromRef(joueur.getRefRMI());
-			if (console == null){
+			if (console == null) {
 				ejecterObjet(getClientElement(joueur.getRefRMI()));
 			} else {
 				deconnecterConsole(console, "Vous avez ete renvoye du salon.");
@@ -190,14 +191,14 @@ public class AreneTournoi extends Arene {
 		boolean retour = false;
 		if (motDePasse != null)
 			retour = motDePasse.length == this.motDePasse.length();
-		for(int i = 0; i < motDePasse.length && retour; i++){
+		for(int i = 0; i < motDePasse.length && retour; i++) {
 			retour = this.motDePasse.charAt(i) == motDePasse[i];
 		}
 		return retour;
 	}
 
 	@Override
-	public String getPrintElementsMessage(){
+	public String getPrintElementsMessage() {
 		String msg = super.getPrintElementsMessage();
 		for(ClientElement client : clientObjetNonEnJeu.values()) {
 			msg += "\n"+Arene.nomCompletClient(client)+ "(en attente)";

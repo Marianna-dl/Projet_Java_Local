@@ -43,8 +43,8 @@ public class FenetreDetail extends JFrame {
 	/**
 	 * Lance le chargement des jauges
 	 */
-	public void go(){
-		for (DetailCaracteristique detail : caractPanels){
+	public void go() {
+		for (DetailCaracteristique detail : caractPanels) {
 			detail.go();
 		}
     }
@@ -92,7 +92,7 @@ public class FenetreDetail extends JFrame {
 		
 		JPanel panelCaracts = new JPanel(new GridLayout(Caracteristique.nbCaracts(), 1));
 		caractPanels =  new ArrayList<DetailCaracteristique>();
-		for (Caracteristique caract : Caracteristique.values()){
+		for (Caracteristique caract : Caracteristique.values()) {
 			DetailCaracteristique caractPanel = new DetailCaracteristique(caract, vue.getCaract(caract), Color.BLUE);
 			caractPanels.add(caractPanel);
 			panelCaracts.add(caractPanel);

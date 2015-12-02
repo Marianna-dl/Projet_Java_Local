@@ -23,7 +23,7 @@ public class FenetreClassement extends JFrame {
 
 	private JTable tableClassement;
 
-	public FenetreClassement(List<VuePersonnage> classement){
+	public FenetreClassement(List<VuePersonnage> classement) {
 		this.classement = classement;
 		initComponents();
 	}
@@ -53,9 +53,9 @@ public class FenetreClassement extends JFrame {
         model.setVues(classement);
         
         // ajustement de la taille des colonnes
-        for (int i = 0; i < model.getColumnCount(); i++){
+        for (int i = 0; i < model.getColumnCount(); i++) {
         	int width = model.getColumnWidth(i);
-        	if (width != 0){
+        	if (width != 0) {
         		tableClassement.getColumnModel().getColumn(i).setPreferredWidth(width);
         		tableClassement.getColumnModel().getColumn(i).setMinWidth(width);
         	}

@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.Timer;
 
-import interfaceGraphique.uiControle.ControleJPanel;
-import interfaceGraphique.uiControle.FenetreCreationObjet;
+import interfaceGraphique.uiTournoi.ControleJPanel;
+import interfaceGraphique.uiTournoi.FenetreCreationPotion;
 import interfaceGraphique.view.VueElement;
 import logger.MyLogger;
 import modele.Caracteristique;
@@ -49,7 +49,7 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Fenetre de creation de potion.
 	 */
-	private FenetreCreationObjet fenetrePotion;
+	private FenetreCreationPotion fenetrePotion;
 
 	/**
 	 * Timer indiquant le compte a rebours initial, avant le lancement de la 
@@ -73,14 +73,14 @@ public class IHMTournoi extends IHM {
 		gauchePanel.invalidate();
 		gauchePanel.validate();	
 
-		fenetrePotion = new FenetreCreationObjet(this);
+		fenetrePotion = new FenetreCreationPotion(this);
 		 
 		// ajout d'un listener de clic sur l'arene permettant l'envoi de potion dynamiquement
 		arenePanel.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if (fenetrePotion != null && fenetrePotion.isVisible()){
+				if (fenetrePotion != null && fenetrePotion.isVisible()) {
 					fenetrePotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
-					if (fenetrePotion.isClicToPoseSelect()){
+					if (fenetrePotion.isClicPourPoserSelectionne()) {
 						fenetrePotion.lancerObjet();
 					}
 				}
@@ -89,7 +89,7 @@ public class IHMTournoi extends IHM {
 		
 		// timer correspondant au compte a rebours affiche avant la partie
 		// (5 secondes)
-		timer = new Timer(5000, new ActionListener(){			
+		timer = new Timer(5000, new ActionListener() {			
 			public void actionPerformed(ActionEvent ev) {
 				lancerPartie();
 			}
@@ -125,7 +125,7 @@ public class IHMTournoi extends IHM {
 		if (option == 1) {
 			 // clic sur le bouton OK
 			try {
-				if (serveur.verifMotDePasse(pass.getPassword())) {
+				if (arene.verifMotDePasse(pass.getPassword())) {
 					this.motDePasse = "";
 					for (int i = 0; i < pass.getPassword().length; i++) {
 						this.motDePasse += pass.getPassword()[i];
@@ -167,10 +167,10 @@ public class IHMTournoi extends IHM {
 	 */
 	public void lancerPartie() {
 		try {
-			serveur.commencerPartie(motDePasse);
+			arene.commencerPartie(motDePasse);
 			timer.stop();
 			
-			if(serveur.isPartieCommencee()){
+			if(arene.isPartieCommencee()) {
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
 		} catch (RemoteException e) {
@@ -183,12 +183,11 @@ public class IHMTournoi extends IHM {
 	 */
 	public void ejecteSelectionne() {
 		if (!motDePasseOK) {
-			demanderMotDePasse();
-			
+			demanderMotDePasse();			
 		} else {
 			if(getElementSelectionne() != null) {
 				try {
-					serveur.ejecter(getElementSelectionne(), motDePasse);
+					arene.ejecter(getElementSelectionne(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -203,9 +202,9 @@ public class IHMTournoi extends IHM {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
-			if (getElementSelectionne().isEnAttente()){
+			if (getElementSelectionne().isEnAttente()) {
 				try {
-					serveur.lancerObjetEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
+					arene.lancerObjetEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -236,12 +235,12 @@ public class IHMTournoi extends IHM {
 	 * @param ht caracteristiques de la potion
 	 * @param position position de la potion
 	 */
-	public void lancerPotion(String nom, HashMap<Caracteristique, Integer> ht, Point position){
+	public void lancerPotion(String nom, HashMap<Caracteristique, Integer> ht, Point position) {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
 			try {
-				serveur.ajouterPotionSecurisee(nom, ht, position, motDePasse);
+				arene.ajouterPotionSecurisee(nom, ht, position, motDePasse);
 			} catch (RemoteException e) {
 				erreurConnexion(e);
 			}
@@ -251,7 +250,7 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Modifie l'element selectionne dans le tableau des elements.
 	 */
-	public void setElementSelectionne(VueElement vue){
+	public void setElementSelectionne(VueElement vue) {
 		super.setElementSelectionne(vue);
 
 		updateControleUI();		
@@ -263,15 +262,15 @@ public class IHMTournoi extends IHM {
 	private void updateControleUI() {
 		// MAJ selon si un element est selectionne ou non
 		if(getElementSelectionne() == null) {
-			controlePanel.getKickerButton().setEnabled(false);
+			controlePanel.getEjecterButton().setEnabled(false);
 			controlePanel.getDetaillerButton().setEnabled(false);
 			controlePanel.getEnvoyerPotionButton().setEnabled(false);
 			
 		} else {
 			controlePanel.getDetaillerButton().setEnabled(true);
-			controlePanel.getKickerButton().setEnabled(true);
+			controlePanel.getEjecterButton().setEnabled(true);
 			
-			if (getElementSelectionne().isEnAttente()){
+			if (getElementSelectionne().isEnAttente()) {
 				controlePanel.getEnvoyerPotionButton().setEnabled(true);
 			} else {
 				controlePanel.getEnvoyerPotionButton().setEnabled(false);
@@ -280,7 +279,7 @@ public class IHMTournoi extends IHM {
 		
 		// MAJ selon si la partie est commencee ou non
 		try {
-			if(serveur.isPartieCommencee()){
+			if(arene.isPartieCommencee()) {
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
 		} catch (RemoteException e) {
@@ -292,14 +291,14 @@ public class IHMTournoi extends IHM {
 	 * Verouille le panneau de controle.
 	 */
 	private void lockControle() {
-		controlePanel.lock();
+		controlePanel.verouiller();
 	}
 
 	/**
 	 * Deverouille le panneau de controle.
 	 */
 	private void unlockControle() {
-		controlePanel.unlock();
+		controlePanel.deverouiller();
 		updateControleUI();
 	}
 

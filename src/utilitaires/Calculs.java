@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Random;
 
 import modele.Caracteristique;
-import serveur.Arene;
 
 /**
  * Classe regroupant quelques methodes utiles pour l'arene (distance, case vide,
@@ -34,7 +33,7 @@ public class Calculs {
 	 * @param voisins des elements (Point)
 	 * @return true si la case est vide et false si la case est occupe
 	 */
-	public static boolean caseVide(Point p, HashMap<Integer, Point> voisins){
+	public static boolean caseVide(Point p, HashMap<Integer, Point> voisins) {
 		boolean trouve = false;
 		Point pAux = null;
 		Iterator<Point> it = voisins.values().iterator();
@@ -54,12 +53,12 @@ public class Calculs {
 	 * @param voisins le positionement des autres elements dans l'arene
 	 * @return le meilleur point libre dans la direction de la cible
 	 */
-	public static Point meilleurPoint(Point depart, Point objectif, HashMap<Integer, Point> voisins){
+	public static Point meilleurPoint(Point depart, Point objectif, HashMap<Integer, Point> voisins) {
 		//liste contenant tous les positions vers lesquelles l'element peut avancer
 		ArrayList<Point> listePossibles = new ArrayList<Point>();		
 		//pour chaque de 8 cases autour de lui
-		for (int i=-1;i<=1;i++){
-			for (int j=-1;j<=1;j++){
+		for (int i=-1;i<=1;i++) {
+			for (int j=-1;j<=1;j++) {
 				if ((i!=0) || (j!=0))  {
  					//on ajoute la position (en valeur absolue pour eviter de sortir du cadre)
 					listePossibles.add(new Point(Math.abs(depart.x+i),Math.abs(depart.y+j)));
@@ -117,7 +116,7 @@ public class Calculs {
 	 */
 	public static int randomNumber(int min, int max) {
 		Random r = new Random(System.currentTimeMillis() + token);
-		if (max < 0){
+		if (max < 0) {
 			return r.nextInt(500-min)+min;
 		}
 		int res = r.nextInt(max-min)+min;
@@ -143,25 +142,25 @@ public class Calculs {
 	 * @return valeur capee
 	 */
 	public static int caperNumber(int min, int max, int val) {
-		if (max < 0){
+		if (max < 0) {
 			return Math.max(val, min);
 		}		
 		return Math.min(Math.max(val, min), max);
 	}
 	
-	public static Point caperPositionArene(Point position){
-		int xMin = Arene.XMIN;
-		int xMax = Arene.XMAX;
-		int yMin = Arene.YMIN;
-		int yMax = Arene.YMAX;
+	public static Point caperPositionArene(Point position) {
+		int xMin = Constantes.XMIN_ARENE;
+		int xMax = Constantes.XMAX_ARENE;
+		int yMin = Constantes.YMIN_ARENE;
+		int yMax = Constantes.YMAX_ARENE;
 		
 		return new Point(caperNumber(xMin, xMax, position.x), caperNumber(yMin, yMax, position.y));
 	}
 
 	public static Point randomPosition() {
 		return new Point(
-				Calculs.randomNumber(Arene.XMIN, Arene.XMAX), 
-				Calculs.randomNumber(Arene.YMIN, Arene.YMAX));
+				Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE), 
+				Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
 	}
 
 	/**
@@ -181,7 +180,7 @@ public class Calculs {
 		minute = minute % 60;
 		
 		String res;
-		if (heure == 0){
+		if (heure == 0) {
 			res = minute + ":" + ((seconde<10) ? "0" : "") + seconde ;
 		} else {
 			res = heure + ":" + ((minute<10) ? "0" : "") + minute + ":" + ((seconde<10) ? "0" : "") + seconde;				

@@ -110,7 +110,7 @@ public abstract class AbstractElementTableModel<V extends VueElement> extends Ab
 	
 
 	@Override
-    public boolean isCellEditable(int rowIndex, int colIndex){
+    public boolean isCellEditable(int rowIndex, int colIndex) {
         // aucune cellule n'est editable
 		return false;
     }

@@ -1,6 +1,6 @@
 package interfaceGraphique.uiControle.components;
 
-import interfaceGraphique.uiControle.exceptionSaisie.PositionNotValidException;
+import interfaceGraphique.uiControle.exceptionSaisie.PositionNonValideException;
 
 import java.awt.Point;
 import java.awt.event.ItemEvent;
@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import serveur.Arene;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
- * Panel permettant la saisie d'une position
+ * Panel permettant la saisie d'une position de l'arene. 
  *
  */
 public class SaisiePosition extends JPanel{
@@ -24,19 +24,24 @@ public class SaisiePosition extends JPanel{
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Champ de saisie correspondant a la valeur X d'une position
+	 * Champ de saisie correspondant a l'abscisse d'une position.
 	 */
 	private JTextField xPosition;
+	
 	/**
-	 * Champ de saisie correspondant a la valeur Y d'une position
+	 * Champ de saisie correspondant a l'ordonne d'une position.
 	 */
 	private JTextField yPosition;
+	
 	/**
-	 * CheckBox permettant la selection de l'aleatoire
+	 * CheckBox permettant de choisir une valeur aleatoire pour la 
+	 * position.
 	 */
 	private JCheckBox randomPosition;
 	
-	
+	/**
+	 * Cree un panel de saisie de position.
+	 */
 	public SaisiePosition() {
 		this.setPreferredSize(new java.awt.Dimension(417, 42));
 
@@ -66,6 +71,7 @@ public class SaisiePosition extends JPanel{
         this.add(closeParenthese);
         
         randomPosition.setText("Aleatoire");
+        
         randomPosition.addItemListener(new ItemListener() {			
 			@Override
 			public void itemStateChanged(ItemEvent evt) {
@@ -74,47 +80,60 @@ public class SaisiePosition extends JPanel{
 				yPosition.setEnabled(!cb.isSelected());
 			}
 		});
+        
         this.add(randomPosition);
 	}
 
     /**
-     * Recupere la position saisie
-	 * Declenche une exception si la position n'est pas valide
-     * @return Point correspondant a la position saisie
-     * @throws PositionNotValidException
+     * Recupere la position saisie.
+	 * Declenche une exception si la position n'est pas valide.
+     * @return point correspondant a la position saisie
+     * @throws PositionNonValideException
      */
-	public Point getPosition() throws PositionNotValidException{
-		// Si aleatoire activee
-		if (randomPosition.isSelected()){
-			// Generation d'une position
-			int x = Calculs.randomNumber(Arene.XMIN, Arene.XMAX);
-			int y = Calculs.randomNumber(Arene.YMIN, Arene.YMAX);
-			return new Point(x,y);
+	public Point getPosition() throws PositionNonValideException {
+		Point res;
+		
+		// si aleatoire
+		if (randomPosition.isSelected()) {
+			// generation d'une position
+			int x = Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE);
+			int y = Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE);
+			
+			res = new Point(x,y);
 		} else {
-			// Recuperation de la saisie
+			// recuperation de la saisie
 			try {
 	    		int x = Integer.parseInt(xPosition.getText());
 	    		int y = Integer.parseInt(yPosition.getText());
-	    		if (x > Arene.XMAX || x < Arene.XMIN || y < Arene.YMIN || y > Arene.YMAX){
-	    			throw new PositionNotValidException();
+	    		
+	    		if (x > Constantes.XMAX_ARENE || x < Constantes.XMIN_ARENE || 
+	    				y < Constantes.YMIN_ARENE || y > Constantes.YMAX_ARENE) {
+	    			throw new PositionNonValideException();
 	    		}
-	    		return new Point(x, y);
-			} catch (NumberFormatException e){
-				throw new PositionNotValidException();
+	    		
+	    		res = new Point(x,y);
+	    		
+			} catch (NumberFormatException e) {
+				throw new PositionNonValideException();
 			}
-		}		
+		}
+		
+		return res;
 	}
 	
 	/**
-	 * Affiche une position donnee dans les champs de saisie
-	 * @param p
+	 * Affiche une position donnee dans les champs de saisie.
+	 * @param p position
 	 */
-	public void setPosition(Point p){
+	public void setPosition(Point p) {
 		xPosition.setText(String.valueOf((int) p.getX()));
 		yPosition.setText(String.valueOf((int) p.getY()));
 	}
-
-	public void disableRandom() {
+	
+	/**
+	 * Desactive la checkbox permettant de choisir l'aleatoire. 
+	 */
+	public void desactiveAleatoire() {
 		randomPosition.setSelected(false);
 	}
 	

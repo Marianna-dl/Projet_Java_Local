@@ -6,7 +6,7 @@ public enum TypeElement {
 	
 	private String nom;
 	
-	private TypeElement(String nom){
+	private TypeElement(String nom) {
 		this.nom = nom;
 	}
 

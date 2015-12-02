@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import serveur.Arene;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 public class Deplacements {
 	
@@ -58,8 +59,8 @@ public class Deplacements {
 
 		// la reference est nulle : le personnage erre
 		if (refObjectif <= 0) { //initialisation aleatoire
-			pvers = new Point(Calculs.randomNumber(Arene.XMIN, Arene.XMAX),
-					Calculs.randomNumber(Arene.YMIN, Arene.YMAX));
+			pvers = new Point(Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE),
+					Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
 		} else { //sinon la cible devient le point sur lequel se trouve l'element refObjectif
 			pvers = voisins.get(refObjectif);
 		}
@@ -77,8 +78,8 @@ public class Deplacements {
 	 * @throws RemoteException
 	 */
 	public void seDirigerVers(Point objectif) throws RemoteException {
-		Point cible = new Point(Calculs.caperNumber(Arene.XMIN, Arene.XMAX, objectif.x),
-				Calculs.caperNumber(Arene.YMIN, Arene.YMAX, objectif.y));
+		Point cible = new Point(Calculs.caperNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
+				Calculs.caperNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
 		
 		Point dest = position;
 		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse

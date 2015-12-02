@@ -59,7 +59,7 @@ public class NormalRenderer extends JLabel implements TableCellRenderer {
 		if (table.getModel() instanceof PersonnageTableModel) {
 			PersonnageTableModel model = (PersonnageTableModel) table.getModel();
 			
-			if (!model.isConnected(row)){
+			if (!model.isConnected(row)) {
 				setBackground(model.getColor(row));				
 			} else {
 				if (isSelected || model.isSelected(row) || column == model.getIndexNom()) {

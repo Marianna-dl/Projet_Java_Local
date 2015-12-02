@@ -83,15 +83,15 @@ public class ClientElement {
 		return ref;
 	}
 	
-	public Color getColor(){
+	public Color getColor() {
 		return color;
 	}
 	
-	public void setPhrase(String phrase){
+	public void setPhrase(String phrase) {
 		this.phrase = phrase;
 	}
 	
-	public String getPhrase(){
+	public String getPhrase() {
 		return phrase;
 	}
 }

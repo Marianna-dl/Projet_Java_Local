@@ -27,7 +27,7 @@ public class DetailCaracteristique extends JPanel {
 		
 		Color couleur = color;
 		int valeurUtilisee = valeur; // cette valeur sert a ramener toutes les valeurs sur 100 pour que les barres chargent a la meme vitesse
-		switch(caract){
+		switch(caract) {
 			case FORCE : couleur = Color.RED; 
 					     break;
 			case VIE : couleur = Color.GREEN; 

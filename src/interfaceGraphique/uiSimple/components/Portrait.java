@@ -16,7 +16,7 @@ public class Portrait extends JPanel{
 	private Color color;
 	private boolean personnage;
 	
-	public Portrait(Color c, boolean personnage){
+	public Portrait(Color c, boolean personnage) {
 		this.color = c;
 		this.personnage = personnage;
 	}
@@ -24,7 +24,7 @@ public class Portrait extends JPanel{
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.setColor(color);
-		if (personnage){
+		if (personnage) {
 			g.fillOval(10, 10, this.getWidth() - 20, this.getWidth() - 20);			
 		} else {
 			Polygon p = new Polygon();
