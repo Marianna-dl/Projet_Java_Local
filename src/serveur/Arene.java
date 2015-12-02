@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import interfaceGraphique.view.VueElement;
 import interfaceGraphique.view.VuePersonnage;
 import interfaceGraphique.view.VuePersonnageDeconnecte;
+import interfaceGraphique.view.VuePotion;
 import logger.MyLogger;
 import modele.Caracteristique;
 import modele.Element;
@@ -30,6 +31,7 @@ import modele.Potion;
 import serveur.controle.IConsolePersonnage;
 import serveur.infosclient.ClientElement;
 import serveur.infosclient.ClientPersonnage;
+import serveur.infosclient.ClientPotion;
 import serveur.infosclient.PaireRefRMIIntitiative;
 import serveur.interaction.Attaque;
 import serveur.interaction.Deplacements;
@@ -77,10 +79,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	private Hashtable<Integer, ClientPersonnage> clientsPersonnages = null;
 
 	/**
-	 * Repertoire des refRMI et des instances de la classe ClientObjet 
-	 * contenant toutes les donnees de objet qui sont d'office en jeu
+	 * Repertoire des refRMI et des instances de la classe ClientPotion
+	 * contenant toutes les donnees des potions qui sont d'office en jeu
 	 */
-	private Hashtable<Integer, ClientElement> clientsObjets = null;
+	private Hashtable<Integer, ClientPotion> clientsPotions = null;
 
 	/**
 	 * Liste des elements deconnectees de l'arene
@@ -119,7 +121,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		}
 
 		clientsPersonnages = new Hashtable<Integer, ClientPersonnage>();
-		clientsObjets = new Hashtable<Integer, ClientElement>();
+		clientsPotions = new Hashtable<Integer, ClientPotion>();
 		this.myLogger = logger;
 
 		// Ajout de l'arene au registre RMI
@@ -344,7 +346,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}	
 
 	@Override
-	public VueElement getVueGagnant() throws RemoteException{		
+	public VuePersonnage getVueGagnant() throws RemoteException{		
 		return getGagnant().getVue();
 	}
 
@@ -404,22 +406,22 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	@Override
 	public synchronized void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> ht) throws RemoteException {
 		Point position = Calculs.randomPosition();
-		ajouterObjet(new Potion(nom, groupe, ht), position);
+		ajouterPotion(new Potion(nom, groupe, ht), position);
 	}
 
 	/**
-	 * Ajoute un objet dans l'arene
+	 * Ajoute une potion dans l'arene
 	 * @param element
 	 * @throws RemoteException
 	 */
-	private void ajouterObjet(Element element, Point position) throws RemoteException {
+	private void ajouterPotion(Element element, Point position) throws RemoteException {
 		int ref = allocateRef();
-		ClientElement client = new ClientElement(
-				element,
+		ClientPotion client = new ClientPotion(
+				(Potion) element,
 				position, ref);
 		client.getVue().setPhrase("En attente!");
-		clientsObjets.put(ref, client);
-		String type = "de l'objet";
+		clientsPotions.put(ref, client);
+		String type = "de la potion";
 		if (element instanceof Potion)
 			type = "de la potion";
 		myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
@@ -460,18 +462,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		// ainsi si l'ejection ne fonctionne pas le serveur peut continuer sans disfonctionnement
 	}
 
-	private void ejecterPersonnage(int refRMI) {
+	protected void ejecterPersonnage(int refRMI) {
 		clientsPersonnages.remove(refRMI);
-		myLogger.info(this.getClass().toString(), "Console "+refRMI+" ejectee du registres !");
+		myLogger.info(this.getClass().toString(), "Console "+refRMI+" ejectee du registre !");
+	}		
+	
+	public void ejecterPotion(int refRMI) {
+		clientsPotions.remove(refRMI);
 	}	
-
-	/**
-	 * Deconnecte un objet
-	 * @param cObjet
-	 */
-	public void ejecterObjet(ClientElement cObjet) {
-		clientsObjets.remove(cObjet.getRef());
-	}
 
 	/*
 	 * Accesseur sur les liste d'elements
@@ -489,12 +487,13 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public List<VueElement> getObjets() throws RemoteException {
-		List<VueElement> aux = new ArrayList<VueElement>();
+	public List<VuePotion> getPotions() throws RemoteException {
+		List<VuePotion> aux = new ArrayList<VuePotion>();
 		
-		for(ClientElement client : clientsObjets.values()) {
+		for(ClientPotion client : clientsPotions.values()) {
 			aux.add(client.getVue());
 		}
+		
 		return aux;
 	}	
 
@@ -550,9 +549,9 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
-		// Recuperation des objets
-		for(int refVoisin : clientsObjets.keySet()) {
-			Point positionVoisin = clientsObjets.get(refVoisin).getPosition();			
+		// Recuperation des potions
+		for(int refVoisin : clientsPotions.keySet()) {
+			Point positionVoisin = clientsPotions.get(refVoisin).getPosition();			
 			/* 
 			 * n'est pas voisin de ce client :
 			 *  - le client lui meme
@@ -585,7 +584,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		for(ClientPersonnage client : clientsPersonnages.values()) {
 			msg += "\n"+Arene.nomCompletClient(client);
 		}
-		for(ClientElement client : clientsObjets.values()) {
+		for(ClientPotion client : clientsPotions.values()) {
 			msg += "\n"+Arene.nomCompletClient(client);
 		}
 		return msg;
@@ -675,25 +674,25 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 
 	@Override
-	public boolean ramasserObjet(IConsolePersonnage console, int refObjet) throws RemoteException {
+	public boolean ramasserPotion(IConsolePersonnage console, int refPotion) throws RemoteException {
 		
 		int ref = console.getRefRMI();
 		ClientPersonnage client = clientsPersonnages.get(ref);
-		ClientElement clientObjet = clientsObjets.get(refObjet);
+		ClientPotion clientPotion = clientsPotions.get(refPotion);
 		
 		
 		if (client.isActionExecutee()) {
 			console.log(Level.WARNING, "AVERTISSEMENT ARENE", "Une action a deja ete execute ce tour-ci !!!");
 			myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+"a tente de jouer plusieurs actions dans le meme tour");
 		} else {
-			int distance = Calculs.distanceChebyshev(client.getPosition(), clientObjet.getPosition());
+			int distance = Calculs.distanceChebyshev(client.getPosition(), clientPotion.getPosition());
 			if (distance <= Constantes.DISTANCE_MIN_INTERACTION) {
-				new Ramassage(this, client, clientObjet).interagir();
+				new Ramassage(this, client, clientPotion).interagir();
 				clientsPersonnages.get(ref).actionExecutee();
 				
 				return true;
 			} else {
-				myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+" a tente d'interagir avec "+clientObjet.getVue().getNom()+", alors qu'il est trop eloigne... Distance de chebyshev = "+distance);
+				myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+" a tente d'interagir avec "+clientPotion.getVue().getNom()+", alors qu'il est trop eloigne... Distance de chebyshev = "+distance);
 			}
 		}
 		
@@ -803,7 +802,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		if (increment < 0) {
 			console.log(Level.INFO, this.getClass().toString(), "J'ai perdu "+Math.abs(increment)+" points de "+carac);
 			if (carac == Caracteristique.VIE)
-				setPhrase(client, "Ouch, j'ai perdu "+increment+" points de vie.");
+				setPhrase(console, "Ouch, j'ai perdu "+increment+" points de vie.");
 		} else {
 			console.log(Level.INFO, this.getClass().toString(), "J'ai gagne "+increment+" points de "+carac);
 		}
@@ -848,7 +847,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		getClientElement(console.getRefRMI()).setPhrase(s);
 	}
 
-	public void setPhrase(ClientElement client, String s) {
+	public void setPhrase(ClientElement<?> client, String s) {
 		client.setPhrase(s);		
 	}
 	
@@ -886,16 +885,16 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		super.finalize();
 	}
 	
-	protected ClientElement getClientElement(int ref) {
-		ClientElement client = clientsPersonnages.get(ref);
+	protected ClientElement<?> getClientElement(int ref) {
+		ClientElement<?> client = clientsPersonnages.get(ref);
 		if (client == null)
-			client = clientsObjets.get(ref);
+			client = clientsPotions.get(ref);
 		return client;
 	}
 
 	@Override
 	public Point getPosition(int ref) throws RemoteException {
-		ClientElement client = getClientElement(ref);
+		ClientElement<?> client = getClientElement(ref);
 		Point p = client.getPosition();
 		return new Point(p.x, p.y);
 	}
@@ -914,8 +913,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return nbTours;
 	}
 	
-	public void ajouterClientEnJeu(int ref, ClientElement client) {
-		clientsObjets.put(ref, client);		
+	public void ajouterClientEnJeu(int ref, ClientPotion client) {
+		clientsPotions.put(ref, client);		
 	}
 	
 	/* ***************************************************
@@ -926,7 +925,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return nomRaccourciClient(getClientElement(ref));
 	}
 	
-	public static String nomRaccourciClient(ClientElement client) {
+	public static String nomRaccourciClient(ClientElement<?> client) {
 		return "(Client" + client.getRef() + " * " + client.getElement().getNomGroupe()+ ")";
 	}
 	
@@ -934,7 +933,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return nomCompletClient(getClientElement(ref));
 	}
 	
-	public static String nomCompletClient(ClientElement client) {
+	public static String nomCompletClient(ClientElement<?> client) {
 		Element element = client.getElement();
 		String type = "Client";
 		if (element instanceof Personnage) {
@@ -958,7 +957,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		myLogger.log(level, prefixe,msg);
 	}
 	
-	public void logClient(ClientElement client, Level level, String prefixe, String msg) throws RemoteException {
+	public void logClient(ClientElement<?> client, Level level, String prefixe, String msg) throws RemoteException {
 		IConsolePersonnage cons = consoleFromRef(client.getRef());
 		if (cons != null) cons.log(level, prefixe, msg);
 	}
@@ -973,8 +972,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public List<VueElement> getObjetsEnAttente() throws RemoteException {
-		return new ArrayList<VueElement>();
+	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
+		return new ArrayList<VuePotion>();
 	}
 
 	@Override
@@ -993,7 +992,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public synchronized void lancerObjetEnAttente(int ref, String mdp) throws RemoteException {
+	public synchronized void lancerPotionEnAttente(int ref, String mdp) throws RemoteException {
 		
 	}
 

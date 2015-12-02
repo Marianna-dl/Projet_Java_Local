@@ -15,21 +15,37 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.JTableHeader;
 
+/**
+ * Gere la fenetre de classement final. 
+ *
+ */
 public class FenetreClassement extends JFrame {
 
 	private static final long serialVersionUID = 2957443074830244549L;
 	
-	List<VuePersonnage> classement;
+	/**
+	 * Classement final. 
+	 */
+	private List<VuePersonnage> classement;
 
+	/**
+	 * Tableau affichant le classement.
+	 */
 	private JTable tableClassement;
 
+	/**
+	 * Cree une fenetre d'affichage du classement.
+	 * @param classement classement
+	 */
 	public FenetreClassement(List<VuePersonnage> classement) {
 		this.classement = classement;
-		initComponents();
+		initComposants();
 	}
 
-	private void initComponents() {
-		
+	/**
+	 * Initialise des composants de la fenetre. 
+	 */
+	private void initComposants() {
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Dimension screenSize = kit.getScreenSize();
 
@@ -55,6 +71,7 @@ public class FenetreClassement extends JFrame {
         // ajustement de la taille des colonnes
         for (int i = 0; i < model.getColumnCount(); i++) {
         	int width = model.getColumnWidth(i);
+        	
         	if (width != 0) {
         		tableClassement.getColumnModel().getColumn(i).setPreferredWidth(width);
         		tableClassement.getColumnModel().getColumn(i).setMinWidth(width);
@@ -70,6 +87,7 @@ public class FenetreClassement extends JFrame {
 		
         tableClassement.setTableHeader(new JTableHeader(tableClassement.getColumnModel()) {
 			private static final long serialVersionUID = 1L;
+			
 			@Override
 			public Dimension getPreferredSize() {
 				Dimension d = super.getPreferredSize();
@@ -88,7 +106,7 @@ public class FenetreClassement extends JFrame {
         this.add(scrollPane);
 
 		setVisible(true);
-        this.pack();
+        pack();
 	}
 	
 	

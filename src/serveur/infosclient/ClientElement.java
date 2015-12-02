@@ -13,12 +13,13 @@ import utilitaires.Calculs;
  * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
  * @author cricri
  */
-public class ClientElement {
+// TODO remove and use VueElement? Problems with serializable?
+public class ClientElement<T extends Element> {
 	
 	/**
 	 * les caracteristique de l'element
 	 */
-	protected Element elem;
+	protected T elem;
 	
 	/**
 	 * Position
@@ -46,7 +47,7 @@ public class ClientElement {
 	 * @param position position du client
 	 * @param ref reference du client
 	 */
-	public ClientElement(Element elem, Point position, int ref) {
+	public ClientElement(T elem, Point position, int ref) {
 		this.elem = elem;
 		this.position = position;
 		this.ref = ref;

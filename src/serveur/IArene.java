@@ -1,18 +1,18 @@
 package serveur;
 
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-import modele.Caracteristique;
-import modele.Element;
-import modele.Personnage;
-
 import java.awt.Point;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
+import interfaceGraphique.view.VuePotion;
+import modele.Caracteristique;
+import modele.Element;
+import modele.Personnage;
 import serveur.controle.IConsolePersonnage;
 
 /**
@@ -54,11 +54,11 @@ public interface IArene extends Remote {
 	public List<VuePersonnage> getPersonnages() throws RemoteException;
 	
 	/**
-	 * Calcule la liste de toutes les representations d'objets presents dans l'arene
+	 * Calcule la liste de toutes les representations de potions presentes dans l'arene
 	 * @return liste des representations
 	 * @throws RemoteException
 	 */
-	public List<VueElement> getObjets() throws RemoteException;
+	public List<VuePotion> getPotions() throws RemoteException;
 	
 	/**
 	 * Renvoie la liste des elements deconnectes
@@ -125,11 +125,11 @@ public interface IArene extends Remote {
 	/**
 	 * Demande au serveur de ramasser une potion
 	 * @param console celui qui veut ramasser une potion
-	 * @param refObjet la potion qui doit etre ramasse
+	 * @param refPotion la potion qui doit etre ramasse
 	 * @return true si l'action a bien eu lieu, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean ramasserObjet(IConsolePersonnage console, int refObjet) throws RemoteException;
+	public boolean ramasserPotion(IConsolePersonnage console, int refPotion) throws RemoteException;
 	
 	/**
 	 * Demande au serveur de lancer un duel
@@ -211,15 +211,15 @@ public interface IArene extends Remote {
 	boolean isPartieCommencee() throws RemoteException;
 	
 	/*
-	 * METHODES UNIQUEMENT DESTINeES A L'AReNE TOURNOI
+	 * METHODES UNIQUEMENT DESTINEES A L'ARENE TOURNOI
 	 */
 
 	/**
-	 * Renvoie la liste des objets en attente de connexion
+	 * Renvoie la liste des potions en attente de connexion
 	 * @return liste des elements en attente
 	 * @throws RemoteException
 	 */
-	public List<VueElement> getObjetsEnAttente() throws RemoteException;	
+	public List<VuePotion> getPotionsEnAttente() throws RemoteException;	
 	
 	/**
 	 * Permet d'ajouter une potion dans l'arene a n'importe qu'elle moment
@@ -233,12 +233,12 @@ public interface IArene extends Remote {
 	public void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException;
 	
 	/**
-	 * Permet de lancer un objet en attente dans la partie
-	 * @param ref reference de l'objet a lancer
+	 * Permet de lancer une potion en attente dans la partie
+	 * @param ref reference de la potion a lancer
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancerObjetEnAttente(int ref, String mdp) throws RemoteException ;
+	public void lancerPotionEnAttente(int ref, String mdp) throws RemoteException ;
 	
 	/**
 	 * Permet de lancer la partie
@@ -283,7 +283,7 @@ public interface IArene extends Remote {
 	 * @return vueElement du gagnant
 	 * @throws RemoteException
 	 */
-	public VueElement getVueGagnant() throws RemoteException;
+	public VuePersonnage getVueGagnant() throws RemoteException;
 	
 	
 }

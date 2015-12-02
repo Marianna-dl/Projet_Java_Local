@@ -1,7 +1,7 @@
 package interfaceGraphique.tableRenderer;
 
 import interfaceGraphique.tableModel.ClassementTableModel;
-import interfaceGraphique.tableModel.ObjetTableModel;
+import interfaceGraphique.tableModel.PotionTableModel;
 import interfaceGraphique.tableModel.PersonnageTableModel;
 
 import java.awt.Color;
@@ -68,9 +68,9 @@ public class NormalRenderer extends JLabel implements TableCellRenderer {
 			}
 		}
 		
-		// tableau des objets
-		if (table.getModel() instanceof ObjetTableModel) {
-			ObjetTableModel model = (ObjetTableModel) table.getModel();
+		// tableau des potions
+		if (table.getModel() instanceof PotionTableModel) {
+			PotionTableModel model = (PotionTableModel) table.getModel();
 
 			if (isSelected || model.isSelected(row) || column == model.getIndexNom()) {
 				setBackground(model.getColor(row));

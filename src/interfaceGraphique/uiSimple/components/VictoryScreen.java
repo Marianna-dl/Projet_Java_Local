@@ -1,7 +1,5 @@
 package interfaceGraphique.uiSimple.components;
 
-import interfaceGraphique.view.VueElement;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,23 +10,36 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import interfaceGraphique.view.VuePersonnage;
+
 /**
- * Panel de victoire
+ * Panel de victoire.
  *
  */
 public class VictoryScreen extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Nom du vainqueur a afficher.
+	 */
 	private String nom;
 
+	/**
+	 * Couleur du vainqueur.
+	 */
 	private Color color;
 
-	public VictoryScreen(VueElement vue) {
+	/**
+	 * Cree un ecran de victoire.
+	 * @param vue vue du personnage gagnant
+	 */
+	public VictoryScreen(VuePersonnage vue) {
 		nom = vue.getNom();
 		color = vue.getColor();
 	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		// dessine un rectangle noir transparent de la taille de la fenetre
 		g.setColor(new Color(0, 0, 0, 0.5f));

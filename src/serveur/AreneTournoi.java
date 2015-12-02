@@ -1,11 +1,5 @@
 package serveur;
 
-import interfaceGraphique.view.VueElement;
-import logger.MyLogger;
-import modele.Caracteristique;
-import modele.Element;
-import modele.Potion;
-
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,8 +8,14 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Scanner;
 
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePotion;
+import logger.MyLogger;
+import modele.Caracteristique;
+import modele.Potion;
 import serveur.controle.IConsolePersonnage;
 import serveur.infosclient.ClientElement;
+import serveur.infosclient.ClientPotion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -36,10 +36,10 @@ public class AreneTournoi extends Arene {
 	protected boolean partieCommencee;
 
 	/**
-	 * Repertoire des refRMI et des instances de la classe ClientObjet contenant 
-	 * toutes les donnees des objets qui devront etre mis en jeu plus tard
+	 * Repertoire des refRMI et des instances de la classe ClientPotion contenant 
+	 * toutes les donnees des potions qui devront etre mis en jeu plus tard
 	 */
-	private Hashtable<Integer, ClientElement> clientObjetNonEnJeu = null;
+	private Hashtable<Integer, ClientPotion> clientsPotionNonEnJeu = null;
 
 	public AreneTournoi(int port, String ipName, long TTL, MyLogger logger) throws Exception {
 		super(port, ipName, TTL, logger);
@@ -50,7 +50,7 @@ public class AreneTournoi extends Arene {
 			sc.close();
 		}
 
-		clientObjetNonEnJeu = new Hashtable<Integer, ClientElement>();
+		clientsPotionNonEnJeu = new Hashtable<Integer, ClientPotion>();
 		partieCommencee = false;
 	}
 	
@@ -90,22 +90,20 @@ public class AreneTournoi extends Arene {
 	 * @throws RemoteException
 	 */
 	public synchronized void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException {
-		ajouterObjetSecurisee(nom, new Potion(nom, "Arene", carac), position, mdp);				
+		ajouterPotionSecurisee(nom, new Potion(nom, "Arene", carac), position, mdp);				
 	}
 	
-	private void ajouterObjetSecurisee(String nom, Element element, Point position, String mdp) throws RemoteException {
+	private void ajouterPotionSecurisee(String nom, Potion element, Point position, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
 			int ref = allocateRef();
-			ClientElement client = new ClientElement(element, position, ref);
+			ClientPotion client = new ClientPotion(element, position, ref);
 			client.getVue().setPhrase("");
 			super.ajouterClientEnJeu(ref, client);
-			String type = "de l'objet";
-			if (element instanceof Potion)
-				type = "de la potion";
+			String type = "de la potion";
 			myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
 			printElements();
 		} else {
-			myLogger.info("Tentative d'ajout d'objet avec mot de passe errone");
+			myLogger.info("Tentative d'ajout de potion avec mot de passe errone");
 		}
 	}
 
@@ -119,25 +117,25 @@ public class AreneTournoi extends Arene {
 	public synchronized void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException {
 
 		int ref = allocateRef();
-		ClientElement client = new ClientElement(
+		ClientPotion client = new ClientPotion(
 				new Potion(nom, groupe, carac),
 				new Point(Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE), Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE)), ref);
-		clientObjetNonEnJeu.put(ref, client);
+		clientsPotionNonEnJeu.put(ref, client);
 		myLogger.info(this.getClass().toString(), "Ajout de la potion "+ Arene.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
 		printElements();
 	}
 	
 	/**
-	 * Lance un objet de la salle d'attente dans l'arene
+	 * Lance une potion de la salle d'attente dans l'arene
 	 * @param ref reference de la potion a lancer
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancerObjetEnAttente(int ref, String mdp) throws RemoteException {
+	public void lancerPotionEnAttente(int ref, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
-			ClientElement client = clientObjetNonEnJeu.get(ref);
+			ClientPotion client = clientsPotionNonEnJeu.get(ref);
 			if (client != null) {
-				clientObjetNonEnJeu.remove(ref);
+				clientsPotionNonEnJeu.remove(ref);
 				client.getVue().setPhrase("");
 				ajouterClientEnJeu(ref, client);
 			}			
@@ -152,10 +150,10 @@ public class AreneTournoi extends Arene {
 	/**
 	 * Recupere tous les elements en attente de connexion
 	 */
-	public List<VueElement> getObjetsEnAttente() throws RemoteException{
-		ArrayList<VueElement> aux = new ArrayList<VueElement>();
-		for(ClientElement client : clientObjetNonEnJeu.values()) {
-			VueElement ve = client.getVue();
+	public List<VuePotion> getPotionsEnAttente() throws RemoteException{
+		ArrayList<VuePotion> aux = new ArrayList<VuePotion>();
+		for(ClientPotion client : clientsPotionNonEnJeu.values()) {
+			VuePotion ve = client.getVue();
 			ve.setPhrase("En attente!");
 			ve.setEnAttente(true);
 			aux.add(ve);
@@ -177,7 +175,7 @@ public class AreneTournoi extends Arene {
 		if (this.motDePasse.equals(motDePasse)) {
 			IConsolePersonnage console = consoleFromRef(joueur.getRefRMI());
 			if (console == null) {
-				ejecterObjet(getClientElement(joueur.getRefRMI()));
+				ejecterPersonnage(joueur.getRefRMI());
 			} else {
 				deconnecterConsole(console, "Vous avez ete renvoye du salon.");
 			}
@@ -200,17 +198,17 @@ public class AreneTournoi extends Arene {
 	@Override
 	public String getPrintElementsMessage() {
 		String msg = super.getPrintElementsMessage();
-		for(ClientElement client : clientObjetNonEnJeu.values()) {
+		for(ClientElement<?> client : clientsPotionNonEnJeu.values()) {
 			msg += "\n"+Arene.nomCompletClient(client)+ "(en attente)";
 		}
 		return msg;
 	}
 	
 	@Override
-	protected ClientElement getClientElement(int ref) {
-		ClientElement client = super.getClientElement(ref);
+	protected ClientElement<?> getClientElement(int ref) {
+		ClientElement<?> client = super.getClientElement(ref);
 		if (client == null)
-			client = clientObjetNonEnJeu.get(ref);
+			client = clientsPotionNonEnJeu.get(ref);
 		return client;
 	}
 
@@ -218,12 +216,12 @@ public class AreneTournoi extends Arene {
 	public Point getPosition(int ref) throws RemoteException {
 		Point p = super.getPosition(ref);		
 		if (p == null)
-			p = clientObjetNonEnJeu.get(ref).getPosition();
+			p = clientsPotionNonEnJeu.get(ref).getPosition();
 		return new Point(p.x, p.y);
 	}
 	
 	@Override
 	public boolean isEnAttente(int refRMI) throws RemoteException {
-		return clientObjetNonEnJeu.containsKey(refRMI);
+		return clientsPotionNonEnJeu.containsKey(refRMI);
 	}
 }

@@ -1,5 +1,6 @@
 package interfaceGraphique.view;
 
+// TODO remove?
 public enum TypeElement {
 	PERSONNAGE("Personnage"),
 	POTION("Potion");

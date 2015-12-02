@@ -7,7 +7,7 @@ import serveur.Arene;
 import serveur.infosclient.ClientElement;
 import serveur.infosclient.ClientPersonnage;
 
-public abstract class EntreElement <T extends ClientElement> {
+public abstract class EntreElement<T extends ClientElement<?>> {
 	
 	/**
 	 * Arene.

@@ -97,7 +97,7 @@ public class FenetreCreationPotion extends JFrame {
     	// nom
     	JPanel panelNom = new JPanel();
     	
-    	JLabel labelNom = new JLabel("Nom de l'objet");
+    	JLabel labelNom = new JLabel("Nom de la potion");
     	panelNom.add(labelNom);    	
 
     	valueNom = new JTextField();
@@ -126,7 +126,7 @@ public class FenetreCreationPotion extends JFrame {
         lancePotion = new JButton(); 
         
 
-        clicPourPoser.setText("Cliquer sur l'arene pour poser l'objet");
+        clicPourPoser.setText("Cliquer sur l'arene pour poser la potion");
         clicPourPoser.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -140,13 +140,13 @@ public class FenetreCreationPotion extends JFrame {
         
         panelBouton.add(clicPourPoser);
         
-        lancePotion.setText("Lancer l'objet");
+        lancePotion.setText("Lancer la potion");
         panelBouton.add(lancePotion);
         lancePotion.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				lancerObjet();
+				lancerPotion();
 			}
 		});
 
@@ -160,7 +160,7 @@ public class FenetreCreationPotion extends JFrame {
      * Si oui, lance la potion correspondante,
      * si non, affiche un message d'erreur et ne lance pas la potion.
      */
-	public void lancerObjet() {
+	public void lancerPotion() {
 		List<String> erreurMessage = new ArrayList<String>();
 		Point position = null;
 		String nom = null;

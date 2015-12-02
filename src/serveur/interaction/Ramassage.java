@@ -7,20 +7,20 @@ import java.util.logging.Level;
 
 import modele.Caracteristique;
 import serveur.Arene;
-import serveur.infosclient.ClientElement;
 import serveur.infosclient.ClientPersonnage;
+import serveur.infosclient.ClientPotion;
 
-public class Ramassage extends EntreElement <ClientElement> {
+public class Ramassage extends EntreElement<ClientPotion> {
 
 	/**
 	 * Constructeur parametre
 	 * @param arene l'arene sur lequel a lieu le ramassage
-	 * @param ramasseur le ramasseur de l'objet
-	 * @param objet l'objet qui est ramasse
+	 * @param ramasseur le ramasseur de la potion
+	 * @param potion la potion qui est ramasse
 	 */
-	public Ramassage(Arene arene, ClientPersonnage ramasseur, ClientElement objet) {
-		super(arene, ramasseur, objet);
-		logs(Level.INFO, Arene.nomRaccourciClient(ramasseur) + " essaye de rammasser " + Arene.nomRaccourciClient(objet));
+	public Ramassage(Arene arene, ClientPersonnage ramasseur, ClientPotion potion) {
+		super(arene, ramasseur, potion);
+		logs(Level.INFO, Arene.nomRaccourciClient(ramasseur) + " essaye de rammasser " + Arene.nomRaccourciClient(potion));
 	}
 
 	@Override
@@ -28,7 +28,7 @@ public class Ramassage extends EntreElement <ClientElement> {
 		// effectue le ramassage
 		// si le personnage est vivant et la potion non encore ramassee
 		if(attaquant.getElement().isAlive() && defenseur.getElement().isAlive()) {
-			ramasserObjet();
+			ramasserPotion();
 			
 			logs(Level.INFO, "Potion bu !");
 			if (! attaquant.getElement().isAlive()) {
@@ -46,16 +46,16 @@ public class Ramassage extends EntreElement <ClientElement> {
 	 * @param per personnage
 	 * @throws RemoteException
 	 */
-	private void ramasserObjet() throws RemoteException {
-		HashMap<Caracteristique, Integer> valeursObjet = defenseur.getElement().getCaracts();
+	private void ramasserPotion() throws RemoteException {
+		HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
 		
-		for (Entry<Caracteristique, Integer> caractEntry : valeursObjet.entrySet())
+		for (Entry<Caracteristique, Integer> caractEntry : valeursPotion.entrySet())
 			arene.ajouterCaractElement(attaquant, caractEntry.getKey(), caractEntry.getValue());
 
 		if (! attaquant.getElement().isAlive())
 			arene.setPhrase(attaquant, "Je me suis empoisonne, je meurs ");
 				
-		// Deconnecte l'objet
-		arene.ejecterObjet(defenseur);
+		// Deconnecte la potion
+		arene.ejecterPotion(defenseur.getRef());
 	}
 }

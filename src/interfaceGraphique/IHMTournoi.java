@@ -81,7 +81,7 @@ public class IHMTournoi extends IHM {
 				if (fenetrePotion != null && fenetrePotion.isVisible()) {
 					fenetrePotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
 					if (fenetrePotion.isClicPourPoserSelectionne()) {
-						fenetrePotion.lancerObjet();
+						fenetrePotion.lancerPotion();
 					}
 				}
 			}
@@ -204,7 +204,7 @@ public class IHMTournoi extends IHM {
 		} else {
 			if (getElementSelectionne().isEnAttente()) {
 				try {
-					arene.lancerObjetEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
+					arene.lancerPotionEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}

@@ -9,7 +9,7 @@ import java.awt.Point;
 /**
  * Toutes les donnees que le serveur doit conserver sur chacun de ces clients
  */
-public class ClientPersonnage extends ClientElement {
+public class ClientPersonnage extends ClientElement<Personnage> {
 
 
 	/**
@@ -53,11 +53,11 @@ public class ClientPersonnage extends ClientElement {
 		this.elem = pers;
 	}
 
+	@Override
 	public VuePersonnage getVue() {
-		Personnage perso = getPersServeur();
 		VuePersonnage vp = new VuePersonnage(
-				getRef(), getPosition(), perso.getNom(), 
-				perso.getGroupe(), perso.getCaracts(), getColor(), getPhrase());
+				getRef(), getPosition(), elem.getNom(), 
+				elem.getGroupe(), elem.getCaracts(), getColor(), getPhrase());
 		
 		return vp;
 	}

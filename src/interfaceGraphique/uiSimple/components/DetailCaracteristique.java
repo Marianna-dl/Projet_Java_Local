@@ -9,34 +9,46 @@ import javax.swing.border.LineBorder;
 
 import modele.Caracteristique;
 
+/**
+ * Affiche le detail d'une caracteristique : sa barre avec un label.
+ *
+ */
 public class DetailCaracteristique extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Barre de la caracteristique
+	 * Barre de la caracteristique.
 	 */
 	private Barre barre;
+	
 	/**
-	 * Label de la caracteristique
+	 * Label de la caracteristique.
 	 */
 	private JLabel label;
 	
-
-	public DetailCaracteristique(Caracteristique caract, int valeur, Color color) {
+	/**
+	 * Cree un panel d'affichage de detail d'une caracteristique.
+	 * @param caract caracteristique
+	 * @param valeur valeur de la caracteristique
+	 */
+	public DetailCaracteristique(Caracteristique caract, int valeur) {
+		Color couleur = null;
 		
-		Color couleur = color;
-		int valeurUtilisee = valeur; // cette valeur sert a ramener toutes les valeurs sur 100 pour que les barres chargent a la meme vitesse
 		switch(caract) {
-			case FORCE : couleur = Color.RED; 
-					     break;
-			case VIE : couleur = Color.GREEN; 
-					   break;
-			case INITIATIVE : couleur = Color.CYAN;
-							  valeurUtilisee = valeur / 10; // on ramene a 100
-							  break;
-
+		case FORCE: 
+			couleur = Color.RED; 
+			break;
+		case VIE: 
+			couleur = Color.GREEN; 
+			break;
+		case INITIATIVE: 
+			couleur = Color.BLUE;
+			break;
 		}
+		
+		// valeur ramenee sur 100, en fonction du max de la caracteristique
+		int valeurUtilisee = (int) ((valeur * 100) / (float) caract.getMax()); 
 		
 		barre = new Barre(valeurUtilisee, couleur);		
 		barre.setMaximum(100);
@@ -45,7 +57,7 @@ public class DetailCaracteristique extends JPanel {
         barre.setPreferredSize(new Dimension(250,20));
         label = new JLabel();
         
-        label.setText(caract.getNomComplet()+" : " + valeur + "/"+caract.getMax());
+        label.setText(caract.getNomComplet() + " : " + valeur + "/" + caract.getMax());
         label.setPreferredSize(new Dimension(150,20));
         
         this.add(barre);
@@ -53,7 +65,10 @@ public class DetailCaracteristique extends JPanel {
 		
 	}
 
-	public void go() {
-		barre.smoothLoad();
+	/**
+	 * Lance le chargement de la barre.
+	 */
+	public void lanceChargement() {
+		barre.lanceChargement();
 	}
 }

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 
 /**
  * Panel de controle de la partie : permet d'ejecter un joueur, de lancer la 
- * partie, d'ajouter un objet...
+ * partie, d'ajouter une potion...
  *
  */
 public class ControleJPanel extends JPanel {
@@ -76,8 +76,8 @@ public class ControleJPanel extends JPanel {
 		ejecterButton = new JButton("Ejecter le joueur");
 		detaillerButton = new JButton("Vue detaillee");
 		lancerPartieButton = new JButton("Lancer la partie");
-		ajouterPotionButton = new JButton("Ajouter un objet");
-		envoyerPotionButton = new JButton("Envoyer l'objet");
+		ajouterPotionButton = new JButton("Ajouter une potion");
+		envoyerPotionButton = new JButton("Envoyer la potion");
 		deverrouillerButton = new JButton("Deverouiller");	
 		
 		// listeners

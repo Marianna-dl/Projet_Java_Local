@@ -1,15 +1,5 @@
 package interfaceGraphique;
 
-import interfaceGraphique.uiSimple.AreneJPanel;
-import interfaceGraphique.uiSimple.FenetreClassement;
-import interfaceGraphique.uiSimple.FenetreDetail;
-import interfaceGraphique.uiSimple.InfosJPanel;
-import interfaceGraphique.uiSimple.components.VictoryScreen;
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-import logger.MyLogger;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -34,6 +24,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
+import interfaceGraphique.uiSimple.AreneJPanel;
+import interfaceGraphique.uiSimple.FenetreClassement;
+import interfaceGraphique.uiSimple.FenetreDetail;
+import interfaceGraphique.uiSimple.ElementsJPanel;
+import interfaceGraphique.uiSimple.components.VictoryScreen;
+import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePersonnage;
+import interfaceGraphique.view.VuePersonnageDeconnecte;
+import interfaceGraphique.view.VuePotion;
+import logger.MyLogger;
 import serveur.IArene;
 import utilitaires.Calculs;
 
@@ -121,9 +121,9 @@ public class IHM extends JFrame implements Runnable {
 	
 	/**
 	 * Panel affichant les tableaux des elements participants a la partie :
-	 * personnages et objets.
+	 * personnages et potions.
 	 */
-	protected InfosJPanel infosPanel;
+	protected ElementsJPanel infosPanel;
 	
 	/**
 	 * Panel affichant le timer et le panel de l'arene.
@@ -185,7 +185,7 @@ public class IHM extends JFrame implements Runnable {
 		gauchePanel.add(timerLabel, BorderLayout.NORTH);
 		gauchePanel.add(arenePanel, BorderLayout.CENTER);
 
-		infosPanel = new InfosJPanel(this);
+		infosPanel = new ElementsJPanel(this);
 
 		JSplitPane jSplitPane = new JSplitPane();
 		int dividerLocation = fenWidth / 2;
@@ -279,12 +279,12 @@ public class IHM extends JFrame implements Runnable {
 				// met a jour la liste des elements de l'arene
 				List<VuePersonnage> personnages = arene.getPersonnages();
 				List<VuePersonnageDeconnecte> deconnected = arene.getHell();
-				List<VueElement> objetsEnAttente = arene.getObjetsEnAttente();
-				List<VueElement> objets = arene.getObjets();
+				List<VuePotion> potionsEnAttente = arene.getPotionsEnAttente();
+				List<VuePotion> potions = arene.getPotions();
 
-				infosPanel.setElements(personnages, objets, deconnected,
-						objetsEnAttente);
-				arenePanel.updateWorld(personnages, objets);
+				infosPanel.setElements(personnages, potions, deconnected,
+						potionsEnAttente);
+				arenePanel.setVues(personnages, potions);
 
 				// MAJ du timer
 				int tempsRestant = arene.getNbToursRestants();
@@ -377,7 +377,7 @@ public class IHM extends JFrame implements Runnable {
 			
 			fenetre.setLocation(point);
 			fenetre.setVisible(true);
-			fenetre.go();
+			fenetre.lanceChargementJauges();
 			fenetre.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 	}

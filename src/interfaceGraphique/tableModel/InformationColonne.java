@@ -7,7 +7,7 @@ import interfaceGraphique.view.VueElement;
  * etant donnee la vue correspondante, la valeur a afficher,
  * la largeur, l'intitule et la classe de la valeur.
  *
- * @param <V> type de vues affichees (personnages, objets, ...)
+ * @param <V> type de vues affichees (personnages ou potions).
  */
 public class InformationColonne<V extends VueElement> {
 

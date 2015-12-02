@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import modele.Caracteristique;
 
+// TODO make abstract
 /**
  * Definit la representation d'un element par sa vue : coordonnees, reference dans l'annuaire RMI, console, message... 
  */

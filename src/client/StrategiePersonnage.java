@@ -93,7 +93,7 @@ public class StrategiePersonnage {
 				if(elemPlusProche instanceof Potion) { // potion
 					// ramassage
 					console.setPhrase("Je ramasse une potion");
-					arene.ramasserObjet(console, refCible);
+					arene.ramasserPotion(console, refCible);
 
 				} else { // personnage
 					// duel

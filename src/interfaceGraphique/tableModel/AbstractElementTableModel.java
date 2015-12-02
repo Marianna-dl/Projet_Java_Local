@@ -12,7 +12,7 @@ import modele.Caracteristique;
 /**
  * Classe abstraite de Table Model affichant une liste de vueElement.
  * 
- * @param <V> type de vue affichee (personnages, objets, ...)
+ * @param <V> type de vue affichee (personnages ou potions).
  */
 public abstract class AbstractElementTableModel<V extends VueElement> extends AbstractTableModel {
 	

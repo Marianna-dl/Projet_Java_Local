@@ -4,43 +4,43 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-import interfaceGraphique.view.VueElement;
+import interfaceGraphique.view.VuePotion;
 import modele.Caracteristique;
 
 /**
- * TableModel des objets, envoyes ou en attente.
+ * TableModel des potions, envoyees ou en attente.
  * 
  */
-public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
+public class PotionTableModel extends AbstractElementTableModel<VuePotion> {
 	
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Liste des objets en attente d'etre envoyes.
+	 * Liste des potions en attente d'etre envoyees.
 	 */
-	private List<VueElement> enAttente = new ArrayList<VueElement>();
+	private List<VuePotion> enAttente = new ArrayList<VuePotion>();
 
 	
-	public ObjetTableModel() {
-		colonnes = new ArrayList<InformationColonne<VueElement>>();
+	public PotionTableModel() {
+		colonnes = new ArrayList<InformationColonne<VuePotion>>();
 		indexNom = 1;
 		
-		// type de l'objet
-		colonnes.add(new InformationColonne<VueElement>("Ref", 40, Integer.class, new ValeurColonneRefRMI())); 
+		// type de la potion
+		colonnes.add(new InformationColonne<VuePotion>("Ref", 40, Integer.class, new ValeurColonneRefRMI())); 
 		
-		// nom de l'objet (index 1)
-		colonnes.add(new InformationColonne<VueElement>("Nom", 0, String.class, new ValeurColonneNom())); 
+		// nom de la potion (index 1)
+		colonnes.add(new InformationColonne<VuePotion>("Nom", 0, String.class, new ValeurColonneNom())); 
 		
-		// groupe de l'objet
-		colonnes.add(new InformationColonne<VueElement>("Groupe", 0, String.class, new ValeurColonneGroupe()));
+		// groupe de la potion
+		colonnes.add(new InformationColonne<VuePotion>("Groupe", 0, String.class, new ValeurColonneGroupe()));
 		
 		// caracteristiques
 		for(Caracteristique car : Caracteristique.values()) {
-			colonnes.add(new InformationColonne<VueElement>(car.toString(), 40, Integer.class, new ValeurColonneCaract(car)));
+			colonnes.add(new InformationColonne<VuePotion>(car.toString(), 40, Integer.class, new ValeurColonneCaract(car)));
 		}
 		
 		// phrase du personnage
-		colonnes.add(new InformationColonne<VueElement>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
+		colonnes.add(new InformationColonne<VuePotion>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
 	}
 
 	@Override 
@@ -49,8 +49,8 @@ public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
     }
 	
     @Override
-	public VueElement getVue(int rowIndex) {
-    	VueElement res;
+	public VuePotion getVue(int rowIndex) {
+    	VuePotion res;
     	
 		if (estEnAttente(rowIndex)) {
 			res = enAttente.get(rowIndex - getVues().size());
@@ -91,7 +91,7 @@ public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Object res = null;
-        VueElement vue = getVue(rowIndex);
+        VuePotion vue = getVue(rowIndex);
         
     	if(columnIndex < getColumnCount()) {
     		res = colonnes.get(columnIndex).getValeur(rowIndex, vue);
@@ -113,7 +113,7 @@ public class ObjetTableModel extends AbstractElementTableModel<VueElement> {
 	 * Modifie les elements en attente.
 	 * @param enAttente liste des elements en attente
 	 */
-	public void setEnAttente(List<VueElement> enAttente) {
+	public void setEnAttente(List<VuePotion> enAttente) {
 		this.enAttente = enAttente;
 	}
    
