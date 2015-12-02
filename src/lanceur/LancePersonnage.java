@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import client.StrategiePersonnage;
 import logger.MyLogger;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * Lance une Console avec un Element sur l'Arene (apres lancement Arene). A lancer plusieurs fois.
@@ -18,12 +19,14 @@ public class LancePersonnage {
 	public static void main(String[] args) {
 		// init des variables
 		String nom = "Truc";
-		String groupe = "B" + Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
+		
+		// TODO remplacer la ligne suivante par votre numero de groupe
+		String groupe = "B" + Calculs.randomNumber(0,99); 
 		String ipConsole = null;
 		
 		// init des arguments
-		int port = 5099;
-		String ipArene = "localhost";
+		int port = Constantes.PORT_DEFAUT;
+		String ipArene = Constantes.IP_DEFAUT;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
@@ -31,7 +34,7 @@ public class LancePersonnage {
 			}
 			
 			if (args.length > 2) {
-				Erreur.TOO_MUCH_ARGS.erreur(usage);
+				Erreur.TROP_ARGS.erreur(usage);
 			}
 			
 			try {
@@ -56,7 +59,7 @@ public class LancePersonnage {
 		
 		// lancement du serveur
 		try {
-			//ipConsole = "localhost";
+			
 			ipConsole = InetAddress.getLocalHost().getHostAddress();
 			
 			logger.info("lanceur", "Creation du personnage...");

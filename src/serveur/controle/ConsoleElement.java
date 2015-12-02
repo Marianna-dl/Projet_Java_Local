@@ -14,8 +14,9 @@ import modele.Personnage;
 import serveur.IArene;
 
 /**
- * Se connecte au serveur avec un Element
- * "run" permet a l'Element de se deplacer
+ * Implementation des methodes RMI associees a un element (personnage ou 
+ * potion).
+ * La strategie est executee depuis la methode run(). 
  *
  */
 public class ConsoleElement extends UnicastRemoteObject implements IConsoleElement {
@@ -23,14 +24,14 @@ public class ConsoleElement extends UnicastRemoteObject implements IConsoleEleme
 	private static final long serialVersionUID = 1L;
 	
 	/**
-	 * Port 5099 par defaut pour communiquer avec l'arene.
-	 */
-	private int port;
-
-	/**
-	 * Adresse IP du serveur de l'arene, localhost si en local.
+	 * Adresse IP du serveur.
 	 */
 	private String ipArene;
+
+	/**
+	 * Port de communication avec l'arene.
+	 */
+	private int port;
 
 	/**
 	 * Adresse IP de la console, localhost si en local.

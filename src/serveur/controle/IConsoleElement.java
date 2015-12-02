@@ -11,9 +11,11 @@ import client.StrategiePersonnage;
 import serveur.IArene;
 
 /**
- * Represente un 
+ * Contient les methodes RMI associees a un element (personnage ou potion),
+ * comme l'ajout d'une phrase ou l'execution de sa strategie. 
  */
 public interface IConsoleElement extends Remote {
+	
 	/**
 	 * Deconnexion du controleur du serveur.
 	 * @param cause le message a afficher comme cause de la deconnexion

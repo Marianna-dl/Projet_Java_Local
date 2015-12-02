@@ -7,6 +7,7 @@ import logger.MyLogger;
 import modele.Caracteristique;
 import serveur.IArene;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 public class LancePotion {
 	
@@ -15,12 +16,13 @@ public class LancePotion {
 	public static void main(String[] args) {
 		// init des variables
 		String nom = "Anduril";
-		String groupe = "B" + Calculs.randomNumber(0,99); // REMPLACER CETTE LIGNE PAR VOTRE NUMERO DE GROUPE
-					// vous ne pourrez pas participer au tournoi si ce n'est pas fait
+		
+		// TODO remplacer la ligne suivante par votre numero de groupe
+		String groupe = "B" + Calculs.randomNumber(0,99); 
 		
 		// init des arguments
-		int port = 5099;
-		String ipArene = "localhost";
+		int port = Constantes.PORT_DEFAUT;
+		String ipArene = Constantes.IP_DEFAUT;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
@@ -28,7 +30,7 @@ public class LancePotion {
 			}
 			
 			if (args.length > 2) {
-				Erreur.TOO_MUCH_ARGS.erreur(usage);
+				Erreur.TROP_ARGS.erreur(usage);
 			}
 			
 			try {

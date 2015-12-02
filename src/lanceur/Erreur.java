@@ -1,10 +1,10 @@
 package lanceur;
 
 public enum Erreur {
-	TOO_MUCH_ARGS	(1, "Trop d'arguments !"),
+	TROP_ARGS	(1, "Trop d'arguments !"),
 	PORT_NAN		(2, "Le premier argument doit etre une nombre entre 0 et 65535 !"),
 	INCORRECT_IP	(3, "Adresse IP de l'arene incorrect !"),
-	INCORRECT_TTL	(4, "Le TTL doit etre un nombre positif");
+	TTL_INCORRECT	(4, "Le TTL doit etre un nombre positif");
 	
 	public static int suivant = 5;
 	

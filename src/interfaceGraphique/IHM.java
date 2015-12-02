@@ -45,17 +45,15 @@ public class IHM extends JFrame implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Port de communication avec l'arene. 
-	 * Initialise au port par defaut (5099).
+	 * Adresse IP du serveur. 
 	 */
-	private int port = 5099;
-	
-	/**
-	 * Adresse IP de la machine hebergeant l'arene. 
-	 * Initialise a la machine par defaut (localhost).
-	 */
-	private String ipArene = "localhost";
+	private String ipArene;
 
+	/**
+	 * Port de communication avec l'arene. 
+	 */
+	private int port;
+	
 	/**
 	 * Etats de l'interface : initialisation ou en jeu.
 	 * 
@@ -96,7 +94,6 @@ public class IHM extends JFrame implements Runnable {
 	private VueElement elementSelectionne;
 	
 	
-
 	/**
 	 * JLabel affichant le timer. 
 	 */

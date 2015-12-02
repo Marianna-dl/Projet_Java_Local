@@ -2,11 +2,14 @@ package lanceur;
 
 import interfaceGraphique.IHM;
 import logger.MyLogger;
+import utilitaires.Constantes;
 
 import java.io.IOException;
 
 /**
- * Test de l'interface graphique qui se connecte a l'Arene (apres lancement Arene, avant les Consoles)
+ * Interface graphique qui se connecte a l'arene. 
+ * A lancer apres l'arene.
+ * Arguments : numero de port et adresse IP de l'arene.
  */
 public class LanceIHM {
 	
@@ -14,8 +17,8 @@ public class LanceIHM {
 
 	public static void main(String[] args) {		
 		// init des arguments
-		int port = 5099;
-		String ipArene = "localhost";
+		int port = Constantes.PORT_DEFAUT;
+		String ipArene = Constantes.IP_DEFAUT;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
@@ -23,7 +26,7 @@ public class LanceIHM {
 			}
 			
 			if (args.length > 2) {
-				Erreur.TOO_MUCH_ARGS.erreur(usage);
+				Erreur.TROP_ARGS.erreur(usage);
 			}
 			
 			try {

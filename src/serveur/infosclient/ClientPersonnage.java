@@ -2,6 +2,7 @@ package serveur.infosclient;
 
 import interfaceGraphique.view.VuePersonnage;
 import modele.Personnage;
+import utilitaires.Constantes;
 
 import java.awt.Point;
 
@@ -14,7 +15,7 @@ public class ClientPersonnage extends ClientElement {
 	/**
 	 * adresse ip du client
 	 */
-	private String ipAddress = "localhost";
+	private String ipAddress = Constantes.IP_DEFAUT;
 	
 	/**
 	 * booleen specifiant si une action a ete executee ce tour-ci
