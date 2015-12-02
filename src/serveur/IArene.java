@@ -103,7 +103,7 @@ public interface IArene extends Remote {
 	 * @return une copie de l'ElementServeur correspondant a la console de reference refRMI
 	 * @throws RemoteException
 	 */
-	public Element getAnElement(int refRMI) throws RemoteException;
+	public Element getElement(int refRMI) throws RemoteException;
 
 	/* ***************************************************
 	 * gestions des interactions

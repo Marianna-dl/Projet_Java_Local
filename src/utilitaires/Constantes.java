@@ -20,4 +20,10 @@ public class Constantes {
 	 * Taille du champ de vision des personnages. 
 	 */
 	public static final int VISION = 30;
+	
+	/**
+	 * Distance minimale entre deux elements pour qu'une interaction soit
+	 * possible. 
+	 */
+	public static final int DISTANCE_MIN_INTERACTION = 2;
 }

@@ -65,7 +65,7 @@ public class LancePersonnage {
 			logger.info("lanceur", "Creation du personnage...");
 			Point position = new Point(Calculs.randomNumber(0,100), Calculs.randomNumber(0,100));
 			
-			new StrategiePersonnage(nom, groupe, position, port, ipArene, ipConsole, logger);
+			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

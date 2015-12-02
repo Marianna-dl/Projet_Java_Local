@@ -14,9 +14,9 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Queue;
 import java.util.Map.Entry;
 import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.logging.Level;
 
 import interfaceGraphique.view.VueElement;
@@ -33,7 +33,6 @@ import serveur.infosclient.ClientPersonnage;
 import serveur.infosclient.PaireRefRMIIntitiative;
 import serveur.interaction.Attaque;
 import serveur.interaction.Deplacements;
-import serveur.interaction.EntreElement;
 import serveur.interaction.Ramassage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -174,7 +173,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				for (int refRMI : listRef) {
 					try {
 						IConsolePersonnage console = consoleFromRef(refRMI);
-						Personnage elems = (Personnage) getAnyElement(refRMI);
+						Personnage elems = (Personnage) getElementRef(refRMI);
 						
 						/* peut etre que ce client a ete tue lors d'un
 						 * duel plus tot dans ce tour si c'est le cas,
@@ -552,7 +551,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			 */
 			if (refVoisin != ref && 
 					Calculs.distanceChebyshev(positionVoisin, positionConsole) <= Constantes.VISION && 
-					getAnyElement(refVoisin).isAlive()) {
+					getElementRef(refVoisin).isAlive()) {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
@@ -567,7 +566,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			 */
 			if (refVoisin != ref && 
 					Calculs.distanceChebyshev(positionVoisin, positionConsole) <= Constantes.VISION && 
-					getAnyElement(refVoisin).isAlive()) {
+					getElementRef(refVoisin).isAlive()) {
 				aux.put(refVoisin, positionVoisin);
 			}
 		}
@@ -693,7 +692,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			myLogger.warning(this.getClass().toString(), nomRaccourciClient(console.getRefRMI())+"a tente de jouer plusieurs actions dans le meme tour");
 		} else {
 			int distance = Calculs.distanceChebyshev(client.getPosition(), clientObjet.getPosition());
-			if (distance <= EntreElement.DISTANCE_MIN_INTERACTION) {
+			if (distance <= Constantes.DISTANCE_MIN_INTERACTION) {
 				new Ramassage(this, client, clientObjet).interagir();
 				clientsPersonnages.get(ref).actionExecutee();
 				
@@ -719,10 +718,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			IConsolePersonnage consoleAdv = consoleFromRef(refAdv);
 			
 			int distance = Calculs.distanceChebyshev(clientsPersonnages.get(ref).getPosition(), clientsPersonnages.get(refAdv).getPosition());
-			if (distance <= EntreElement.DISTANCE_MIN_INTERACTION) {
+			if (distance <= Constantes.DISTANCE_MIN_INTERACTION) {
 							
-				Personnage pers = (Personnage) getAnyElement(ref);
-				Personnage persAdv = (Personnage) getAnyElement(refAdv);
+				Personnage pers = (Personnage) getElementRef(ref);
+				Personnage persAdv = (Personnage) getElementRef(refAdv);
 				if (pers.isAlive() && persAdv.isAlive()) {
 					console.log(Level.INFO, this.getClass().toString(), "J'attaque "+nomRaccourciClient(consoleAdv.getRefRMI()));
 					consoleAdv.log(Level.INFO, this.getClass().toString(), "Je me fait attaquer par "+nomRaccourciClient(console.getRefRMI()));
@@ -732,8 +731,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					clientsPersonnages.get(ref).actionExecutee();
 					clientsPersonnages.get(refAdv).sonne();
 					
-					pers = (Personnage) getAnyElement(ref);
-					persAdv = (Personnage) getAnyElement(refAdv);
+					pers = (Personnage) getElementRef(ref);
+					persAdv = (Personnage) getElementRef(refAdv);
 					
 					if (! persAdv.isAlive()) {
 						setPhrase(console, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
@@ -823,12 +822,15 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 	@Override
 	public Element getMyElement(IConsolePersonnage console) throws RemoteException {
-		return getAnyElement(console.getRefRMI());
+		return getElementRef(console.getRefRMI());
 	}
-	public Element getAnElement(int refRMI) throws RemoteException {
-		return getAnyElement(refRMI);
+	
+	@Override
+	public Element getElement(int refRMI) throws RemoteException {
+		return getElementRef(refRMI);
 	}
-	private Element getAnyElement(int refRMI) {
+	
+	private Element getElementRef(int refRMI) {
 		return getClientElement(refRMI).getElement();
 	}
 	

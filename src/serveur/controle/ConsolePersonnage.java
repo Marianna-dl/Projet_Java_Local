@@ -64,7 +64,7 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 	 * @param ipConsole ip de la console
 	 * @param strategiePer strategie du personnage 
 	 * @param pers personnage 
-	 * @param position position du personnage dans l'arene
+	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 * @throws RemoteException
 	 */

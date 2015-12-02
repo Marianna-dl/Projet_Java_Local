@@ -23,7 +23,6 @@ public abstract class EntreElement <T extends ClientElement> {
 	protected T defenseur;
 	
 	
-	public static final int DISTANCE_MIN_INTERACTION = 2;
 	
 	/**
 	 * Constructeur
