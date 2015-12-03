@@ -43,7 +43,7 @@ public class SaisieCaracteristique extends JPanel {
 	/**
 	 * ComboBox permettant de selectionner l'intervalle de l'aleatoire.
 	 */
-	private JComboBox<String> aleatoireIntervalleCaract;
+	private JComboBox aleatoireIntervalleCaract;
 
 	/**
 	 * Label affichant le nom de la caracteristique.
@@ -72,7 +72,7 @@ public class SaisieCaracteristique extends JPanel {
 		valeurCaract = new JTextField();
 		maxCaract = new JLabel();
 		aleatoireCaract = new JCheckBox();
-		aleatoireIntervalleCaract = new JComboBox<String>();
+		aleatoireIntervalleCaract = new JComboBox();
 	
 		labelCaract.setHorizontalAlignment(SwingConstants.CENTER);
 		labelCaract.setText(caracteristique.name());
@@ -100,7 +100,7 @@ public class SaisieCaracteristique extends JPanel {
 		
 		this.add(aleatoireCaract);
 		
-		ComboBoxModel<String> cbm = new DefaultComboBoxModel<String>(new String[] { 
+		ComboBoxModel cbm = new DefaultComboBoxModel(new String[] { 
 					"[0," + caracteristique.getMax() + "]",
 					"[-" + caracteristique.getMax() + ",0]", 
 					"[-" + caracteristique.getMax() + "," + caracteristique.getMax() + "]" 

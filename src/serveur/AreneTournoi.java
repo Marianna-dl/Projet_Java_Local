@@ -33,7 +33,7 @@ public class AreneTournoi extends Arene {
 	/**
 	 * Booleen permettant de savoir si la partie est commencee
 	 */
-	protected boolean partieCommencee;
+	private boolean partieCommencee;
 
 	/**
 	 * Repertoire des refRMI et des instances de la classe ClientPotion contenant 

@@ -105,7 +105,7 @@ public class PotionTableModel extends AbstractElementTableModel<VuePotion> {
 	 * @param rowIndex ligne de l'element
 	 * @return true si la ligne est en attente, false sinon
 	 */
-	public boolean estEnAttente(int rowIndex) {
+	private boolean estEnAttente(int rowIndex) {
 		return rowIndex >= getVues().size();
 	}
 	

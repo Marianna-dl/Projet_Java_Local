@@ -36,7 +36,7 @@ public class Barre extends JProgressBar implements ActionListener {
 	 * @param valeurFinale valeur
 	 * @param couleurFinale couleur
 	 */
-	public Barre(int valeurFinale, Color couleurFinale) {
+	public Barre(int valeurFinale, Color couleurFinale) { 
 		valeurCourante = 0;
 		this.valeurFinale = valeurFinale;
 		this.setForeground(couleurFinale);
@@ -46,7 +46,7 @@ public class Barre extends JProgressBar implements ActionListener {
 	/**
 	 * Demarre le chargement. 
 	 */
-	public void lanceChargement() {
+	public void lanceChargement() { 
 		declencheur.start();
 	}
 

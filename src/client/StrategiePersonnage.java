@@ -23,7 +23,7 @@ public class StrategiePersonnage {
 	 * Console permettant d'ajouter une phrase et de recuperer le serveur 
 	 * (l'arene).
 	 */
-	protected ConsolePersonnage console;
+	private ConsolePersonnage console;
 
 	/**
 	 * Cree un personnage, la console associe et sa strategie.

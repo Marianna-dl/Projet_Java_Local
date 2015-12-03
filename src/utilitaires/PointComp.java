@@ -23,7 +23,7 @@ public class PointComp extends Point implements Comparator<Point> {
 	 * @param objectif le point
 	 */
 	public PointComp(Point objectif) {
-		super(objectif.x,objectif.y);
+		this(objectif.x, objectif.y);
 	}
 
 	/**

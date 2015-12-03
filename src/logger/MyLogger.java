@@ -106,7 +106,8 @@ public class MyLogger implements Serializable {
 	public void severe(String prefixe, String msg) {
 		this.severe(format(prefixe,msg));
 	}
-	public void severe(String msg) {
+	
+	private void severe(String msg) {
 		logger.severe(msg);
 		logs.add(msg);
 	}
@@ -115,7 +116,8 @@ public class MyLogger implements Serializable {
 	public void warning(String prefixe, String msg) {
 		this.warning(format(prefixe,msg));
 	}
-	public void warning(String msg) {
+	
+	private void warning(String msg) {
 		logger.warning(msg);
 		logs.add(msg);
 	}
@@ -124,6 +126,7 @@ public class MyLogger implements Serializable {
 	public void info(String prefixe, String msg) {
 		this.info(format(prefixe,msg));
 	}
+	
 	public void info(String msg) {
 		logger.info(msg);
 		logs.add(msg);
@@ -133,7 +136,8 @@ public class MyLogger implements Serializable {
 	public void fine(String prefixe, String msg) {
 		this.fine(format(prefixe,msg));
 	}
-	public void fine(String msg) {
+	
+	private void fine(String msg) {
 		logger.fine(msg);
 		logs.add(msg);
 	}
@@ -142,7 +146,8 @@ public class MyLogger implements Serializable {
 	public void finer(String prefixe, String msg) {
 		this.finer(format(prefixe,msg));
 	}
-	public void finer(String msg) {
+	
+	private void finer(String msg) {
 		logger.finer(msg);
 		logs.add(msg);
 	}
@@ -151,7 +156,8 @@ public class MyLogger implements Serializable {
 	public void finest(String prefixe, String msg) {
 		this.finest(format(prefixe,msg));
 	}
-	public void finest(String msg) {
+	
+	private void finest(String msg) {
 		logger.finest(msg);
 		logs.add(msg);
 	}
@@ -160,7 +166,8 @@ public class MyLogger implements Serializable {
 	public void config(String prefixe, String msg) {
 		this.config(format(prefixe,msg));
 	}
-	public void config(String msg) {
+	
+	private void config(String msg) {
 		logger.config(msg);
 		logs.add(msg);
 	}
@@ -169,17 +176,9 @@ public class MyLogger implements Serializable {
 	public void log(Level level, String prefixe, String msg) {
 		this.log(level, format(prefixe,msg));
 	}
-	public void log(Level level, String msg) {
+	
+	private void log(Level level, String msg) {
 		logger.log(level, msg);
 		logs.add(msg);
-	}
-	
-	/**
-	 * renvoie la ligne de logs numero i
-	 * @param i
-	 * @return la ligne de logs numero i
-	 */
-	public String getLogs(int i) {
-		return logs.get(i);
 	}
 }

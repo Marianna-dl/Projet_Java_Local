@@ -303,9 +303,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * dans un thread separe, pour pouvoir limiter son temps d'execution
 	 * via un join(timeout)
 	 */
-	public class TimeoutOp extends Thread {		
+	private class TimeoutOp extends Thread {		
 		private IConsolePersonnage console;
-		TimeoutOp(IConsolePersonnage r) { this.console=r; start(); }
+		private TimeoutOp(IConsolePersonnage r) { this.console=r; start(); }
+		
 		public void run() {
 			try {
 				console.run(); //on lance une execution
@@ -921,16 +922,12 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * Logs
 	 */
 	
-	public String nomRaccourciClient(int ref) {
+	private String nomRaccourciClient(int ref) {
 		return nomRaccourciClient(getClientElement(ref));
 	}
 	
 	public static String nomRaccourciClient(ClientElement<?> client) {
 		return "(Client" + client.getRef() + " * " + client.getElement().getNomGroupe()+ ")";
-	}
-	
-	public String nomCompletClient(int ref) {
-		return nomCompletClient(getClientElement(ref));
 	}
 	
 	public static String nomCompletClient(ClientElement<?> client) {
@@ -943,14 +940,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			type = "Potion";
 		}
 		return "("+ type + client.getRef() + " * " + client.getElement().toString() + ")";
-	}
-
-	public String nomComplet() throws RemoteException{
-		return "("+adrToString()+")";
-	}
-
-	public String nomRaccourci() {
-		return "(Arene)";
 	}
 
 	public void log(Level level, String prefixe, String msg) throws RemoteException {

@@ -14,7 +14,7 @@ import modele.Caracteristique;
  * 
  * @param <V> type de vue affichee (personnages ou potions).
  */
-public abstract class AbstractElementTableModel<V extends VueElement> extends AbstractTableModel {
+public abstract class AbstractElementTableModel<V extends VueElement> extends AbstractTableModel { 
 	
 	private static final long serialVersionUID = 1L;
 	

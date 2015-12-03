@@ -9,7 +9,7 @@ import interfaceGraphique.view.VueElement;
  *
  * @param <V> type de vues affichees (personnages ou potions).
  */
-public class InformationColonne<V extends VueElement> {
+public class InformationColonne<V extends VueElement> { 
 
 	/**
 	 * Nom de la colonne.
@@ -40,7 +40,7 @@ public class InformationColonne<V extends VueElement> {
 	 * @param cl classe
 	 * @param val valeur
 	 */
-	public InformationColonne(String n, int lg, Class<?> cl, IValeurColonne<V> val) {
+	public InformationColonne(String n, int lg, Class<?> cl, IValeurColonne<V> val) { 
 		nom = n;
 		largeur = lg;
 		classe = cl;

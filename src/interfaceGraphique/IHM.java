@@ -123,7 +123,7 @@ public class IHM extends JFrame implements Runnable {
 	 * Panel affichant les tableaux des elements participants a la partie :
 	 * personnages et potions.
 	 */
-	protected ElementsJPanel infosPanel;
+	private ElementsJPanel infosPanel;
 	
 	/**
 	 * Panel affichant le timer et le panel de l'arene.

@@ -8,7 +8,7 @@ import interfaceGraphique.view.VueElement;
  * comportement lors de l'execution. 
  *
  */
-public interface IValeurColonne<V extends VueElement> {
+public interface IValeurColonne<V extends VueElement> { 
 	/**
 	 * Retourne la valeur a afficher pour la vue donnee (a l'index de ligne 
 	 * donne) dans la colonne courante.
