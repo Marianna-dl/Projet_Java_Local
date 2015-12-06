@@ -1,14 +1,13 @@
 package serveur.controle;
 
-import interfaceGraphique.view.VueElement;
-import modele.Personnage;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import client.StrategiePersonnage;
 import serveur.IArene;
+import serveur.element.Personnage;
+import serveur.infosclient.VueElement;
 
 /**
  * Contient les methodes RMI associees au controle d'un personnage,

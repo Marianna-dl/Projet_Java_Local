@@ -4,10 +4,10 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import serveur.Arene;
-import serveur.infosclient.ClientElement;
-import serveur.infosclient.ClientPersonnage;
+import serveur.infosclient.VueElement;
+import serveur.infosclient.VuePersonnage;
 
-public abstract class EntreElement<T extends ClientElement<?>> {
+public abstract class EntreElement<T extends VueElement> {
 	
 	/**
 	 * Arene.
@@ -16,7 +16,7 @@ public abstract class EntreElement<T extends ClientElement<?>> {
 	/**
 	 * Reference de l'attaquant.
 	 */
-	protected ClientPersonnage attaquant; 
+	protected VuePersonnage attaquant; 
 	/**
 	 * Reference du defenseur.
 	 */
@@ -31,7 +31,7 @@ public abstract class EntreElement<T extends ClientElement<?>> {
 	 * @param defenseur la reference du defenseur
 	 * @throws RemoteException
 	 */
-	public EntreElement(Arene arene, ClientPersonnage attaquant, T defenseur) {
+	public EntreElement(Arene arene, VuePersonnage attaquant, T defenseur) {
 		this.arene = arene;
 		this.attaquant = attaquant;
 		this.defenseur = defenseur;

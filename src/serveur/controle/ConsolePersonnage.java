@@ -8,10 +8,10 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import client.StrategiePersonnage;
-import interfaceGraphique.view.VueElement;
 import logger.MyLogger;
-import modele.Personnage;
 import serveur.IArene;
+import serveur.element.Personnage;
+import serveur.infosclient.VueElement;
 
 /**
  * Implementation des methodes RMI associees au controle d'un personnage.

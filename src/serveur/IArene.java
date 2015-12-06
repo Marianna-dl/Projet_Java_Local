@@ -6,14 +6,13 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
-import interfaceGraphique.view.VueElement;
-import interfaceGraphique.view.VuePersonnage;
-import interfaceGraphique.view.VuePersonnageDeconnecte;
-import interfaceGraphique.view.VuePotion;
-import modele.Caracteristique;
-import modele.Element;
-import modele.Personnage;
 import serveur.controle.IConsolePersonnage;
+import serveur.element.Caracteristique;
+import serveur.element.Element;
+import serveur.element.Personnage;
+import serveur.infosclient.VueElement;
+import serveur.infosclient.VuePersonnage;
+import serveur.infosclient.VuePotion;
 
 /**
  * Definit les methodes qui pourront s'appliquer a travers l'arene en RMI (toutes celles qui levent RemoteException)
@@ -59,13 +58,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public List<VuePotion> getPotions() throws RemoteException;
-	
-	/**
-	 * Renvoie la liste des elements deconnectes
-	 * @return liste des elements deconnectes
-	 * @throws RemoteException
-	 */
-	public List<VuePersonnageDeconnecte> getHell() throws RemoteException;
 	
 	/**
 	 * Liste les voisins d'une console de l'arene

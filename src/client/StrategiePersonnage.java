@@ -6,11 +6,11 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 
 import logger.MyLogger;
-import modele.Element;
-import modele.Personnage;
-import modele.Potion;
 import serveur.IArene;
 import serveur.controle.ConsolePersonnage;
+import serveur.element.Element;
+import serveur.element.Personnage;
+import serveur.element.Potion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 

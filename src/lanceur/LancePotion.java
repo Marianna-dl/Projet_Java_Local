@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import logger.MyLogger;
-import modele.Caracteristique;
 import serveur.IArene;
+import serveur.element.Caracteristique;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 

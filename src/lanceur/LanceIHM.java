@@ -1,10 +1,10 @@
 package lanceur;
 
-import interfaceGraphique.IHM;
+import java.io.IOException;
+
+import interfacegraphique.IHM;
 import logger.MyLogger;
 import utilitaires.Constantes;
-
-import java.io.IOException;
 
 /**
  * Interface graphique qui se connecte a l'arene. 

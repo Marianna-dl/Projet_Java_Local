@@ -5,12 +5,13 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import modele.Caracteristique;
 import serveur.Arene;
-import serveur.infosclient.ClientPersonnage;
-import serveur.infosclient.ClientPotion;
+import serveur.element.Caracteristique;
+import serveur.element.Potion;
+import serveur.infosclient.VuePersonnage;
+import serveur.infosclient.VuePotion;
 
-public class Ramassage extends EntreElement<ClientPotion> {
+public class Ramassage extends EntreElement<VuePotion> {
 
 	/**
 	 * Constructeur parametre
@@ -18,7 +19,7 @@ public class Ramassage extends EntreElement<ClientPotion> {
 	 * @param ramasseur le ramasseur de la potion
 	 * @param potion la potion qui est ramasse
 	 */
-	public Ramassage(Arene arene, ClientPersonnage ramasseur, ClientPotion potion) {
+	public Ramassage(Arene arene, VuePersonnage ramasseur, VuePotion potion) {
 		super(arene, ramasseur, potion);
 		logs(Level.INFO, Arene.nomRaccourciClient(ramasseur) + " essaye de rammasser " + Arene.nomRaccourciClient(potion));
 	}
@@ -27,11 +28,11 @@ public class Ramassage extends EntreElement<ClientPotion> {
 	public void interagir() throws RemoteException {
 		// effectue le ramassage
 		// si le personnage est vivant et la potion non encore ramassee
-		if(attaquant.getElement().isAlive() && defenseur.getElement().isAlive()) {
+		if(attaquant.getElement().estActif() && defenseur.getElement().estActif()) {
 			ramasserPotion();
 			
 			logs(Level.INFO, "Potion bu !");
-			if (! attaquant.getElement().isAlive()) {
+			if (! attaquant.getElement().estActif()) {
 				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) +" vient de boire un poison... Mort >_<");
 			}
 		} else {
@@ -52,10 +53,12 @@ public class Ramassage extends EntreElement<ClientPotion> {
 		for (Entry<Caracteristique, Integer> caractEntry : valeursPotion.entrySet())
 			arene.ajouterCaractElement(attaquant, caractEntry.getKey(), caractEntry.getValue());
 
-		if (! attaquant.getElement().isAlive())
+		if (! attaquant.getElement().estActif())
 			arene.setPhrase(attaquant, "Je me suis empoisonne, je meurs ");
-				
+		
+		((Potion) defenseur.getElement()).ramasser();
+		
 		// Deconnecte la potion
-		arene.ejecterPotion(defenseur.getRef());
+		arene.ejecterPotion(defenseur.getRefRMI());
 	}
 }

@@ -4,15 +4,15 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
-import modele.Caracteristique;
-import modele.Personnage;
 import serveur.Arene;
-import serveur.infosclient.ClientPersonnage;
+import serveur.element.Caracteristique;
+import serveur.element.Personnage;
+import serveur.infosclient.VuePersonnage;
 import utilitaires.Calculs;
 
-public class Attaque extends EntreElement <ClientPersonnage> {
+public class Attaque extends EntreElement <VuePersonnage> {
 	
-	public Attaque(Arene arene, ClientPersonnage attaquant, ClientPersonnage defenseur) {
+	public Attaque(Arene arene, VuePersonnage attaquant, VuePersonnage defenseur) {
 		super(arene, attaquant, defenseur);
 	}
 	
@@ -44,10 +44,10 @@ public class Attaque extends EntreElement <ClientPersonnage> {
 		}
 	}
 
-	private void incrementerInitiative(ClientPersonnage defenseur) throws RemoteException{
+	private void incrementerInitiative(VuePersonnage defenseur) throws RemoteException{
 		arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, 10);
 	}
-	private void decrementerInitiative(ClientPersonnage attaquant) throws RemoteException{
+	private void decrementerInitiative(VuePersonnage attaquant) throws RemoteException{
 		arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, -10);
 	}
 
