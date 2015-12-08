@@ -7,8 +7,9 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
-import serveur.infosclient.VuePersonnage;
+import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 public class Attaque extends EntreElement <VuePersonnage> {
 	
@@ -32,8 +33,8 @@ public class Attaque extends EntreElement <VuePersonnage> {
 			// Blessure
 			if (perteVie > 0) {
 				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -perteVie);
-				logs(Level.INFO, Arene.nomRaccourciClient(attaquant) + " colle une beigne ("
-						+ perteVie +" points de degats) a " + Arene.nomRaccourciClient(defenseur));
+				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
+						+ perteVie +" points de degats) a " + Constantes.nomRaccourciClient(defenseur));
 			}
 			
 			incrementerInitiative(defenseur);

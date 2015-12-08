@@ -111,7 +111,7 @@ public class ControleJPanel extends JPanel {
 		
 		envoyerPotionButton.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.envoyerPotionSelected();
+				ihmTournoi.envoyerPotionSelectionnee();
 			}			
 		});
 		

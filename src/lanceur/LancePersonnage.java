@@ -10,19 +10,24 @@ import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /**
- * Lance une Console avec un Element sur l'Arene (apres lancement Arene). A lancer plusieurs fois.
+ * Lance une Console avec un Element sur l'Arene. 
+ * A lancer apres le serveur, eventuellement plusieurs fois.
  */
 public class LancePersonnage {
 	
-	private static String usage = "USAGE : java " + LancePersonnage.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LancePersonnage.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
 		// init des variables
 		String nom = "Truc";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "B" + Calculs.randomNumber(0,99); 
-		String ipConsole = null;
+		String groupe = "G" + Calculs.randomNumber(0,99); 
+		
+		// nombre de tours pour ce personnage avant d'etre deconnecte 
+		// (20 minutes par defaut)
+		// si negatif, illimite
+		long nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -59,13 +64,12 @@ public class LancePersonnage {
 		
 		// lancement du serveur
 		try {
-			
-			ipConsole = InetAddress.getLocalHost().getHostAddress();
+			String ipConsole = InetAddress.getLocalHost().getHostAddress();
 			
 			logger.info("lanceur", "Creation du personnage...");
 			Point position = new Point(Calculs.randomNumber(0,100), Calculs.randomNumber(0,100));
 			
-			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, position, logger);
+			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, nbTours, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());

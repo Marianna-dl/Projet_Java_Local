@@ -13,7 +13,7 @@ import utilitaires.Constantes;
  */
 public class LanceIHMControle {
 	
-	private static String usage = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {		
 		// init des arguments

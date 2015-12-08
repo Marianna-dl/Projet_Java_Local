@@ -11,7 +11,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -30,9 +29,9 @@ import interfacegraphique.tablemodel.PersonnageTableModel;
 import interfacegraphique.tablemodel.PotionTableModel;
 import interfacegraphique.tablerenderer.HeaderRenderer;
 import interfacegraphique.tablerenderer.NormalRenderer;
-import serveur.infosclient.VueElement;
-import serveur.infosclient.VuePersonnage;
-import serveur.infosclient.VuePotion;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import serveur.vuelement.VuePotion;
 
 /**
  * Panneau contenant les tableaux des elements de la partie.
@@ -312,37 +311,23 @@ public class ElementsJPanel extends JPanel {
 	 * @param personnages personnages presents dans l'arene
 	 * @param potions potions presentes dans l'arene
 	 */
-	public void setElements(List<VuePersonnage> personnages, List<VuePotion> potions) {
-		// comparateur triant des vueElement selon leur refRMI
-		Comparator<VueElement> vueComparator = new Comparator<VueElement>() {
-			@Override
-			public int compare(VueElement v1, VueElement v2) {
-				return v1.getRefRMI() - v2.getRefRMI();
-			}
-		};
+	public void setElements(List<VuePersonnage> personnages, 
+			List<VuePersonnage> personnagesMort, List<VuePotion> potions) {
 		
-		// tri des potions et des personnages
-		Collections.sort(personnages, vueComparator);
-		Collections.sort(potions, vueComparator);
-		
-		// TODO sort characters
-		/*
-		// personnages deconnectes
-		Comparator<VuePersonnageDeconnecte> compDeconnectes = new Comparator<VuePersonnageDeconnecte>() {
-			@Override
-			public int compare(VuePersonnageDeconnecte v1, VuePersonnageDeconnecte v2) {
-				Integer tour1, tour2;
-				tour1 = v1.getTourDeconnexion();
-				tour2 = v2.getTourDeconnexion();
-				return tour2.compareTo(tour1);
-			}
-		};
-		
-		Collections.sort(personnagesDeconnectes, compDeconnectes);
-		*/
+		// tri des potions et des personnages (selon leur methode compareTo)
+		Collections.sort(personnages);
+		Collections.sort(personnagesMort);
+		Collections.sort(potions);
 		
 		if (ihm.getElementSelectionne() != null) {
 			// recherche de l'element selectionne
+			
+			for (VuePersonnage vp : personnages) {
+				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI()) {
+					vp.setSelectionne(true);
+				}
+			}
+			
 			for (VuePersonnage vp : personnages) {
 				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI()) {
 					vp.setSelectionne(true);

@@ -3,8 +3,6 @@
  */
 package serveur.element;
 
-import utilitaires.Calculs;
-
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
  * de jouer une strategie.
@@ -24,24 +22,27 @@ public class Personnage extends Element {
 	}
 	
 	/**
-	 * Ajoute la caracteristique specifiee avec la valeur specifiee. Si la 
-	 * caracteristique existe deja, la valeur sera ecrasee.
+	 * Incremente la caracteristique donnee de la valeur donnee.
+	 * Si la caracteristique n'existe pas, elle sera cree avec la valeur 
+	 * donnee.
 	 * @param c caracteristique
-	 * @param val valeur
-	 * @return vrai si le personnage est mort a la suite de cet ajout de 
-	 * caracteristiques
+	 * @param inc increment (peut etre positif ou negatif)
+	 * @return vrai si le personnage est toujours vivant apres l'ajout
+	 * de l'increment
 	 */
-	public boolean ajouterCaract(Caracteristique c, int val) {
-		boolean actifAvant = estActif();
+	public boolean incrementeCaract(Caracteristique c, int inc) {		
+		if(caracts.containsKey(c)) {
+			caracts.put(c, caracts.get(c) + inc);
+		} else {
+			caracts.put(c, inc);
+		}
 		
-		caracts.put(c, Calculs.caperCarac(c, val));
-		
-		return actifAvant && !estActif();
-	} // TODO incrementerCaract plutot que ajouterCaract
+		return estVivant();
+	}
 
 	@Override
-	public boolean estActif() {
+	public boolean estVivant() {
 		Integer vie = caracts.get(Caracteristique.VIE);
-		return vie != null && vie <= 0;
+		return vie != null && vie > 0;
 	}
 }

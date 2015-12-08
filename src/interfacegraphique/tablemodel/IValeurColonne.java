@@ -1,6 +1,6 @@
 package interfacegraphique.tablemodel;
 
-import serveur.infosclient.VueElement;
+import serveur.vuelement.VueElement;
 
 /**
  * Comportement permettant de recuperer la valeur d'une vue dans une colonne.

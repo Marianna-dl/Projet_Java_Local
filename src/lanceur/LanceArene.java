@@ -13,18 +13,18 @@ import utilitaires.Constantes;
  */
 public class LanceArene {
 	
-	private static String usage = "USAGE : java " + LanceArene.class.getName() + " [ port [ TTL_serveur ] ]";
+	private static String usage = "USAGE : java " + LanceArene.class.getName() + " [ port [ nbTours ] ]";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {		
 		// init des variables
-		String ipNameArene = null;
+		String ipArene = null;
 
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
 		
-		long duree = 60 * 1; // tours to live du serveur
-							 // sachant qu'un tour dure environ 1 seconde
-							 // si negatif, duree illimite
+		// nombre de tours du serveur, sachant qu'un tour dure environ 1 seconde
+		// si negatif, duree illimite
+		long duree = 30;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
@@ -59,14 +59,14 @@ public class LanceArene {
 		
 		// lancement du serveur
 		try {
-			ipNameArene = InetAddress.getLocalHost().getHostAddress();
+			ipArene = InetAddress.getLocalHost().getHostAddress();
 			
 			logger.info("lanceur", "Creation du registre RMI sur le port " + port + "...");
 			java.rmi.registry.LocateRegistry.createRegistry(port);
 			logger.info("lanceur", "Creation du registre RMI reussie");
 
 			logger.info("lanceur", "Creation du serveur sur le port " + port + "...");
-			new Arene(port, ipNameArene, duree, logger);
+			new Arene(port, ipArene, duree, logger);
 			logger.info("lanceur", "Creation du serveur reussie");
 			
 		} catch (Exception e) {

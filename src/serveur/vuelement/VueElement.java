@@ -1,4 +1,4 @@
-package serveur.infosclient;
+package serveur.vuelement;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -12,6 +12,7 @@ import utilitaires.Calculs;
  * Donnees dont le serveur a besoin sur un element : l'element lui-meme, sa 
  * position dans l'arene, sa reference...
  */
+// TODO parametriser? possible?
 public class VueElement implements Serializable {
 	
 	private static final long serialVersionUID = 1750601856220885598L;
@@ -54,7 +55,7 @@ public class VueElement implements Serializable {
 	/**
 	 * Cree un element pour le serveur.
 	 * @param element element correspondant
-	 * @param position position
+	 * @param position position courante
 	 * @param ref reference
 	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
-import serveur.infosclient.VuePotion;
+import serveur.vuelement.VuePotion;
 
 /**
  * TableModel des potions, envoyees ou en attente.

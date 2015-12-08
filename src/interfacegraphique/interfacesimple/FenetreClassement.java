@@ -13,7 +13,7 @@ import interfacegraphique.IHM;
 import interfacegraphique.tablemodel.ClassementTableModel;
 import interfacegraphique.tablerenderer.HeaderRenderer;
 import interfacegraphique.tablerenderer.NormalRenderer;
-import serveur.infosclient.VuePersonnage;
+import serveur.vuelement.VuePersonnage;
 
 /**
  * Gere la fenetre de classement final. 

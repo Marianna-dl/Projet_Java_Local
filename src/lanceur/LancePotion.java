@@ -6,19 +6,20 @@ import java.util.HashMap;
 import logger.MyLogger;
 import serveur.IArene;
 import serveur.element.Caracteristique;
+import serveur.element.Potion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 public class LancePotion {
 	
-	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ nom_arene ] ]";
+	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
 		// init des variables
 		String nom = "Anduril";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "B" + Calculs.randomNumber(0,99); 
+		String groupe = "G" + Calculs.randomNumber(0,99); 
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -55,7 +56,7 @@ public class LancePotion {
 		
 		// lancement de la potion
 		try {
-			IArene arene = (IArene) java.rmi.Naming.lookup("rmi://"+ipArene+":"+port+"/Arene");
+			IArene arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
 
 			logger.info("lanceur", "Lancement de la potion sur le serveur...");
 			
@@ -66,7 +67,7 @@ public class LancePotion {
 			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.randomNumber(-100, 100));
 			
 			// ajout de la potion
-			arene.ajouterPotion(nom, groupe, caractsPotion);
+			arene.ajoutePotion(new Potion(nom, groupe, caractsPotion));
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {

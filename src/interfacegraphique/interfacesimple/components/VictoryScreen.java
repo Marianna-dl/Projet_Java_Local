@@ -10,7 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import serveur.infosclient.VuePersonnage;
+import serveur.vuelement.VuePersonnage;
 
 /**
  * Panel de victoire.

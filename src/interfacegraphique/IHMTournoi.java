@@ -21,7 +21,10 @@ import interfacegraphique.interfacetournoi.ControleJPanel;
 import interfacegraphique.interfacetournoi.FenetreCreationPotion;
 import logger.MyLogger;
 import serveur.element.Caracteristique;
-import serveur.infosclient.VueElement;
+import serveur.element.Potion;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import serveur.vuelement.VuePotion;
 
 /**
  * Interface graphique pour le tournoi :
@@ -185,9 +188,9 @@ public class IHMTournoi extends IHM {
 		if (!motDePasseOK) {
 			demanderMotDePasse();			
 		} else {
-			if(getElementSelectionne() != null) {
+			if(elementSelectionne != null && elementSelectionne instanceof VuePersonnage) {
 				try {
-					arene.ejecter(getElementSelectionne(), motDePasse);
+					arene.ejecterPersonnage((VuePersonnage) elementSelectionne, motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -198,13 +201,14 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Envoie la potion (en attente) selectionnee dans la partie.
 	 */
-	public void envoyerPotionSelected() {
+	public void envoyerPotionSelectionnee() {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {
-			if (getElementSelectionne().isEnAttente()) {
+			if (elementSelectionne != null && elementSelectionne instanceof VuePotion &&
+					elementSelectionne.isEnAttente()) {
 				try {
-					arene.lancerPotionEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
+					arene.lancerPotionEnAttente((VuePotion) getElementSelectionne(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -240,7 +244,7 @@ public class IHMTournoi extends IHM {
 			demanderMotDePasse();
 		} else {
 			try {
-				arene.ajouterPotionSecurisee(nom, ht, position, motDePasse);
+				arene.ajoutePotionSecurisee(new Potion(nom, "Arene", ht), position, motDePasse);
 			} catch (RemoteException e) {
 				erreurConnexion(e);
 			}

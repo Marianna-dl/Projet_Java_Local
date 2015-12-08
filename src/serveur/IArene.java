@@ -6,181 +6,112 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
-import serveur.controle.IConsolePersonnage;
-import serveur.element.Caracteristique;
+import serveur.controle.IConsole;
 import serveur.element.Element;
 import serveur.element.Personnage;
-import serveur.infosclient.VueElement;
-import serveur.infosclient.VuePersonnage;
-import serveur.infosclient.VuePotion;
+import serveur.element.Potion;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import serveur.vuelement.VuePotion;
 
 /**
  * Definit les methodes qui pourront s'appliquer a travers l'arene en RMI (toutes celles qui levent RemoteException)
  */
 public interface IArene extends Remote {
 	
-	/**
-	 * Alloue une reference
-	 * @return reference de la prochaine console
-	 * @throws RemoteException
-	 */
-	public int allocateRef() throws RemoteException;
+	
+	/**************************************************************************
+	 * Connexion et deconnexion.
+	 **************************************************************************/
 	
 	/**
-	 * Connecte un element au serveur
-	 * @param refRMI referecne de l'element a connecter
-	 * @param ipConsole ip de la console
-	 * @param pers personnage correspondant a l'element
-	 * @param position position de l'element
-	 * @return true si l'element a ete connecte, false sinon
-	 * @throws RemoteException
+	 * Retourne une reference RMI libre pour un element.
+	 * @return reference RMI inutilisee
 	 */
-	public boolean connect(int refRMI, String ipConsole, Personnage pers, Point position) throws RemoteException;
+	public int allocateRefRMI() throws RemoteException;
 	
 	/**
-	 * Deconnecte un element du serveur
-	 * @param console console a deconnecter
-	 * @param cause cause de la cdeconnexion
+	 * Connecte un personnage a l'arene.
+	 * @param refRMI reference RMI de l'element a connecter
+	 * @param ipConsole ip de la console correspondant au personnage
+	 * @param personnage personnage
+	 * @param nbTours nombre de tours pour ce personnage (si negatif, illimite)
+	 * @param position position courante
+	 * @return vrai si l'element a ete connecte, faux sinon
 	 * @throws RemoteException
 	 */
-	public void deconnecterConsole(IConsolePersonnage console, String cause) throws RemoteException;
+	public boolean connecte(int refRMI, String ipConsole, 
+			Personnage personnage, long nbTours, Point position) throws RemoteException;
 	
 	/**
-	 * Calcule la liste de toutes les representations de personnages presents dans l'arene. 
-	 * @return liste des representations
+	 * Deconnecte un element du serveur.
+	 * @param console console correspondant au personnage a deconnecter
+	 * @param cause cause de la deconnexion
 	 * @throws RemoteException
 	 */
-	public List<VuePersonnage> getPersonnages() throws RemoteException;
+	public void deconnecteConsole(IConsole console, String cause) throws RemoteException;
 	
 	/**
-	 * Calcule la liste de toutes les representations de potions presentes dans l'arene
-	 * @return liste des representations
+	 * Verifie le mot de passe administrateur (mode tournoi). 
+	 * @param motDePasse mot de passe a verifier
+	 * @return true si le mot de passe est ok, false sinon
 	 * @throws RemoteException
 	 */
-	public List<VuePotion> getPotions() throws RemoteException;
-	
-	/**
-	 * Liste les voisins d'une console de l'arene
-	 * @param console console dont on veut les voisins
-	 * @return table des couples reference/coordonnees des voisins
-	 * @throws RemoteException
-	 */
-	public HashMap<Integer, Point> getVoisins(IConsolePersonnage console) throws RemoteException;
-
-	
-	/**
-	 * Renvoie les vuesPersonnages trie par classement de la partie
-	 * @return liste des VuePersonnage trie par ordre de classement
-	 * @throws RemoteException
-	 */
-	public List<VuePersonnage> getClassementVuesRMI() throws RemoteException;
-
-	/* ***************************************************
-	 * accesseurs sur les ElementServeur
-	 */
-	
-	/**
-	 * Permet de recuperer une copie de l'ElementServeur correspondant a la console
-	 * Normalement seul la machine hebergeant le serveur ou la machine faisant tourner le client passe en parametre peuvent executer cette fonction
-	 * @param console
-	 * @return une copie de l'ElementServeur correspondant a la console de reference refRMI
-	 * @throws RemoteException
-	 */
-	public Element getMyElement(IConsolePersonnage console) throws RemoteException;
-	
-	/**
-	 * Permet de recuperer une copie de l'ElementServeur correspondant a la console de reference refRMI
-	 * N'importe qui peut executer cette fonction la ! il faut faire attention aux donnees que l'ont accepte de rendre accessible
-	 * @param refRMI
-	 * @return une copie de l'ElementServeur correspondant a la console de reference refRMI
-	 * @throws RemoteException
-	 */
-	public Element getElement(int refRMI) throws RemoteException;
-
-	/* ***************************************************
-	 * gestions des interactions
-	 */
-	
-	
-	/**
-	 * Permet d'ajouter une potion dans l'arene a n'importe qu'elle moment en mode arene libre
-	 * et permet d'ajouter un potion dans l'arene avant la partie en mode tournoi
-	 * @param nom le nom de la potion
-	 * @param groupe le groupe de la potion
-	 * @param carac les donnees de la potion
-	 * @throws RemoteException
-	 */
-	public void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException;
-		
-	
+	public boolean verifMotDePasse(char[] motDePasse) throws RemoteException;
 
 	/**
-	 * Demande au serveur de ramasser une potion
-	 * @param console celui qui veut ramasser une potion
-	 * @param refPotion la potion qui doit etre ramasse
-	 * @return true si l'action a bien eu lieu, false sinon
+	 * Teste si la partie est finie.
+	 * @return true si la partie est finie, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean ramasserPotion(IConsolePersonnage console, int refPotion) throws RemoteException;
+	public boolean isPartieFinie() throws RemoteException;
+
+	/**
+	 * Permet de renvoyer un joueur de la partie (mode tournoi). 
+	 * @param personnage personnage
+	 * @param motDePasse mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void ejecterPersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException;
+
+	/**
+	 * Permet de lancer la partie (mode tournoi).
+	 * @param motDePasse mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void commencerPartie(String motDePasse) throws RemoteException;
+
+	/**
+	 * Permet d'ajouter une potion dans l'arene a n'importe quel moment en mode 
+	 * arene libre, et d'ajouter un potion dans l'arene avant la partie en mode 
+	 * tournoi.
+	 * @param potion potion
+	 * @throws RemoteException
+	 */
+	public void ajoutePotion(Potion potion) throws RemoteException;
 	
 	/**
-	 * Demande au serveur de lancer un duel
-	 * @param console celui qui demande un duel
-	 * @param refAdv l'adversaire de ref au cours de ce duel
-	 * @return true si l'action a bien eu lieu, false sinon
-	 * @throws RemoteException
+	 * Permet d'ajouter une potion dans l'arene tournoi a n'importe quel moment,
+	 * en fournissant le mot de passe (mode tournoi).
+	 * @param potion potion
+	 * @param mdp mot de passe administrateur
+	 * @throws RemoteException	
 	 */
-	public boolean lancerUneAttaque(IConsolePersonnage console, int refAdv) throws RemoteException;
-	
+	public void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException;
+
 	/**
-	 * Demande au serveur un deplacement d'un element
-	 * @param console la console qui veut se deplacer
-	 * @param refCible l'element vers lequel on veut se deplacer, 0 si on veut se deplacer aleatoirement
-	 * @return true si l'action a bien eu lieu, false sinon
+	 * Permet de lancer une potion en attente dans la partie (mode tournoi). 
+	 * @param potion potion a lancer
+	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(IConsolePersonnage console, int refCible) throws RemoteException;
-	
-	/**
-	 * Demande au serveur un deplacement d'un element (attention le point cible sera caper aux limites de la map)
-	 * @param console la console qui veut se deplacer
-	 * @param objectif le point vers lequel on veut se deplacer
-	 * @return true si l'action a bien eu lieu, false sinon
-	 * @throws RemoteException
-	 */
-	public boolean deplacer(IConsolePersonnage console, Point objectif) throws RemoteException;
-	
-	/* ***************************************************
-	 * accesseurs sur les VueElement
-	 */
-	
-	public void setPhrase(IConsolePersonnage console, String s) throws RemoteException;
+	public void lancerPotionEnAttente(VuePotion potion, String mdp) throws RemoteException;
 	
 	
-	/**
-	 * Permet de recuperer une copie de la VueElement correspondant a la console
-	 * @param console
-	 * @return une copie de la VueElement correspondant a la console de reference refRMI
-	 * @throws RemoteException
-	 */
-	public VueElement getMyVueElement(IConsolePersonnage console) throws RemoteException;
-	
-	/**
-	 * Permet de recuperer une copie de la VueElement correspondant a la console de reference refRMI
-	 * @param refRMI
-	 * @return une copie de la VueElement correspondant a la console de reference refRMI
-	 * @throws RemoteException
-	 */
-	public VueElement getAnVueElement(int refRMI) throws RemoteException;
-	
-	/**
-	 * Permet de savoir la position d'un element
-	 * @param refRMI reference de l'element
-	 * @return position de l'element
-	 * @throws RemoteException
-	 */
-	public Point getPosition(int refRMI) throws RemoteException;
-	
+
+	/**************************************************************************
+	 * Accesseurs sur les elements du serveur. 
+	 **************************************************************************/
 	/**
 	 * Permet de connaitre le nombre de tours restants
 	 * @return nombre de tours restant
@@ -193,89 +124,175 @@ public interface IArene extends Remote {
 	 * @return nombre de tour ecoules
 	 * @throws RemoteException
 	 */
-	public int getNbTour() throws RemoteException;
+	public int getTour() throws RemoteException;
 
 	/**
-	 * 
-	 * @return true si la partie a commence, false sinon
+	 * Recupere la liste de toutes les representations de personnages presents 
+	 * dans l'arene. 
+	 * @return liste des personnages
+	 * @throws RemoteException
+	 */
+	public List<VuePersonnage> getPersonnages() throws RemoteException;
+
+	/**
+	 * Recupere la liste de toutes les representations de personnages morts.
+	 * @return liste des personnages morts
+	 * @throws RemoteException
+	 */
+	public List<VuePersonnage> getPersonnagesMorts() throws RemoteException;
+	
+	/**
+	 * Calcule la liste de toutes les potions presentes dans l'arene.
+	 * @return liste des potions
+	 * @throws RemoteException
+	 */
+	public List<VuePotion> getPotions() throws RemoteException;
+	
+	/**
+	 * Renvoie la liste des potions en attente de connexion.
+	 * @return liste des potions en attente
+	 * @throws RemoteException
+	 */
+	public List<VuePotion> getPotionsEnAttente() throws RemoteException;
+
+	/**
+	 * Calcule la liste les voisins d'une console de l'arene.
+	 * @param console console dont on veut les voisins
+	 * @return map des couples reference/coordonnees des voisins
+	 * @throws RemoteException
+	 */
+	public HashMap<Integer, Point> getVoisins(IConsole console) throws RemoteException;
+	
+	/**
+	 * Renvoie la liste des personnages tries pour le classement final.
+	 * @return liste des personnages ordonnes pour le classement final
+	 * @throws RemoteException
+	 */
+	public List<VuePersonnage> getClassement() throws RemoteException;
+	
+	/**
+	 * Recupere la vue du personnage gagnant de la partie.
+	 * @return vue du personnage gagnant
+	 * @throws RemoteException
+	 */
+	public VuePersonnage getGagnant() throws RemoteException;
+
+	/**
+	 * Permet de recuperer une copie de l'element correspondant a la reference 
+	 * RMI.
+	 * @param refRMI reference RMI
+	 * @return copie de l'element correspondant a la reference RMI donnee
+	 * @throws RemoteException
+	 */
+	public Element elementFromRef(int refRMI) throws RemoteException;
+
+	/**
+	 * Permet de recuperer une copie de l'element correspondant a la console.
+	 * @param console console
+	 * @return copie de l'element correspondant a la console donnee
+	 * @throws RemoteException
+	 */
+	public Element elementFromConsole(IConsole console) throws RemoteException;
+	
+	/**
+	 * Renvoie la vue correspondant a la reference RMI donnee.
+	 * @param refRMI reference RMI
+	 * @return vue correspondante
+	 */
+	public VueElement vueFromRef(int refRMI) throws RemoteException;
+	
+	/**
+	 * Renvoie la vue correspondant a la console donnee.
+	 * @param console console
+	 * @return vue correspondante
+	 * @throws RemoteException
+	 */
+	public VueElement vueFromConsole(IConsole console) throws RemoteException;
+
+	/**
+	 * Permet de savoir la position d'un element
+	 * @param refRMI reference de l'element
+	 * @return position de l'element
+	 * @throws RemoteException
+	 */
+	public Point getPosition(int refRMI) throws RemoteException;
+
+	/**
+	 * Teste si la partie a commence.
+	 * @return vrai si la partie a commence, faux sinon
 	 * @throws RemoteException
 	 */
 	boolean isPartieCommencee() throws RemoteException;
-	
-	/*
-	 * METHODES UNIQUEMENT DESTINEES A L'ARENE TOURNOI
-	 */
 
 	/**
-	 * Renvoie la liste des potions en attente de connexion
-	 * @return liste des elements en attente
-	 * @throws RemoteException
-	 */
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException;	
-	
-	/**
-	 * Permet d'ajouter une potion dans l'arene a n'importe qu'elle moment
-	 * mais il faut le mot de passe
-	 * @param nom le nom de la potion
-	 * @param carac les donnees de la potion
-	 * @param position la position ou la potion doit etre depose
-	 * @param mdp mot de passe d'administrateur
-	 * @throws RemoteException
-	 */
-	public void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException;
-	
-	/**
-	 * Permet de lancer une potion en attente dans la partie
-	 * @param ref reference de la potion a lancer
-	 * @param mdp mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void lancerPotionEnAttente(int ref, String mdp) throws RemoteException ;
-	
-	/**
-	 * Permet de lancer la partie
-	 * @param motDePasse mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void commencerPartie(String motDePasse) throws RemoteException;
-	
-	/**
-	 * Permet de renvoyer un joueur de la partie
-	 * @param joueur VueElement du joueur
-	 * @param motDePasse mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void ejecter(VueElement joueur, String motDePasse) throws RemoteException;
-	
-	/**
-	 * Permet de verifier un mot de passe
-	 * @param motDePasse mot de passe a verifier
-	 * @return true si le mot de passe est ok, false sinon
-	 * @throws RemoteException
-	 */
-	public boolean verifMotDePasse(char[] motDePasse) throws RemoteException;
-
-	/**
-	 * Permet de savoir si un element est en attente
-	 * @param refRMI reference de l'element
-	 * @return true si l'element est en attente, false sinon
+	 * Permet de savoir si un element est en attente.
+	 * @param refRMI reference RMI de l'element
+	 * @return vrai si l'element est en attente, faux sinon
 	 * @throws RemoteException
 	 */
 	public boolean isEnAttente(int refRMI) throws RemoteException;
+	
+
+	/**************************************************************************
+	 * Gestion des interactions.
+	 **************************************************************************/
 
 	/**
-	 * Permet de savoir si la partie est finie
-	 * @return true si la partie est finie, false sinon
+	 * Execute le ramassage d'une potion par un personnage, si possible.
+	 * Le ramassage echoue si une action a deja ete executee ce tour par ce 
+	 * personnage, ou si la potion est trop loin du personnage.
+	 * @param console personnage voulant ramasser une potion
+	 * @param refPotion reference RMI de la potion qui doit etre ramasse
+	 * @return vrai si l'action a ete effectuee, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean isPartieFinieRMI() throws RemoteException;
-
+	public boolean ramassePotion(IConsole console, int refPotion) throws RemoteException;
+	
 	/**
-	 * Permet de recuperer la vue de l'element gagnant de la partie
-	 * @return vueElement du gagnant
+	 * Execute un duel entre le personnage correspondant a la console donnee 
+	 * et l'adversaire correspondant a la reference RMI donnee.
+	 * Le duel echoue si une action a deja ete executee a ce tour par 
+	 * l'attaquant, si les personnages sont trop eloignes, si l'un des deux 
+	 * n'est plus actif (mort)
+	 * @param console attaquant, qui demande un duel
+	 * @param refAdv reference RMI du defenseur
+	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public VuePersonnage getVueGagnant() throws RemoteException;
+	public boolean lanceAttaque(IConsole console, int refAdv) throws RemoteException;
+	
+	/**
+	 * Deplace le personnage correspondant a la console donne vers l'element 
+	 * correspondant a la reference RMI cible.
+	 * Le deplacement echoue si une action a deja ete executee a ce tour par 
+	 * ce personnage.
+	 * @param console personnage voulant se deplacer
+	 * @param refCible reference RMI de l'element vers lequel on veut se 
+	 * deplacer, ou 0 si on veut se deplacer aleatoirement
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	public boolean deplacer(IConsole console, int refCible) throws RemoteException;
+	
+	/**
+	 * Deplace le personnage correspondant a la console donne vers le point 
+	 * cible.
+	 * Le deplacement echoue si une action a deja ete executee a ce tour par 
+	 * ce personnage.
+	 * @param console personnage voulant se deplacer
+	 * @param objectif point vers lequel on veut se deplacer
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	public boolean deplacer(IConsole console, Point objectif) throws RemoteException;
+	
+	/**
+	 * Modifie la phrase du personnage correspondant a la console donnee.
+	 * @param console console
+	 * @param s nouvelle phrase
+	 * @throws RemoteException
+	 */
+	public void setPhrase(IConsole console, String s) throws RemoteException;
 	
 	
 }

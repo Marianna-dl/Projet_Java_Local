@@ -1,4 +1,4 @@
-package serveur.infosclient;
+package serveur.vuelement;
 
 import utilitaires.Calculs;
 

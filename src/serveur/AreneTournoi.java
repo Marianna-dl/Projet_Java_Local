@@ -8,23 +8,27 @@ import java.util.List;
 import java.util.Scanner;
 
 import logger.MyLogger;
-import serveur.controle.IConsolePersonnage;
+import serveur.controle.IConsole;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
-import serveur.infosclient.VueElement;
-import serveur.infosclient.VuePotion;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePotion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /**
- * 
- * @author valentinchevalier
+ * Arene (serveur) pour le tournoi. Elle est associee a un mot de passe
+ * qu'il faut connaitre pour effectuer des operations specifiques : 
+ * ajouter une potion, ejecter un joueur...
  *
  */
 public class AreneTournoi extends Arene {
 
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Mot de passe administrateur.
+	 */
 	private String motDePasse;
 	
 	/**
@@ -32,8 +36,8 @@ public class AreneTournoi extends Arene {
 	 */
 	protected boolean partieCommencee;
 
-	public AreneTournoi(int port, String ipName, long TTL, MyLogger logger) throws Exception {
-		super(port, ipName, TTL, logger);
+	public AreneTournoi(int port, String adresseIP, long TTL, MyLogger logger) throws Exception {
+		super(port, adresseIP, TTL, logger);
 		synchronized (this) {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Veuillez definir le mot de passe du serveur.");
@@ -56,7 +60,7 @@ public class AreneTournoi extends Arene {
 			try {
 				Thread.sleep(500);
 			} catch(Exception e) {
-				myLogger.severe(this.getClass().toString(), "Erreur : run\n" + e.toString());
+				logger.severe(Constantes.nomClasse(this), "Erreur : run\n" + e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -66,10 +70,10 @@ public class AreneTournoi extends Arene {
 	
 	
 	@Override
-	public void updatePartieFinie() {
-		super.updatePartieFinie();
-		// La partie est terminee si il y a un seul personnage
-		setPartieFinie(countPersonnages() <= 1 || isPartieFinie());
+	public void verifierPartieFinie() {
+		super.verifierPartieFinie();
+		// la partie est aussi terminee s'il n'y a qu'un seul personnage
+		partieFinie = partieFinie || countPersonnages() <= 1;
 	}
 
 	/**
@@ -80,21 +84,22 @@ public class AreneTournoi extends Arene {
 	 * @param mdp le mot de passe d'administrateur
 	 * @throws RemoteException
 	 */
-	public synchronized void ajouterPotionSecurisee(String nom, HashMap<Caracteristique,Integer> carac, Point position, String mdp) throws RemoteException {
-		ajouterPotionSecurisee(nom, new Potion(nom, "Arene", carac), position, mdp);				
+	@Override
+	public synchronized void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException {
+		ajouterPotionSecurisee(potion, position, mdp);				
 	}
 	
-	private void ajouterPotionSecurisee(String nom, Potion element, Point position, String mdp) throws RemoteException {
+	private void ajouterPotionSecurisee(Potion element, Point position, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
-			int ref = allocateRef();
+			int ref = allocateRefRMI();
 			VuePotion client = new VuePotion(element, position, ref, true);
 			client.setPhrase("");
-			super.ajouterClientEnJeu(ref, client);
+			potions.put(ref, client);
 			String type = "de la potion";
-			myLogger.info(this.getClass().toString(), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
-			printElements();
+			logger.info(Constantes.nomClasse(this), "Ajout "+type+" "+ client.getElement().getNomGroupe()+" ("+ref+")");
+			logElements();
 		} else {
-			myLogger.info("Tentative d'ajout de potion avec mot de passe errone");
+			logger.info("Tentative d'ajout de potion avec mot de passe errone");
 		}
 	}
 
@@ -107,12 +112,12 @@ public class AreneTournoi extends Arene {
 	 */
 	public synchronized void ajouterPotion(String nom, String groupe, HashMap<Caracteristique,Integer> carac) throws RemoteException {
 
-		int ref = allocateRef();
+		int ref = allocateRefRMI();
 		VuePotion client = new VuePotion(
 				new Potion(nom, groupe, carac),
 				new Point(Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE), Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE)), ref, false);
-		myLogger.info(this.getClass().toString(), "Ajout de la potion "+ Arene.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
-		printElements();
+		logger.info(Constantes.nomClasse(this), "Ajout de la potion "+ Constantes.nomCompletClient(client) +" ("+ref+") dans la file d'attente");
+		logElements();
 	}
 	
 	/**
@@ -121,20 +126,19 @@ public class AreneTournoi extends Arene {
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancerPotionEnAttente(int ref, String mdp) throws RemoteException {
+	@Override
+	public void lancerPotionEnAttente(VuePotion potion, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
-			VuePotion client = clientsPotions.get(ref);
+			potion.envoyer();
+			potion.setPhrase("");
+			potions.put(potion.getRefRMI(), potion);
 			
-			if (client != null) {
-				client.envoyer();
-				client.setPhrase("");
-				ajouterClientEnJeu(ref, client);
-			}
+			logger.info(Constantes.nomClasse(this), "Lancement de la potion " + 
+					potion.getElement().getNomGroupe() + " ("+ref+") dans la partie");
 			
-			myLogger.info(this.getClass().toString(), "Lancement de la potion "+ client.getElement().getNomGroupe()+" ("+ref+") dans la partie");
-			printElements();
+			logElements();
 		} else {
-			myLogger.info("Tentative de lancement de potion en attente avec mot de passe errone");			
+			logger.info("Tentative de lancement de potion en attente avec mot de passe errone");			
 		}
 	}	
 
@@ -144,7 +148,7 @@ public class AreneTournoi extends Arene {
 	 */
 	public List<VuePotion> getPotionsEnAttente() throws RemoteException{
 		ArrayList<VuePotion> aux = new ArrayList<VuePotion>();
-		for(VuePotion client : clientsPotions.values()) {
+		for(VuePotion client : potions.values()) {
 			if(client.isEnAttente()) {
 				client.setPhrase("En attente!");
 				aux.add(client);
@@ -156,23 +160,23 @@ public class AreneTournoi extends Arene {
 	public void commencerPartie(String motDePasse) throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
 			partieCommencee = true;
-			myLogger.info("Demarrage de la partie");
+			logger.info("Demarrage de la partie");
 		} else {
-			myLogger.info("Tentative de lancement de partie avec mot de passe errone");
+			logger.info("Tentative de lancement de partie avec mot de passe errone");
 		}
 	}
 
-	public void ejecter(VueElement joueur, String motDePasse)
+	public void ejecterPersonnage(VueElement joueur, String motDePasse)
 			throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
-			IConsolePersonnage console = consoleFromRef(joueur.getRefRMI());
+			IConsole console = consoleFromRef(joueur.getRefRMI());
 			if (console == null) {
 				ejecterPersonnage(joueur.getRefRMI());
 			} else {
-				deconnecterConsole(console, "Vous avez ete renvoye du salon.");
+				deconnecteConsole(console, "Vous avez ete renvoye du salon.");
 			}
 		} else {
-			myLogger.info("Tentative d'exclusion de personnage avec mot de passe errone");
+			logger.info("Tentative d'exclusion de personnage avec mot de passe errone");
 		}
 
 	}
@@ -190,9 +194,9 @@ public class AreneTournoi extends Arene {
 	@Override
 	public String getPrintElementsMessage() {
 		String msg = super.getPrintElementsMessage();
-		for(VueElement client : clientsPotions.values()) {
+		for(VueElement client : potions.values()) {
 			if(client.isEnAttente()) {
-				msg += "\n"+Arene.nomCompletClient(client)+ " (en attente)";
+				msg += "\n"+Constantes.nomCompletClient(client)+ " (en attente)";
 			}
 		}
 		return msg;

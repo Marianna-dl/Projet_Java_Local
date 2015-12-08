@@ -7,13 +7,13 @@ import java.util.logging.Level;
 import client.StrategiePersonnage;
 import serveur.IArene;
 import serveur.element.Personnage;
-import serveur.infosclient.VueElement;
+import serveur.vuelement.VueElement;
 
 /**
  * Contient les methodes RMI associees au controle d'un personnage,
  * comme l'ajout d'une phrase ou l'execution de sa strategie. 
  */
-public interface IConsolePersonnage extends Remote {
+public interface IConsole extends Remote {
 	
 	/**
 	 * Execute le thread de l'element (joue la strategie). 

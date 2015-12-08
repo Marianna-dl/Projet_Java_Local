@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import logger.MyLogger;
 import serveur.IArene;
-import serveur.controle.ConsolePersonnage;
+import serveur.controle.Console;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
@@ -23,7 +23,7 @@ public class StrategiePersonnage {
 	 * Console permettant d'ajouter une phrase et de recuperer le serveur 
 	 * (l'arene).
 	 */
-	protected ConsolePersonnage console;
+	protected Console console;
 
 	/**
 	 * Cree un personnage, la console associe et sa strategie.
@@ -32,17 +32,18 @@ public class StrategiePersonnage {
 	 * @param ipConsole ip de la console du personnage
 	 * @param nom nom du personnage
 	 * @param groupe groupe d'etudiants du personnage
+	 * @param nbTours nombre de tours pour ce personnage (si negatif, illimite)
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 */
 	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
-			String nom, String groupe, Point position, MyLogger logger) {
+			String nom, String groupe, long nbTours, Point position, MyLogger logger) {
 		
 		logger.info("lanceur", "Creation de la console...");
 		
 		try {
-			console = new ConsolePersonnage(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe), position, logger);
+			console = new Console(ipArene, port, ipConsole, this, 
+					new Personnage(nom, groupe), nbTours, position, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 			
 		} catch (Exception e) {
@@ -85,7 +86,7 @@ public class StrategiePersonnage {
 			int refCible = Calculs.chercherElementProche(position, voisins);
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
-			Element elemPlusProche = arene.getElement(refCible);
+			Element elemPlusProche = arene.elementFromRef(refCible);
 
 			if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
 				
@@ -93,17 +94,17 @@ public class StrategiePersonnage {
 				if(elemPlusProche instanceof Potion) { // potion
 					// ramassage
 					console.setPhrase("Je ramasse une potion");
-					arene.ramasserPotion(console, refCible);
+					arene.ramassePotion(console, refCible);
 
 				} else { // personnage
 					// duel
-					console.setPhrase("Je fais un duel avec " + arene.getElement(refCible).getNom());
-					arene.lancerUneAttaque(console, refCible);
+					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+					arene.lanceAttaque(console, refCible);
 				}
 				
 			} else { // si voisins, mais plus eloignes
 				// je vais vers le plus proche
-				console.setPhrase("Je vais vers mon voisin " + arene.getElement(refCible).getNom());
+				console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 				arene.deplacer(console, refCible);
 			}
 		}

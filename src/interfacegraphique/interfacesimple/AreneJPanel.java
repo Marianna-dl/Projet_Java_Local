@@ -15,9 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import serveur.element.Caracteristique;
-import serveur.infosclient.VueElement;
-import serveur.infosclient.VuePersonnage;
-import serveur.infosclient.VuePotion;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
 
 /** 

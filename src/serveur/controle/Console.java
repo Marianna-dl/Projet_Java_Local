@@ -11,14 +11,15 @@ import client.StrategiePersonnage;
 import logger.MyLogger;
 import serveur.IArene;
 import serveur.element.Personnage;
-import serveur.infosclient.VueElement;
+import serveur.vuelement.VueElement;
+import utilitaires.Constantes;
 
 /**
  * Implementation des methodes RMI associees au controle d'un personnage.
  * La strategie est executee dans la methode run(). 
  *
  */
-public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePersonnage {
+public class Console extends UnicastRemoteObject implements IConsole {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -64,12 +65,14 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 	 * @param ipConsole ip de la console
 	 * @param strategiePer strategie du personnage 
 	 * @param pers personnage 
+	 * @param nbTours nombre de tours pour ce personnage (si negatif, illimite)
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 * @throws RemoteException
 	 */
-	public ConsolePersonnage(String ipArene, int port, String ipConsole,
-			StrategiePersonnage strategiePer, Personnage pers, Point position, MyLogger logger) throws RemoteException {
+	public Console(String ipArene, int port, String ipConsole,
+			StrategiePersonnage strategiePer, Personnage pers, long nbTours, 
+			Point position, MyLogger logger) throws RemoteException {
 		
 		super();
 		this.port = port;
@@ -82,39 +85,39 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 		try {
 			// preparation connexion au serveur
 			// handshake/enregistrement RMI
-			logger.info(this.getClass().toString(), "Tentative de recuperation de l'arene...");
-			arene = (IArene) java.rmi.Naming.lookup("rmi://" + this.ipArene + ":" + this.port + "/Arene");
-			logger.info(this.getClass().toString(), "Arene recuperee");
+			logger.info(Constantes.nomClasse(this), "Tentative de recuperation de l'arene...");
+			arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(this.ipArene, this.port, "Arene"));
+			logger.info(Constantes.nomClasse(this), "Arene recuperee");
 
 			// initialisation de la reference du controleur sur le serveur
 			// La console devient "serveur" pour les methodes de IConsole 
 			// lancer l'annuaire RMI en tant que serveur
 			// a faire une seule fois par serveur de console pour un port donne
 			// doit rester "localhost"
-			logger.info(this.getClass().toString(), "Demande d'allocation de port");
-			this.refRMI = arene.allocateRef();
+			logger.info(Constantes.nomClasse(this), "Demande d'allocation de port");
+			this.refRMI = arene.allocateRefRMI();
 			int portServeur = this.port + refRMI;
-			logger.info(this.getClass().toString(), "Port alloue : " + portServeur);
+			logger.info(Constantes.nomClasse(this), "Port alloue : " + portServeur);
 			java.rmi.registry.LocateRegistry.createRegistry(portServeur);
 			Naming.rebind(adrToString(), this);
 			
 			// connexion a l'arene pour lui permettre d'utiliser les methodes de IConsole
-			logger.info(this.getClass().toString(), "Demande de connexion avec l'adresse " + adrToString());
+			logger.info(Constantes.nomClasse(this), "Demande de connexion avec l'adresse " + adrToString());
 			
-			boolean resultatConnexion = arene.connect(refRMI, ipConsole, pers, position);
+			boolean resultatConnexion = arene.connecte(refRMI, ipConsole, pers, nbTours, position);
 			
 			if (!resultatConnexion) {
-				logger.severe(this.getClass().toString(), "Echec de connexion");
+				logger.severe(Constantes.nomClasse(this), "Echec de connexion");
 				System.exit(1);
 			}
 			
 			setPhrase("Atterrissage ...");
 			
 			// affiche message si succes
-			logger.info(this.getClass().toString(), "Connexion reussie");
+			logger.info(Constantes.nomClasse(this), "Connexion reussie");
 			
  		} catch (Exception e) {
- 			logger.severe(this.getClass().toString(), "Erreur : Impossible de creer la console :\n"+e.toString());
+ 			logger.severe(Constantes.nomClasse(this), "Erreur : Impossible de creer la console :\n"+e.toString());
   			e.printStackTrace();
   			System.exit(1);
  		}
@@ -132,7 +135,7 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 
 	@Override
 	public void shutDown(String cause) throws RemoteException {
-		logger.info(this.getClass().toString(), "Console deconnectee : " + cause);
+		logger.info(Constantes.nomClasse(this), "Console deconnectee : " + cause);
 		System.exit(0);
 	}
 
@@ -154,12 +157,12 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 
 	@Override
 	public Personnage getPersonnageServeur() throws RemoteException {
-		return (Personnage) arene.getMyElement(this);
+		return (Personnage) arene.elementFromConsole(this);
 	}
 
 	@Override
 	public VueElement getVueElement() throws RemoteException {
-		return arene.getMyVueElement(this);
+		return arene.vueFromConsole(this);
 	}
 
 	@Override
@@ -169,7 +172,7 @@ public class ConsolePersonnage extends UnicastRemoteObject implements IConsolePe
 
 	@Override
 	public String adrToString() throws RemoteException {
-		return "rmi://" + ipConsole + ":" + (port + refRMI) + "/Console" + refRMI;
+		return Constantes.nomRMI(ipConsole, port + refRMI, "Console" + refRMI);
 	}
 
 	@Override

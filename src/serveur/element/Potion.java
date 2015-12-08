@@ -35,7 +35,7 @@ public class Potion extends Element {
 	}
 
 	@Override
-	public boolean estActif() {
+	public boolean estVivant() {
 		return !ramassee;
 	}
 }

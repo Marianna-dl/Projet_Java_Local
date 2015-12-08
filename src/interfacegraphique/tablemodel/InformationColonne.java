@@ -1,6 +1,6 @@
 package interfacegraphique.tablemodel;
 
-import serveur.infosclient.VueElement;
+import serveur.vuelement.VueElement;
 
 /**
  * Contient les informations relatives a chaque colonne d'un TableModel :

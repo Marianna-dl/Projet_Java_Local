@@ -54,7 +54,7 @@ public abstract class Element implements Serializable {
 	 * pour une potion, elle ne doit pas etre ramassee. 
 	 * @return vrai si le personnage doit interagir dans l'arene
 	 */
-	public abstract boolean estActif();
+	public abstract boolean estVivant();
 
 	public String getNom() {
 		return nom;

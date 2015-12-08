@@ -4,8 +4,9 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import serveur.Arene;
-import serveur.infosclient.VueElement;
-import serveur.infosclient.VuePersonnage;
+import serveur.vuelement.VueElement;
+import serveur.vuelement.VuePersonnage;
+import utilitaires.Constantes;
 
 public abstract class EntreElement<T extends VueElement> {
 	
@@ -41,9 +42,9 @@ public abstract class EntreElement<T extends VueElement> {
 	
 	protected void logs(Level level, String msg) {
 		try {
-			arene.log(Level.INFO, this.getClass().toString(), msg);
-			arene.logClient(attaquant, Level.INFO, this.getClass().toString(), msg);
-			arene.logClient(defenseur, Level.INFO, this.getClass().toString(), msg);
+			arene.getLogger().log(Level.INFO, Constantes.nomClasse(this), msg);
+			arene.logClient(attaquant, Level.INFO, Constantes.nomClasse(this), msg);
+			arene.logClient(defenseur, Level.INFO, Constantes.nomClasse(this), msg);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

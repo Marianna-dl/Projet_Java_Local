@@ -8,7 +8,7 @@ import serveur.Arene;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
-public class Deplacements {
+public class Deplacement {
 	
 	/**
 	 * Le serveur
@@ -31,7 +31,7 @@ public class Deplacements {
 	private Point position;
 	
 	
-	public Deplacements(Arene arene, int ref, Point position, HashMap<Integer, Point> voisins) {
+	public Deplacement(Arene arene, int ref, Point position, HashMap<Integer, Point> voisins) {
 		this.arene = arene;
 		this.ref = ref;
 		this.position = position;
@@ -78,8 +78,8 @@ public class Deplacements {
 	 * @throws RemoteException
 	 */
 	public void seDirigerVers(Point objectif) throws RemoteException {
-		Point cible = new Point(Calculs.caperNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
-				Calculs.caperNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
+		Point cible = new Point(Calculs.caperNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
+				Calculs.caperNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
 		
 		Point dest = position;
 		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse

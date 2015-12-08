@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
-import serveur.infosclient.VuePersonnage;
+import serveur.vuelement.VuePersonnage;
 
 /**
  * TableModel des personnages, connectes ou deconnectes.
@@ -41,7 +41,7 @@ public class PersonnageTableModel extends ElementTableModel<VuePersonnage> {
 	public Color getColor(int rowIndex) {
 		Color res;
 		
-		if (!vues.get(rowIndex).getElement().estActif()) {
+		if (!vues.get(rowIndex).getElement().estVivant()) {
 			res = new Color(112, 112, 112);
 		} else {
 			res = super.getColor(rowIndex);

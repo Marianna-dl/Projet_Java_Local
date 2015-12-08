@@ -131,7 +131,7 @@ public class Calculs {
 	 * @return valeur capee
 	 */
 	public static int caperCarac(Caracteristique c, int val) {		
-		return caperNumber(c.getMin(), c.getMax(), val);
+		return caperNombre(c.getMin(), c.getMax(), val);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Calculs {
 	 * @param val valeur a caper
 	 * @return valeur capee
 	 */
-	public static int caperNumber(int min, int max, int val) {
+	public static int caperNombre(int min, int max, int val) {
 		if (max < 0) {
 			return Math.max(val, min);
 		}		
@@ -154,7 +154,7 @@ public class Calculs {
 		int yMin = Constantes.YMIN_ARENE;
 		int yMax = Constantes.YMAX_ARENE;
 		
-		return new Point(caperNumber(xMin, xMax, position.x), caperNumber(yMin, yMax, position.y));
+		return new Point(caperNombre(xMin, xMax, position.x), caperNombre(yMin, yMax, position.y));
 	}
 
 	public static Point randomPosition() {
