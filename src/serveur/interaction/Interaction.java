@@ -8,43 +8,59 @@ import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Constantes;
 
-public abstract class EntreElement<T extends VueElement> {
+/**
+ * Represente une interaction entre un personnage et un autre element :
+ * un duel ou un ramassage.
+ *
+ * @param <T> vue de l'autre element
+ */
+public abstract class Interaction<T extends VueElement> {
 	
 	/**
-	 * Arene.
+	 * Arene (serveur).
 	 */
 	protected Arene arene;
+	
 	/**
-	 * Reference de l'attaquant.
+	 * Vue de l'attaquant, c'est-a-dire le personnage faisant l'action.
 	 */
 	protected VuePersonnage attaquant; 
+	
 	/**
-	 * Reference du defenseur.
+	 * Vue du defenseur : personnage en cas d'attaque, potion en cas de 
+	 * ramassage.
 	 */
 	protected T defenseur;
 	
-	
-	
 	/**
-	 * Constructeur
+	 * Cree une interaction entre un personnage et un element.
 	 * @param arene arene
-	 * @param attaquant la reference de l'attaquant
-	 * @param defenseur la reference du defenseur
+	 * @param attaquant vue de l'attaquant
+	 * @param defenseur vue du defenseur
 	 * @throws RemoteException
 	 */
-	public EntreElement(Arene arene, VuePersonnage attaquant, T defenseur) {
+	public Interaction(Arene arene, VuePersonnage attaquant, T defenseur) {
 		this.arene = arene;
 		this.attaquant = attaquant;
 		this.defenseur = defenseur;
 	}
 	
-	public abstract void interagir()  throws RemoteException;
+	/**
+	 * Realise l'interaction.
+	 */
+	public abstract void interagir();
 	
+	/**
+	 * Remplit le log de l'arene et des deux clients. 
+	 * @param level niveau de log
+	 * @param msg message
+	 */
 	protected void logs(Level level, String msg) {
 		try {
 			arene.getLogger().log(Level.INFO, Constantes.nomClasse(this), msg);
 			arene.logClient(attaquant, Level.INFO, Constantes.nomClasse(this), msg);
 			arene.logClient(defenseur, Level.INFO, Constantes.nomClasse(this), msg);
+			
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

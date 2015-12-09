@@ -1,4 +1,4 @@
-package serveur.controle;
+package client.controle;
 
 import java.awt.Point;
 import java.rmi.Naming;
@@ -126,7 +126,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	@Override
 	public void run() throws RemoteException {
 		// met a jour les voisins 
-		HashMap<Integer, Point> voisins = arene.getVoisins(this);
+		HashMap<Integer, Point> voisins = arene.getVoisins(refRMI);
 		
 		// applique la strategie du personnage
 		strategiePer.strategie(voisins);

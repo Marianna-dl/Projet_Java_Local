@@ -5,9 +5,9 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import client.controle.Console;
 import logger.MyLogger;
 import serveur.IArene;
-import serveur.controle.Console;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;

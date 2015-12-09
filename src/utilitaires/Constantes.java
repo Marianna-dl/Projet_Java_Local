@@ -1,9 +1,13 @@
 package utilitaires;
 
+import java.util.Arrays;
+import java.util.List;
+
 import serveur.vuelement.VueElement;
 
 /**
- * Definit des constantes utiles. 
+ * Definit des constantes utiles et quelques methodes tres simples.
+ * Les calculs sont dans la classe {@code Calculs}.
  *
  */
 public class Constantes {
@@ -33,6 +37,25 @@ public class Constantes {
 	 * Taille du champ de vision des personnages. 
 	 */
 	public static final int VISION = 30;
+	
+	/**
+	 * Quantite d'initiative retiree a l'attaquant et ajoutee au defenseur
+	 * lors d'un duel.
+	 */
+	public static final int INCR_DECR_INITIATIVE_DUEL = 10;
+	
+	/**
+	 * Contient les distances de projection (suite a un duel) associees a 
+	 * chaque "quart" de force. 
+	 * Par exemple, si l'attaquant a une valeur de force inferieure ou egale a
+	 * un quart de la valeur maximale de force, alors il projetera a la 
+	 * distance donnee dans la premiere case.
+	 * La deuxieme case contient la distance pour un attaquant ayant une force
+	 * superieure au quart de la force possible, mais inferieure a la moitie ;
+	 * la troisieme, entre la moitie et les trois quarts ; 
+	 * la quatrieme, entre les trois quarts et le maximum possible.
+	 */
+	public static final List<Integer> DISTANCE_PROJECTION = Arrays.asList(4, 5, 6, 7);
 	
 	/**
 	 * Distance minimale entre deux elements pour qu'une interaction soit

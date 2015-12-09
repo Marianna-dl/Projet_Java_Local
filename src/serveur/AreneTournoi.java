@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import client.controle.IConsole;
 import logger.MyLogger;
-import serveur.controle.IConsole;
 import serveur.element.Potion;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;

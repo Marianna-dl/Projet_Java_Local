@@ -4,115 +4,85 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
-import serveur.Arene;
+import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
-import utilitaires.Constantes;
 
+/**
+ * Represente le deplacement d'un personnage.
+ *
+ */
 public class Deplacement {
-	
-	/**
-	 * Le serveur
-	 */
-	private Arene arene;	
 
 	/**
-	 * Reference de l'element 
+	 * Vue du personnage qui veut se deplacer.
 	 */
-	private int ref;
+	private VuePersonnage personnage;
 	
 	/**
-	 * Ref RMI et les vues des voisins.
+	 * References RMI et vues des voisins (calcule au prealable). 
 	 */
 	private HashMap<Integer, Point> voisins;
 	
 	/**
-	 * Position de l'element
+	 * Cree un deplacement.
+	 * @param personnage personnage voulant se deplacer
+	 * @param voisins voisins du personnage
 	 */
-	private Point position;
-	
-	
-	public Deplacement(Arene arene, int ref, Point position, HashMap<Integer, Point> voisins) {
-		this.arene = arene;
-		this.ref = ref;
-		this.position = position;
+	public Deplacement(VuePersonnage personnage, HashMap<Integer, Point> voisins) { 
+		this.personnage = personnage;
 
 		if (voisins == null) {
 			this.voisins = new HashMap<Integer, Point>();
 		} else {
 			this.voisins = voisins;
 		}
-		
-
 	}
 
 	/**
-	 * Deplace ce sujet d'une case en direction du sujet dont la reference est donnee en parametre
-	 * ref de soi-meme pour du sur-place, 0 pour errer et ref d'un voisin (s'il existe)
-	 * On ne manipule que la VueElement
-	 * @param refObjectif la reference de l'element cible
+	 * Deplace ce sujet d'une case en direction de l'element dont la reference
+	 * est donnee.
+	 * Si la reference est la reference de l'element courant, il ne bouge pas ;
+	 * si la reference est egale a 0, il erre ;
+	 * sinon il va vers le voisin correspondant (s'il existe dans les voisins).
+	 * @param refObjectif reference de l'element cible
 	 */    
 	public void seDirigerVers(int refObjectif) throws RemoteException {
 		Point pvers;
 
-		// si la cible est l'element meme, il reste sur place
-		if (refObjectif == ref) return;
-
-		// la reference est nulle : le personnage erre
-		if (refObjectif <= 0) { //initialisation aleatoire
-			pvers = new Point(Calculs.nombreAleatoire(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE),
-					Calculs.nombreAleatoire(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
-		} else { //sinon la cible devient le point sur lequel se trouve l'element refObjectif
-			pvers = voisins.get(refObjectif);
+		// on ne bouge que si la reference n'est pas la notre
+		if (refObjectif != personnage.getRefRMI()) {
+			
+			// la reference est nulle (en fait, nulle ou negative) : 
+			// le personnage erre
+			if (refObjectif <= 0) { 
+				pvers = Calculs.positionAleatoireArene();
+						
+			} else { 
+				// sinon :
+				// la cible devient le point sur lequel se trouve l'element objectif
+				pvers = voisins.get(refObjectif);
+			}
+	
+			// on ne bouge que si l'element existe
+			if(pvers != null) {
+				seDirigerVers(pvers);
+			}
 		}
-
-		// si l'element n'existe plus (cas posible: deconnexion du serveur), le point reste sur place
-		if (pvers == null) return;
-
-		seDirigerVers(pvers);
 	}
 
 	/**
-	 * Deplace ce sujet d'une case en direction de la case specifiee.
-	 * On ne manipule que la VueElement
+	 * Deplace ce sujet d'une case en direction de la case donnee.
 	 * @param objectif case cible
 	 * @throws RemoteException
 	 */
 	public void seDirigerVers(Point objectif) throws RemoteException {
-		Point cible = new Point(Calculs.restreindreNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
-				Calculs.restreindreNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
+		Point cible = Calculs.restreindrePositionArene(objectif); 
 		
-		Point dest = position;
-		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse
-		// Sauf si on est arrive a destination
-//		for (int i = 0; i < vitesse && !dest.equals(cible); i++) {
-			dest = calculProchaineCase(dest, cible);
-//		}
-
-		// si le point destination est libre
-		if (Calculs.caseVide(dest, voisins)) {
-			// l'element courant se deplace
-			arene.setPosition(ref, dest);
-		} else {
-			// cherche la case libre la plus proche dans la direction de la cible
-			Point top = Calculs.meilleurPoint(position, dest, voisins);
-			// deplace l'element courant sur celle-la
-			arene.setPosition(ref, top);
+		// on cherche le point voisin vide
+		Point dest = Calculs.meilleurPoint(personnage.getPosition(), cible, voisins);
+		
+		if(dest != null) {
+			personnage.setPosition(dest);
 		}
-	}
-
-	/**
-	 * Calcule le point autour de dep pour aller vers arr
-	 * @param dep point de depart
-	 * @param arr point d'arrivee
-	 * @return point de destination
-	 */
-	private Point calculProchaineCase(Point dep, Point arr) {
-		// calcule la direction pour atteindre arr (+1/-1 par rapport a dep)
-		int x = ((arr.x-dep.x)>0)?+1:-1;
-		int y = ((arr.y-dep.y)>0)?+1:-1;
-
-		// instancie le point destination
-		Point dest = new Point(dep.x+x,dep.y+y);
-		return dest;
 	}
 }

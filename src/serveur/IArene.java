@@ -6,7 +6,7 @@ import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.List;
 
-import serveur.controle.IConsole;
+import client.controle.IConsole;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
@@ -163,12 +163,13 @@ public interface IArene extends Remote {
 	public List<VuePotion> getPotionsEnAttente() throws RemoteException;
 
 	/**
-	 * Calcule la liste les voisins d'une console de l'arene.
-	 * @param console console dont on veut les voisins
+	 * Calcule la liste les voisins d'un element represente par sa reference
+	 * RMI.
+	 * @param refRMI reference de l'element dont on veut recuperer les voisins
 	 * @return map des couples reference/coordonnees des voisins
 	 * @throws RemoteException
 	 */
-	public HashMap<Integer, Point> getVoisins(IConsole console) throws RemoteException;
+	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException;
 	
 	/**
 	 * Renvoie la liste des personnages tries pour le classement final.

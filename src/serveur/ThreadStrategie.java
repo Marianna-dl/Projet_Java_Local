@@ -2,7 +2,7 @@ package serveur;
 
 import java.rmi.RemoteException;
 
-import serveur.controle.IConsole;
+import client.controle.IConsole;
 import utilitaires.Constantes;
 
 /**

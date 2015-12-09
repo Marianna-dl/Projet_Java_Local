@@ -61,7 +61,8 @@ public class Calculs {
 	 * @param origine point sur lequel se trouve l'element courant
 	 * @param objectif point sur lequel se trouve la cible
 	 * @param voisins positions des elements proches 
-	 * @return meilleur point libre dans la direction de la cible
+	 * @return meilleur point libre a une distance de 1 dans la direction de la 
+	 * cible, ou null s'il n'en existe aucun
 	 */
 	public static Point meilleurPoint(Point origine, Point objectif, 
 			HashMap<Integer, Point> voisins) {

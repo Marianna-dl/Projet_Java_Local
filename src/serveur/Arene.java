@@ -15,13 +15,13 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.logging.Level;
 
+import client.controle.IConsole;
 import logger.MyLogger;
-import serveur.controle.IConsole;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
-import serveur.interaction.Attaque;
+import serveur.interaction.Duel;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Ramassage;
 import serveur.vuelement.PaireRefRMIIntitiative;
@@ -521,17 +521,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	/**
-	 * Modifie la position de l'element a la reference RMI donnee.
-	 * @param refRMI reference RMI
-	 * @param position nouvelle position
-	 */
-	public void setPosition(int refRMI, Point position) {
-		position = new Point(Calculs.restreindreNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, position.x),
-				Calculs.restreindreNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, position.y));
-		personnages.get(refRMI).setPosition(position);
-	}
-
-	/**
 	 * Verifie les conditions de fin de partie.
 	 */
 	protected void verifierPartieFinie() {
@@ -559,27 +548,28 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public HashMap<Integer, Point> getVoisins(IConsole console) throws RemoteException {
+	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException {
 		HashMap<Integer, Point> res = new HashMap<Integer, Point>();
 	
-		int ref = console.getRefRMI();
-		Point positionConsole = personnages.get(ref).getPosition();
+		Point positionConsole = personnages.get(refRMI).getPosition();
 		
 		// personnages
 		for(int refVoisin : personnages.keySet()) {
 			Point positionVoisin = personnages.get(refVoisin).getPosition();
 			
-			if (estVoisin(ref, positionConsole, refVoisin, positionVoisin)) {
+			if (estVoisin(refRMI, positionConsole, refVoisin, positionVoisin)) {
 				res.put(refVoisin, positionVoisin);
 			}
 		}
 		
 		// potions
 		for(int refVoisin : potions.keySet()) {
-			Point positionVoisin = potions.get(refVoisin).getPosition();
-			
-			if (estVoisin(ref, positionConsole, refVoisin, positionVoisin)) {
-				res.put(refVoisin, positionVoisin);
+			if(!potions.get(refVoisin).isEnAttente()) {
+				Point positionVoisin = potions.get(refVoisin).getPosition();
+				
+				if (estVoisin(refRMI, positionConsole, refVoisin, positionVoisin)) {
+					res.put(refVoisin, positionVoisin);
+				}
 			}
 		}
 		return res;
@@ -721,6 +711,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
 		if (personnages.get(refRMI).isActionExecutee()) {
+			// si une action a deja ete executee
 			logActionDejaExecutee(console);
 			
 		} else {
@@ -744,7 +735,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					logger.info(Constantes.nomClasse(this), nomRaccourciClient(console.getRefRMI()) + 
 							" attaque " + nomRaccourciClient(consoleAdv.getRefRMI()));
 			
-					new Attaque(this, client, clientAdv).interagir();
+					new Duel(this, client, clientAdv).interagir();
 					personnages.get(refRMI).executeAction();
 					
 					// si l'adversaire est mort
@@ -783,13 +774,16 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		boolean res = false;
 		
 		int refRMI = console.getRefRMI();
+		VuePersonnage client = personnages.get(refRMI);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+		if (client.isActionExecutee()) {
+			// si une action a deja ete executee
 			logActionDejaExecutee(console);
+			
 		} else {
 			// sinon, on tente de jouer l'interaction
-			new Deplacement(this, refRMI, getPosition(refRMI), getVoisins(console)).seDirigerVers(refCible);
-			personnages.get(refRMI).executeAction();
+			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(refCible);
+			client.executeAction();
 			
 			res = true;
 		}
@@ -802,14 +796,15 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		boolean res = false;
 		
 		int refRMI = console.getRefRMI();
+		VuePersonnage client = personnages.get(refRMI);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+		if (client.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(console);
 		} else {
 			// sinon, on tente de jouer l'interaction
-			new Deplacement(this, refRMI, getPosition(refRMI), getVoisins(console)).seDirigerVers(objectif);
-			personnages.get(refRMI).executeAction();
+			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(objectif);
+			client.executeAction();
 
 			res = true;
 		}
