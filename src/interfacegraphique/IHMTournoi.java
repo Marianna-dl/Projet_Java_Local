@@ -84,7 +84,7 @@ public class IHMTournoi extends IHM {
 				if (fenetrePotion != null && fenetrePotion.isVisible()) {
 					fenetrePotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
 					if (fenetrePotion.isClicPourPoserSelectionne()) {
-						fenetrePotion.lancerPotion();
+						fenetrePotion.lancePotion();
 					}
 				}
 			}
@@ -128,7 +128,7 @@ public class IHMTournoi extends IHM {
 		if (option == 1) {
 			 // clic sur le bouton OK
 			try {
-				if (arene.verifMotDePasse(pass.getPassword())) {
+				if (arene.verifieMotDePasse(pass.getPassword())) {
 					this.motDePasse = "";
 					for (int i = 0; i < pass.getPassword().length; i++) {
 						this.motDePasse += pass.getPassword()[i];
@@ -190,7 +190,7 @@ public class IHMTournoi extends IHM {
 		} else {
 			if(elementSelectionne != null && elementSelectionne instanceof VuePersonnage) {
 				try {
-					arene.ejecterPersonnage((VuePersonnage) elementSelectionne, motDePasse);
+					arene.ejectePersonnage((VuePersonnage) elementSelectionne, motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -208,7 +208,7 @@ public class IHMTournoi extends IHM {
 			if (elementSelectionne != null && elementSelectionne instanceof VuePotion &&
 					elementSelectionne.isEnAttente()) {
 				try {
-					arene.lancerPotionEnAttente((VuePotion) getElementSelectionne(), motDePasse);
+					arene.lancePotionEnAttente((VuePotion) getElementSelectionne(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -239,7 +239,7 @@ public class IHMTournoi extends IHM {
 	 * @param ht caracteristiques de la potion
 	 * @param position position de la potion
 	 */
-	public void lancerPotion(String nom, HashMap<Caracteristique, Integer> ht, Point position) {
+	public void lancePotion(String nom, HashMap<Caracteristique, Integer> ht, Point position) {
 		if (!motDePasseOK) {
 			demanderMotDePasse();
 		} else {

@@ -68,13 +68,13 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * Associe les references RMI et les personnages connectes ou ayant ete 
 	 * connectes au serveur, vivants ou morts. 
 	 */	
-	private Hashtable<Integer, VuePersonnage> personnages = null;
+	protected Hashtable<Integer, VuePersonnage> personnages = null;
 	
 	/**
 	 * Liste des personnages morts. Permet de garder une trace des personnages
 	 * qui ont joué et qui sont maintenant deconnectes. 
 	 */
-	private List<VuePersonnage> personnagesMorts = null;
+	protected List<VuePersonnage> personnagesMorts = null;
 
 	/**
 	 * Associe les references RMI et les potions connectees au serveur, en 
@@ -98,15 +98,17 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Constructeur de l'arene.
 	 * @param port le port de connexion
-	 * @param ipName nom de la machine qui heberge l'arene
+	 * @param adresseIP nom de la machine qui heberge l'arene
 	 * @param nbTours duree de vue du serveur en nombre de tours de jeu 
 	 * (si negatif, duree illimitee)
 	 * @param logger gestionnaire de log 
+	 * @throws RemoteException
+	 * @throws MalformedURLException
 	 */
-	public Arene(int port, String ipName, long nbTours, MyLogger logger) throws RemoteException, MalformedURLException  {
+	public Arene(int port, String adresseIP, long nbTours, MyLogger logger) throws RemoteException, MalformedURLException  {
 		super();
 		this.port = port;
-		this.adresseIP = ipName;
+		this.adresseIP = adresseIP;
 		this.NB_TOURS = nbTours;
 
 		personnages = new Hashtable<Integer, VuePersonnage>();
@@ -666,14 +668,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	
 	@Override
 	public synchronized void ajoutePotion(Potion potion) throws RemoteException {		
-		int ref = allocateRefRMI();
+		int refRMI = allocateRefRMI();
 		
 		// ajout de la potion a la liste
-		VuePotion vuePotion = new VuePotion(potion, Calculs.randomPosition(), ref, true);
-		potions.put(ref, vuePotion);
+		VuePotion vuePotion = new VuePotion(potion, Calculs.randomPosition(), refRMI, true);
+		potions.put(refRMI, vuePotion);
 		
 		logger.info(Constantes.nomClasse(this), "Ajout de la potion " + 
-				vuePotion.getElement().getNomGroupe() + " (" + ref + ")");
+				Constantes.nomCompletClient(vuePotion) + " (" + refRMI + ")");
 		
 		logElements();
 	}
@@ -860,7 +862,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 */
 	
 	@Override
-	public boolean verifMotDePasse(char[] motDePasse) throws RemoteException {
+	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException {
 		return false;
 	}
 	
@@ -870,7 +872,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public void ejecterPersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException {}
+	public void ejectePersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException {}
 
 	@Override
 	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
@@ -881,7 +883,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException {}
 	
 	@Override
-	public synchronized void lancerPotionEnAttente(VuePotion potion, String motDePasse) throws RemoteException {}
+	public synchronized void lancePotionEnAttente(VuePotion vuePotion, String motDePasse) throws RemoteException {}
 
 	@Override
 	public void commencerPartie(String motDePasse) throws RemoteException {}
@@ -953,9 +955,10 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			msg += "\n" + Constantes.nomCompletClient(vuePers);
 		}
 		
-		for(VuePotion vuePers : potions.values()) {
-			msg += "\n" + Constantes.nomCompletClient(vuePers);
+		for(VuePotion vuePot : potions.values()) {
+			msg += "\n" + Constantes.nomCompletClient(vuePot);
 		}
+		
 		return msg;
 	}
 

@@ -146,7 +146,7 @@ public class FenetreCreationPotion extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				lancerPotion();
+				lancePotion();
 			}
 		});
 
@@ -160,7 +160,7 @@ public class FenetreCreationPotion extends JFrame {
      * Si oui, lance la potion correspondante,
      * si non, affiche un message d'erreur et ne lance pas la potion.
      */
-	public void lancerPotion() {
+	public void lancePotion() {
 		List<String> erreurMessage = new ArrayList<String>();
 		Point position = null;
 		String nom = null;
@@ -196,7 +196,7 @@ public class FenetreCreationPotion extends JFrame {
 		}
 		
 		if (validValues) {
-			ihmTournoi.lancerPotion(nom, caracts, position);
+			ihmTournoi.lancePotion(nom, caracts, position);
 		} else {
 			afficherMessageErreur(erreurMessage);
 		}

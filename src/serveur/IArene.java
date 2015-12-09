@@ -57,7 +57,7 @@ public interface IArene extends Remote {
 	 * @return true si le mot de passe est ok, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean verifMotDePasse(char[] motDePasse) throws RemoteException;
+	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException;
 
 	/**
 	 * Teste si la partie est finie.
@@ -72,7 +72,7 @@ public interface IArene extends Remote {
 	 * @param motDePasse mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void ejecterPersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException;
+	public void ejectePersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException;
 
 	/**
 	 * Permet de lancer la partie (mode tournoi).
@@ -80,6 +80,13 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void commencerPartie(String motDePasse) throws RemoteException;
+
+	/**
+	 * Teste si la partie a commence.
+	 * @return vrai si la partie a commence, faux sinon
+	 * @throws RemoteException
+	 */
+	boolean isPartieCommencee() throws RemoteException;
 
 	/**
 	 * Permet d'ajouter une potion dans l'arene a n'importe quel moment en mode 
@@ -91,8 +98,8 @@ public interface IArene extends Remote {
 	public void ajoutePotion(Potion potion) throws RemoteException;
 	
 	/**
-	 * Permet d'ajouter une potion dans l'arene tournoi a n'importe quel moment,
-	 * en fournissant le mot de passe (mode tournoi).
+	 * Permet d'ajouter une potion en attente dans l'arene a n'importe quel 
+	 * moment, en fournissant le mot de passe (mode tournoi).
 	 * @param potion potion
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException	
@@ -101,11 +108,11 @@ public interface IArene extends Remote {
 
 	/**
 	 * Permet de lancer une potion en attente dans la partie (mode tournoi). 
-	 * @param potion potion a lancer
+	 * @param vuePotion potion a lancer
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancerPotionEnAttente(VuePotion potion, String mdp) throws RemoteException;
+	public void lancePotionEnAttente(VuePotion vuePotion, String mdp) throws RemoteException;
 	
 	
 
@@ -149,7 +156,7 @@ public interface IArene extends Remote {
 	public List<VuePotion> getPotions() throws RemoteException;
 	
 	/**
-	 * Renvoie la liste des potions en attente de connexion.
+	 * Renvoie la liste des potions en attente de connexion (mode tournoi).
 	 * @return liste des potions en attente
 	 * @throws RemoteException
 	 */
@@ -216,13 +223,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public Point getPosition(int refRMI) throws RemoteException;
-
-	/**
-	 * Teste si la partie a commence.
-	 * @return vrai si la partie a commence, faux sinon
-	 * @throws RemoteException
-	 */
-	boolean isPartieCommencee() throws RemoteException;
 
 	/**
 	 * Permet de savoir si un element est en attente.
