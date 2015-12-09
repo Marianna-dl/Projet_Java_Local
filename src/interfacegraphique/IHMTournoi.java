@@ -167,7 +167,7 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Lance la partie.
 	 */
-	public void lancerPartie() {
+	private void lancerPartie() {
 		try {
 			arene.commencerPartie(motDePasse);
 			timer.stop();

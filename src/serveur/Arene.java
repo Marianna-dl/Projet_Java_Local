@@ -975,15 +975,5 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return Constantes.nomRaccourciClient(vueFromRef(refRMI));
 	}
 
-	/**
-	 * Retourne le nom complet du client correspondant a la reference RMI
-	 * donnee.
-	 * @param refRMI reference RMI
-	 * @return nom complet du client
-	 */
-	public String nomCompletClient(int refRMI) throws RemoteException {
-		return Constantes.nomCompletClient(vueFromRef(refRMI));
-	}
-
 	
 }

@@ -368,7 +368,7 @@ public class AreneJPanel extends JPanel {
 	 * @param point position dans l'arene
 	 * @return position dans le panel
 	 */
-	public Point getRealPosition(Point point) {
+	private Point getRealPosition(Point point) {
 		Rectangle rect = this.getBounds();
 		
 		int width = (int) rect.getWidth();

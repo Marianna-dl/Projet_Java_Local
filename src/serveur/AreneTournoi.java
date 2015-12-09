@@ -32,7 +32,7 @@ public class AreneTournoi extends Arene {
 	/**
 	 * Booleen permettant de savoir si la partie est commencee
 	 */
-	protected boolean partieCommencee;
+	private boolean partieCommencee;
 
 	/**
 	 * Constructeur de l'arene de tournoi.
