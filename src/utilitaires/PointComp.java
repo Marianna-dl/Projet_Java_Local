@@ -10,38 +10,43 @@ public class PointComp extends Point implements Comparator<Point> {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructeur
-	 * @param x la valeur de l'ordonnee
-	 * @param y la valeur de l'abscisse
+	 * Cree un point a partir de ses coordonnees.
+	 * @param x l'abscisse
+	 * @param y ordonnee
 	 */
 	public PointComp(int x, int y) {
 		super(x, y);
 	}
 
 	/**
-	 * Constructeur
-	 * @param objectif le point
+	 * Cree un point a partir d'un autre point.
+	 * @param p p
 	 */
-	public PointComp(Point objectif) {
-		super(objectif.x,objectif.y);
+	public PointComp(Point p) {
+		super(p.x, p.y);
 	}
 
 	/**
-	 * Calcule la distance classique entre le point courant et le point cible
-	 * @param paux le point cible
-	 * @return un entier representant la distance
+	 * Calcule la distance euclidienne entre le point courant et le point cible.
+	 * @param cible point cible
+	 * @return distance euclidienne
 	 */
-	private Integer distance(Point paux) {
-		return (int) Math.sqrt(Math.pow(x-paux.x, 2)+Math.pow(y-paux.y,2));
+	private Integer distanceEuclidienne(Point cible) {
+		int xDiff = x - cible.x;
+		int yDiff = y - cible.y;
+		
+		return (int) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 	
 	/**
-	 * Compare la distance du point courant a deux autres points
-	 * @param o1 le premier point
-	 * @param o2 le deuxieme point
-	 * @return <0 si le premier point est plus proche, 0 si les points sont a la meme distance et 1 si le deuxieme est plus proche
+	 * Compare la distance du point courant a deux autres points.
+	 * @param p1 le premier point
+	 * @param p2 le deuxieme point
+	 * @return nombre negatif si le premier point est plus proche, 
+	 * 0 si les points sont a la meme distance et 
+	 * 1 si le deuxieme est plus proche
 	 */
-	public int compare(Point o1, Point o2) {
-		return distance(o1).compareTo(distance(o2));
+	public int compare(Point p1, Point p2) {
+		return distanceEuclidienne(p1).compareTo(distanceEuclidienne(p2));
 	}
 }

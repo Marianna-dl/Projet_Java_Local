@@ -526,8 +526,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param position nouvelle position
 	 */
 	public void setPosition(int refRMI, Point position) {
-		position = new Point(Calculs.caperNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, position.x),
-				Calculs.caperNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, position.y));
+		position = new Point(Calculs.restreindreNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, position.x),
+				Calculs.restreindreNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, position.y));
 		personnages.get(refRMI).setPosition(position);
 	}
 
@@ -671,7 +671,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		int refRMI = allocateRefRMI();
 		
 		// ajout de la potion a la liste
-		VuePotion vuePotion = new VuePotion(potion, Calculs.randomPosition(), refRMI, true);
+		VuePotion vuePotion = new VuePotion(potion, Calculs.positionAleatoireArene(), refRMI, true);
 		potions.put(refRMI, vuePotion);
 		
 		logger.info(Constantes.nomClasse(this), "Ajout de la potion " + 

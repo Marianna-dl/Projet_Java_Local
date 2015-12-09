@@ -156,7 +156,7 @@ public class SaisieCaracteristique extends JPanel {
 		}
 		
 		if (aleatoireCaract.isSelected()) {
-			value = Calculs.randomNumber(getMinRange(), getMaxRange());
+			value = Calculs.nombreAleatoire(getMinRange(), getMaxRange());
 		} else {
 			value = Integer.parseInt(valeurCaract.getText());				
 		}

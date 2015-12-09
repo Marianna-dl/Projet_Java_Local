@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+import static utilitaires.Constantes.*;
 
 import serveur.element.Caracteristique;
 
@@ -15,13 +16,11 @@ import serveur.element.Caracteristique;
  */
 public class Calculs {
 
-	private static long token; // TODO supprimer
-
 	/**
-	 * Renvoie la distance Chebyshev entre deux points
+	 * Renvoie la distance de Chebyshev entre deux points.
 	 * @param p1 le premier point
 	 * @param p2 le deuxieme point
-	 * @return un entier representant la distance
+	 * @return distance de Chebyshev
 	 */
 	public static int distanceChebyshev(Point p1, Point p2) {
 		return Math.max(Math.abs(p1.x-p2.x),Math.abs(p1.y-p2.y));
@@ -29,9 +28,9 @@ public class Calculs {
 
 	/**
 	 * Verifie si un element parmi les voisins occupe la position donnee. 
-	 * @param p une position   
-	 * @param voisins des elements (Point)
-	 * @return true si la case est vide et false si la case est occupe
+	 * @param p position   
+	 * @param voisins voisins
+	 * @return vrai si la case est vide, faux sinon
 	 */
 	public static boolean caseVide(Point p, HashMap<Integer, Point> voisins) {
 		boolean trouve = false;
@@ -46,145 +45,167 @@ public class Calculs {
 		return !trouve;
 	}
 	
-	/** 
-	 * Renvoie le meilleur point a occuper par l'element courant dans la direction de la cible
-	 * @param depart le point sur lequel se trouve l'element courant
-	 * @param objectif le point sur lequel se trouve la cible
-	 * @param voisins le positionement des autres elements dans l'arene
-	 * @return le meilleur point libre dans la direction de la cible
+	/**
+	 * Teste si le point donne est dans l'arene.
+	 * @param p point
+	 * @return vrai si le point est dans les limites de l'arene, faux sinon
 	 */
-	public static Point meilleurPoint(Point depart, Point objectif, HashMap<Integer, Point> voisins) {
-		//liste contenant tous les positions vers lesquelles l'element peut avancer
+	public static boolean estDansArene(Point p) {
+		return XMIN_ARENE <= p.x && p.x <= XMAX_ARENE &&
+				YMIN_ARENE <= p.y && p.y <= YMAX_ARENE;
+	}
+	
+	/** 
+	 * Renvoie le meilleur point a occuper par l'element courant dans la 
+	 * direction de la cible.
+	 * @param origine point sur lequel se trouve l'element courant
+	 * @param objectif point sur lequel se trouve la cible
+	 * @param voisins positions des elements proches 
+	 * @return meilleur point libre dans la direction de la cible
+	 */
+	public static Point meilleurPoint(Point origine, Point objectif, 
+			HashMap<Integer, Point> voisins) {
+		
+		// liste contenant tous les positions vers lesquelles l'element peut avancer :
+		// les 8 cases autour de lui
 		ArrayList<Point> listePossibles = new ArrayList<Point>();		
-		//pour chaque de 8 cases autour de lui
-		for (int i=-1;i<=1;i++) {
-			for (int j=-1;j<=1;j++) {
-				if ((i!=0) || (j!=0))  {
- 					//on ajoute la position (en valeur absolue pour eviter de sortir du cadre)
-					listePossibles.add(new Point(Math.abs(depart.x+i),Math.abs(depart.y+j)));
+		
+		Point tempPoint;
+		
+		for (int i = -1; i <= 1; i++) {
+			for (int j = -1; j <= 1; j++) {
+				if ((i != 0) || (j != 0))  { // pas le point lui-meme
+					tempPoint = new Point(origine.x + i, origine.y + j);
+					
+					if(estDansArene(tempPoint)) {
+						listePossibles.add(tempPoint);
+					}
 				}
 			}
 		}
-		//organise les points de la liste du plus pres vers le plus eloigne de la cible
-		Collections.sort(listePossibles,new PointComp(objectif));		
-		//cherche la case vide la plus proche de la cible
-		boolean ok = false;
-		int i=0;
-		Point res=null;
-		while (!ok & i<listePossibles.size()) {
+		
+		
+		// organise les points de la liste du plus pres vers le plus eloigne de la cible
+		Collections.sort(listePossibles, new PointComp(objectif));
+		
+		// cherche la case vide la plus proche de la cible
+		boolean trouve = false;
+		int i = 0;
+		Point res = null;
+		
+		while (!trouve & i < listePossibles.size()) {
 			res = listePossibles.get(i);
-			ok = caseVide(res, voisins);
+			trouve = caseVide(res, voisins);
 			i++;
 		}
-		//renvoie cette case
+
 		return res;
 	}
 
 	/**
-	 * Cherche l'element le plus proche vers lequel se didiger
+	 * Cherche l'element le plus proche vers lequel se didiger, dans la limite
+	 * de la vision du personnnage.
 	 * @param origine position a partir de laquelle on cherche
 	 * @param voisins liste des voisins
 	 * @return reference de l'element le plus proche, 0 si il n'y en a pas
 	 */
 	public static int chercherElementProche(Point origine, HashMap<Integer, Point> voisins) {
-		int distPlusProche = 100;
+		int distPlusProche = VISION;
 		int refPlusProche = 0;
-		for(Integer refVoisin : voisins.keySet()) {
+		
+		for(int refVoisin : voisins.keySet()) {
 			Point target = voisins.get(refVoisin);
-			if (Calculs.distanceChebyshev(origine, target)<distPlusProche) {
+			
+			if (distanceChebyshev(origine, target) <= distPlusProche) {
 				distPlusProche = Calculs.distanceChebyshev(origine, target);
 				refPlusProche = refVoisin;
 			}
-		}		
+		}
+		
 		return refPlusProche;
 	}
 	
 	/**
-	 * Genere un entier correpondant a une caracteristique
-	 * @param c caracteristique pour laquelle on souhaite une valeur
-	 * @return valeur generee
+	 * Genere un entier dans un intervalle donne.
+	 * @param min borne inferieure de l'intervalle
+	 * @param max borne superieure de l'intervalle
+	 * @return valeur aleatoire generee
 	 */
-	public static int randomCarac(Caracteristique c) {
-		return randomNumber(c.getMin(), c.getMax());
-	}
-	
-	/**
-	 * Genere un entier dans un interval
-	 * @param min borne inferieure de l'interval
-	 * @param max borne superieure de l'interval
-	 * @return valeur generee
-	 */
-	public static int randomNumber(int min, int max) {
-		Random r = new Random(System.currentTimeMillis() + token);
-		if (max < 0) {
-			return r.nextInt(500-min)+min;
-		}
-		int res = r.nextInt(max-min)+min;
-		token = res;
-		return res;
-	}
-	
-	/**
-	 * Cape une valeur correspondant a une caracteristique
-	 * @param c caracteristique pour laquelle on souhaite caper une valeur
-	 * @param val valeur a caper
-	 * @return valeur capee
-	 */
-	public static int caperCarac(Caracteristique c, int val) {		
-		return caperNombre(c.getMin(), c.getMax(), val);
+	public static int nombreAleatoire(int min, int max) {
+		return new Random().nextInt(max - min + 1) + min;
 	}
 
 	/**
-	 * Cape une valeur dans un intervalle
+	 * Genere un valeur aleatoire pour une caracteristique donnee.
+	 * @param c caracteristique
+	 * @return valeur aleatoire generee
+	 */
+	public static int valeurCaracAleatoire(Caracteristique c) {
+		return nombreAleatoire(c.getMin(), c.getMax());
+	}
+	
+	/**
+	 * Renvoie un point aleatoire de l'arene.
+	 * @return position aleatoire
+	 */
+	public static Point positionAleatoireArene() {
+		return new Point(
+				Calculs.nombreAleatoire(XMIN_ARENE, XMAX_ARENE), 
+				Calculs.nombreAleatoire(YMIN_ARENE, YMAX_ARENE));
+	}
+
+	/**
+	 * Cape une valeur dans un intervalle donne.
 	 * @param min borne inferieure de l'intervalle
 	 * @param max borne superieure de l'intervalle
 	 * @param val valeur a caper
 	 * @return valeur capee
 	 */
-	public static int caperNombre(int min, int max, int val) {
-		if (max < 0) {
-			return Math.max(val, min);
-		}		
+	public static int restreindreNombre(int min, int max, int val) {
 		return Math.min(Math.max(val, min), max);
-	}
-	
-	public static Point caperPositionArene(Point position) {
-		int xMin = Constantes.XMIN_ARENE;
-		int xMax = Constantes.XMAX_ARENE;
-		int yMin = Constantes.YMIN_ARENE;
-		int yMax = Constantes.YMAX_ARENE;
-		
-		return new Point(caperNombre(xMin, xMax, position.x), caperNombre(yMin, yMax, position.y));
-	}
-
-	public static Point randomPosition() {
-		return new Point(
-				Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE), 
-				Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
 	}
 
 	/**
-	 * Transforme une duree en Chaine de caractere de type H:M:S
-	 * @param duree
-	 * @return la duree sous forme de chaine H:M:S
+	 * Cape une valeur correspondant a une caracteristique donnee.
+	 * @param c caracteristique 
+	 * @param val valeur
+	 * @return valeur capee
+	 */
+	public static int restreindreCarac(Caracteristique c, int val) {		
+		return restreindreNombre(c.getMin(), c.getMax(), val);
+	}
+
+	public static Point restreindrePositionArene(Point position) {		
+		return new Point(restreindreNombre(XMIN_ARENE, XMAX_ARENE, position.x), 
+				restreindreNombre(YMIN_ARENE, YMAX_ARENE, position.y));
+	}
+
+	/**
+	 * Transforme une duree en seconde en une chaine de caracteres de type 
+	 * H:M:S.
+	 * @param duree en secondes
+	 * @return duree en chaine sous la forme H:M:S
 	 */
 	public static String timerToString(int duree) {
+		String res;
+		
 		if (duree < 0) {
-			return "illimite";
+			res = "illimite";
 		}
 		
 		int heure, minute, seconde;
+		
 		seconde = duree % 60;
 		minute = duree / 60;
 		heure = minute / 60;
 		minute = minute % 60;
 		
-		String res;
 		if (heure == 0) {
 			res = minute + ":" + ((seconde<10) ? "0" : "") + seconde ;
 		} else {
 			res = heure + ":" + ((minute<10) ? "0" : "") + minute + ":" + ((seconde<10) ? "0" : "") + seconde;				
 		}
+		
 		return res;
 	}
 }

@@ -59,8 +59,8 @@ public class Deplacement {
 
 		// la reference est nulle : le personnage erre
 		if (refObjectif <= 0) { //initialisation aleatoire
-			pvers = new Point(Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE),
-					Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
+			pvers = new Point(Calculs.nombreAleatoire(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE),
+					Calculs.nombreAleatoire(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE));
 		} else { //sinon la cible devient le point sur lequel se trouve l'element refObjectif
 			pvers = voisins.get(refObjectif);
 		}
@@ -78,8 +78,8 @@ public class Deplacement {
 	 * @throws RemoteException
 	 */
 	public void seDirigerVers(Point objectif) throws RemoteException {
-		Point cible = new Point(Calculs.caperNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
-				Calculs.caperNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
+		Point cible = new Point(Calculs.restreindreNombre(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE, objectif.x),
+				Calculs.restreindreNombre(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE, objectif.y));
 		
 		Point dest = position;
 		// on fait un deplacement d'une case le nombre de fois qu'on a de vitesse

@@ -43,7 +43,7 @@ public class PaireRefRMIIntitiative implements Comparable<PaireRefRMIIntitiative
 		int res = p2.initiative - this.initiative;
 		
 		if (res == 0) {
-			res = Calculs.randomNumber(-100, 100);
+			res = Calculs.nombreAleatoire(-100, 100);
 		}
 		
 		return res;

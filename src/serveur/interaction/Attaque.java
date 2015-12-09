@@ -77,7 +77,7 @@ public class Attaque extends EntreElement <VuePersonnage> {
 		int x = positionOrigine.x + dirX;
 		int y = positionOrigine.y + dirY;
 		
-		return Calculs.caperPositionArene(new Point(x,y));
+		return Calculs.restreindrePositionArene(new Point(x,y));
 	}
 	
 	/**

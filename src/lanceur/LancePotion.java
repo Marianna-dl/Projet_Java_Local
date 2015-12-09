@@ -19,7 +19,7 @@ public class LancePotion {
 		String nom = "Anduril";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "G" + Calculs.randomNumber(0,99); 
+		String groupe = "G" + Calculs.nombreAleatoire(0,99); 
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -62,9 +62,9 @@ public class LancePotion {
 			
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
-			caractsPotion.put(Caracteristique.VIE, Calculs.randomNumber(-100, 100));
-			caractsPotion.put(Caracteristique.FORCE, Calculs.randomNumber(-100, 100));
-			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.randomNumber(-100, 100));
+			caractsPotion.put(Caracteristique.VIE, Calculs.nombreAleatoire(-100, 100));
+			caractsPotion.put(Caracteristique.FORCE, Calculs.nombreAleatoire(-100, 100));
+			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.nombreAleatoire(-100, 100));
 			
 			// ajout de la potion
 			arene.ajoutePotion(new Potion(nom, groupe, caractsPotion));

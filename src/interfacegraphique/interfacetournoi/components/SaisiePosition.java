@@ -95,8 +95,8 @@ public class SaisiePosition extends JPanel{
 		// si aleatoire
 		if (randomPosition.isSelected()) {
 			// generation d'une position
-			int x = Calculs.randomNumber(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE);
-			int y = Calculs.randomNumber(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE);
+			int x = Calculs.nombreAleatoire(Constantes.XMIN_ARENE, Constantes.XMAX_ARENE);
+			int y = Calculs.nombreAleatoire(Constantes.YMIN_ARENE, Constantes.YMAX_ARENE);
 			
 			res = new Point(x,y);
 		} else {

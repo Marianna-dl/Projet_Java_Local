@@ -22,7 +22,7 @@ public class LancePersonnage {
 		String nom = "Truc";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "G" + Calculs.randomNumber(0,99); 
+		String groupe = "G" + Calculs.nombreAleatoire(0,99); 
 		
 		// nombre de tours pour ce personnage avant d'etre deconnecte 
 		// (20 minutes par defaut)
@@ -67,7 +67,7 @@ public class LancePersonnage {
 			String ipConsole = InetAddress.getLocalHost().getHostAddress();
 			
 			logger.info("lanceur", "Creation du personnage...");
-			Point position = new Point(Calculs.randomNumber(0,100), Calculs.randomNumber(0,100));
+			Point position = new Point(Calculs.nombreAleatoire(0,100), Calculs.nombreAleatoire(0,100));
 			
 			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, nbTours, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");

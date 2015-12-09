@@ -88,7 +88,7 @@ public class VueElement implements Serializable {
 	}
 
 	public void setPosition(Point position) {
-		this.position = Calculs.caperPositionArene(position);
+		this.position = Calculs.restreindrePositionArene(position);
 	}
 	
 	public int getRefRMI() {
