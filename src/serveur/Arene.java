@@ -24,7 +24,6 @@ import serveur.element.Potion;
 import serveur.interaction.Duel;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Ramassage;
-import serveur.vuelement.PaireRefRMIIntitiative;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;

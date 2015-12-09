@@ -1,4 +1,4 @@
-package serveur.vuelement;
+package serveur;
 
 import utilitaires.Calculs;
 
