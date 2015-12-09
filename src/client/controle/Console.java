@@ -45,7 +45,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	/**
 	 * Reference attribuee par le serveur a la connexion.
 	 */
-	private int refRMI;
+	private final int refRMI;
 
 	/**
 	 * Strategie jouee par l'element correspondant. 
@@ -80,7 +80,11 @@ public class Console extends UnicastRemoteObject implements IConsole {
 		this.ipConsole = ipConsole;
 		this.logger = logger;
 		
-		// initialisation de l'element pour lequel le controleur est cree
+		// valeur temporaire de la reference RMI
+		// passage par une variable temporaire car refRMI est final
+		int tempRefRMI = -1;
+		
+		
 		try {
 			// preparation connexion au serveur
 			// handshake/enregistrement RMI
@@ -94,7 +98,18 @@ public class Console extends UnicastRemoteObject implements IConsole {
 			// a faire une seule fois par serveur de console pour un port donne
 			// doit rester "localhost"
 			logger.info(Constantes.nomClasse(this), "Demande d'allocation de port");
-			this.refRMI = arene.allocateRefRMI();
+			tempRefRMI = arene.allocateRefRMI();
+			
+		} catch (Exception e) {
+ 			logger.severe(Constantes.nomClasse(this), 
+ 					"Erreur : Impossible de creer la console :\n" + e.toString());
+  			e.printStackTrace();
+  			System.exit(1);
+ 		}
+		
+		refRMI = tempRefRMI;
+		
+		try {
 			int portServeur = this.port + refRMI;
 			logger.info(Constantes.nomClasse(this), "Port alloue : " + portServeur);
 			java.rmi.registry.LocateRegistry.createRegistry(portServeur);
@@ -109,17 +124,19 @@ public class Console extends UnicastRemoteObject implements IConsole {
 				logger.severe(Constantes.nomClasse(this), "Echec de connexion");
 				System.exit(1);
 			}
-			
+
 			setPhrase("Atterrissage ...");
 			
 			// affiche message si succes
 			logger.info(Constantes.nomClasse(this), "Connexion reussie");
 			
  		} catch (Exception e) {
- 			logger.severe(Constantes.nomClasse(this), "Erreur : Impossible de creer la console :\n"+e.toString());
+ 			logger.severe(Constantes.nomClasse(this), 
+ 					"Erreur : Impossible de creer la console :\n" + e.toString());
   			e.printStackTrace();
   			System.exit(1);
  		}
+		
 	}
 
 	@Override

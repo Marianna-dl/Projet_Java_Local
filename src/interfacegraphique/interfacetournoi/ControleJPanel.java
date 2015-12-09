@@ -11,7 +11,7 @@ import interfacegraphique.IHM;
 import interfacegraphique.IHMTournoi;
 
 /**
- * Panel de controle de la partie : permet d'ejecter un joueur, de lancer la 
+ * Panel de controle de la partie : permet d'ejecter un element, de lancer la 
  * partie, d'ajouter une potion...
  *
  */
@@ -20,7 +20,7 @@ public class ControleJPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Bouton permettant d'ejecter un joueur.
+	 * Bouton permettant d'ejecter un element.
 	 */
 	private JButton ejecterButton;
 	
@@ -73,7 +73,7 @@ public class ControleJPanel extends JPanel {
 		this.setBackground(IHM.grisClair);
 		this.setOpaque(true);
 		
-		ejecterButton = new JButton("Ejecter le joueur");
+		ejecterButton = new JButton("Ejecter l'element");
 		detaillerButton = new JButton("Vue detaillee");
 		lancerPartieButton = new JButton("Lancer la partie");
 		ajouterPotionButton = new JButton("Ajouter une potion");

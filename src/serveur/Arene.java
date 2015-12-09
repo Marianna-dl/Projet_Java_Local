@@ -180,7 +180,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 								// si le thread est toujours vivant apres une 
 								// seconde (la strategie n'est pas terminee),
 								// on l'ejecte
-								ts = null;
 								logger.info(Constantes.nomClasse(this), 
 										"Execution de la strategie de " + 
 										nomRaccourciClient(refRMI) + 
@@ -377,21 +376,23 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public void deconnecte(int refRMI, String cause) throws RemoteException {
 		// enregistrement des infos de la console lors de sa deconnexion,
 		// le but etant de garder des informations sur les deconnectes		
-		VuePersonnage vuePersonnage = personnages.get(ref);
+		VuePersonnage vuePersonnage = personnages.get(refRMI);
+		
 		vuePersonnage.setTourMort(tour);
 		
 		// ajout a la liste des morts
 		personnagesMorts.add(vuePersonnage);
 		
-		// suppression de la liste des vivants
-		ejectePersonnage(refRMI);
-		
 		try {
 			// fermeture de la console en donnant la raison
 			consoleFromRef(refRMI).shutDown(cause);
+			
 		} catch (UnmarshalException e) {
 			// ne rien faire
 		}
+		
+		// suppression de la liste des vivants
+		ejectePersonnage(refRMI);
 		
 	}
 
@@ -548,50 +549,49 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException {
 		HashMap<Integer, Point> res = new HashMap<Integer, Point>();
 	
-		Point positionConsole = personnages.get(refRMI).getPosition();
+		VuePersonnage courant = personnages.get(refRMI);
+		VuePersonnage tempPers;
 		
 		// personnages
 		for(int refVoisin : personnages.keySet()) {
-			Point positionVoisin = personnages.get(refVoisin).getPosition();
+			tempPers = personnages.get(refVoisin);
 			
-			if (estVoisin(refRMI, positionConsole, refVoisin, positionVoisin)) {
-				res.put(refVoisin, positionVoisin);
+			if(estVoisin(courant, tempPers)) {
+				res.put(refVoisin, tempPers.getPosition());
 			}
 		}
 		
+		VuePotion tempPot;
+		
 		// potions
 		for(int refVoisin : potions.keySet()) {
-			if(!potions.get(refVoisin).isEnAttente()) {
-				Point positionVoisin = potions.get(refVoisin).getPosition();
-				
-				if (estVoisin(refRMI, positionConsole, refVoisin, positionVoisin)) {
-					res.put(refVoisin, positionVoisin);
+			tempPot = potions.get(refVoisin);
+			
+			if(!tempPot.isEnAttente()) {				
+				if(estVoisin(courant, tempPot)) {
+					res.put(refVoisin, tempPot.getPosition());
 				}
 			}
 		}
+		
 		return res;
 	}
 
 	/**
-	 * Verifie si l'element correspondant a la reference donne, place a la 
-	 * position donne, est un voisin de l'element correspondant a la reference
-	 * courante donne, a la position courante donne.
+	 * Verifie que les deux elements sont voisins, l'element courant etant un 
+	 * personnage.
 	 * Pour etre un voisin : 
-	 * il doit etre different de l'element actuel,
-	 * il doit etre a une distance inferieure ou egale a la vision constante,
-	 * il doit etre actif. 
-	 * @param refCourant reference courante
-	 * @param positionCourant position courante
-	 * @param refVoisin reference voisin
-	 * @param positionVoisin position voisin
+	 * ils doivent etre differents,
+	 * ils doivent etre a une distance inferieure ou egale a la vision,
+	 * il doivent etre actifs. 
+	 * @param courant personnage courant
+	 * @param voisin element voisin
 	 * @return vrai si l'element donne est bien un voisin
 	 */
-	private boolean estVoisin(int refCourant, Point positionCourant, 
-			int refVoisin, Point positionVoisin) throws RemoteException {
-		
-		return refVoisin != refCourant && 
-				Calculs.distanceChebyshev(positionVoisin, positionCourant) <= Constantes.VISION && 
-				elementFromRef(refVoisin).estVivant();
+	private boolean estVoisin(VuePersonnage courant, VueElement voisin) throws RemoteException {		
+		return (voisin instanceof VuePotion || voisin.getRefRMI() != courant.getRefRMI()) && 
+				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION && 
+				voisin.getElement().estVivant() && courant.getElement().estVivant();
 	}
 
 	@Override
@@ -640,8 +640,9 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param refRMI reference du personnage a ejecter
 	 */
 	protected void ejectePersonnage(int refRMI) {
-		personnages.remove(refRMI);
-		logger.info(Constantes.nomClasse(this), "Console " + refRMI + " ejectee du registre !");
+		if(personnages.remove(refRMI) != null) {
+			logger.info(Constantes.nomClasse(this), "Console " + refRMI + " ejectee du registre !");
+		}
 	}		
 	
 	/**
@@ -881,11 +882,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	@Override
 	public void commencerPartie(String motDePasse) throws RemoteException {}
 
-	@Override
-	public boolean isEnAttente(int refRMI) throws RemoteException {
-		return false;
-	}
-
 	public LoggerProjet getLogger() {
 		return logger;
 	}
@@ -985,8 +981,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @param refRMI reference RMI
 	 * @return nom complet du client
 	 */
-	public String nomCompletClient(int ref) throws RemoteException {
-		return Constantes.nomCompletClient(vueFromRef(ref));
+	public String nomCompletClient(int refRMI) throws RemoteException {
+		return Constantes.nomCompletClient(vueFromRef(refRMI));
 	}
 
 	

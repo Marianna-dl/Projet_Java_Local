@@ -224,14 +224,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public Point getPosition(int refRMI) throws RemoteException;
-
-	/**
-	 * Permet de savoir si un element est en attente.
-	 * @param refRMI reference RMI de l'element
-	 * @return vrai si l'element est en attente, faux sinon
-	 * @throws RemoteException
-	 */
-	public boolean isEnAttente(int refRMI) throws RemoteException;
 	
 
 	/**************************************************************************

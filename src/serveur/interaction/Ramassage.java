@@ -48,7 +48,7 @@ public class Ramassage extends Interaction<VuePotion> {
 				// test si mort
 				if(!attaquant.getElement().estVivant()) {
 					arene.setPhrase(attaquant.getRefRMI(), "Je me suis empoisonne, je meurs ");
-					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) +" vient de boire un poison... Mort >_<");
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}
 
 				// suppression de la potion

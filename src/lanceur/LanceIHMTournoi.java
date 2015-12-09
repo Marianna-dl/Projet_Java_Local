@@ -11,9 +11,9 @@ import utilitaires.Constantes;
  * A lancer apres l'arene.
  * Arguments : numero de port et adresse IP de l'arene.
  */
-public class LanceIHMControle {
+public class LanceIHMTournoi {
 	
-	private static String usage = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ ipArene ] ]";
+	private static String usage = "USAGE : java " + LanceIHMTournoi.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
 		int port = Constantes.PORT_DEFAUT;

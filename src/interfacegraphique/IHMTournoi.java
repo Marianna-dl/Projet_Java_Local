@@ -23,7 +23,6 @@ import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
 import serveur.vuelement.VueElement;
-import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 
 /**
@@ -188,7 +187,7 @@ public class IHMTournoi extends IHM {
 		if (!motDePasseOK) {
 			demanderMotDePasse();			
 		} else {
-			if(elementSelectionne != null && elementSelectionne instanceof VuePersonnage) {
+			if(elementSelectionne != null) {
 				try {
 					arene.ejectePersonnage(elementSelectionne.getRefRMI(), motDePasse);
 				} catch (RemoteException e) {

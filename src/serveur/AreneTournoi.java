@@ -2,6 +2,7 @@ package serveur;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
+import java.rmi.UnmarshalException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -86,14 +87,21 @@ public class AreneTournoi extends Arene {
 	@Override
 	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
-			
 			IConsole console = consoleFromRef(refRMI);
 			
-			if (console == null) {
-				ejectePersonnage(refRMI);
-			} else {
-				deconnecte(refRMI, "Vous avez ete renvoye du salon.");
+			if (console != null) {
+				try {
+					// fermeture de la console en donnant la raison
+					consoleFromRef(refRMI).shutDown("Vous avez ete renvoye du salon.");
+					
+				} catch (UnmarshalException e) {
+					// ne rien faire
+				}
 			}
+			
+			// on tente d'ejecter des personnages et des potions (peu importe que l'un echoue)
+			ejectePersonnage(refRMI);
+			ejectePotion(refRMI);
 			
 		} else {
 			logger.info("Tentative d'exclusion de personnage avec mot de passe errone");
@@ -161,16 +169,13 @@ public class AreneTournoi extends Arene {
 		}
 	}	
 
-
-	/**
-	 * Recupere tous les elements en attente de connexion
-	 */
+	@Override
 	public List<VuePotion> getPotionsEnAttente() throws RemoteException{
 		ArrayList<VuePotion> aux = new ArrayList<VuePotion>();
 		
-		for(VuePotion client : potions.values()) {
-			if(client.isEnAttente()) {
-				aux.add(client);
+		for(VuePotion vuePotion : potions.values()) {
+			if(vuePotion.isEnAttente()) {
+				aux.add(vuePotion);
 			}
 		}
 		

@@ -20,6 +20,11 @@ public class VueElement implements Serializable {
 	private static final long serialVersionUID = 1750601856220885598L;
 
 	/**
+	 * Reference RMI.
+	 */
+	protected final int refRMI;
+
+	/**
 	 * L'element : son nom, son groupe, ses caracteristiques.
 	 */
 	protected Element element;
@@ -28,11 +33,6 @@ public class VueElement implements Serializable {
 	 * Position dans l'arene.
 	 */
 	protected Point position;
-	
-	/**
-	 * Reference RMI.
-	 */
-	protected int refRMI;
 	
 	/**
 	 * Couleur de l'element.
@@ -81,6 +81,10 @@ public class VueElement implements Serializable {
 		enAttente = false;
 	}
 
+	public int getRefRMI() {
+		return refRMI;
+	}
+
 	public Element getElement() {
 		return element;
 	}
@@ -93,10 +97,6 @@ public class VueElement implements Serializable {
 		this.position = Calculs.restreindrePositionArene(position);
 	}
 	
-	public int getRefRMI() {
-		return refRMI;
-	}
-
 	public Color getColor() {
 		return color;
 	}

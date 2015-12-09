@@ -28,9 +28,9 @@ public abstract class Element implements Serializable {
 	
 	/**
 	 * Cree un element avec son nom, son groupe et ses caracteristiques. 
-	 * @param nom nom
-	 * @param groupe groupe
-	 * @param caracts caracteristiques
+	 * @param nom nom de l'element
+	 * @param groupe d'etudiants de l'element
+	 * @param caracts caracteristiques de l'element
 	 */
 	public Element(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {	
 		this.nom = nom;

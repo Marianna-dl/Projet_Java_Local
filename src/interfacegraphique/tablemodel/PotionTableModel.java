@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
 import serveur.vuelement.VuePotion;
+import utilitaires.Constantes;
 
 /**
  * TableModel des potions, envoyees ou en attente.
@@ -47,7 +48,7 @@ public class PotionTableModel extends ElementTableModel<VuePotion> {
 		Color res;
 		
 		if (vues.get(rowIndex).isEnAttente()) {
-			res = new Color(112, 112, 112);
+			res = Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
 		} else {
 			res = super.getColor(rowIndex);
 		}

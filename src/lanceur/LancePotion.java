@@ -70,7 +70,7 @@ public class LancePotion {
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {
-			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
+			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());
 			e.printStackTrace();
 			System.exit(Erreur.suivant);
 		}

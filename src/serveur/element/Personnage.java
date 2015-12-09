@@ -3,6 +3,10 @@
  */
 package serveur.element;
 
+import java.util.HashMap;
+
+import utilitaires.Calculs;
+
 /**
  * Un personnage: un element possedant des caracteristiques et etant capable
  * de jouer une strategie.
@@ -15,10 +19,11 @@ public class Personnage extends Element {
 	/**
 	 * Cree un personnage avec un nom et un groupe.
 	 * @param nom du personnage
-	 * @param groupe groupe du personnage
+	 * @param groupe d'etudiants du personnage
+	 * @param caracts caracteristiques du personnage
 	 */
-	public Personnage(String nom, String groupe) {
-		super(nom, groupe, Caracteristique.mapCaracteristiquesDefaut());
+	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
+		super(nom, groupe, caracts);
 	}
 	
 	/**
@@ -32,9 +37,9 @@ public class Personnage extends Element {
 	 */
 	public boolean incrementeCaract(Caracteristique c, int inc) {		
 		if(caracts.containsKey(c)) {
-			caracts.put(c, caracts.get(c) + inc);
+			caracts.put(c, Calculs.restreindreCarac(c, caracts.get(c) + inc));
 		} else {
-			caracts.put(c, inc);
+			caracts.put(c, Calculs.restreindreCarac(c, inc));
 		}
 		
 		return estVivant();

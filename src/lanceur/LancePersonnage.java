@@ -3,9 +3,11 @@ package lanceur;
 import java.awt.Point;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.HashMap;
 
 import client.StrategiePersonnage;
 import logger.LoggerProjet;
+import serveur.element.Caracteristique;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -66,12 +68,19 @@ public class LancePersonnage {
 			String ipConsole = InetAddress.getLocalHost().getHostAddress();
 			
 			logger.info("lanceur", "Creation du personnage...");
-			Point position = new Point(Calculs.nombreAleatoire(0,100), Calculs.nombreAleatoire(0,100));
 			
-			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, nbTours, position, logger);
+			// caracteristiques du personnage
+			HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique, Integer>();
+			caracts.put(Caracteristique.VIE, 100);
+			caracts.put(Caracteristique.FORCE, 20);
+			caracts.put(Caracteristique.INITIATIVE, 50);
+			
+			Point position = Calculs.positionAleatoireArene();	
+			
+			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
-			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
+			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());
 			e.printStackTrace();
 			System.exit(Erreur.suivant);
 		}

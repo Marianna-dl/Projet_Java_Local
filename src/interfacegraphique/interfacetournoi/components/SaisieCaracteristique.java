@@ -43,6 +43,7 @@ public class SaisieCaracteristique extends JPanel {
 	/**
 	 * ComboBox permettant de selectionner l'intervalle de l'aleatoire.
 	 */
+	@SuppressWarnings("rawtypes") // warning dans java 8
 	private JComboBox aleatoireIntervalleCaract;
 
 	/**
@@ -67,6 +68,7 @@ public class SaisieCaracteristique extends JPanel {
 	/**
 	 * Initialise les composants du panel.
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" }) // warning dans java 8
 	private void initComposants() {
 		labelCaract = new JLabel();
 		valeurCaract = new JTextField();

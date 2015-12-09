@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -315,36 +316,33 @@ public class ElementsJPanel extends JPanel {
 			List<VuePersonnage> personnagesMort, List<VuePotion> potions) {
 		
 		// tri des potions et des personnages (selon leur methode compareTo)
-		Collections.sort(personnages);
-		Collections.sort(personnagesMort);
-		Collections.sort(potions);
+		List<VuePersonnage> personnagesTous = new ArrayList<VuePersonnage>(personnages);
+		personnagesTous.addAll(personnagesMort);
+
+		List<VuePotion> potionsTous = new ArrayList<VuePotion>(potions);
+		
+		Collections.sort(personnagesTous);
+		Collections.sort(potionsTous);
 		
 		if (ihm.getElementSelectionne() != null) {
 			// recherche de l'element selectionne
-			
-			for (VuePersonnage vp : personnages) {
+			for (VuePersonnage vp : personnagesTous) {
 				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI()) {
 					vp.setSelectionne(true);
 				}
 			}
 			
-			for (VuePersonnage vp : personnages) {
-				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI()) {
-					vp.setSelectionne(true);
-				}
-			}
-			
-			for (VuePotion vp : potions) {
+			for (VuePotion vp : potionsTous) {
 				if (vp.getRefRMI() == ihm.getElementSelectionne().getRefRMI()) {
 					vp.setSelectionne(true);					
 				}
 			}
 		}
 		
-    	modelTablePersonnages.setVues(personnages);
+    	modelTablePersonnages.setVues(personnagesTous);
     	modelTablePersonnages.fireTableDataChanged();
     	
-    	modelTablePotions.setVues(potions);
+    	modelTablePotions.setVues(potionsTous);
     	modelTablePotions.fireTableDataChanged();    	
     }              
 }

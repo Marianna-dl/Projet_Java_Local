@@ -53,35 +53,6 @@ public class NormalRenderer extends JLabel implements TableCellRenderer {
 		setForeground(cellForeground);
 		setBackground(cellBackground);
 		
-		/*
-		// tableau des personnages pendant la partie
-		if (table.getModel() instanceof PersonnageTableModel) {
-			PersonnageTableModel model = (PersonnageTableModel) table.getModel();
-			if (column == model.getIndexNom()) {
-				setBackground(model.getColor(row));
-			}
-		}
-		
-		// tableau des potions
-		if (table.getModel() instanceof PotionTableModel) {
-			PotionTableModel model = (PotionTableModel) table.getModel();
-
-			if (column == model.getIndexNom()) {
-				setBackground(model.getColor(row));
-			}
-		}
-		
-		// classement des personnages a la fin de la partie
-		if (table.getModel() instanceof ClassementTableModel) {
-			ClassementTableModel model = (ClassementTableModel) table.getModel();
-			
-			if (column == model.getIndexNom()) {
-				setBackground(model.getColor(row));
-			}
-		}
-		*/
-		
-		// TODO selection?
 		ElementTableModel<?> model = (ElementTableModel<?>) table.getModel();
 		
 		if (column == model.getIndexNom()) {

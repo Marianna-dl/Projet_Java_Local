@@ -8,6 +8,7 @@ import java.util.HashMap;
 import client.controle.Console;
 import logger.LoggerProjet;
 import serveur.IArene;
+import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
@@ -37,13 +38,14 @@ public class StrategiePersonnage {
 	 * @param logger gestionnaire de log
 	 */
 	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
-			String nom, String groupe, long nbTours, Point position, LoggerProjet logger) {
+			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
+			long nbTours, Point position, LoggerProjet logger) {
 		
 		logger.info("lanceur", "Creation de la console...");
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe), nbTours, position, logger);
+					new Personnage(nom, groupe, caracts), nbTours, position, logger);
 			logger.info("lanceur", "Creation de la console reussie");
 			
 		} catch (Exception e) {
