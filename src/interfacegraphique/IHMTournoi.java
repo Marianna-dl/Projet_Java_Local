@@ -19,7 +19,7 @@ import javax.swing.Timer;
 
 import interfacegraphique.interfacetournoi.ControleJPanel;
 import interfacegraphique.interfacetournoi.FenetreCreationPotion;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
 import serveur.vuelement.VueElement;
@@ -66,7 +66,7 @@ public class IHMTournoi extends IHM {
 	 * @param ipArene IP de communication avec l'arene
 	 * @param logger gestionnaire de log
 	 */
-	public IHMTournoi(int port, String ipArene, MyLogger logger) {
+	public IHMTournoi(int port, String ipArene, LoggerProjet logger) {
 		super(port, ipArene, logger);
 		controlePanel = new ControleJPanel(this);
 		
@@ -190,7 +190,7 @@ public class IHMTournoi extends IHM {
 		} else {
 			if(elementSelectionne != null && elementSelectionne instanceof VuePersonnage) {
 				try {
-					arene.ejectePersonnage((VuePersonnage) elementSelectionne, motDePasse);
+					arene.ejectePersonnage(elementSelectionne.getRefRMI(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}
@@ -208,7 +208,7 @@ public class IHMTournoi extends IHM {
 			if (elementSelectionne != null && elementSelectionne instanceof VuePotion &&
 					elementSelectionne.isEnAttente()) {
 				try {
-					arene.lancePotionEnAttente((VuePotion) getElementSelectionne(), motDePasse);
+					arene.lancePotionEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
 				} catch (RemoteException e) {
 					erreurConnexion(e);
 				}

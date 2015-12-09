@@ -11,6 +11,8 @@ import utilitaires.Calculs;
 /**
  * Donnees dont le serveur a besoin sur un element : l'element lui-meme, sa 
  * position dans l'arene, sa reference...
+ * Ces vues ne devraient pas etre utilisees dans le client pour le personnage, 
+ * mais seulement dans le serveur et dans l'IHM. 
  */
 // TODO parametriser? possible?
 public class VueElement implements Serializable {

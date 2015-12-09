@@ -7,7 +7,6 @@ import java.util.logging.Level;
 import client.StrategiePersonnage;
 import serveur.IArene;
 import serveur.element.Personnage;
-import serveur.vuelement.VueElement;
 
 /**
  * Contient les methodes RMI associees au controle d'un personnage,
@@ -46,21 +45,14 @@ public interface IConsole extends Remote {
 	 * @return strategie du personnage
 	 * @throws RemoteException
 	 */
-	public StrategiePersonnage getStrategiePer() throws RemoteException;
+	public StrategiePersonnage getStrategiePers() throws RemoteException;
 	
 	/**
-	 * Recupere le personnage serveur de la console
+	 * Recupere le personnage de la console.
 	 * @return personnage serveur
 	 * @throws RemoteException
 	 */
-	public Personnage getPersonnageServeur() throws RemoteException;
-
-	/**
-	 * Recupere la VueElement de la console
-	 * @return VueElement
-	 * @throws RemoteException
-	 */
-	public VueElement getVueElement() throws RemoteException;
+	public Personnage getPersonnage() throws RemoteException;
 
 	/**
 	 * Definit la phrase que la console va dire (et qui sera affichee dans 
@@ -83,7 +75,6 @@ public interface IConsole extends Remote {
 	 * @param prefixe prefixe au message
 	 * @param msg message
 	 * @throws RemoteException
-	 * 
 	 */
 	public void log(Level level, String prefixe, String msg) throws RemoteException;
 }

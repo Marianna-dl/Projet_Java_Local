@@ -3,7 +3,7 @@ package lanceur;
 import java.io.IOException;
 
 import interfacegraphique.IHMTournoi;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import utilitaires.Constantes;
 
 /**
@@ -15,8 +15,7 @@ public class LanceIHMControle {
 	
 	private static String usage = "USAGE : java " + LanceIHMControle.class.getName() + " [ port [ ipArene ] ]";
 
-	public static void main(String[] args) {		
-		// init des arguments
+	public static void main(String[] args) {
 		int port = Constantes.PORT_DEFAUT;
 		String ipArene = Constantes.IP_DEFAUT;
 		
@@ -41,9 +40,9 @@ public class LanceIHMControle {
 		}
 		
 		// creation du logger
-		MyLogger logger = null;
+		LoggerProjet logger = null;
 		try {
-			logger = new MyLogger(true,"IHM");
+			logger = new LoggerProjet(true,"IHM");
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(Erreur.suivant);

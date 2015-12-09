@@ -16,7 +16,7 @@ import java.util.Queue;
 import java.util.logging.Level;
 
 import client.controle.IConsole;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
@@ -93,7 +93,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Gestionnaire des logs.
 	 */
-	protected MyLogger logger;
+	protected LoggerProjet logger;
 
 	/**
 	 * Constructeur de l'arene.
@@ -105,7 +105,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * @throws RemoteException
 	 * @throws MalformedURLException
 	 */
-	public Arene(int port, String adresseIP, long nbTours, MyLogger logger) throws RemoteException, MalformedURLException  {
+	public Arene(int port, String adresseIP, long nbTours, LoggerProjet logger) throws RemoteException, MalformedURLException  {
 		super();
 		this.port = port;
 		this.adresseIP = adresseIP;
@@ -165,7 +165,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 						if (!personnage.estVivant()) {
 							logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 									" est mort... Client ejecte");
-							deconnecteConsole(console, "Vous etes mort...");
+							deconnecte(refRMI, "Vous etes mort...");
 							
 						} else {							
 							// lancement de la strategie (dans un thread separe)
@@ -187,7 +187,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 										nomRaccourciClient(refRMI) + 
 										" trop longue ! Client ejecte");
 								
-								deconnecteConsole(console, "Execution de strategie trop longue. Degage !");
+								deconnecte(refRMI, "Execution de strategie trop longue. Degage !");
 								
 							} else {								
 								// sinon, on test si le personnage est mort
@@ -198,21 +198,21 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 											nomRaccourciClient(refRMI) + 
 											" est mort... Client ejecte");
 									
-									deconnecteConsole(console, "Vous etes mort...");
+									deconnecte(refRMI, "Vous etes mort...");
 									
 								} else if (!personnages.get(refRMI).toursRestants()) {
 									logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
 											nomRaccourciClient(refRMI) + 
 											"... Client ejecte");
 									
-									deconnecteConsole(console, "Temps autorise dans l'arene ecoule, vous etes elimine !");
+									deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
 									
 								} else if (!verifCaract(personnage)) {
 									logger.info(Constantes.nomClasse(this),
 											nomRaccourciClient(refRMI) + 
 											" est un tricheur... Client ejecte");
 									
-									deconnecteConsole(console, "Vous etes mort pour cause de triche...");
+									deconnecte(refRMI, "Vous etes mort pour cause de triche...");
 								}
 							}
 						}
@@ -221,7 +221,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 						logger.severe(Constantes.nomClasse(this), "Erreur dans le run "
 								+ "avec la console de reference " + refRMI + "\n" + e.toString());
 						e.printStackTrace();
-						ejecterPersonnage(refRMI);
+						ejectePersonnage(refRMI);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					} 
@@ -317,7 +317,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			List<Integer> listRef = getSortedRefs();
 			
 			for (int refRMI : listRef) {
-				deconnecteConsole(consoleFromRef(refRMI), "Fermeture du serveur");
+				deconnecte(refRMI, "Fermeture du serveur");
 			}
 	
 			logger.info(Constantes.nomClasse(this),
@@ -366,7 +366,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 			logger.severe(Constantes.nomClasse(this), "Echec de connexion (" + adr + ")");
 			e.printStackTrace();
 			
-			ejecterPersonnage(refRMI);
+			ejectePersonnage(refRMI);
 			
 			res = false;
 		}
@@ -375,11 +375,9 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public void deconnecteConsole(IConsole console, String cause) throws RemoteException {
+	public void deconnecte(int refRMI, String cause) throws RemoteException {
 		// enregistrement des infos de la console lors de sa deconnexion,
-		// le but etant de garder des informations sur les deconnectes
-		int ref = console.getRefRMI();
-		
+		// le but etant de garder des informations sur les deconnectes		
 		VuePersonnage vuePersonnage = personnages.get(ref);
 		vuePersonnage.setTourMort(tour);
 		
@@ -387,11 +385,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		personnagesMorts.add(vuePersonnage);
 		
 		// suppression de la liste des vivants
-		ejecterPersonnage(ref);
+		ejectePersonnage(refRMI);
 		
 		try {
 			// fermeture de la console en donnant la raison
-			console.shutDown(cause);
+			consoleFromRef(refRMI).shutDown(cause);
 		} catch (UnmarshalException e) {
 			// ne rien faire
 		}
@@ -403,7 +401,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		List<Integer> listRef = getSortedRefs();
 		
 		for (int refRMI: listRef) {
-			deconnecteConsole(consoleFromRef(refRMI), "Fermeture du serveur (Arret force ou crash...)");
+			deconnecte(refRMI, "Fermeture du serveur (Arret force ou crash...)");
 		}
 	
 		super.finalize();
@@ -640,9 +638,9 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Ejecte un personnage : le retire de la liste des vivants et ajoute 
 	 * une information dans le log. 
-	 * @param refRMI reference du perosnnage a ejecter
+	 * @param refRMI reference du personnage a ejecter
 	 */
-	protected void ejecterPersonnage(int refRMI) {
+	protected void ejectePersonnage(int refRMI) {
 		personnages.remove(refRMI);
 		logger.info(Constantes.nomClasse(this), "Console " + refRMI + " ejectee du registre !");
 	}		
@@ -651,7 +649,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	 * Ejecte une potion : la retire de la liste des potions.
 	 * @param refRMI reference de la potion a ejecter
 	 */
-	public void ejecterPotion(int refRMI) {
+	public void ejectePotion(int refRMI) {
 		potions.remove(refRMI);
 	}	
 
@@ -671,16 +669,15 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public boolean ramassePotion(IConsole console, int refPotion) throws RemoteException {
+	public boolean ramassePotion(int refRMI, int refPotion) throws RemoteException {
 		boolean res = false;
 		
-		int refRMI = console.getRefRMI();
 		VuePersonnage vuePersonnage = personnages.get(refRMI);
 		VuePotion vuePotion = potions.get(refPotion);
 		
 		if (vuePersonnage.isActionExecutee()) {
 			// si une action a deja ete executee
-			logActionDejaExecutee(console);
+			logActionDejaExecutee(refRMI);
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
@@ -693,7 +690,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				
 				res = true;
 			} else {
-				logger.warning(Constantes.nomClasse(this), nomRaccourciClient(console.getRefRMI()) + 
+				logger.warning(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 						" a tente d'interagir avec " + vuePotion.getElement().getNom() + 
 						", alors qu'il est trop eloigne !\nDistance = " + distance);
 			}
@@ -703,22 +700,23 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public boolean lanceAttaque(IConsole console, int refRMIAdv) throws RemoteException {
+	public boolean lanceAttaque(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
 		
-		int refRMI = console.getRefRMI();
 		VuePersonnage client = personnages.get(refRMI);
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
 		if (personnages.get(refRMI).isActionExecutee()) {
 			// si une action a deja ete executee
-			logActionDejaExecutee(console);
+			logActionDejaExecutee(refRMI);
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
+			IConsole console = consoleFromRef(refRMI);
 			IConsole consoleAdv = consoleFromRef(refRMIAdv);
 			
-			int distance = Calculs.distanceChebyshev(personnages.get(refRMI).getPosition(), personnages.get(refRMIAdv).getPosition());
+			int distance = Calculs.distanceChebyshev(personnages.get(refRMI).getPosition(), 
+					personnages.get(refRMIAdv).getPosition());
 
 			// on teste la distance entre les personnages
 			if (distance <= Constantes.DISTANCE_MIN_INTERACTION) {
@@ -728,11 +726,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 				// on teste que les deux personnages soient en vie
 				if (pers.estVivant() && persAdv.estVivant()) {
 					console.log(Level.INFO, Constantes.nomClasse(this), 
-							"J'attaque " + nomRaccourciClient(consoleAdv.getRefRMI()));
+							"J'attaque " + nomRaccourciClient(refRMIAdv));
 					consoleAdv.log(Level.INFO, Constantes.nomClasse(this), 
-							"Je me fait attaquer par " + nomRaccourciClient(console.getRefRMI()));
+							"Je me fait attaquer par " + nomRaccourciClient(refRMI));
 					
-					logger.info(Constantes.nomClasse(this), nomRaccourciClient(console.getRefRMI()) + 
+					logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 							" attaque " + nomRaccourciClient(consoleAdv.getRefRMI()));
 			
 					new Duel(this, client, clientAdv).interagir();
@@ -740,11 +738,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 					
 					// si l'adversaire est mort
 					if (!persAdv.estVivant()) {
-						setPhrase(console, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
+						setPhrase(refRMI, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
 						console.log(Level.INFO, Constantes.nomClasse(this), 
-								"Je tue " + nomRaccourciClient(console.getRefRMI()));
+								"Je tue " + nomRaccourciClient(refRMI));
 						
-						logger.info(Constantes.nomClasse(this), nomRaccourciClient(console.getRefRMI()) + 
+						logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 								" tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
 					}
 					
@@ -762,7 +760,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 						", alors qu'il est trop eloigne... Distance de chebyshev = " + distance);
 				
 				console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
-						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = "+distance);
+						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = " + distance);
 			}
 		}
 		
@@ -770,15 +768,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public boolean deplacer(IConsole console, int refCible) throws RemoteException {
+	public boolean deplacer(int refRMI, int refCible) throws RemoteException {
 		boolean res = false;
 		
-		int refRMI = console.getRefRMI();
 		VuePersonnage client = personnages.get(refRMI);
 		
 		if (client.isActionExecutee()) {
 			// si une action a deja ete executee
-			logActionDejaExecutee(console);
+			logActionDejaExecutee(refRMI);
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
@@ -792,15 +789,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public boolean deplacer(IConsole console, Point objectif) throws RemoteException {
+	public boolean deplacer(int refRMI, Point objectif) throws RemoteException {
 		boolean res = false;
 		
-		int refRMI = console.getRefRMI();
 		VuePersonnage client = personnages.get(refRMI);
 		
 		if (client.isActionExecutee()) {
 			// si une action a deja ete executee
-			logActionDejaExecutee(console);
+			logActionDejaExecutee(refRMI);
 		} else {
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(objectif);
@@ -825,20 +821,23 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public void ajouterCaractElement(VuePersonnage vuePersonnage, Caracteristique carac, 
 			int increment) throws RemoteException {
 		
-		int ref = vuePersonnage.getRefRMI();
-		IConsole console = consoleFromRef(ref);
+		int refRMI = vuePersonnage.getRefRMI();
+		IConsole console = consoleFromRef(refRMI);
 		Personnage pers = vuePersonnage.getPersonnage();
 		
 		// increment de la caracteristique et test si mort
 		if(!pers.incrementeCaract(carac, increment)) {
 			vuePersonnage.setTourMort(tour);
-			setPhrase(console, "MORT >_<");
+			setPhrase(refRMI, "MORT >_<");
+			
 		} else {
 			if (increment < 0) {
 				console.log(Level.INFO, Constantes.nomClasse(this), "J'ai perdu " + -increment + " points de " + carac);
+				
 				if (carac == Caracteristique.VIE) {
-					setPhrase(console, "Ouch, j'ai perdu " + increment + " points de vie.");
+					setPhrase(refRMI, "Ouch, j'ai perdu " + increment + " points de vie.");
 				}
+				
 			} else {
 				console.log(Level.INFO, Constantes.nomClasse(this), 
 						"J'ai gagne " + increment + " points de " + carac);
@@ -847,8 +846,8 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public void setPhrase(IConsole console, String s) throws RemoteException {
-		vueFromConsole(console).setPhrase(s);
+	public void setPhrase(int refRMI, String s) throws RemoteException {
+		vueFromRef(refRMI).setPhrase(s);
 	}
 
 	/**
@@ -867,7 +866,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public void ejectePersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException {}
+	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {}
 
 	@Override
 	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
@@ -878,7 +877,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException {}
 	
 	@Override
-	public synchronized void lancePotionEnAttente(VuePotion vuePotion, String motDePasse) throws RemoteException {}
+	public synchronized void lancePotionEnAttente(int refRMI, String motDePasse) throws RemoteException {}
 
 	@Override
 	public void commencerPartie(String motDePasse) throws RemoteException {}
@@ -888,7 +887,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return false;
 	}
 
-	public MyLogger getLogger() {
+	public LoggerProjet getLogger() {
 		return logger;
 	}
 
@@ -960,14 +959,14 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	/**
 	 * Ajoute les logs dans le cas ou le personnage correspondant a la console 
 	 * donnee a tenter d'executer plusieurs fois une action dans le meme tour.
-	 * @param console console
+	 * @param refRMI console
 	 * @throws RemoteException
 	 */
-	private void logActionDejaExecutee(IConsole console) throws RemoteException {
-		console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
+	private void logActionDejaExecutee(int refRMI) throws RemoteException {
+		consoleFromRef(refRMI).log(Level.WARNING, "AVERTISSEMENT ARENE", 
 				"Une action a deja ete executee ce tour-ci !");
 		
-		logger.warning(Constantes.nomClasse(this), nomRaccourciClient(console.getRefRMI()) + 
+		logger.warning(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 				" a tente de jouer plusieurs actions dans le meme tour");
 	}
 

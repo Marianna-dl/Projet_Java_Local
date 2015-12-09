@@ -7,13 +7,14 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 /**
- * Cette classe va faire la configuration du systeme de gestion du journal des evenements
- * Source: http://www.vogella.com/tutorials/Logging/article.html
- * Adapte par: Christophe Claustre
+ * Cette classe va faire la configuration du systeme de gestion du journal des 
+ * evenements.
+ * Source : http://www.vogella.com/tutorials/Logging/article.html
+ * Adapte par : Christophe Claustre
  */
 
 // this custom formatter formats parts of a log record to a single line
-public class MyConsoleFormatter extends Formatter {
+public class ConsoleFormatter extends Formatter {
 
 	// this method is called for every log records
 	public String format(LogRecord rec) {

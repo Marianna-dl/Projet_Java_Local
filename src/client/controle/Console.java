@@ -8,15 +8,14 @@ import java.util.HashMap;
 import java.util.logging.Level;
 
 import client.StrategiePersonnage;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Personnage;
-import serveur.vuelement.VueElement;
 import utilitaires.Constantes;
 
 /**
- * Implementation des methodes RMI associees au controle d'un personnage.
- * La strategie est executee dans la methode run(). 
+ * Classe du client contenant le controle de son personnage, principalement sa 
+ * strategie. 
  *
  */
 public class Console extends UnicastRemoteObject implements IConsole {
@@ -56,7 +55,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	/**
 	 * Gestionnaire de log.
 	 */
-	private MyLogger logger;
+	private LoggerProjet logger;
 	
 	/**
 	 * Cree une console associee a la strategie d'un personnage. 
@@ -72,7 +71,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 */
 	public Console(String ipArene, int port, String ipConsole,
 			StrategiePersonnage strategiePer, Personnage pers, long nbTours, 
-			Point position, MyLogger logger) throws RemoteException {
+			Point position, LoggerProjet logger) throws RemoteException {
 		
 		super();
 		this.port = port;
@@ -151,23 +150,18 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	}
 
 	@Override
-	public StrategiePersonnage getStrategiePer() throws RemoteException {
+	public StrategiePersonnage getStrategiePers() throws RemoteException {
 		return strategiePer;
 	}
 
 	@Override
-	public Personnage getPersonnageServeur() throws RemoteException {
+	public Personnage getPersonnage() throws RemoteException {
 		return (Personnage) arene.elementFromConsole(this);
 	}
 
 	@Override
-	public VueElement getVueElement() throws RemoteException {
-		return arene.vueFromConsole(this);
-	}
-
-	@Override
 	public void setPhrase(String s) throws RemoteException {
-		arene.setPhrase(this, s);
+		arene.setPhrase(refRMI, s);
 	}
 
 	@Override

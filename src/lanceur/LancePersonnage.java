@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import client.StrategiePersonnage;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
@@ -18,7 +18,6 @@ public class LancePersonnage {
 	private static String usage = "USAGE : java " + LancePersonnage.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		// init des variables
 		String nom = "Truc";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
@@ -54,9 +53,9 @@ public class LancePersonnage {
 		}
 		
 		// creation du logger
-		MyLogger logger = null;
+		LoggerProjet logger = null;
 		try {
-			logger = new MyLogger(true, "personnage_"+nom+groupe);
+			logger = new LoggerProjet(true, "personnage_"+nom+groupe);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(Erreur.suivant);

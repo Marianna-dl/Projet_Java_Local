@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import client.controle.IConsole;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.element.Potion;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -42,7 +42,7 @@ public class AreneTournoi extends Arene {
 	 * @param logger gestionnaire de log 
 	 * @throws Exception
 	 */
-	public AreneTournoi(int port, String adresseIP, long nbTours, MyLogger logger) throws Exception {
+	public AreneTournoi(int port, String adresseIP, long nbTours, LoggerProjet logger) throws Exception {
 		super(port, adresseIP, nbTours, logger);
 		
 		synchronized (this) {
@@ -84,14 +84,15 @@ public class AreneTournoi extends Arene {
 	}
 
 	@Override
-	public void ejectePersonnage(VuePersonnage joueur, String motDePasse) throws RemoteException {
+	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
-			IConsole console = consoleFromRef(joueur.getRefRMI());
+			
+			IConsole console = consoleFromRef(refRMI);
 			
 			if (console == null) {
-				ejecterPersonnage(joueur.getRefRMI());
+				ejectePersonnage(refRMI);
 			} else {
-				deconnecteConsole(console, "Vous avez ete renvoye du salon.");
+				deconnecte(refRMI, "Vous avez ete renvoye du salon.");
 			}
 			
 		} else {
@@ -144,13 +145,15 @@ public class AreneTournoi extends Arene {
 	}
 	
 	@Override
-	public void lancePotionEnAttente(VuePotion vuePotion, String mdp) throws RemoteException {
+	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException {
 		if (this.motDePasse.equals(mdp)) {
+			VuePotion vuePotion = potions.get(refRMI);
+			
 			vuePotion.envoyer();
 			vuePotion.setPhrase("");
 			
 			logger.info(Constantes.nomClasse(this), "Lancement de la potion " + 
-					Constantes.nomCompletClient(vuePotion) + " ("+ref+") dans la partie");
+					Constantes.nomCompletClient(vuePotion) + " (" + refRMI + ") dans la partie");
 			
 			logElements();
 		} else {

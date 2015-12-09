@@ -3,7 +3,7 @@ package lanceur;
 import java.io.IOException;
 import java.util.HashMap;
 
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
@@ -15,7 +15,6 @@ public class LancePotion {
 	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		// init des variables
 		String nom = "Anduril";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
@@ -46,9 +45,9 @@ public class LancePotion {
 		}
 		
 		// creation du logger
-		MyLogger logger = null;
+		LoggerProjet logger = null;
 		try {
-			logger = new MyLogger(true, "potion_"+nom+groupe);
+			logger = new LoggerProjet(true, "potion_"+nom+groupe);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(Erreur.suivant);

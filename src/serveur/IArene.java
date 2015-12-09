@@ -21,7 +21,7 @@ public interface IArene extends Remote {
 	
 	
 	/**************************************************************************
-	 * Connexion et deconnexion.
+	 * Connexion et deconnexion, partie non commencee ou finie. 
 	 **************************************************************************/
 	
 	/**
@@ -45,11 +45,11 @@ public interface IArene extends Remote {
 	
 	/**
 	 * Deconnecte un element du serveur.
-	 * @param console console correspondant au personnage a deconnecter
+	 * @param refRMI reference RMI correspondant au personnage a deconnecter
 	 * @param cause cause de la deconnexion
 	 * @throws RemoteException
 	 */
-	public void deconnecteConsole(IConsole console, String cause) throws RemoteException;
+	public void deconnecte(int refRMI, String cause) throws RemoteException;
 	
 	/**
 	 * Verifie le mot de passe administrateur (mode tournoi). 
@@ -68,11 +68,11 @@ public interface IArene extends Remote {
 
 	/**
 	 * Permet de renvoyer un joueur de la partie (mode tournoi). 
-	 * @param personnage personnage
+	 * @param refRMI personnage
 	 * @param motDePasse mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void ejectePersonnage(VuePersonnage personnage, String motDePasse) throws RemoteException;
+	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException;
 
 	/**
 	 * Permet de lancer la partie (mode tournoi).
@@ -108,11 +108,11 @@ public interface IArene extends Remote {
 
 	/**
 	 * Permet de lancer une potion en attente dans la partie (mode tournoi). 
-	 * @param vuePotion potion a lancer
+	 * @param refRMI potion a lancer
 	 * @param mdp mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancePotionEnAttente(VuePotion vuePotion, String mdp) throws RemoteException;
+	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
 	
 	
 
@@ -242,12 +242,12 @@ public interface IArene extends Remote {
 	 * Execute le ramassage d'une potion par un personnage, si possible.
 	 * Le ramassage echoue si une action a deja ete executee ce tour par ce 
 	 * personnage, ou si la potion est trop loin du personnage.
-	 * @param console personnage voulant ramasser une potion
+	 * @param refRMI reference RMI du personnage voulant ramasser une potion
 	 * @param refPotion reference RMI de la potion qui doit etre ramasse
 	 * @return vrai si l'action a ete effectuee, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean ramassePotion(IConsole console, int refPotion) throws RemoteException;
+	public boolean ramassePotion(int refRMI, int refPotion) throws RemoteException;
 	
 	/**
 	 * Execute un duel entre le personnage correspondant a la console donnee 
@@ -255,45 +255,45 @@ public interface IArene extends Remote {
 	 * Le duel echoue si une action a deja ete executee a ce tour par 
 	 * l'attaquant, si les personnages sont trop eloignes, si l'un des deux 
 	 * n'est plus actif (mort)
-	 * @param console attaquant, qui demande un duel
+	 * @param refRMI reference RMI de l'attaquant, qui demande un duel
 	 * @param refAdv reference RMI du defenseur
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean lanceAttaque(IConsole console, int refAdv) throws RemoteException;
+	public boolean lanceAttaque(int refRMI, int refAdv) throws RemoteException;
 	
 	/**
 	 * Deplace le personnage correspondant a la console donne vers l'element 
 	 * correspondant a la reference RMI cible.
 	 * Le deplacement echoue si une action a deja ete executee a ce tour par 
 	 * ce personnage.
-	 * @param console personnage voulant se deplacer
+	 * @param refRMI reference RMI du personnage voulant se deplacer
 	 * @param refCible reference RMI de l'element vers lequel on veut se 
 	 * deplacer, ou 0 si on veut se deplacer aleatoirement
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(IConsole console, int refCible) throws RemoteException;
+	public boolean deplacer(int refRMI, int refCible) throws RemoteException;
 	
 	/**
 	 * Deplace le personnage correspondant a la console donne vers le point 
 	 * cible.
 	 * Le deplacement echoue si une action a deja ete executee a ce tour par 
 	 * ce personnage.
-	 * @param console personnage voulant se deplacer
+	 * @param refRMI reference RMI du personnage voulant se deplacer
 	 * @param objectif point vers lequel on veut se deplacer
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(IConsole console, Point objectif) throws RemoteException;
+	public boolean deplacer(int refRMI, Point objectif) throws RemoteException;
 	
 	/**
 	 * Modifie la phrase du personnage correspondant a la console donnee.
-	 * @param console console
+	 * @param refRMI reference RMI du personnage dont on doit modifier la phrase
 	 * @param s nouvelle phrase
 	 * @throws RemoteException
 	 */
-	public void setPhrase(IConsole console, String s) throws RemoteException;
+	public void setPhrase(int refRMI, String s) throws RemoteException;
 	
 	
 }

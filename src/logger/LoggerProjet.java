@@ -17,8 +17,9 @@ import java.util.logging.Logger;
  * Definition d'une classe Logger afin de changer les fonctions de publication
  * La partie configuration a ete trouve dans un tutoriel sur internet.
  * Source: http://www.vogella.com/tutorials/Logging/article.html
+ * Adapte par : Christophe Claustre
  */
-public class MyLogger implements Serializable {
+public class LoggerProjet implements Serializable {
 	
 	/*
 	 * Les constantes
@@ -34,24 +35,24 @@ public class MyLogger implements Serializable {
 	private static final DateFormat SDF = new SimpleDateFormat("dd-MM-yy_HH-mm-ss");
 	
 	/**
-	 * La liste des log
+	 * Liste des log.
 	 */
 	private ArrayList<String> logs;
 	
 	/**
-	 * Le gestionnaire de log
+	 * Gestionnaire de log.
 	 */
 	private Logger logger = null;
 	
-	public MyLogger(boolean isAnClient) throws IOException {
+	public LoggerProjet(boolean isAnClient) throws IOException {
 		this(isAnClient, "");
 	}
 	
-	public MyLogger(boolean isAnClient, String suffixeFichier) throws IOException {
+	public LoggerProjet(boolean isAnClient, String suffixeFichier) throws IOException {
 		this(calcFilename(suffixeFichier, isAnClient), isAnClient);
 	}
 	
-	public MyLogger(String loggerStr, boolean isAnClient) throws IOException {
+	public LoggerProjet(String loggerStr, boolean isAnClient) throws IOException {
 		// init des attributs
 		logs = new ArrayList<String>();
 		logger = Logger.getLogger(loggerStr);
@@ -76,11 +77,11 @@ public class MyLogger implements Serializable {
 		ConsoleHandler console = new ConsoleHandler();
 
 		// create an HTML formatter
-		fileHTML.setFormatter(new MyHtmlFormatter());
+		fileHTML.setFormatter(new HtmlFormatter());
 		logger.addHandler(fileHTML);
 
 		// create an Console formatter
-		console.setFormatter(new MyConsoleFormatter());
+		console.setFormatter(new ConsoleFormatter());
 		logger.addHandler(console);
 	}
 	

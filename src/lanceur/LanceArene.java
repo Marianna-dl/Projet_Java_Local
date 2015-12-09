@@ -3,7 +3,7 @@ package lanceur;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.Arene;
 import utilitaires.Constantes;
 
@@ -15,8 +15,7 @@ public class LanceArene {
 	
 	private static String usage = "USAGE : java " + LanceArene.class.getName() + " [ port [ nbTours ] ]";
 
-	public static void main(String[] args) {		
-		// init des variables
+	public static void main(String[] args) {
 		String ipArene = null;
 
 		// init des arguments
@@ -49,9 +48,9 @@ public class LanceArene {
 		}
 		
 		// creation du logger
-		MyLogger logger = null;
+		LoggerProjet logger = null;
 		try {
-			logger = new MyLogger(false);
+			logger = new LoggerProjet(false);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(Erreur.suivant);

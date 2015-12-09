@@ -29,7 +29,7 @@ import interfacegraphique.interfacesimple.ElementsJPanel;
 import interfacegraphique.interfacesimple.FenetreClassement;
 import interfacegraphique.interfacesimple.FenetreDetail;
 import interfacegraphique.interfacesimple.components.VictoryScreen;
-import logger.MyLogger;
+import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
@@ -85,7 +85,7 @@ public class IHM extends JFrame implements Runnable {
 	/**
 	 * Gestionnaire de log.
 	 */
-	private MyLogger logger;
+	private LoggerProjet logger;
 	
 	/**
 	 * VueElement correspondant a l'element actuellement selectionnee dans le 
@@ -148,7 +148,7 @@ public class IHM extends JFrame implements Runnable {
 	 * @param ipArene IP de communication avec l'arene
 	 * @param logger gestionnaire de log
 	 */
-	public IHM(int port, String ipArene, MyLogger logger) {
+	public IHM(int port, String ipArene, LoggerProjet logger) {
 		this.logger = logger;
 		this.port = port;
 		this.ipArene = ipArene;
