@@ -20,10 +20,10 @@ public class Potion extends Element {
 	 * caracteristiques (ajoutees lorsqu'un Personnage ramasse cette potion).
 	 * @param nom nom de la potion
 	 * @param groupe groupe d'etudiants de la potion
-	 * @param ht caracteristiques de la potion
+	 * @param caracts caracteristiques de la potion
 	 */
-	public Potion(String nom, String groupe, HashMap<Caracteristique, Integer> ht) {
-		super(nom, groupe, ht);
+	public Potion(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
+		super(nom, groupe, caracts);
 		ramassee = false;
 	}
 	

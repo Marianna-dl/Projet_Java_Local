@@ -71,9 +71,9 @@ public class LancePersonnage {
 			
 			// caracteristiques du personnage
 			HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique, Integer>();
-			caracts.put(Caracteristique.VIE, 100);
-			caracts.put(Caracteristique.FORCE, 20);
-			caracts.put(Caracteristique.INITIATIVE, 50);
+			// seule la force n'a pas sa valeur par defaut (exemple)
+			caracts.put(Caracteristique.FORCE, 
+					Calculs.valeurCaracAleatoire(Caracteristique.FORCE)); 
 			
 			Point position = Calculs.positionAleatoireArene();	
 			

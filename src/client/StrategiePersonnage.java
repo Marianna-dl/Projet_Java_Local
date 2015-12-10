@@ -91,7 +91,6 @@ public class StrategiePersonnage {
 			Element elemPlusProche = arene.elementFromRef(refCible);
 
 			if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
-				
 				// j'interagis directement
 				if(elemPlusProche instanceof Potion) { // potion
 					// ramassage

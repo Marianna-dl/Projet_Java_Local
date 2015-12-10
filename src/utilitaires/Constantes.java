@@ -1,8 +1,6 @@
 package utilitaires;
 
 import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
 
 import serveur.vuelement.VueElement;
 
@@ -56,7 +54,7 @@ public class Constantes {
 	 * la troisieme, entre la moitie et les trois quarts ; 
 	 * la quatrieme, entre les trois quarts et le maximum possible.
 	 */
-	public static final List<Integer> DISTANCE_PROJECTION = Arrays.asList(4, 5, 6, 7);
+	public static final int[] DISTANCE_PROJECTION = {4, 5, 6, 7};
 	
 	/**
 	 * Distance minimale entre deux elements pour qu'une interaction soit

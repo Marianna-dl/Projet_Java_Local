@@ -84,7 +84,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param forceAtt force de l'attaquant
 	 * @return position d'ejection du personnage
 	 */
-	private Point positionEjection(Point posDefenseur, Point positionAtt, int forceAtt) {		
+	private Point positionEjection(Point posDefenseur, Point positionAtt, int forceAtt) {
 		int distance = forceVersDistance(forceAtt);
 		
 		// abscisses 
@@ -121,23 +121,10 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @return distance de projection
 	 */
 	private int forceVersDistance(int forceAtt) {
-		int distance = 0; 
-		
 		int max = Caracteristique.FORCE.getMax();
-		int i = 1;
-		int temp;
-		boolean stop = false;
 		
-		// les quatre quarts
-		while (i <= 4 && !stop) {
-			temp = i * max / 4;
-			
-			if(forceAtt < temp) {
-				distance = Constantes.DISTANCE_PROJECTION.get(i - 1);
-				stop = true;
-			}
-		}
+		int quart = (int) (4 * ((float) (forceAtt - 1) / max)); // -1 pour le cas force = 100
 		
-		return distance;
+		return Constantes.DISTANCE_PROJECTION[quart];
 	}
 }
