@@ -26,17 +26,17 @@ public class LancePotion {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(usage);
+				ErreurLancement.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.TROP_ARGS.erreur(usage);
+				ErreurLancement.TROP_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.PORT_NAN.erreur(usage);
+				ErreurLancement.PORT_NAN.erreur(usage);
 			}
 			
 			if (args.length == 2) {
@@ -50,7 +50,7 @@ public class LancePotion {
 			logger = new LoggerProjet(true, "potion_"+nom+groupe);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(Erreur.suivant);
+			System.exit(ErreurLancement.suivant);
 		}
 		
 		// lancement de la potion
@@ -72,7 +72,7 @@ public class LancePotion {
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());
 			e.printStackTrace();
-			System.exit(Erreur.suivant);
+			System.exit(ErreurLancement.suivant);
 		}
 	}
 }

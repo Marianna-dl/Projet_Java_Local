@@ -27,23 +27,23 @@ public class LanceAreneTournoi {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				Erreur.help(usage);
+				ErreurLancement.help(usage);
 			}
 			
 			if (args.length > 2) {
-				Erreur.TROP_ARGS.erreur(usage);
+				ErreurLancement.TROP_ARGS.erreur(usage);
 			}
 			
 			try {
 				port = Integer.parseInt(args[0]);
 			} catch (NumberFormatException e) {
-				Erreur.PORT_NAN.erreur(usage);
+				ErreurLancement.PORT_NAN.erreur(usage);
 			}
 			
 			try {
 				duree = Integer.parseInt(args[1]);
 			} catch (NumberFormatException e) {
-				Erreur.TTL_INCORRECT.erreur(usage);
+				ErreurLancement.TTL_INCORRECT.erreur(usage);
 			}
 		}
 		
@@ -53,7 +53,7 @@ public class LanceAreneTournoi {
 			logger = new LoggerProjet(false);
 		} catch (IOException e) {
 			e.printStackTrace();
-			System.exit(Erreur.suivant);
+			System.exit(ErreurLancement.suivant);
 		}
 		
 		// lancement du serveur
@@ -71,7 +71,7 @@ public class LanceAreneTournoi {
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
 			e.printStackTrace();
-			System.exit(Erreur.suivant);
+			System.exit(ErreurLancement.suivant);
 		}
 	}
 }
