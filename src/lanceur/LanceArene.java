@@ -39,11 +39,13 @@ public class LanceArene {
 			} catch (NumberFormatException e) {
 				ErreurLancement.PORT_NAN.erreur(usage);
 			}
-			
-			try {
-				duree = Integer.parseInt(args[1]);
-			} catch (NumberFormatException e) {
-				ErreurLancement.TTL_INCORRECT.erreur(usage);
+
+			if(args.length > 1) {
+				try {
+					duree = Integer.parseInt(args[1]);
+				} catch (NumberFormatException e) {
+					ErreurLancement.TTL_INCORRECT.erreur(usage);
+				}
 			}
 		}
 		

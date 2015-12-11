@@ -25,12 +25,12 @@ public class LanceAreneTournoi {
 		// si negatif, duree illimite
 		long duree = Constantes.NB_TOURS_DEFAUT;
 		
-		if (args.length > 0) {
+		if(args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
 				ErreurLancement.help(usage);
 			}
 			
-			if (args.length > 2) {
+			if(args.length > 2) {
 				ErreurLancement.TROP_ARGS.erreur(usage);
 			}
 			
@@ -39,11 +39,13 @@ public class LanceAreneTournoi {
 			} catch (NumberFormatException e) {
 				ErreurLancement.PORT_NAN.erreur(usage);
 			}
-			
-			try {
-				duree = Integer.parseInt(args[1]);
-			} catch (NumberFormatException e) {
-				ErreurLancement.TTL_INCORRECT.erreur(usage);
+
+			if(args.length > 1) {
+				try {
+					duree = Integer.parseInt(args[1]);
+				} catch (NumberFormatException e) {
+					ErreurLancement.TTL_INCORRECT.erreur(usage);
+				}
 			}
 		}
 		

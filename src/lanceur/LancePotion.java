@@ -39,7 +39,7 @@ public class LancePotion {
 				ErreurLancement.PORT_NAN.erreur(usage);
 			}
 			
-			if (args.length == 2) {
+			if (args.length > 1) {
 				ipArene = args[1];
 			}
 		}
