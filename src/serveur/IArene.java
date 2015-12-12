@@ -4,18 +4,15 @@ import java.awt.Point;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.List;
 
 import client.controle.IConsole;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.vuelement.VueElement;
-import serveur.vuelement.VuePersonnage;
-import serveur.vuelement.VuePotion;
 
 /**
- * Definit les methodes qui pourront s'appliquer a travers l'arene en RMI (toutes celles qui levent RemoteException)
+ * Definit les methodes qui pourront s'appliquer a l'arene par le reseau.
  */
 public interface IArene extends Remote {
 	
@@ -50,14 +47,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void deconnecte(int refRMI, String cause) throws RemoteException;
-	
-	/**
-	 * Verifie le mot de passe administrateur (mode tournoi). 
-	 * @param motDePasse mot de passe a verifier
-	 * @return true si le mot de passe est ok, false sinon
-	 * @throws RemoteException
-	 */
-	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException;
 
 	/**
 	 * Teste si la partie est finie.
@@ -67,21 +56,6 @@ public interface IArene extends Remote {
 	public boolean isPartieFinie() throws RemoteException;
 
 	/**
-	 * Permet de renvoyer un joueur de la partie (mode tournoi). 
-	 * @param refRMI personnage
-	 * @param motDePasse mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException;
-
-	/**
-	 * Permet de lancer la partie (mode tournoi).
-	 * @param motDePasse mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void commencerPartie(String motDePasse) throws RemoteException;
-
-	/**
 	 * Teste si la partie a commence.
 	 * @return vrai si la partie a commence, faux sinon
 	 * @throws RemoteException
@@ -89,30 +63,13 @@ public interface IArene extends Remote {
 	boolean isPartieCommencee() throws RemoteException;
 
 	/**
-	 * Permet d'ajouter une potion dans l'arene a n'importe quel moment en mode 
-	 * arene libre, et d'ajouter un potion dans l'arene avant la partie en mode 
+	 * Ajoute une potion dans l'arene a n'importe quel moment en mode arene 
+	 * libre, et d'ajouter un potion dans l'arene avant la partie en mode 
 	 * tournoi.
 	 * @param potion potion
 	 * @throws RemoteException
 	 */
 	public void ajoutePotion(Potion potion) throws RemoteException;
-	
-	/**
-	 * Permet d'ajouter une potion en attente dans l'arene a n'importe quel 
-	 * moment, en fournissant le mot de passe (mode tournoi).
-	 * @param potion potion
-	 * @param mdp mot de passe administrateur
-	 * @throws RemoteException	
-	 */
-	public void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException;
-
-	/**
-	 * Permet de lancer une potion en attente dans la partie (mode tournoi). 
-	 * @param refRMI potion a lancer
-	 * @param mdp mot de passe administrateur
-	 * @throws RemoteException
-	 */
-	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
 	
 	
 
@@ -134,35 +91,6 @@ public interface IArene extends Remote {
 	public int getTour() throws RemoteException;
 
 	/**
-	 * Recupere la liste de toutes les representations de personnages presents 
-	 * dans l'arene. 
-	 * @return liste des personnages
-	 * @throws RemoteException
-	 */
-	public List<VuePersonnage> getPersonnages() throws RemoteException;
-
-	/**
-	 * Recupere la liste de toutes les representations de personnages morts.
-	 * @return liste des personnages morts
-	 * @throws RemoteException
-	 */
-	public List<VuePersonnage> getPersonnagesMorts() throws RemoteException;
-	
-	/**
-	 * Calcule la liste de toutes les potions presentes dans l'arene.
-	 * @return liste des potions
-	 * @throws RemoteException
-	 */
-	public List<VuePotion> getPotions() throws RemoteException;
-	
-	/**
-	 * Renvoie la liste des potions en attente de connexion (mode tournoi).
-	 * @return liste des potions en attente
-	 * @throws RemoteException
-	 */
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException;
-
-	/**
 	 * Calcule la liste les voisins d'un element represente par sa reference
 	 * RMI.
 	 * @param refRMI reference de l'element dont on veut recuperer les voisins
@@ -170,20 +98,6 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException;
-	
-	/**
-	 * Renvoie la liste des personnages tries pour le classement final.
-	 * @return liste des personnages ordonnes pour le classement final
-	 * @throws RemoteException
-	 */
-	public List<VuePersonnage> getClassement() throws RemoteException;
-	
-	/**
-	 * Recupere la vue du personnage gagnant de la partie.
-	 * @return vue du personnage gagnant
-	 * @throws RemoteException
-	 */
-	public VuePersonnage getGagnant() throws RemoteException;
 
 	/**
 	 * Permet de recuperer une copie de l'element correspondant a la reference 
@@ -224,6 +138,14 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public Point getPosition(int refRMI) throws RemoteException;
+
+	/**
+	 * Modifie la phrase du personnage correspondant a la console donnee.
+	 * @param refRMI reference RMI du personnage dont on doit modifier la phrase
+	 * @param s nouvelle phrase
+	 * @throws RemoteException
+	 */
+	public void setPhrase(int refRMI, String s) throws RemoteException;
 	
 
 	/**************************************************************************
@@ -265,7 +187,7 @@ public interface IArene extends Remote {
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(int refRMI, int refCible) throws RemoteException;
+	public boolean deplace(int refRMI, int refCible) throws RemoteException;
 	
 	/**
 	 * Deplace le personnage correspondant a la console donne vers le point 
@@ -277,16 +199,54 @@ public interface IArene extends Remote {
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
-	public boolean deplacer(int refRMI, Point objectif) throws RemoteException;
+	public boolean deplace(int refRMI, Point objectif) throws RemoteException;
+	
+	
+
+	
+
+	/**************************************************************************
+	 * Specifique au tournoi.
+	 **************************************************************************/
 	
 	/**
-	 * Modifie la phrase du personnage correspondant a la console donnee.
-	 * @param refRMI reference RMI du personnage dont on doit modifier la phrase
-	 * @param s nouvelle phrase
+	 * Verifie le mot de passe administrateur. 
+	 * @param motDePasse mot de passe a verifier
+	 * @return true si le mot de passe est ok, false sinon
 	 * @throws RemoteException
 	 */
-	public void setPhrase(int refRMI, String s) throws RemoteException;
+	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException;
+
+	/**
+	 * Lance la partie.
+	 * @param motDePasse mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void commencerPartie(String motDePasse) throws RemoteException;
+
+	/**
+	 * Ejecte un joueur de la partie. 
+	 * @param refRMI personnage
+	 * @param motDePasse mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException;
 	
+	/**
+	 * Ajoute une potion en attente dans l'arene.
+	 * @param potion potion
+	 * @param mdp mot de passe administrateur
+	 * @throws RemoteException	
+	 */
+	public void ajoutePotionEnAttente(Potion potion, Point position, String mdp) throws RemoteException;
+
+	/**
+	 * Lance une potion en attente dans la partie. 
+	 * @param refRMI potion a lancer
+	 * @param mdp mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
 	
 }
 

@@ -30,7 +30,7 @@ import interfacegraphique.interfacesimple.FenetreClassement;
 import interfacegraphique.interfacesimple.FenetreDetail;
 import interfacegraphique.interfacesimple.components.VictoryScreen;
 import logger.LoggerProjet;
-import serveur.IArene;
+import serveur.IAreneIHM;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -70,7 +70,7 @@ public class IHM extends JFrame implements Runnable {
 	/**
 	 * Serveur.
 	 */
-	protected IArene arene;
+	protected IAreneIHM arene;
 	
 	/**
 	 * Thread de connexion au serveur.
@@ -389,7 +389,7 @@ public class IHM extends JFrame implements Runnable {
 		connexion = new Thread() {
 			public void run() {
 				try {
-					arene = (IArene) Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
+					arene = (IAreneIHM) Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
 				} catch (Exception e) {
 					erreurConnexion(e);
 				}

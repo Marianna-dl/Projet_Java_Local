@@ -310,14 +310,16 @@ public class ElementsJPanel extends JPanel {
 	/**
 	 * Definit les elements de la partie.
 	 * @param personnages personnages presents dans l'arene
+	 * @param personnagesMorts personnages ayant ete connectes et maintenant 
+	 * morts
 	 * @param potions potions presentes dans l'arene
 	 */
 	public void setElements(List<VuePersonnage> personnages, 
-			List<VuePersonnage> personnagesMort, List<VuePotion> potions) {
+			List<VuePersonnage> personnagesMorts, List<VuePotion> potions) {
 		
 		// tri des potions et des personnages (selon leur methode compareTo)
 		List<VuePersonnage> personnagesTous = new ArrayList<VuePersonnage>(personnages);
-		personnagesTous.addAll(personnagesMort);
+		personnagesTous.addAll(personnagesMorts);
 
 		List<VuePotion> potionsTous = new ArrayList<VuePotion>(potions);
 		

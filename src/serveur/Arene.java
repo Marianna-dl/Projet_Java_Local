@@ -21,8 +21,8 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
-import serveur.interaction.Duel;
 import serveur.interaction.Deplacement;
+import serveur.interaction.Duel;
 import serveur.interaction.Ramassage;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
@@ -33,7 +33,7 @@ import utilitaires.Constantes;
 /**
  * Definit l'arene, qui joue le role de serveur. 
  */
-public class Arene extends UnicastRemoteObject implements IArene, Runnable {
+public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 
 	private static final long serialVersionUID = -354976419811607146L;
 
@@ -431,6 +431,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		return tour;
 	}
 
+	@Override
+	public boolean isPartieCommencee() throws RemoteException {
+		return true;
+	}
+
 	/**
 	 * Renvoie la console correspondant a la reference RMI donnee.
 	 * @param refRMI reference RMI
@@ -546,6 +551,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
+	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
+		return new ArrayList<VuePotion>(); // pas de potion en attente hors tournoi
+	}
+
+	@Override
 	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException {
 		HashMap<Integer, Point> res = new HashMap<Integer, Point>();
 	
@@ -632,6 +642,11 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		}
 		
 		return res;
+	}
+
+	@Override
+	public void setPhrase(int refRMI, String s) throws RemoteException {
+		vueFromRef(refRMI).setPhrase(s);
 	}
 
 	/**
@@ -768,7 +783,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 	
 	@Override
-	public boolean deplacer(int refRMI, int refCible) throws RemoteException {
+	public boolean deplace(int refRMI, int refCible) throws RemoteException {		
 		boolean res = false;
 		
 		VuePersonnage client = personnages.get(refRMI);
@@ -789,7 +804,7 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	}
 
 	@Override
-	public boolean deplacer(int refRMI, Point objectif) throws RemoteException {
+	public boolean deplace(int refRMI, Point objectif) throws RemoteException {
 		boolean res = false;
 		
 		VuePersonnage client = personnages.get(refRMI);
@@ -845,43 +860,6 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 		}
 	}
 	
-	@Override
-	public void setPhrase(int refRMI, String s) throws RemoteException {
-		vueFromRef(refRMI).setPhrase(s);
-	}
-
-	/**
-	 * Methodes specifiques a l'arene tournoi. Ne font rien (ou presque) pour
-	 * l'arene normale.
-	 */
-	
-	@Override
-	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException {
-		return false;
-	}
-	
-	@Override
-	public boolean isPartieCommencee() throws RemoteException {
-		return true;
-	}
-	
-	@Override
-	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {}
-
-	@Override
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
-		return new ArrayList<VuePotion>();
-	}
-
-	@Override
-	public void ajoutePotionSecurisee(Potion potion, Point position, String mdp) throws RemoteException {}
-	
-	@Override
-	public synchronized void lancePotionEnAttente(int refRMI, String motDePasse) throws RemoteException {}
-
-	@Override
-	public void commencerPartie(String motDePasse) throws RemoteException {}
-
 	public LoggerProjet getLogger() {
 		return logger;
 	}
@@ -974,6 +952,31 @@ public class Arene extends UnicastRemoteObject implements IArene, Runnable {
 	public String nomRaccourciClient(int refRMI) throws RemoteException {
 		return Constantes.nomRaccourciClient(vueFromRef(refRMI));
 	}
+
+	
+	
+
+
+	/**************************************************************************
+	 * Specifique a l'arene tournoi.
+	 **************************************************************************/
+
+	@Override
+	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException {
+		return false;
+	}
+	
+	@Override
+	public void commencerPartie(String motDePasse) throws RemoteException {}
+
+	@Override
+	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {}
+
+	@Override
+	public void ajoutePotionEnAttente(Potion potion, Point position, String mdp) throws RemoteException {}
+
+	@Override
+	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException {}
 
 	
 }

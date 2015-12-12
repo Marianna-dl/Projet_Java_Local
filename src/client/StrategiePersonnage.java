@@ -82,7 +82,7 @@ public class StrategiePersonnage {
 		
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
 			console.setPhrase("J'erre...");
-			arene.deplacer(refRMI, 0); 
+			arene.deplace(refRMI, 0); 
 			
 		} else {
 			int refCible = Calculs.chercherElementProche(position, voisins);
@@ -106,7 +106,7 @@ public class StrategiePersonnage {
 			} else { // si voisins, mais plus eloignes
 				// je vais vers le plus proche
 				console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
-				arene.deplacer(refRMI, refCible);
+				arene.deplace(refRMI, refCible);
 			}
 		}
 	}

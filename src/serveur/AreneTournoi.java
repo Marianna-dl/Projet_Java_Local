@@ -134,7 +134,7 @@ public class AreneTournoi extends Arene {
 	}
 	
 	@Override
-	public synchronized void ajoutePotionSecurisee(Potion potion, Point position, 
+	public synchronized void ajoutePotionEnAttente(Potion potion, Point position, 
 			String mdp) throws RemoteException {
 		
 		if (motDePasse.equals(mdp)) {
