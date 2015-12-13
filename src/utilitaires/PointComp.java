@@ -31,11 +31,11 @@ public class PointComp extends Point implements Comparator<Point> {
 	 * @param cible point cible
 	 * @return distance euclidienne
 	 */
-	private Integer distanceEuclidienne(Point cible) {
+	private float distanceEuclidienne(Point cible) {
 		int xDiff = x - cible.x;
 		int yDiff = y - cible.y;
 		
-		return (int) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+		return (float) Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	}
 	
 	/**
@@ -47,6 +47,17 @@ public class PointComp extends Point implements Comparator<Point> {
 	 * 1 si le deuxieme est plus proche
 	 */
 	public int compare(Point p1, Point p2) {
-		return distanceEuclidienne(p1).compareTo(distanceEuclidienne(p2));
+		float dist1 = distanceEuclidienne(p1);
+		float dist2 = distanceEuclidienne(p2);
+		
+		int res = 0;
+		
+		if(dist1 < dist2) {
+			res = -1;
+		} else if(dist1 > dist2) {
+			res = 1;
+		}
+		
+		return res;
 	}
 }

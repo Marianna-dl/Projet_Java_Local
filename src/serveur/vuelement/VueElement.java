@@ -16,7 +16,6 @@ import utilitaires.Calculs;
  * 
  * @param <T> type de l'element
  */
-// TODO parametrize?
 public class VueElement<T extends Element> implements Serializable {
 	
 	private static final long serialVersionUID = 1750601856220885598L;
