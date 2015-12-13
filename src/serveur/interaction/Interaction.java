@@ -14,7 +14,7 @@ import utilitaires.Constantes;
  *
  * @param <T> vue de l'autre element
  */
-public abstract class Interaction<T extends VueElement> {
+public abstract class Interaction<T extends VueElement<?>> {
 	
 	/**
 	 * Arene (serveur).

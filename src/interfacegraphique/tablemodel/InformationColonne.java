@@ -9,7 +9,7 @@ import serveur.vuelement.VueElement;
  *
  * @param <V> type de vues affichees (personnages ou potions).
  */
-public class InformationColonne<V extends VueElement> {
+public class InformationColonne<V extends VueElement<?>> {
 
 	/**
 	 * Nom de la colonne.

@@ -271,11 +271,11 @@ public class ElementsJPanel extends JPanel {
 	 * @param ev evenement de la souris
 	 */
 	private void clickOnTable(MouseEvent ev) {
-		// vue clique
-		VueElement newSelect = null;
+		// vue cliquee
+		VueElement<?> newSelect = null;
 		
-		// vue deja selectionne
-		VueElement prevSelect = ihm.getElementSelectionne();
+		// vue deja selectionnee
+		VueElement<?> prevSelect = ihm.getElementSelectionne();
 		
 		// recuperation de la vue clique
 		JTable table = ((JTable) ev.getSource());

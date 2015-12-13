@@ -114,7 +114,7 @@ public class Constantes {
 	 * @return chaine de caracteres contenant la reference RMI de client, son 
 	 * nom et son groupe. 
 	 */
-	public static String nomRaccourciClient(VueElement client) {
+	public static String nomRaccourciClient(VueElement<?> client) {
 		return "(Client" + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
 
@@ -124,7 +124,7 @@ public class Constantes {
 	 * @return chaine de caracters contenant la classe du client, sa reference
 	 * RMI, son nom et son groupe.
 	 */
-	public static String nomCompletClient(VueElement client) {
+	public static String nomCompletClient(VueElement<?> client) {
 		return "("+ nomClasse(client) + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
 }

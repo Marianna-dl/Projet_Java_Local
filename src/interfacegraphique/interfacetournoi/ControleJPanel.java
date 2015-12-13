@@ -83,7 +83,7 @@ public class ControleJPanel extends JPanel {
 		// listeners
 		lancerPartieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		ihmTournoi.lancerCompteARebours();	
+        		ihmTournoi.lanceCompteARebours();	
             }
         });		
 		
@@ -105,13 +105,13 @@ public class ControleJPanel extends JPanel {
 		
 		ajouterPotionButton.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.afficherFenetrePotion();
+				ihmTournoi.afficheFenetrePotion();
 			}			
 		});
 		
 		envoyerPotionButton.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.envoyerPotionSelectionnee();
+				ihmTournoi.envoyePotionSelectionnee();
 			}			
 		});
 		
@@ -119,7 +119,7 @@ public class ControleJPanel extends JPanel {
 		
 		deverrouillerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ihmTournoi.demanderMotDePasse();				
+				ihmTournoi.demandeMotDePasse();				
 			}
 		});
 				

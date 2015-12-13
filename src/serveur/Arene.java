@@ -378,7 +378,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		// le but etant de garder des informations sur les deconnectes		
 		VuePersonnage vuePersonnage = personnages.get(refRMI);
 		
-		((Personnage) vuePersonnage.getElement()).tue(); // au cas ou ce ne serait pas une mort "naturelle"
+		vuePersonnage.getElement().tue(); // au cas ou ce ne serait pas une mort "naturelle"
 		vuePersonnage.setTourMort(tour);
 		setPhrase(refRMI, "MORT >_<");
 		
@@ -434,7 +434,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 
 	@Override
-	public boolean isPartieCommencee() throws RemoteException {
+	public boolean estPartieCommencee() throws RemoteException {
 		return true;
 	}
 
@@ -478,14 +478,14 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @return console correspondante
 	 * @throws RemoteException
 	 */
-	public IConsole consoleFromVue(VueElement vue) throws RemoteException {
+	public IConsole consoleFromVue(VueElement<?> vue) throws RemoteException {
 		return consoleFromRef(vue.getRefRMI());
 	}
 
 
 	@Override
-	public VueElement vueFromRef(int refRMI) throws RemoteException {
-		VueElement vueElement = personnages.get(refRMI);
+	public VueElement<?> vueFromRef(int refRMI) throws RemoteException {
+		VueElement<?> vueElement = personnages.get(refRMI);
 		
 		if (vueElement == null) {
 			vueElement = potions.get(refRMI);
@@ -496,7 +496,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 
 
 	@Override
-	public VueElement vueFromConsole(IConsole console) throws RemoteException {
+	public VueElement<?> vueFromConsole(IConsole console) throws RemoteException {
 		return vueFromRef(console.getRefRMI());
 	}
 	
@@ -600,13 +600,13 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @param voisin element voisin
 	 * @return vrai si l'element donne est bien un voisin
 	 */
-	private boolean estVoisin(VuePersonnage courant, VueElement voisin) throws RemoteException {
-		boolean res = ((Personnage) courant.getElement()).estVivant() &&
+	private boolean estVoisin(VuePersonnage courant, VueElement<?> voisin) throws RemoteException {
+		boolean res = courant.getElement().estVivant() &&
 				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION;
 		
 		if(voisin instanceof VuePersonnage) { // potion
 			res = res && 
-					((Personnage) voisin.getElement()).estVivant() &&
+					((VuePersonnage) voisin).getElement().estVivant() &&
 					voisin.getRefRMI() != courant.getRefRMI();
 					
 		}
@@ -848,7 +848,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		int refRMI = vuePersonnage.getRefRMI();
 		IConsole console = consoleFromRef(refRMI);
-		Personnage pers = vuePersonnage.getPersonnage();
+		Personnage pers = vuePersonnage.getElement();
 		
 		// increment de la caracteristique
 		pers.incrementeCaract(carac, increment);
@@ -880,7 +880,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @param msg message
 	 * @throws RemoteException
 	 */
-	public void logClient(VueElement vueElement, Level level, String prefixe, 
+	public void logClient(VueElement<?> vueElement, Level level, String prefixe, 
 			String msg) throws RemoteException {
 		IConsole cons = consoleFromRef(vueElement.getRefRMI());
 		

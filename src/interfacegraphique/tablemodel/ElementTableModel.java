@@ -14,7 +14,7 @@ import serveur.vuelement.VueElement;
  * 
  * @param <V> type de vue affichee (personnages ou potions).
  */
-public abstract class ElementTableModel<V extends VueElement> extends AbstractTableModel {
+public abstract class ElementTableModel<V extends VueElement<?>> extends AbstractTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	

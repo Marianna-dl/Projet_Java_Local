@@ -60,7 +60,7 @@ public interface IArene extends Remote {
 	 * @return vrai si la partie a commence, faux sinon
 	 * @throws RemoteException
 	 */
-	boolean isPartieCommencee() throws RemoteException;
+	boolean estPartieCommencee() throws RemoteException;
 
 	/**
 	 * Ajoute une potion dans l'arene a n'importe quel moment en mode arene 
@@ -121,7 +121,7 @@ public interface IArene extends Remote {
 	 * @param refRMI reference RMI
 	 * @return vue correspondante
 	 */
-	public VueElement vueFromRef(int refRMI) throws RemoteException;
+	public VueElement<?> vueFromRef(int refRMI) throws RemoteException;
 	
 	/**
 	 * Renvoie la vue correspondant a la console donnee.
@@ -129,7 +129,7 @@ public interface IArene extends Remote {
 	 * @return vue correspondante
 	 * @throws RemoteException
 	 */
-	public VueElement vueFromConsole(IConsole console) throws RemoteException;
+	public VueElement<?> vueFromConsole(IConsole console) throws RemoteException;
 
 	/**
 	 * Permet de savoir la position d'un element

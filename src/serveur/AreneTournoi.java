@@ -122,7 +122,7 @@ public class AreneTournoi extends Arene {
 	}
 
 	@Override
-	public boolean isPartieCommencee() throws RemoteException {
+	public boolean estPartieCommencee() throws RemoteException {
 		return partieCommencee;
 	}
 

@@ -8,7 +8,7 @@ import utilitaires.Constantes;
 /**
  * Donnees que le serveur doit conserver sur chacun de ces clients personnages.
  */
-public class VuePersonnage extends VueElement implements Comparable<VuePersonnage> {
+public class VuePersonnage extends VueElement<Personnage> implements Comparable<VuePersonnage> {
 	
 	private static final long serialVersionUID = 6775104377685248116L;
 
@@ -78,10 +78,6 @@ public class VuePersonnage extends VueElement implements Comparable<VuePersonnag
 		return tour < NB_TOURS;
 	}
 
-	public Personnage getPersonnage() {
-		return (Personnage) getElement();
-	}
-
 	public String getAdresseIp() {
 		return adresseIp;
 	}
@@ -102,8 +98,8 @@ public class VuePersonnage extends VueElement implements Comparable<VuePersonnag
 	public int compareTo(VuePersonnage vp2) {
 		int res;
 		
-		Personnage e1 = (Personnage) this.getElement();
-		Personnage e2 = (Personnage) vp2.getElement();
+		Personnage e1 = this.getElement();
+		Personnage e2 = vp2.getElement();
 		
 		if(e1.estVivant()) {
 			if(e2.estVivant()) {

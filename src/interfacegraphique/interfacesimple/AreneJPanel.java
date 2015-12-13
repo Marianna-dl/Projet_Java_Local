@@ -116,8 +116,8 @@ public class AreneJPanel extends JPanel {
 		}
 		
 		// dessiner les elements
-		for(VueElement vueElement:potions) {
-			dessinerElement(g, vueElement);
+		for(VuePotion vuePotion : potions) {
+			dessinerElement(g, vuePotion);
 		}
 
 		for(VuePersonnage vuePersonnage : personnages) {
@@ -146,7 +146,7 @@ public class AreneJPanel extends JPanel {
 	 * @param g graphics
 	 * @param vueElement vue de l'element a dessiner
 	 */
-	private void dessinerElement(Graphics g, VueElement vueElement) {
+	private void dessinerElement(Graphics g, VueElement<?> vueElement) {
 		// affiche l'arene comme un rectangle
 		Rectangle rect = this.getBounds();
 		
@@ -178,7 +178,7 @@ public class AreneJPanel extends JPanel {
 	 * @param coordX abscisse de l'element
 	 * @param coordY ordonnee de l'element
 	 */
-	private void dessinerElementGeometrique(Graphics g, VueElement vueElement, int coordX, int coordY) {
+	private void dessinerElementGeometrique(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
 
 		if (vueElement.isSelectionne()) {
 			g.setColor(SELECTED_COLOR);
@@ -204,7 +204,7 @@ public class AreneJPanel extends JPanel {
 	 * @return vrai si le texte a ete ecrit en dessous de la forme representant 
 	 * l'element, faux sinon
 	 */
-	private boolean dessinerElementNom(Graphics g, VueElement vueElement, int coordX, int coordY) {
+	private boolean dessinerElementNom(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
 		Rectangle rect = this.getBounds();
 		
 		// affiche au dessus du point ses informations
@@ -243,7 +243,8 @@ public class AreneJPanel extends JPanel {
 	 * @param descendu vrai si le texte a ete ecrit en dessous de la forme 
 	 * representant l'element, faux sinon
 	 */
-	private void dessinerJauge(Graphics g, VueElement vueElement, Rectangle rect, int coordX, int coordY, boolean descendu) {
+	private void dessinerJauge(Graphics g, VueElement<?> vueElement, Rectangle rect, 
+			int coordX, int coordY, boolean descendu) {
 		Color elementColor = vueElement.getColor();	
 		
 		// dessin de la jauge de vie			

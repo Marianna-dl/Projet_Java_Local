@@ -91,7 +91,7 @@ public class IHM extends JFrame implements Runnable {
 	 * VueElement correspondant a l'element actuellement selectionnee dans le 
 	 * tableau.
 	 */
-	protected VueElement elementSelectionne;
+	protected VueElement<?> elementSelectionne;
 	
 	
 	/**
@@ -294,7 +294,7 @@ public class IHM extends JFrame implements Runnable {
 						+ "   -   Temps restant : "
 						+ Calculs.timerToString(tempsRestant));
 
-				if (!isPartieCommencee())
+				if (!estPartieCommencee())
 					arenePanel
 							.afficherMessage("La partie n'a pas encore commence");
 
@@ -310,13 +310,16 @@ public class IHM extends JFrame implements Runnable {
 	 * Teste si la partie a commence sur le serveur.
 	 * @return vrai si la partie a commence
 	 */
-	private boolean isPartieCommencee() {
+	private boolean estPartieCommencee() {
+		boolean res = false;
+		
 		try {
-			return arene.isPartieCommencee();
+			res = arene.estPartieCommencee();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return false;
+		
+		return res;
 	}
 
 	/**
@@ -343,7 +346,7 @@ public class IHM extends JFrame implements Runnable {
 	 * Renvoie la vue correspondant a l'element selectionne dans l'IHM.
 	 * @return vue selectionnee
 	 */
-	public VueElement getElementSelectionne() {
+	public VueElement<?> getElementSelectionne() {
 		return elementSelectionne;
 	}
 
@@ -351,7 +354,7 @@ public class IHM extends JFrame implements Runnable {
 	 * Definit la vue correspondant a l'element selectionne dans l'IHM.
 	 * @param vue vue a selectionner
 	 */
-	public void setElementSelectionne(VueElement vue) {
+	public void setElementSelectionne(VueElement<?> vue) {
 		this.elementSelectionne = vue;
 	}
 

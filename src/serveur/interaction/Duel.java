@@ -30,7 +30,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	@Override
 	public void interagir() {
 		try {
-			Personnage pAttaquant = (Personnage) attaquant.getElement();
+			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
 		

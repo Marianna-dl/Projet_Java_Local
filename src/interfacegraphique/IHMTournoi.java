@@ -93,7 +93,7 @@ public class IHMTournoi extends IHM {
 		// (5 secondes)
 		timer = new Timer(5000, new ActionListener() {			
 			public void actionPerformed(ActionEvent ev) {
-				lancerPartie();
+				lancePartie();
 			}
 		});
 				
@@ -102,7 +102,7 @@ public class IHMTournoi extends IHM {
 	@Override
 	public void connecte() {
 		super.connecte();
-		demanderMotDePasse();
+		demandeMotDePasse();
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class IHMTournoi extends IHM {
 	 * Si il correspond a celui du serveur, on deverrouille le panneau de controle
 	 * Sinon, on le verrouille
 	 */
-	public void demanderMotDePasse() {
+	public void demandeMotDePasse() {
 		// initialisation de la fenetre de demande de mot de passe
 		JPanel panel = new JPanel();
 		JLabel label = new JLabel("Mot de passe du serveur :");
@@ -142,7 +142,7 @@ public class IHMTournoi extends IHM {
 							JOptionPane.ERROR_MESSAGE);
 					
 					verrouilleControle();
-					demanderMotDePasse();
+					demandeMotDePasse();
 				}
 			} catch (RemoteException e) {
 				erreurConnexion(e);
@@ -153,9 +153,9 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Lance le compte a rebours.
 	 */
-	public void lancerCompteARebours() {
+	public void lanceCompteARebours() {
 		if (!motDePasseOK) {
-			demanderMotDePasse();
+			demandeMotDePasse();
 			
 		} else {
 			arenePanel.lancerCompteARebours();
@@ -167,12 +167,12 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Lance la partie.
 	 */
-	private void lancerPartie() {
+	private void lancePartie() {
 		try {
 			arene.commencerPartie(motDePasse);
 			timer.stop();
 			
-			if(arene.isPartieCommencee()) {
+			if(arene.estPartieCommencee()) {
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
 		} catch (RemoteException e) {
@@ -185,7 +185,7 @@ public class IHMTournoi extends IHM {
 	 */
 	public void ejecteSelectionne() {
 		if (!motDePasseOK) {
-			demanderMotDePasse();			
+			demandeMotDePasse();			
 		} else {
 			if(elementSelectionne != null) {
 				try {
@@ -200,9 +200,9 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Envoie la potion (en attente) selectionnee dans la partie.
 	 */
-	public void envoyerPotionSelectionnee() {
+	public void envoyePotionSelectionnee() {
 		if (!motDePasseOK) {
-			demanderMotDePasse();
+			demandeMotDePasse();
 		} else {
 			if (elementSelectionne != null && elementSelectionne instanceof VuePotion &&
 					elementSelectionne.isEnAttente()) {
@@ -218,9 +218,9 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Affiche la fenetre de creation de potion.
 	 */
-	public void afficherFenetrePotion() {
+	public void afficheFenetrePotion() {
 		if (!motDePasseOK) {
-			demanderMotDePasse();
+			demandeMotDePasse();
 		} else {
 			Toolkit kit = Toolkit.getDefaultToolkit();
 			Dimension screenSize = kit.getScreenSize();
@@ -240,7 +240,7 @@ public class IHMTournoi extends IHM {
 	 */
 	public void lancePotion(String nom, HashMap<Caracteristique, Integer> ht, Point position) {
 		if (!motDePasseOK) {
-			demanderMotDePasse();
+			demandeMotDePasse();
 		} else {
 			try {
 				arene.ajoutePotionEnAttente(new Potion(nom, "Arene", ht), position, motDePasse);
@@ -253,16 +253,17 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Modifie l'element selectionne dans le tableau des elements.
 	 */
-	public void setElementSelectionne(VueElement vue) {
+	@Override
+	public void setElementSelectionne(VueElement<?> vue) {
 		super.setElementSelectionne(vue);
 
-		updateControleUI();		
+		metAJourControleUI();		
 	}
 
 	/**
 	 * Met a jour du panneau de controle.
 	 */
-	private void updateControleUI() {
+	private void metAJourControleUI() {
 		// MAJ selon si un element est selectionne ou non
 		if(getElementSelectionne() == null) {
 			controlePanel.getEjecterButton().setEnabled(false);
@@ -282,7 +283,7 @@ public class IHMTournoi extends IHM {
 		
 		// MAJ selon si la partie est commencee ou non
 		try {
-			if(arene.isPartieCommencee()) {
+			if(arene.estPartieCommencee()) {
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
 		} catch (RemoteException e) {
@@ -302,7 +303,7 @@ public class IHMTournoi extends IHM {
 	 */
 	private void deverrouilleControle() {
 		controlePanel.deverouiller();
-		updateControleUI();
+		metAJourControleUI();
 	}
 
 }

@@ -13,9 +13,11 @@ import utilitaires.Calculs;
  * position dans l'arene, sa reference...
  * Ces vues ne devraient pas etre utilisees dans le client pour le personnage, 
  * mais seulement dans le serveur et dans l'IHM. 
+ * 
+ * @param <T> type de l'element
  */
 // TODO parametrize?
-public class VueElement implements Serializable {
+public class VueElement<T extends Element> implements Serializable {
 	
 	private static final long serialVersionUID = 1750601856220885598L;
 
@@ -25,9 +27,9 @@ public class VueElement implements Serializable {
 	protected final int refRMI;
 
 	/**
-	 * L'element : son nom, son groupe, ses caracteristiques.
+	 * Element.
 	 */
-	protected Element element;
+	protected T element;
 	
 	/**
 	 * Position dans l'arene.
@@ -61,7 +63,7 @@ public class VueElement implements Serializable {
 	 * @param ref reference
 	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VueElement(Element element, Point position, int ref, boolean envoyeImm) {
+	public VueElement(T element, Point position, int ref, boolean envoyeImm) {
 		this.element = element;
 		this.position = position;
 		this.refRMI = ref;
@@ -85,7 +87,7 @@ public class VueElement implements Serializable {
 		return refRMI;
 	}
 
-	public Element getElement() {
+	public T getElement() {
 		return element;
 	}
 

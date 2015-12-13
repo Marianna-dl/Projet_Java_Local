@@ -6,7 +6,6 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
-import serveur.element.Personnage;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
@@ -34,7 +33,7 @@ public class Ramassage extends Interaction<VuePotion> {
 					Constantes.nomRaccourciClient(defenseur));
 			
 			// si le personnage est vivant
-			if(((Personnage) attaquant.getElement()).estVivant()) {
+			if(attaquant.getElement().estVivant()) {
 
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
@@ -46,7 +45,7 @@ public class Ramassage extends Interaction<VuePotion> {
 				logs(Level.INFO, "Potion bue !");
 				
 				// test si mort
-				if(!((Personnage) attaquant.getElement()).estVivant()) {
+				if(!attaquant.getElement().estVivant()) {
 					arene.setPhrase(attaquant.getRefRMI(), "Je me suis empoisonne, je meurs ");
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}

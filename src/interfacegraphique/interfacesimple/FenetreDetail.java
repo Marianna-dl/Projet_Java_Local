@@ -31,7 +31,7 @@ public class FenetreDetail extends JFrame {
 	/**
 	 * Vue de l'element a detailler.
 	 */
-	private VueElement vue;
+	private VueElement<?> vue;
 	
 	/**
 	 * Liste des panels affichant les differentes caracteristiques.
@@ -42,7 +42,7 @@ public class FenetreDetail extends JFrame {
 	 * Cree une fenetre d'affichage des details d'un element.
 	 * @param vue vue de l'element
 	 */
-	public FenetreDetail(VueElement vue) {
+	public FenetreDetail(VueElement<?> vue) {
     	this.vue = vue;
         initComposants();
     }
