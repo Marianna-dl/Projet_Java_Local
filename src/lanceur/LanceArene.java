@@ -23,7 +23,7 @@ public class LanceArene {
 		
 		// nombre de tours du serveur, sachant qu'un tour dure environ 1 seconde
 		// si negatif, duree illimite
-		long duree = 20; // TODO
+		long duree = Constantes.NB_TOURS_DEFAUT;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {

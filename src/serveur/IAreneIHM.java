@@ -51,7 +51,8 @@ public interface IAreneIHM extends IArene {
 	
 	/**
 	 * Recupere la vue du personnage gagnant de la partie.
-	 * @return vue du personnage gagnant
+	 * @return vue du personnage gagnant, ou null s'il n'y en a pas (aucun 
+	 * personnage ou plusieurs personnages en vie)
 	 * @throws RemoteException
 	 */
 	public VuePersonnage getGagnant() throws RemoteException;

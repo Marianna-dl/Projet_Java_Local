@@ -28,7 +28,7 @@ public class LancePersonnage {
 		// nombre de tours pour ce personnage avant d'etre deconnecte 
 		// (30 minutes par defaut)
 		// si negatif, illimite
-		long nbTours = 10; // TODO
+		long nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;

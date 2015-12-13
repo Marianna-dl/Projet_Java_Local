@@ -647,7 +647,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage res = null;
 		List<VuePersonnage> classement = getPersonnagesClassement();
 		
-		if(!classement.isEmpty()) {
+		if(classement.size() == 1) { // exactement un personnage restant
 			res = classement.get(0);
 		}
 		

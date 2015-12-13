@@ -430,9 +430,14 @@ public class IHM extends JFrame implements Runnable {
 			List<VuePersonnage> classement = arene.getClassement();
 			new FenetreClassement(classement);
 
-			this.setGlassPane(new VictoryScreen(arene.getGagnant()));
-			((JPanel) this.getGlassPane()).setOpaque(false);
-			((JPanel) this.getGlassPane()).setVisible(true);
+			VuePersonnage gagnant = arene.getGagnant();
+			
+			if(gagnant != null) {
+				this.setGlassPane(new VictoryScreen(arene.getGagnant()));
+				((JPanel) this.getGlassPane()).setOpaque(false);
+				((JPanel) this.getGlassPane()).setVisible(true);
+			}
+			
 		} catch (RemoteException e) {
 			erreurConnexion(e);
 		}
