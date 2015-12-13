@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
+import serveur.element.Personnage;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Constantes;
 
@@ -42,7 +43,7 @@ public class PersonnageTableModel extends ElementTableModel<VuePersonnage> {
 	public Color getColor(int rowIndex) {
 		Color res;
 		
-		if (!vues.get(rowIndex).getElement().estVivant()) {
+		if (!((Personnage) vues.get(rowIndex).getElement()).estVivant()) {
 			res = Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
 		} else {
 			res = super.getColor(rowIndex);

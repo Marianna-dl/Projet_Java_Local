@@ -378,17 +378,19 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		// le but etant de garder des informations sur les deconnectes		
 		VuePersonnage vuePersonnage = personnages.get(refRMI);
 		
+		((Personnage) vuePersonnage.getElement()).tue(); // au cas ou ce ne serait pas une mort "naturelle"
 		vuePersonnage.setTourMort(tour);
+		setPhrase(refRMI, "MORT >_<");
 		
 		// ajout a la liste des morts
 		personnagesMorts.add(vuePersonnage);
 		
 		try {
 			// fermeture de la console en donnant la raison
-			consoleFromRef(refRMI).shutDown(cause);
+			consoleFromRef(refRMI).deconnecte(cause);
 			
 		} catch (UnmarshalException e) {
-			// ne rien faire
+			e.printStackTrace();
 		}
 		
 		// suppression de la liste des vivants
@@ -446,28 +448,28 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		int p = port + refRMI;
 		String ip = null;
 		String adr = null;
-		IConsole r = null;
+		IConsole console = null;
 	
 		try {			
 			ip = personnages.get(refRMI).getAdresseIp();
 			adr = Constantes.nomRMI(ip, p, "Console" + refRMI);
-			r = (IConsole) Naming.lookup(adr);
+			console = (IConsole) Naming.lookup(adr);
 			
 		} catch (MalformedURLException e) {
-			r = null;
+			console = null;
 			logger.severe(Constantes.nomClasse(this), "Erreur : acces a " + adr + "\n" + e.toString());
 			e.printStackTrace();
 			
 		} catch (NotBoundException e) {
-			r = null;
+			console = null;
 			logger.severe(Constantes.nomClasse(this), "Erreur : acces a " + adr + "\n" + e.toString());
 			e.printStackTrace();
 			
 		} catch (NullPointerException e) {
-			r = null;
+			console = null;
 		}
 	
-		return r;
+		return console;
 	}
 	
 	/**
@@ -598,10 +600,18 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @param voisin element voisin
 	 * @return vrai si l'element donne est bien un voisin
 	 */
-	private boolean estVoisin(VuePersonnage courant, VueElement voisin) throws RemoteException {		
-		return (voisin instanceof VuePotion || voisin.getRefRMI() != courant.getRefRMI()) && 
-				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION && 
-				voisin.getElement().estVivant() && courant.getElement().estVivant();
+	private boolean estVoisin(VuePersonnage courant, VueElement voisin) throws RemoteException {
+		boolean res = ((Personnage) courant.getElement()).estVivant() &&
+				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION;
+		
+		if(voisin instanceof VuePersonnage) { // potion
+			res = res && 
+					((Personnage) voisin.getElement()).estVivant() &&
+					voisin.getRefRMI() != courant.getRefRMI();
+					
+		}
+		
+		return res;
 	}
 
 	@Override
@@ -833,19 +843,17 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * courante
 	 * @throws RemoteException
 	 */
-	public void ajouterCaractElement(VuePersonnage vuePersonnage, Caracteristique carac, 
+	public void incrementeCaractElement(VuePersonnage vuePersonnage, Caracteristique carac, 
 			int increment) throws RemoteException {
 		
 		int refRMI = vuePersonnage.getRefRMI();
 		IConsole console = consoleFromRef(refRMI);
 		Personnage pers = vuePersonnage.getPersonnage();
 		
-		// increment de la caracteristique et test si mort
-		if(!pers.incrementeCaract(carac, increment)) {
-			vuePersonnage.setTourMort(tour);
-			setPhrase(refRMI, "MORT >_<");
-			
-		} else {
+		// increment de la caracteristique
+		pers.incrementeCaract(carac, increment);
+		
+		if(pers.estVivant()) {
 			if (increment < 0) {
 				console.log(Level.INFO, Constantes.nomClasse(this), "J'ai perdu " + -increment + " points de " + carac);
 				

@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
-import serveur.element.Potion;
+import serveur.element.Personnage;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
@@ -33,26 +33,25 @@ public class Ramassage extends Interaction<VuePotion> {
 			logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " essaye de rammasser " + 
 					Constantes.nomRaccourciClient(defenseur));
 			
-			// si le personnage est vivant et la potion non encore ramassee
-			if(attaquant.getElement().estVivant() && defenseur.getElement().estVivant()) {
+			// si le personnage est vivant
+			if(((Personnage) attaquant.getElement()).estVivant()) {
 
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
 				
 				for(Caracteristique c : valeursPotion.keySet()) {
-					arene.ajouterCaractElement(attaquant, c, valeursPotion.get(c));
+					arene.incrementeCaractElement(attaquant, c, valeursPotion.get(c));
 				}
 				
 				logs(Level.INFO, "Potion bue !");
 				
 				// test si mort
-				if(!attaquant.getElement().estVivant()) {
+				if(!((Personnage) attaquant.getElement()).estVivant()) {
 					arene.setPhrase(attaquant.getRefRMI(), "Je me suis empoisonne, je meurs ");
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}
 
 				// suppression de la potion
-				((Potion) defenseur.getElement()).ramasser();
 				arene.ejectePotion(defenseur.getRefRMI());
 				
 			} else {

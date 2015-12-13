@@ -68,6 +68,7 @@ public class AreneTournoi extends Arene {
 				e.printStackTrace();
 			}
 		}
+		
 		super.run();
 	}
 	
@@ -92,7 +93,7 @@ public class AreneTournoi extends Arene {
 			if (console != null) {
 				try {
 					// fermeture de la console en donnant la raison
-					consoleFromRef(refRMI).shutDown("Vous avez ete renvoye du salon.");
+					consoleFromRef(refRMI).deconnecte("Vous avez ete renvoye du salon.");
 					
 				} catch (UnmarshalException e) {
 					// ne rien faire

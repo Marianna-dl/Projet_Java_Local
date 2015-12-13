@@ -41,7 +41,7 @@ public class Duel extends Interaction<VuePersonnage> {
 
 			// degats
 			if (perteVie > 0) {
-				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -perteVie);
+				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
 						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
@@ -62,7 +62,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @throws RemoteException
 	 */
 	private void incrementerInitiative(VuePersonnage defenseur) throws RemoteException {
-		arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, 
+		arene.incrementeCaractElement(defenseur, Caracteristique.INITIATIVE, 
 				Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 	
@@ -72,7 +72,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @throws RemoteException
 	 */
 	private void decrementerInitiative(VuePersonnage attaquant) throws RemoteException {
-		arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, 
+		arene.incrementeCaractElement(attaquant, Caracteristique.INITIATIVE, 
 				-Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 

@@ -30,7 +30,7 @@ public class ThreadStrategie extends Thread {
 	public void run() {
 		try {
 			// lancement de la strategie
-			console.run(); 
+			console.executeStrategie(); 
 
 		} catch (Exception e) {
 			// les exceptions sont inhibees ici

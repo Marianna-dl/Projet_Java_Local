@@ -140,19 +140,19 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	}
 
 	@Override
-	public void run() throws RemoteException {
+	public void executeStrategie() throws RemoteException {
 		// met a jour les voisins 
 		HashMap<Integer, Point> voisins = arene.getVoisins(refRMI);
 		
 		// applique la strategie du personnage
-		strategiePer.strategie(voisins);
+		strategiePer.executeStrategie(voisins);
 	}
 
 
 	@Override
-	public void shutDown(String cause) throws RemoteException {
+	public void deconnecte(String cause) throws RemoteException {
 		logger.info(Constantes.nomClasse(this), "Console deconnectee : " + cause);
-		System.exit(0);
+		unexportObject(this, true);
 	}
 
 

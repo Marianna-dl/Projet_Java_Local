@@ -14,7 +14,7 @@ import utilitaires.Calculs;
  * Ces vues ne devraient pas etre utilisees dans le client pour le personnage, 
  * mais seulement dans le serveur et dans l'IHM. 
  */
-// TODO parametriser? possible?
+// TODO parametrize?
 public class VueElement implements Serializable {
 	
 	private static final long serialVersionUID = 1750601856220885598L;

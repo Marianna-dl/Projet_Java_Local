@@ -49,16 +49,16 @@ public class LanceIHMTournoi {
 		}
 		
 		try {
-			logger.info("lanceur", "Creation de l'IHM...");
+			logger.info("Lanceur", "Creation de l'IHM...");
 			IHMTournoi ihmc = new IHMTournoi(port, ipArene, logger);
-			logger.info("lanceur", "Creation de l'IHM reussie");
+			logger.info("Lanceur", "Creation de l'IHM reussie");
 
-			logger.info("lanceur", "Connexion de l'IHM au serveur...");
+			logger.info("Lanceur", "Connexion de l'IHM au serveur...");
 			ihmc.connecte();
-			logger.info("lanceur", "Connexion de l'IHM au serveur reussie");
+			logger.info("Lanceur", "Connexion de l'IHM au serveur reussie");
 			ihmc.start();
 		} catch (Exception e) {
-			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
+			logger.severe("Lanceur", "Erreur lancement :\n"+e.getCause());
 			e.printStackTrace();
 			System.exit(ErreurLancement.suivant);
 		}

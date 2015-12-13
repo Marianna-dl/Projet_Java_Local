@@ -64,14 +64,6 @@ public abstract class Element implements Serializable {
 		return caracts.get(c);
 	}
 
-	/**
-	 * Renvoie vrai l'element est present sur l'arene :
-	 * pour un personnage, sa vie doit etre superieure a 0, 
-	 * pour une potion, elle ne doit pas etre ramassee. 
-	 * @return vrai si le personnage doit interagir dans l'arene
-	 */
-	public abstract boolean estVivant();
-
 	public String getNom() {
 		return nom;
 	}
