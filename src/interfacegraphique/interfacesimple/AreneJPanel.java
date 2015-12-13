@@ -97,7 +97,7 @@ public class AreneJPanel extends JPanel {
 	/**
 	 * Lance le compte a rebours.
 	 */
-	public void lancerCompteARebours() {
+	public void lanceCompteARebours() {
 		compteARebours = true;
 		declencheur.start();
 	}
@@ -117,11 +117,11 @@ public class AreneJPanel extends JPanel {
 		
 		// dessiner les elements
 		for(VuePotion vuePotion : potions) {
-			dessinerElement(g, vuePotion);
+			dessineElement(g, vuePotion);
 		}
 
 		for(VuePersonnage vuePersonnage : personnages) {
-			dessinerElement(g, vuePersonnage);
+			dessineElement(g, vuePersonnage);
 		}
 		
 		// affiche le decompte avant le debut de partie
@@ -146,12 +146,12 @@ public class AreneJPanel extends JPanel {
 	 * @param g graphics
 	 * @param vueElement vue de l'element a dessiner
 	 */
-	private void dessinerElement(Graphics g, VueElement<?> vueElement) {
+	private void dessineElement(Graphics g, VueElement<?> vueElement) {
 		// affiche l'arene comme un rectangle
 		Rectangle rect = this.getBounds();
 		
 		// calcule les coordonnes pour afficher l'element
-		Point p = getRealPosition(vueElement.getPosition());
+		Point p = getPositionReelle(vueElement.getPosition());
 
 		int coordX = (int) p.getX();
 		int coordY = (int) p.getY();
@@ -160,14 +160,14 @@ public class AreneJPanel extends JPanel {
 		g.setColor(vueElement.getColor());
 		
 		// dessine la representation geometrique de l'element
-		dessinerElementGeometrique(g, vueElement, coordX, coordY);									
+		dessineElementGeometrique(g, vueElement, coordX, coordY);									
 		
 		// ecrit le nom de l'element
-		boolean descendu = dessinerElementNom(g, vueElement, coordX, coordY);
+		boolean descendu = dessineElementNom(g, vueElement, coordX, coordY);
 		
 		// dessine la jauge de vie du personnage
 		if(jaugesAffichees && vueElement instanceof VuePersonnage) {
-			dessinerJauge(g, vueElement, rect, coordX, coordY, descendu);		
+			dessineJauge(g, vueElement, rect, coordX, coordY, descendu);		
 		}
 	}
 
@@ -178,7 +178,7 @@ public class AreneJPanel extends JPanel {
 	 * @param coordX abscisse de l'element
 	 * @param coordY ordonnee de l'element
 	 */
-	private void dessinerElementGeometrique(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
+	private void dessineElementGeometrique(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
 
 		if (vueElement.isSelectionne()) {
 			g.setColor(SELECTED_COLOR);
@@ -204,7 +204,7 @@ public class AreneJPanel extends JPanel {
 	 * @return vrai si le texte a ete ecrit en dessous de la forme representant 
 	 * l'element, faux sinon
 	 */
-	private boolean dessinerElementNom(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
+	private boolean dessineElementNom(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
 		Rectangle rect = this.getBounds();
 		
 		// affiche au dessus du point ses informations
@@ -243,7 +243,7 @@ public class AreneJPanel extends JPanel {
 	 * @param descendu vrai si le texte a ete ecrit en dessous de la forme 
 	 * representant l'element, faux sinon
 	 */
-	private void dessinerJauge(Graphics g, VueElement<?> vueElement, Rectangle rect, 
+	private void dessineJauge(Graphics g, VueElement<?> vueElement, Rectangle rect, 
 			int coordX, int coordY, boolean descendu) {
 		Color elementColor = vueElement.getColor();	
 		
@@ -320,7 +320,7 @@ public class AreneJPanel extends JPanel {
 	 * Definit le message a afficher.
 	 * @param msg message a afficher
 	 */
-	public void afficherMessage(String msg) {
+	public void afficheMessage(String msg) {
 		message = msg;
 	}
 
@@ -369,7 +369,7 @@ public class AreneJPanel extends JPanel {
 	 * @param point position dans l'arene
 	 * @return position dans le panel
 	 */
-	private Point getRealPosition(Point point) {
+	private Point getPositionReelle(Point point) {
 		Rectangle rect = this.getBounds();
 		
 		int width = (int) rect.getWidth();

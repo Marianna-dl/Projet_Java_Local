@@ -79,7 +79,7 @@ public class VueElement<T extends Element> implements Serializable {
 	/**
 	 * Envoie un element en attente, en jeu.
 	 */
-	public void envoyer() {
+	public void envoie() {
 		enAttente = false;
 	}
 
@@ -96,7 +96,7 @@ public class VueElement<T extends Element> implements Serializable {
 	}
 
 	public void setPosition(Point position) {
-		this.position = Calculs.restreindrePositionArene(position);
+		this.position = Calculs.restreintPositionArene(position);
 	}
 	
 	public Color getColor() {

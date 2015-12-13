@@ -110,7 +110,7 @@ public class Calculs {
 	 * @param voisins liste des voisins
 	 * @return reference de l'element le plus proche, 0 si il n'y en a pas
 	 */
-	public static int chercherElementProche(Point origine, HashMap<Integer, Point> voisins) {
+	public static int chercheElementProche(Point origine, HashMap<Integer, Point> voisins) {
 		int distPlusProche = VISION;
 		int refPlusProche = 0;
 		
@@ -162,7 +162,7 @@ public class Calculs {
 	 * @param val valeur a caper
 	 * @return valeur capee
 	 */
-	public static int restreindreNombre(int min, int max, int val) {
+	public static int restreintNombre(int min, int max, int val) {
 		return Math.min(Math.max(val, min), max);
 	}
 
@@ -172,13 +172,13 @@ public class Calculs {
 	 * @param val valeur
 	 * @return valeur capee
 	 */
-	public static int restreindreCarac(Caracteristique c, int val) {		
-		return restreindreNombre(c.getMin(), c.getMax(), val);
+	public static int restreintCarac(Caracteristique c, int val) {		
+		return restreintNombre(c.getMin(), c.getMax(), val);
 	}
 
-	public static Point restreindrePositionArene(Point position) {		
-		return new Point(restreindreNombre(XMIN_ARENE, XMAX_ARENE, position.x), 
-				restreindreNombre(YMIN_ARENE, YMAX_ARENE, position.y));
+	public static Point restreintPositionArene(Point position) {		
+		return new Point(restreintNombre(XMIN_ARENE, XMAX_ARENE, position.x), 
+				restreintNombre(YMIN_ARENE, YMAX_ARENE, position.y));
 	}
 
 	/**

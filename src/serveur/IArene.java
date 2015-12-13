@@ -25,7 +25,7 @@ public interface IArene extends Remote {
 	 * Retourne une reference RMI libre pour un element.
 	 * @return reference RMI inutilisee
 	 */
-	public int allocateRefRMI() throws RemoteException;
+	public int alloueRefRMI() throws RemoteException;
 	
 	/**
 	 * Connecte un personnage a l'arene.
@@ -53,7 +53,7 @@ public interface IArene extends Remote {
 	 * @return true si la partie est finie, false sinon
 	 * @throws RemoteException
 	 */
-	public boolean isPartieFinie() throws RemoteException;
+	public boolean estPartieFinie() throws RemoteException;
 
 	/**
 	 * Teste si la partie a commence.
@@ -222,7 +222,7 @@ public interface IArene extends Remote {
 	 * @param motDePasse mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void commencerPartie(String motDePasse) throws RemoteException;
+	public void commencePartie(String motDePasse) throws RemoteException;
 
 	/**
 	 * Ejecte un joueur de la partie. 

@@ -261,9 +261,9 @@ public class IHM extends JFrame implements Runnable {
 		if ((state == State.INIT) || (erreurConnexion)) {
 			// affiche le message correspondant
 			if (!erreurConnexion) {
-				arenePanel.afficherMessage("Connexion en cours sur le serveur Arene...");
+				arenePanel.afficheMessage("Connexion en cours sur le serveur Arene...");
 			} else {
-				arenePanel.afficherMessage("Erreur de connexion !");
+				arenePanel.afficheMessage("Erreur de connexion !");
 			}
 			
 			// verifie si la connexion a ete realisee
@@ -296,7 +296,7 @@ public class IHM extends JFrame implements Runnable {
 
 				if (!estPartieCommencee())
 					arenePanel
-							.afficherMessage("La partie n'a pas encore commence");
+							.afficheMessage("La partie n'a pas encore commence");
 
 			} catch (RemoteException e) {
 				erreurConnexion(e);
@@ -408,7 +408,7 @@ public class IHM extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while (state == State.INIT || !arene.isPartieFinie()) {
+			while (state == State.INIT || !arene.estPartieFinie()) {
 				repaint();
 				try {
 					Thread.sleep(500);
@@ -417,7 +417,7 @@ public class IHM extends JFrame implements Runnable {
 				}
 			}
 
-			if (arene.isPartieFinie()) {
+			if (arene.estPartieFinie()) {
 				finDePartie();
 			}
 		} catch (RemoteException e) {

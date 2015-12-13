@@ -111,7 +111,7 @@ public class AreneTournoi extends Arene {
 	}
 
 	@Override
-	public void commencerPartie(String motDePasse) throws RemoteException {
+	public void commencePartie(String motDePasse) throws RemoteException {
 		if (this.motDePasse.equals(motDePasse)) {
 			partieCommencee = true;
 			logger.info("Demarrage de la partie");
@@ -131,7 +131,7 @@ public class AreneTournoi extends Arene {
 		super.verifierPartieFinie();
 		
 		// la partie est aussi terminee s'il n'y a qu'un seul personnage
-		partieFinie = partieFinie || countPersonnages() <= 1;
+		partieFinie = partieFinie || getNbPersonnages() <= 1;
 	}
 	
 	@Override
@@ -139,7 +139,7 @@ public class AreneTournoi extends Arene {
 			String mdp) throws RemoteException {
 		
 		if (motDePasse.equals(mdp)) {
-			int refRMI = allocateRefRMI();
+			int refRMI = alloueRefRMI();
 			VuePotion vuePotion = new VuePotion(potion, position, refRMI, false); // ne pas envoyer immediatement
 			vuePotion.setPhrase("En attente !");
 			
@@ -158,7 +158,7 @@ public class AreneTournoi extends Arene {
 		if (this.motDePasse.equals(mdp)) {
 			VuePotion vuePotion = potions.get(refRMI);
 			
-			vuePotion.envoyer();
+			vuePotion.envoie();
 			vuePotion.setPhrase("");
 			
 			logger.info(Constantes.nomClasse(this), "Lancement de la potion " + 

@@ -111,7 +111,7 @@ public class ControleJPanel extends JPanel {
 		
 		envoyerPotionButton.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.envoyePotionSelectionnee();
+				ihmTournoi.envoiePotionSelectionnee();
 			}			
 		});
 		
@@ -130,7 +130,7 @@ public class ControleJPanel extends JPanel {
 		this.add(envoyerPotionButton);
 		this.add(deverrouillerButton);
 		
-		verouiller();
+		verouille();
 		
 		this.setVisible(true);
 	}
@@ -138,7 +138,7 @@ public class ControleJPanel extends JPanel {
 	/**
 	 * Verrouille le panneau de controle.
 	 */
-	public void verouiller() {
+	public void verouille() {
 		detaillerButton.setVisible(false);
 		ejecterButton.setVisible(false);
 		lancerPartieButton.setVisible(false);
@@ -151,7 +151,7 @@ public class ControleJPanel extends JPanel {
 	/**
 	 * Deverrouille le panneau de controle.
 	 */
-	public void deverouiller() {
+	public void deverouille() {
 		detaillerButton.setVisible(true);
 		ejecterButton.setVisible(true);
 		lancerPartieButton.setVisible(true);

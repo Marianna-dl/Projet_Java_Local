@@ -46,7 +46,7 @@ public enum ErreurLancement {
 	 * Affiche l'aide du programme.
 	 * @param usage utilisation correcte
 	 */
-	public static void help(String usage) {
+	public static void aide(String usage) {
 		System.out.println(usage);
 		System.out.println();
 		System.out.println("Ce programme fait partie d'une suite de logiciels"

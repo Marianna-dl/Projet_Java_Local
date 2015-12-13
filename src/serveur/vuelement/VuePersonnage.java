@@ -74,7 +74,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 		tour++;
 	}
 	
-	public boolean toursRestants() {
+	public boolean resteTours() {
 		return tour < NB_TOURS;
 	}
 

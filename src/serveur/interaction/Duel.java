@@ -28,7 +28,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	}
 	
 	@Override
-	public void interagir() {
+	public void interagit() {
 		try {
 			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
@@ -48,8 +48,8 @@ public class Duel extends Interaction<VuePersonnage> {
 			}
 			
 			// initiative
-			incrementerInitiative(defenseur);
-			decrementerInitiative(attaquant);
+			incrementeInitiative(defenseur);
+			decrementeInitiative(attaquant);
 			
 		} catch (RemoteException e) {
 			logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
@@ -61,7 +61,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param defenseur defenseur
 	 * @throws RemoteException
 	 */
-	private void incrementerInitiative(VuePersonnage defenseur) throws RemoteException {
+	private void incrementeInitiative(VuePersonnage defenseur) throws RemoteException {
 		arene.incrementeCaractElement(defenseur, Caracteristique.INITIATIVE, 
 				Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
@@ -71,7 +71,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param attaquant attaquant
 	 * @throws RemoteException
 	 */
-	private void decrementerInitiative(VuePersonnage attaquant) throws RemoteException {
+	private void decrementeInitiative(VuePersonnage attaquant) throws RemoteException {
 		arene.incrementeCaractElement(attaquant, Caracteristique.INITIATIVE, 
 				-Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
@@ -112,7 +112,7 @@ public class Duel extends Interaction<VuePersonnage> {
 		int x = posDefenseur.x + dirX;
 		int y = posDefenseur.y + dirY;
 		
-		return Calculs.restreindrePositionArene(new Point(x, y));
+		return Calculs.restreintPositionArene(new Point(x, y));
 	}
 	
 	/**

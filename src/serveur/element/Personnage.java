@@ -35,9 +35,9 @@ public class Personnage extends Element {
 	 */
 	public void incrementeCaract(Caracteristique c, int inc) {		
 		if(caracts.containsKey(c)) {
-			caracts.put(c, Calculs.restreindreCarac(c, caracts.get(c) + inc));
+			caracts.put(c, Calculs.restreintCarac(c, caracts.get(c) + inc));
 		} else {
-			caracts.put(c, Calculs.restreindreCarac(c, inc));
+			caracts.put(c, Calculs.restreintCarac(c, inc));
 		}
 	}
 	

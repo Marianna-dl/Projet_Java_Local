@@ -98,7 +98,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 			// a faire une seule fois par serveur de console pour un port donne
 			// doit rester "localhost"
 			logger.info(Constantes.nomClasse(this), "Demande d'allocation de port");
-			tempRefRMI = arene.allocateRefRMI();
+			tempRefRMI = arene.alloueRefRMI();
 			
 		} catch (Exception e) {
  			logger.severe(Constantes.nomClasse(this), 

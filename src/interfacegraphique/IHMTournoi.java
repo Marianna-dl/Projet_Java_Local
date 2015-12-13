@@ -82,7 +82,7 @@ public class IHMTournoi extends IHM {
 			public void mouseClicked(MouseEvent e) {
 				if (fenetrePotion != null && fenetrePotion.isVisible()) {
 					fenetrePotion.setPosition(arenePanel.getPositionArene(e.getPoint()));
-					if (fenetrePotion.isClicPourPoserSelectionne()) {
+					if (fenetrePotion.estClicPourPoserSelectionne()) {
 						fenetrePotion.lancePotion();
 					}
 				}
@@ -158,7 +158,7 @@ public class IHMTournoi extends IHM {
 			demandeMotDePasse();
 			
 		} else {
-			arenePanel.lancerCompteARebours();
+			arenePanel.lanceCompteARebours();
 			timer.start();
 			controlePanel.getLancerPartieButton().setVisible(false);
 		}		
@@ -169,7 +169,7 @@ public class IHMTournoi extends IHM {
 	 */
 	private void lancePartie() {
 		try {
-			arene.commencerPartie(motDePasse);
+			arene.commencePartie(motDePasse);
 			timer.stop();
 			
 			if(arene.estPartieCommencee()) {
@@ -200,7 +200,7 @@ public class IHMTournoi extends IHM {
 	/**
 	 * Envoie la potion (en attente) selectionnee dans la partie.
 	 */
-	public void envoyePotionSelectionnee() {
+	public void envoiePotionSelectionnee() {
 		if (!motDePasseOK) {
 			demandeMotDePasse();
 		} else {
@@ -295,14 +295,14 @@ public class IHMTournoi extends IHM {
 	 * Verouille le panneau de controle.
 	 */
 	private void verrouilleControle() {
-		controlePanel.verouiller();
+		controlePanel.verouille();
 	}
 
 	/**
 	 * Deverouille le panneau de controle.
 	 */
 	private void deverrouilleControle() {
-		controlePanel.deverouiller();
+		controlePanel.deverouille();
 		metAJourControleUI();
 	}
 

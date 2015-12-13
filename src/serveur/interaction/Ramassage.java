@@ -27,7 +27,7 @@ public class Ramassage extends Interaction<VuePotion> {
 	}
 
 	@Override
-	public void interagir() {
+	public void interagit() {
 		try {
 			logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " essaye de rammasser " + 
 					Constantes.nomRaccourciClient(defenseur));

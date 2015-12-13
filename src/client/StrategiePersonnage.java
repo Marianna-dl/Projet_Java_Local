@@ -86,7 +86,7 @@ public class StrategiePersonnage {
 			arene.deplace(refRMI, 0); 
 			
 		} else {
-			int refCible = Calculs.chercherElementProche(position, voisins);
+			int refCible = Calculs.chercheElementProche(position, voisins);
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 			Element elemPlusProche = arene.elementFromRef(refCible);

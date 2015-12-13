@@ -48,7 +48,7 @@ public abstract class Interaction<T extends VueElement<?>> {
 	/**
 	 * Realise l'interaction.
 	 */
-	public abstract void interagir();
+	public abstract void interagit();
 	
 	/**
 	 * Remplit le log de l'arene et des deux clients. 

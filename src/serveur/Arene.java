@@ -198,14 +198,14 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 									
 									deconnecte(refRMI, "Vous etes mort...");
 									
-								} else if (!personnages.get(refRMI).toursRestants()) {
+								} else if (!personnages.get(refRMI).resteTours()) {
 									logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
 											nomRaccourciClient(refRMI) + 
 											"... Client ejecte");
 									
 									deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
 									
-								} else if (!verifCaract(personnage)) {
+								} else if (!verifieCaracts(personnage)) {
 									logger.info(Constantes.nomClasse(this),
 											nomRaccourciClient(refRMI) + 
 											" est un tricheur... Client ejecte");
@@ -285,7 +285,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @param personnage personnage
 	 * @return vrai si les caracteristiques sont valides (entre min et max)
 	 */
-	private boolean verifCaract (Personnage personnage) {
+	private boolean verifieCaracts(Personnage personnage) {
 		boolean res = true;
 		HashMap<Caracteristique, Integer> caracts = personnage.getCaracts();
 		
@@ -336,7 +336,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * accedee par un seul thread a la fois.
 	 */
 	@Override
-	public synchronized int allocateRefRMI() throws RemoteException {
+	public synchronized int alloueRefRMI() throws RemoteException {
 		compteur++;
 		return compteur;
 	}
@@ -413,7 +413,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * Renvoie le nombre de personnages connectes.
 	 * @return nombre de personnages connectes (vivants)
 	 */
-	public int countPersonnages() {
+	public int getNbPersonnages() {
 		return personnages.size();
 	}
 	
@@ -533,7 +533,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 	
 	@Override
-	public boolean isPartieFinie() throws RemoteException {
+	public boolean estPartieFinie() throws RemoteException {
 		return partieFinie;
 	}
 
@@ -681,7 +681,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	
 	@Override
 	public synchronized void ajoutePotion(Potion potion) throws RemoteException {		
-		int refRMI = allocateRefRMI();
+		int refRMI = alloueRefRMI();
 		
 		// ajout de la potion a la liste
 		VuePotion vuePotion = new VuePotion(potion, Calculs.positionAleatoireArene(), refRMI, true);
@@ -710,7 +710,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			
 			// on teste la distance entre le personnage et la potion
 			if (distance <= Constantes.DISTANCE_MIN_INTERACTION) {
-				new Ramassage(this, vuePersonnage, vuePotion).interagir();
+				new Ramassage(this, vuePersonnage, vuePotion).interagit();
 				personnages.get(refRMI).executeAction();
 				
 				res = true;
@@ -758,7 +758,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 					logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 							" attaque " + nomRaccourciClient(consoleAdv.getRefRMI()));
 			
-					new Duel(this, client, clientAdv).interagir();
+					new Duel(this, client, clientAdv).interagit();
 					personnages.get(refRMI).executeAction();
 					
 					// si l'adversaire est mort
@@ -804,7 +804,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			
 		} else {
 			// sinon, on tente de jouer l'interaction
-			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(refCible);
+			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(refCible);
 			client.executeAction();
 			
 			res = true;
@@ -824,7 +824,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logActionDejaExecutee(refRMI);
 		} else {
 			// sinon, on tente de jouer l'interaction
-			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(objectif);
+			new Deplacement(client, getVoisins(refRMI)).seDirigeVers(objectif);
 			client.executeAction();
 
 			res = true;
@@ -975,7 +975,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 	
 	@Override
-	public void commencerPartie(String motDePasse) throws RemoteException {}
+	public void commencePartie(String motDePasse) throws RemoteException {}
 
 	@Override
 	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {}

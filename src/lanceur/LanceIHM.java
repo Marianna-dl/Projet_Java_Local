@@ -21,7 +21,7 @@ public class LanceIHM {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {
