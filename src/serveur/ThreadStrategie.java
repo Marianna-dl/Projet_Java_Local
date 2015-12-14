@@ -43,7 +43,9 @@ public class ThreadStrategie extends Thread {
 								arene.nomRaccourciClient(console.getRefRMI()) +
 								" \n" + e.toString());
 				
-				arene.deconnecte(console.getRefRMI(), e.toString());
+				arene.deconnecte(console.getRefRMI(), 
+						e.toString(), 
+						"erreur strategique");
 				e.printStackTrace();
 			} catch (RemoteException e1) {
 				e1.printStackTrace();

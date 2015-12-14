@@ -43,9 +43,10 @@ public interface IArene extends Remote {
 	 * Deconnecte un element du serveur.
 	 * @param refRMI reference RMI correspondant au personnage a deconnecter
 	 * @param cause cause de la deconnexion
+	 * @param phrase phrase a ecrire sur l'interface
 	 * @throws RemoteException
 	 */
-	public void deconnecte(int refRMI, String cause) throws RemoteException;
+	public void deconnecte(int refRMI, String cause, String phrase) throws RemoteException;
 
 	/**
 	 * Teste si la partie est finie.

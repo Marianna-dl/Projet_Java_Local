@@ -156,42 +156,17 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				
 				// pour chaque personnage, on joue sa strategie
 				for(int refRMI : listRef) {
-					
-					try {
-						IConsole console = consoleFromRef(refRMI);
-						Personnage personnage = (Personnage) elementFromRef(refRMI);
-						
-						if(!personnage.estVivant()) {
-							// on teste si le client est vivant
-							// (il a pu etre tue plus tot dans le tour)
-							logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
-									" est mort... Client ejecte");
-							deconnecte(refRMI, "Vous etes mort...");
+					try {						
+						// si pas deconnecte
+						if(!verifieDeconnexion(refRMI)) {
 							
-						} else if(!verifieCaracts(personnage)) { 
-							// on teste la triche (avant de le laisser jouer)
-							logger.info(Constantes.nomClasse(this),
-									nomRaccourciClient(refRMI) + 
-									" est un tricheur... Client ejecte");
-							
-							deconnecte(refRMI, "Vous etes mort pour cause de triche...");
-							
-						} else if(!personnages.get(refRMI).resteTours()) {
-							// on teste le nombre de tours (avant de le laisser jouer)
-							logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
-									nomRaccourciClient(refRMI) + 
-									"... Client ejecte");
-							
-							deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
-							
-						} else {
 							// lancement de la strategie (dans un thread separe)
-							ts = new ThreadStrategie(console);
+							ts = new ThreadStrategie(consoleFromRef(refRMI));
 							
 							// attente de la fin de la strategie (temps d'attente max 1 seconde)
 							ts.join(1000);
 							
-							// finir le tour pour ce client
+							// finit le tour pour ce client
 							personnages.get(refRMI).termineTour();
 							
 							if(ts.isAlive()) {
@@ -203,35 +178,13 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 										nomRaccourciClient(refRMI) + 
 										" trop longue ! Client ejecte");
 								
-								deconnecte(refRMI, "Execution de strategie trop longue. Degage !");
+								deconnecte(refRMI, 
+										"Execution de strategie trop longue. Degage !", 
+										"trop lent");
 								
 							} else {
-								// deconnexion ?
-								
-								if(!personnage.estVivant()) {
-									// on teste si le personnage est mort
-									logger.info(Constantes.nomClasse(this), 
-											nomRaccourciClient(refRMI) + 
-											" est mort... Client ejecte");
-									
-									deconnecte(refRMI, "Vous etes mort...");
-									
-								} else if(!verifieCaracts(personnage)) {
-									// on teste la triche (apres)
-									logger.info(Constantes.nomClasse(this),
-											nomRaccourciClient(refRMI) + 
-											" est un tricheur... Client ejecte");
-									
-									deconnecte(refRMI, "Vous etes mort pour cause de triche...");
-								} else if(!personnages.get(refRMI).resteTours()) {
-									// on teste le nombre de tours (apres)
-									logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
-											nomRaccourciClient(refRMI) + 
-											"... Client ejecte");
-									
-									deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
-									
-								}
+								// on reteste apres l'execution de la strategie
+								verifieDeconnexion(refRMI);
 							}
 						}
 					
@@ -267,6 +220,52 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		}
 		
 		fermerServeur();
+	}
+	
+	/**
+	 * Teste si un personnage doit etre connecte : il est mort, il triche, ou
+	 * son temps sur l'arene est ecoule. Si oui, le deconnecte.
+	 * @param refRMI reference du personnage
+	 * @return vrai si le personnage a ete deconnecte, faux sinon
+	 * @throws RemoteException
+	 */
+	private boolean verifieDeconnexion(int refRMI) throws RemoteException {
+		boolean res = true;
+		Personnage personnage = (Personnage) elementFromRef(refRMI);
+		
+		if(!personnage.estVivant()) {
+			// on teste si le client est vivant
+			logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
+					" est mort... Client ejecte");
+			deconnecte(refRMI, 
+					"Vous etes mort...", 
+					"mort naturelle");
+			
+		} else if(!verifieCaracts(personnage)) { 
+			// on teste la triche
+			logger.info(Constantes.nomClasse(this),
+					nomRaccourciClient(refRMI) + 
+					" est un tricheur... Client ejecte");
+			
+			deconnecte(refRMI, 
+					"Vous etes mort pour cause de triche...", 
+					"SHAME!");
+			
+		} else if(!personnages.get(refRMI).resteTours()) {
+			// on teste le nombre de tours
+			logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
+					nomRaccourciClient(refRMI) + 
+					"... Client ejecte");
+			
+			deconnecte(refRMI, 
+					"Temps autorise dans l'arene ecoule, vous etes elimine !", 
+					"temps ecoule");
+			
+		} else {
+			res = false;
+		}
+		
+		return res;
 	}
 
 	/**
@@ -335,7 +334,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			List<Integer> listRef = getSortedRefs();
 			
 			for (int refRMI : listRef) {
-				deconnecte(refRMI, "Fermeture du serveur");
+				deconnecte(refRMI, "Fermeture du serveur", "");
 			}
 	
 			logger.info(Constantes.nomClasse(this),
@@ -393,14 +392,14 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 
 	@Override
-	public void deconnecte(int refRMI, String cause) throws RemoteException {
+	public void deconnecte(int refRMI, String cause, String phrase) throws RemoteException {
 		// enregistrement des infos de la console lors de sa deconnexion,
 		// le but etant de garder des informations sur les deconnectes		
 		VuePersonnage vuePersonnage = personnages.get(refRMI);
 		
 		vuePersonnage.getElement().tue(); // au cas ou ce ne serait pas une mort "naturelle"
 		vuePersonnage.setTourMort(tour);
-		setPhrase(refRMI, "MORT >_<");
+		setPhrase(refRMI, "MORT >_< (" + phrase + ")");
 		
 		// ajout a la liste des morts
 		personnagesMorts.add(vuePersonnage);
@@ -423,7 +422,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		List<Integer> listRef = getSortedRefs();
 		
 		for (int refRMI: listRef) {
-			deconnecte(refRMI, "Fermeture du serveur (Arret force ou crash...)");
+			deconnecte(refRMI, "Fermeture du serveur (Arret force ou crash...)", "");
 		}
 	
 		super.finalize();
