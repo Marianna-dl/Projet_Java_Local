@@ -409,17 +409,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		}
 	
 		super.finalize();
-	}
-
-	/**
-	 * Renvoie le nombre de personnages connectes.
-	 * @return nombre de personnages connectes (vivants)
-	 */
-	public int getNbPersonnages() {
-		return personnages.size();
-	}
-	
-	
+	}	
 
 	/**
 	 * Recupere le nombre de tours restants. 

@@ -131,7 +131,7 @@ public class AreneTournoi extends Arene {
 		super.verifierPartieFinie();
 		
 		// la partie est aussi terminee s'il n'y a qu'un seul personnage
-		partieFinie = partieFinie || getNbPersonnages() <= 1;
+		partieFinie = partieFinie || personnages.size() <= 1;
 	}
 	
 	@Override
