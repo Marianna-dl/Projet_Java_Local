@@ -24,12 +24,12 @@ public class Constantes {
 	/**
 	 * Nombre de tours par defaut (30 minutes).
 	 */
-	public static final long NB_TOURS_DEFAUT = 60 * 30;
+	public static final int NB_TOURS_DEFAUT = 60 * 30;
 	
 	/**
 	 * Nombre de tours par defaut pour un personnage client.
 	 */
-	public static final long NB_TOURS_PERSONNAGE_DEFAUT = NB_TOURS_DEFAUT;
+	public static final int NB_TOURS_PERSONNAGE_DEFAUT = NB_TOURS_DEFAUT;
 	
 	/**
 	 * Taille du champ de vision des personnages. 

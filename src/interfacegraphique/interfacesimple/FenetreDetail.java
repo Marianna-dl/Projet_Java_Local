@@ -73,7 +73,7 @@ public class FenetreDetail extends JFrame {
 	    panelNomGroupe.add(groupe);            
 	
 		
-	    Portrait portrait = new Portrait(vue.getColor(), vue instanceof VuePersonnage);
+	    Portrait portrait = new Portrait(vue.getCouleur(), vue instanceof VuePersonnage);
 	    portrait.setBackground(new Color(255, 255, 255));
 	    portrait.setBorder(new LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 	    portrait.setPreferredSize(new Dimension(150, 150));

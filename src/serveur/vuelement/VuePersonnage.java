@@ -1,5 +1,6 @@
 package serveur.vuelement;
 
+import java.awt.Color;
 import java.awt.Point;
 
 import serveur.element.Personnage;
@@ -26,7 +27,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	 * Nombre de tours que ce client peut passer sur l'arene.
 	 * Si negatif, ce temps est illimite.
 	 */
-	private final long NB_TOURS;
+	private final int NB_TOURS;
 	
 	/**
 	 * Numero de tour pour ce client.
@@ -49,7 +50,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	 * @param ref reference RMI
 	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VuePersonnage(String adresseIp, Personnage personnage, long nbTours, 
+	public VuePersonnage(String adresseIp, Personnage personnage, int nbTours, 
 			Point position, int ref, boolean envoyeImm) {
 		
 		super(personnage, position, ref, envoyeImm);
@@ -74,8 +75,21 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 		tour++;
 	}
 	
+	/**
+	 * Teste si ce personnage n'a pas termine son temps sur l'arene.
+	 * @return vrai s'il reste des tours a ce personnage, faux sinon
+	 */
 	public boolean resteTours() {
 		return tour < NB_TOURS;
+	}
+
+	/**
+	 * Renvoie la couleur de l'element s'il est vivant, ou gris sinon.
+	 * @return couleur de l'element
+	 */
+	@Override
+	public Color getCouleur() {
+		return element.estVivant()? super.getCouleur(): Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
 	}
 
 	public String getAdresseIp() {

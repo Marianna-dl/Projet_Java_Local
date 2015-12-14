@@ -289,6 +289,7 @@ public class IHM extends JFrame implements Runnable {
 				// MAJ du timer
 				int tempsRestant = arene.getNbToursRestants();
 				int nbTour = arene.getTour();
+				
 				timerLabel.setText("Duree de la partie : "
 						+ Calculs.timerToString(nbTour)
 						+ "   -   Temps restant : "

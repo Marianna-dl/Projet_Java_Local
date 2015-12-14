@@ -7,6 +7,7 @@ import java.util.Random;
 
 import serveur.element.Element;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * Donnees dont le serveur a besoin sur un element : l'element lui-meme, sa 
@@ -38,7 +39,7 @@ public class VueElement<T extends Element> implements Serializable {
 	/**
 	 * Couleur de l'element.
 	 */
-	protected Color color;
+	protected Color couleur;
 	
 	/**
 	 * Phrase dite par l'element.
@@ -68,7 +69,7 @@ public class VueElement<T extends Element> implements Serializable {
 		this.refRMI = ref;
 		
 		Random r = new Random(ref);
-		color = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), 200);
+		couleur = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), 200);
 		
 		phrase = "";
 		
@@ -98,8 +99,12 @@ public class VueElement<T extends Element> implements Serializable {
 		this.position = Calculs.restreintPositionArene(position);
 	}
 	
-	public Color getColor() {
-		return color;
+	/**
+	 * Renvoie la couleur de l'element, ou gris si l'element est en attente.
+	 * @return couleur de l'element
+	 */
+	public Color getCouleur() {
+		return enAttente? Constantes.COULEUR_MORTS_OU_EN_ATTENTE: couleur;
 	}
 	
 	public String getPhrase() {

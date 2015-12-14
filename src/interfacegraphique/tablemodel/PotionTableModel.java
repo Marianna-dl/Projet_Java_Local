@@ -1,11 +1,9 @@
 package interfacegraphique.tablemodel;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
 import serveur.vuelement.VuePotion;
-import utilitaires.Constantes;
 
 /**
  * TableModel des potions, envoyees ou en attente.
@@ -36,24 +34,6 @@ public class PotionTableModel extends ElementTableModel<VuePotion> {
 		
 		// phrase du personnage
 		colonnes.add(new InformationColonne<VuePotion>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
-	}
-
-	@Override 
-    public int getRowCount() {
-        return super.getRowCount();
-    }
-
-	@Override
-	public Color getColor(int rowIndex) {
-		Color res;
-		
-		if (vues.get(rowIndex).isEnAttente()) {
-			res = Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
-		} else {
-			res = super.getColor(rowIndex);
-		}
-		
-		return res;
 	}
    
 }

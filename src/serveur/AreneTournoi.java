@@ -43,7 +43,7 @@ public class AreneTournoi extends Arene {
 	 * @param logger gestionnaire de log 
 	 * @throws Exception
 	 */
-	public AreneTournoi(int port, String adresseIP, long nbTours, LoggerProjet logger) throws Exception {
+	public AreneTournoi(int port, String adresseIP, int nbTours, LoggerProjet logger) throws Exception {
 		super(port, adresseIP, nbTours, logger);
 		
 		synchronized (this) {

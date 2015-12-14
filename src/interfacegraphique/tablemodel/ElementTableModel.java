@@ -140,7 +140,7 @@ public abstract class ElementTableModel<V extends VueElement<?>> extends Abstrac
 	 */
 	public Color getColor(int rowIndex) {
         if (rowIndex < vues.size()) {
-        	return vues.get(rowIndex).getColor();
+        	return vues.get(rowIndex).getCouleur();
         } else {
         	return null;
         }

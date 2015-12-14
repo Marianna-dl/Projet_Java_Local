@@ -187,24 +187,24 @@ public class Calculs {
 	 * @param duree en secondes
 	 * @return duree en chaine sous la forme H:M:S
 	 */
-	public static String timerToString(int duree) {
+	public static String timerToString(int duree) {	
 		String res;
 		
 		if (duree < 0) {
 			res = "illimite";
-		}
-		
-		int heure, minute, seconde;
-		
-		seconde = duree % 60;
-		minute = duree / 60;
-		heure = minute / 60;
-		minute = minute % 60;
-		
-		if (heure == 0) {
-			res = minute + ":" + ((seconde<10) ? "0" : "") + seconde ;
 		} else {
-			res = heure + ":" + ((minute<10) ? "0" : "") + minute + ":" + ((seconde<10) ? "0" : "") + seconde;				
+			int heure, minute, seconde;
+			
+			seconde = duree % 60;
+			minute = duree / 60;
+			heure = minute / 60;
+			minute = minute % 60;
+			
+			if (heure == 0) {
+				res = minute + ":" + ((seconde<10) ? "0" : "") + seconde ;
+			} else {
+				res = heure + ":" + ((minute<10) ? "0" : "") + minute + ":" + ((seconde<10) ? "0" : "") + seconde;				
+			}
 		}
 		
 		return res;

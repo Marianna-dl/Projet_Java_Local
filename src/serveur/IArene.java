@@ -38,7 +38,7 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public boolean connecte(int refRMI, String ipConsole, 
-			Personnage personnage, long nbTours, Point position) throws RemoteException;
+			Personnage personnage, int nbTours, Point position) throws RemoteException;
 	
 	/**
 	 * Deconnecte un element du serveur.

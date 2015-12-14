@@ -142,7 +142,7 @@ public class AreneJPanel extends JPanel {
 	}
 	
 	/**
-	 * Dessine une VueElement.
+	 * Dessine la vue d'un element.
 	 * @param g graphics
 	 * @param vueElement vue de l'element a dessiner
 	 */
@@ -157,7 +157,7 @@ public class AreneJPanel extends JPanel {
 		int coordY = (int) p.getY();
 		
 		// definit la couleur de l'element
-		g.setColor(vueElement.getColor());
+		g.setColor(vueElement.getCouleur());
 		
 		// dessine la representation geometrique de l'element
 		dessineElementGeometrique(g, vueElement, coordX, coordY);									
@@ -172,24 +172,24 @@ public class AreneJPanel extends JPanel {
 	}
 
 	/**
-	 * Dessine la representation geometrique de l'element.
+	 * Dessine la representation geometrique de l'element (cercle pour un 
+	 * personnage, triangle pour une potion).
 	 * @param g graphics
 	 * @param vueElement vue de l'element a dessiner
 	 * @param coordX abscisse de l'element
 	 * @param coordY ordonnee de l'element
 	 */
 	private void dessineElementGeometrique(Graphics g, VueElement<?> vueElement, int coordX, int coordY) {
-
 		if (vueElement.isSelectionne()) {
 			g.setColor(SELECTED_COLOR);
 			g.fillOval(coordX - 5, coordY - 5, ELEMENT_SIZE + 10, ELEMENT_SIZE + 10);
-			g.setColor(vueElement.getColor());
+			g.setColor(vueElement.getCouleur());
 		}
 		
 		if(vueElement instanceof VuePersonnage) {
 			g.fillOval(coordX, coordY, ELEMENT_SIZE, ELEMENT_SIZE);	
 		} else {
-			Polygon p = new Polygon(); // Triangle
+			Polygon p = new Polygon(); // triangle
 			p = creeTriangle(coordX + ELEMENT_SIZE/2, coordY + ELEMENT_SIZE/2 - 1, ELEMENT_SIZE);
 			g.fillPolygon(p);
 		}
@@ -245,7 +245,7 @@ public class AreneJPanel extends JPanel {
 	 */
 	private void dessineJauge(Graphics g, VueElement<?> vueElement, Rectangle rect, 
 			int coordX, int coordY, boolean descendu) {
-		Color elementColor = vueElement.getColor();	
+		Color elementColor = vueElement.getCouleur();	
 		
 		// dessin de la jauge de vie			
 		int barWidth = 80;

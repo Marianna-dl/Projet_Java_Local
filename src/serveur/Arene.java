@@ -51,7 +51,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * Duree de vie du serveur, en tours de jeu (sachant qu'un tour dure environ
 	 * une seconde).
 	 */
-	private final long NB_TOURS;
+	private final int NB_TOURS;
 
 	/**
 	 * Numero de tour de jeu courant.
@@ -104,7 +104,9 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * @throws RemoteException
 	 * @throws MalformedURLException
 	 */
-	public Arene(int port, String adresseIP, long nbTours, LoggerProjet logger) throws RemoteException, MalformedURLException  {
+	public Arene(int port, String adresseIP, int nbTours, LoggerProjet logger) 
+			throws RemoteException, MalformedURLException  {
+		
 		super();
 		this.port = port;
 		this.adresseIP = adresseIP;
@@ -343,7 +345,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 
 	@Override
 	public synchronized boolean connecte(int refRMI, String ipConsole, 
-			Personnage personnage, long nbTours, Point position) throws RemoteException {
+			Personnage personnage, int nbTours, Point position) throws RemoteException {
 		
 		// assignation d'un port unique a chaque personnage
 		int portConsole = port + refRMI;
@@ -429,7 +431,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	/**
 	 * Recupere le numero de tour courant. 
 	 */
-	public int getTour() throws RemoteException{
+	public int getTour() throws RemoteException {
 		return tour;
 	}
 
@@ -647,7 +649,9 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage res = null;
 		List<VuePersonnage> classement = getPersonnagesClassement();
 		
-		if(classement.size() == 1) { // exactement un personnage restant
+		if(!classement.isEmpty()) { // au moins un personnage a joue
+			if(classement.size() == 1 || // un seul personnage ou
+					!classement.get(1).getElement().estVivant()) // un seul vivant (le 2eme classe est mort)
 			res = classement.get(0);
 		}
 		

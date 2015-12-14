@@ -70,7 +70,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 * @throws RemoteException
 	 */
 	public Console(String ipArene, int port, String ipConsole,
-			StrategiePersonnage strategiePer, Personnage pers, long nbTours, 
+			StrategiePersonnage strategiePer, Personnage pers, int nbTours, 
 			Point position, LoggerProjet logger) throws RemoteException {
 		
 		super();

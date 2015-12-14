@@ -39,7 +39,7 @@ public class StrategiePersonnage {
 	 */
 	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
-			long nbTours, Point position, LoggerProjet logger) {
+			int nbTours, Point position, LoggerProjet logger) {
 		
 		logger.info("Lanceur", "Creation de la console...");
 		
