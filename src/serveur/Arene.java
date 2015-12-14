@@ -161,14 +161,30 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 						IConsole console = consoleFromRef(refRMI);
 						Personnage personnage = (Personnage) elementFromRef(refRMI);
 						
-						// on teste si le client est actif
-						// (il a pu etre tue plus tot dans le tour)
-						if (!personnage.estVivant()) {
+						if(!personnage.estVivant()) {
+							// on teste si le client est vivant
+							// (il a pu etre tue plus tot dans le tour)
 							logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
 									" est mort... Client ejecte");
 							deconnecte(refRMI, "Vous etes mort...");
 							
-						} else {							
+						} else if(!verifieCaracts(personnage)) { 
+							// on teste la triche (avant de le laisser jouer)
+							logger.info(Constantes.nomClasse(this),
+									nomRaccourciClient(refRMI) + 
+									" est un tricheur... Client ejecte");
+							
+							deconnecte(refRMI, "Vous etes mort pour cause de triche...");
+							
+						} else if(!personnages.get(refRMI).resteTours()) {
+							// on teste le nombre de tours (avant de le laisser jouer)
+							logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
+									nomRaccourciClient(refRMI) + 
+									"... Client ejecte");
+							
+							deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
+							
+						} else {
 							// lancement de la strategie (dans un thread separe)
 							ts = new ThreadStrategie(console);
 							
@@ -178,7 +194,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 							// finir le tour pour ce client
 							personnages.get(refRMI).termineTour();
 							
-							if (ts.isAlive()) {
+							if(ts.isAlive()) {
 								// si le thread est toujours vivant apres une 
 								// seconde (la strategie n'est pas terminee),
 								// on l'ejecte
@@ -189,30 +205,32 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 								
 								deconnecte(refRMI, "Execution de strategie trop longue. Degage !");
 								
-							} else {								
-								// sinon, on test si le personnage est mort
-								// ou s'il a depasse le nombre de tours prevus
-								// ou s'il tente de tricher
-								if (!personnage.estVivant()) {
+							} else {
+								// deconnexion ?
+								
+								if(!personnage.estVivant()) {
+									// on teste si le personnage est mort
 									logger.info(Constantes.nomClasse(this), 
 											nomRaccourciClient(refRMI) + 
 											" est mort... Client ejecte");
 									
 									deconnecte(refRMI, "Vous etes mort...");
 									
-								} else if (!personnages.get(refRMI).resteTours()) {
+								} else if(!verifieCaracts(personnage)) {
+									// on teste la triche (apres)
+									logger.info(Constantes.nomClasse(this),
+											nomRaccourciClient(refRMI) + 
+											" est un tricheur... Client ejecte");
+									
+									deconnecte(refRMI, "Vous etes mort pour cause de triche...");
+								} else if(!personnages.get(refRMI).resteTours()) {
+									// on teste le nombre de tours (apres)
 									logger.info(Constantes.nomClasse(this), "Fin du nombre de tours de " + 
 											nomRaccourciClient(refRMI) + 
 											"... Client ejecte");
 									
 									deconnecte(refRMI, "Temps autorise dans l'arene ecoule, vous etes elimine !");
 									
-								} else if (!verifieCaracts(personnage)) {
-									logger.info(Constantes.nomClasse(this),
-											nomRaccourciClient(refRMI) + 
-											" est un tricheur... Client ejecte");
-									
-									deconnecte(refRMI, "Vous etes mort pour cause de triche...");
 								}
 							}
 						}
