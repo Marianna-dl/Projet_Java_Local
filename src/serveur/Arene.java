@@ -76,8 +76,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	protected List<VuePersonnage> personnagesMorts = null;
 
 	/**
-	 * Associe les references RMI et les potions connectees au serveur, en 
-	 * attente ou lancees.
+	 * Associe les references RMI et les potions connectees au serveur.
 	 */
 	protected Hashtable<Integer, VuePotion> potions = null;
 
@@ -374,7 +373,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			logger.info(Constantes.nomClasse(this), "Demande de connexion (" + adr + ")");
 			
 			// ajout du personnage a la liste
-			personnages.put(refRMI, new VuePersonnage(ipConsole, personnage, nbTours, position, refRMI, true));
+			personnages.put(refRMI, new VuePersonnage(ipConsole, personnage, nbTours, position, refRMI));
 	
 			logger.info(Constantes.nomClasse(this), "Connexion acceptee (" + adr + ")");
 			logElements();
@@ -562,11 +561,6 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	}
 
 	@Override
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException {
-		return new ArrayList<VuePotion>(); // pas de potion en attente hors tournoi
-	}
-
-	@Override
 	public HashMap<Integer, Point> getVoisins(int refRMI) throws RemoteException {
 		HashMap<Integer, Point> res = new HashMap<Integer, Point>();
 	
@@ -587,11 +581,9 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		// potions
 		for(int refVoisin : potions.keySet()) {
 			tempPot = potions.get(refVoisin);
-			
-			if(!tempPot.isEnAttente()) {				
-				if(estVoisin(courant, tempPot)) {
-					res.put(refVoisin, tempPot.getPosition());
-				}
+						
+			if(estVoisin(courant, tempPot)) {
+				res.put(refVoisin, tempPot.getPosition());
 			}
 		}
 		
@@ -691,11 +683,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 
 	
 	@Override
-	public synchronized void ajoutePotion(Potion potion) throws RemoteException {		
+	public synchronized void ajoutePotion(Potion potion, Point position) throws RemoteException {		
 		int refRMI = alloueRefRMI();
+		VuePotion vuePotion = new VuePotion(potion, position, refRMI);
 		
 		// ajout de la potion a la liste
-		VuePotion vuePotion = new VuePotion(potion, Calculs.positionAleatoireArene(), refRMI, true);
 		potions.put(refRMI, vuePotion);
 		
 		logger.info(Constantes.nomClasse(this), "Ajout de la potion " + 
@@ -992,10 +984,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {}
 
 	@Override
-	public void ajoutePotionEnAttente(Potion potion, Point position, String mdp) throws RemoteException {}
-
-	@Override
-	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException {}
+	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException {}
 
 	
 }

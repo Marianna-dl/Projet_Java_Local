@@ -16,10 +16,9 @@ public class VuePotion extends VueElement<Potion> implements Comparable<VuePotio
 	 * @param potion potion correspondante
 	 * @param position position courante
 	 * @param ref reference RMI
-	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VuePotion(Potion potion, Point position, int ref, boolean envoyeImm) {
-		super(potion, position, ref, envoyeImm);
+	public VuePotion(Potion potion, Point position, int ref) {
+		super(potion, position, ref);
 	}
 
 	@Override

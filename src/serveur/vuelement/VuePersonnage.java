@@ -48,12 +48,11 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	 * l'arene (si negatif, indefiniment)
 	 * @param position position courante
 	 * @param ref reference RMI
-	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
 	public VuePersonnage(String adresseIp, Personnage personnage, int nbTours, 
-			Point position, int ref, boolean envoyeImm) {
+			Point position, int ref) {
 		
-		super(personnage, position, ref, envoyeImm);
+		super(personnage, position, ref);
 		this.adresseIp = adresseIp;
 		this.actionExecutee = false;
 		this.NB_TOURS = nbTours;
@@ -89,7 +88,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	 */
 	@Override
 	public Color getCouleur() {
-		return element.estVivant()? super.getCouleur(): Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
+		return element.estVivant()? super.getCouleur(): Constantes.COULEUR_MORTS;
 	}
 
 	public String getAdresseIp() {

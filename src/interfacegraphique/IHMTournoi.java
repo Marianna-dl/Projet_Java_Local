@@ -23,7 +23,6 @@ import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
 import serveur.vuelement.VueElement;
-import serveur.vuelement.VuePotion;
 
 /**
  * Interface graphique pour le tournoi :
@@ -199,24 +198,6 @@ public class IHMTournoi extends IHM {
 	}
 
 	/**
-	 * Envoie la potion (en attente) selectionnee dans la partie.
-	 */
-	public void envoiePotionSelectionnee() {
-		if (!motDePasseOK) {
-			demandeMotDePasse();
-		} else {
-			if (elementSelectionne != null && elementSelectionne instanceof VuePotion &&
-					elementSelectionne.isEnAttente()) {
-				try {
-					arene.lancePotionEnAttente(getElementSelectionne().getRefRMI(), motDePasse);
-				} catch (RemoteException e) {
-					erreurConnexion(e);
-				}
-			}
-		}
-	}	
-
-	/**
 	 * Affiche la fenetre de creation de potion.
 	 */
 	public void afficheFenetrePotion() {
@@ -244,7 +225,7 @@ public class IHMTournoi extends IHM {
 			demandeMotDePasse();
 		} else {
 			try {
-				arene.ajoutePotionEnAttente(new Potion(nom, "Arene", ht), position, motDePasse);
+				arene.lancePotion(new Potion(nom, "Arene", ht), position, motDePasse);
 			} catch (RemoteException e) {
 				erreurConnexion(e);
 			}
@@ -269,17 +250,10 @@ public class IHMTournoi extends IHM {
 		if(getElementSelectionne() == null) {
 			controlePanel.getEjecterButton().setEnabled(false);
 			controlePanel.getDetaillerButton().setEnabled(false);
-			controlePanel.getEnvoyerPotionButton().setEnabled(false);
 			
 		} else {
 			controlePanel.getDetaillerButton().setEnabled(true);
 			controlePanel.getEjecterButton().setEnabled(true);
-			
-			if (getElementSelectionne().isEnAttente()) {
-				controlePanel.getEnvoyerPotionButton().setEnabled(true);
-			} else {
-				controlePanel.getEnvoyerPotionButton().setEnabled(false);
-			}
 		}
 		
 		// MAJ selon si la partie est commencee ou non

@@ -7,7 +7,6 @@ import java.util.Random;
 
 import serveur.element.Element;
 import utilitaires.Calculs;
-import utilitaires.Constantes;
 
 /**
  * Donnees dont le serveur a besoin sur un element : l'element lui-meme, sa 
@@ -52,18 +51,12 @@ public class VueElement<T extends Element> implements Serializable {
 	protected boolean selectionne = false;
 	
 	/**
-	 * Vrai si l'element est en attente d'etre envoye sur l'arene.
-	 */
-	protected boolean enAttente;
-	
-	/**
 	 * Cree un element pour le serveur.
 	 * @param element element correspondant
 	 * @param position position courante
 	 * @param ref reference
-	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VueElement(T element, Point position, int ref, boolean envoyeImm) {
+	public VueElement(T element, Point position, int ref) {
 		this.element = element;
 		this.position = position;
 		this.refRMI = ref;
@@ -72,15 +65,6 @@ public class VueElement<T extends Element> implements Serializable {
 		couleur = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), 200);
 		
 		phrase = "";
-		
-		enAttente = !envoyeImm;
-	}
-	
-	/**
-	 * Envoie un element en attente, en jeu.
-	 */
-	public void envoie() {
-		enAttente = false;
 	}
 
 	public int getRefRMI() {
@@ -99,12 +83,8 @@ public class VueElement<T extends Element> implements Serializable {
 		this.position = Calculs.restreintPositionArene(position);
 	}
 	
-	/**
-	 * Renvoie la couleur de l'element, ou gris si l'element est en attente.
-	 * @return couleur de l'element
-	 */
 	public Color getCouleur() {
-		return enAttente? Constantes.COULEUR_MORTS_OU_EN_ATTENTE: couleur;
+		return couleur;
 	}
 	
 	public String getPhrase() {
@@ -121,9 +101,5 @@ public class VueElement<T extends Element> implements Serializable {
 
 	public void setSelectionne(boolean selectionne) {
 		this.selectionne = selectionne;
-	}
-
-	public boolean isEnAttente() {
-		return enAttente;
 	}
 }

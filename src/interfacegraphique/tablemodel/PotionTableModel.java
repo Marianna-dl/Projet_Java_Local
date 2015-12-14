@@ -6,7 +6,7 @@ import serveur.element.Caracteristique;
 import serveur.vuelement.VuePotion;
 
 /**
- * TableModel des potions, envoyees ou en attente.
+ * TableModel des potions.
  * 
  */
 public class PotionTableModel extends ElementTableModel<VuePotion> {

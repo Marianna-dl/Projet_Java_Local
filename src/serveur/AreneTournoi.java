@@ -3,8 +3,6 @@ package serveur;
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.rmi.UnmarshalException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import client.controle.IConsole;
@@ -107,7 +105,7 @@ public class AreneTournoi extends Arene {
 
 	@Override
 	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException {
-		if (this.motDePasse.equals(motDePasse)) {
+		if(this.motDePasse.equals(motDePasse)) {
 			IConsole console = consoleFromRef(refRMI);
 			
 			if (console != null) {
@@ -128,6 +126,23 @@ public class AreneTournoi extends Arene {
 			logger.info("Tentative d'exclusion de personnage avec mot de passe errone");
 		}
 	
+	}
+
+	@Override
+	public synchronized void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException {
+		if (motDePasse.equals(motDePasse)) {
+			int refRMI = alloueRefRMI();
+			VuePotion vuePotion = new VuePotion(potion, position, refRMI);
+			
+			// ajout a la liste
+			potions.put(refRMI, vuePotion);
+			
+			logger.info(Constantes.nomClasse(this), "Lancement de la potion " + 
+					vuePotion.getElement().getNomGroupe() + " (" + refRMI + ")");
+			logElements();
+		} else {
+			logger.info("Tentative de lancement de potion avec mot de passe errone");
+		}	
 	}
 
 	@Override
@@ -155,55 +170,6 @@ public class AreneTournoi extends Arene {
 	}
 	
 	@Override
-	public synchronized void ajoutePotionEnAttente(Potion potion, Point position, 
-			String mdp) throws RemoteException {
-		
-		if (motDePasse.equals(mdp)) {
-			int refRMI = alloueRefRMI();
-			VuePotion vuePotion = new VuePotion(potion, position, refRMI, false); // ne pas envoyer immediatement
-			vuePotion.setPhrase("En attente !");
-			
-			// ajout a la liste
-			potions.put(refRMI, vuePotion);
-			
-			logger.info(Constantes.nomClasse(this), "Ajout de la potion " + vuePotion.getElement().getNomGroupe()+" ("+refRMI+")");
-			logElements();
-		} else {
-			logger.info("Tentative d'ajout de potion avec mot de passe errone");
-		}			
-	}
-	
-	@Override
-	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException {
-		if (this.motDePasse.equals(mdp)) {
-			VuePotion vuePotion = potions.get(refRMI);
-			
-			vuePotion.envoie();
-			vuePotion.setPhrase("");
-			
-			logger.info(Constantes.nomClasse(this), "Lancement de la potion " + 
-					Constantes.nomCompletClient(vuePotion) + " (" + refRMI + ") dans la partie");
-			
-			logElements();
-		} else {
-			logger.info("Tentative de lancement de potion en attente avec mot de passe errone");			
-		}
-	}	
-
-	@Override
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException{
-		ArrayList<VuePotion> aux = new ArrayList<VuePotion>();
-		
-		for(VuePotion vuePotion : potions.values()) {
-			if(vuePotion.isEnAttente()) {
-				aux.add(vuePotion);
-			}
-		}
-		
-		return aux;
-	}
-
-	@Override
 	public String getPrintElementsMessage() {		
 		String msg = "";
 		
@@ -216,11 +182,7 @@ public class AreneTournoi extends Arene {
 		}
 		
 		for(VuePotion vuePot : potions.values()) {
-			if(vuePot.isEnAttente()) {
-				msg += "\n" + Constantes.nomCompletClient(vuePot) + " (en attente)";
-			} else {
-				msg += "\n" + Constantes.nomCompletClient(vuePot);
-			}
+			msg += "\n" + Constantes.nomCompletClient(vuePot);
 		}
 		
 		return msg;

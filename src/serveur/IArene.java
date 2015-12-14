@@ -64,12 +64,12 @@ public interface IArene extends Remote {
 
 	/**
 	 * Ajoute une potion dans l'arene a n'importe quel moment en mode arene 
-	 * libre, et d'ajouter un potion dans l'arene avant la partie en mode 
-	 * tournoi.
+	 * libre.
 	 * @param potion potion
+	 * @param position position de la potion
 	 * @throws RemoteException
 	 */
-	public void ajoutePotion(Potion potion) throws RemoteException;
+	public void ajoutePotion(Potion potion, Point position) throws RemoteException;
 	
 	
 
@@ -231,22 +231,15 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void ejectePersonnage(int refRMI, String motDePasse) throws RemoteException;
-	
-	/**
-	 * Ajoute une potion en attente dans l'arene.
-	 * @param potion potion
-	 * @param mdp mot de passe administrateur
-	 * @throws RemoteException	
-	 */
-	public void ajoutePotionEnAttente(Potion potion, Point position, String mdp) throws RemoteException;
 
 	/**
-	 * Lance une potion en attente dans la partie. 
-	 * @param refRMI potion a lancer
-	 * @param mdp mot de passe administrateur
+	 * Ajoute une potion dans l'arene a n'importe quel moment en mode tournoi.
+	 * @param potion potion
+	 * @param position position de la potion
+	 * @param motDePasse mot de passe administrateur
 	 * @throws RemoteException
 	 */
-	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
+	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException;
 	
 }
 

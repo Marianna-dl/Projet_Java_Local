@@ -36,13 +36,6 @@ public interface IAreneIHM extends IArene {
 	public List<VuePotion> getPotions() throws RemoteException;
 	
 	/**
-	 * Renvoie la liste des potions en attente de connexion.
-	 * @return liste des potions en attente
-	 * @throws RemoteException
-	 */
-	public List<VuePotion> getPotionsEnAttente() throws RemoteException;
-	
-	/**
 	 * Renvoie la liste des personnages tries pour le classement final.
 	 * @return liste des personnages ordonnes pour le classement final
 	 * @throws RemoteException
