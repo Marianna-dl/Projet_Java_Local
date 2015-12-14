@@ -80,7 +80,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	 * @return vrai s'il reste des tours a ce personnage, faux sinon
 	 */
 	public boolean resteTours() {
-		return tour < NB_TOURS;
+		return NB_TOURS > 0 && tour < NB_TOURS;
 	}
 
 	/**

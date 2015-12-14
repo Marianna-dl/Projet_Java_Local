@@ -44,7 +44,7 @@ public class LanceArene {
 				try {
 					duree = Integer.parseInt(args[1]);
 				} catch (NumberFormatException e) {
-					ErreurLancement.TTL_INCORRECT.erreur(usage);
+					ErreurLancement.NB_TOURS_INCORRECT.erreur(usage);
 				}
 			}
 		}
