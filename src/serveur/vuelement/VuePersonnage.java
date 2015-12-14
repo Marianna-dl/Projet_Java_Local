@@ -129,7 +129,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 				res = 1;
 			} else {
 				// tous les deux morts : celui mort le plus tard avant
-				res = this.getTourMort() - vp2.getTourMort();
+				res = vp2.getTourMort() - this.getTourMort();
 			}
 		}
 		
