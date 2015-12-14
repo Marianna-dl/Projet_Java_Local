@@ -14,8 +14,7 @@ import serveur.vuelement.VueElement;
 /**
  * Definit les methodes qui pourront s'appliquer a l'arene par le reseau.
  */
-public interface IArene extends Remote {
-	
+public interface IArene extends Remote {	
 	
 	/**************************************************************************
 	 * Connexion et deconnexion, partie non commencee ou finie. 

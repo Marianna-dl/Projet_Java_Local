@@ -214,12 +214,14 @@ public class IHM extends JFrame implements Runnable {
 
 			public void actionPerformed(ActionEvent ae) {
 				JOptionPane.showMessageDialog(null,
-						"Arene\nInspiree des TP de L3\n" +
-						"Remise au gout du jout par les soins de\nClement Chaumel," +
-						"\nValentin Chevalier,\n et Christophe Claustre\n", "A propos",
+						"Projet de programmation L3 - Université Paul Sabatier\n" + 
+						"Repris par Clement Chaumel, Valentin Chevalier, Christophe Claustre\n" +
+						"lors du TER L3 de 2014/2015\n" +
+						"Modifie pour le projet de programmation 2015/2016", "A propos",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		};
+		
 		fileMenu.add(aboutAction);
 
 		// ajout d'une action pour arreter l'execution de l'interface graphique
