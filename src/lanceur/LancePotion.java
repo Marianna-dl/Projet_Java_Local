@@ -62,9 +62,9 @@ public class LancePotion {
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
 			
-			caractsPotion.put(Caracteristique.VIE, Calculs.valeurCaracAleatoire(Caracteristique.VIE));
-			caractsPotion.put(Caracteristique.FORCE, Calculs.valeurCaracAleatoire(Caracteristique.FORCE));
-			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoire(Caracteristique.INITIATIVE));
+			caractsPotion.put(Caracteristique.VIE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.VIE));
+			caractsPotion.put(Caracteristique.FORCE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.FORCE));
+			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
 			
 			// ajout de la potion
 			arene.ajoutePotion(new Potion(nom, groupe, caractsPotion));

@@ -137,12 +137,23 @@ public class Calculs {
 	}
 
 	/**
-	 * Genere un valeur aleatoire pour une caracteristique donnee.
+	 * Genere un valeur aleatoire pour une caracteristique donnee, entre min et
+	 * max.
 	 * @param c caracteristique
 	 * @return valeur aleatoire generee
 	 */
 	public static int valeurCaracAleatoire(Caracteristique c) {
 		return nombreAleatoire(c.getMin(), c.getMax());
+	}
+
+	/**
+	 * Genere un valeur aleatoire pour une caracteristique donnee, entre -max
+	 * et +max (pour les potions).
+	 * @param c caracteristique
+	 * @return valeur aleatoire generee
+	 */
+	public static int valeurCaracAleatoirePosNeg(Caracteristique c) {
+		return nombreAleatoire(-c.getMax(), c.getMax());
 	}
 	
 	/**
