@@ -175,6 +175,7 @@ public class IHMTournoi extends IHM {
 			if(arene.estPartieCommencee()) {
 				controlePanel.getLancerPartieButton().setVisible(false);
 			}
+			
 		} catch (RemoteException e) {
 			erreurConnexion(e);
 		}		

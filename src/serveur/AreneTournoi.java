@@ -9,6 +9,7 @@ import java.util.Scanner;
 
 import client.controle.IConsole;
 import logger.LoggerProjet;
+import serveur.element.Personnage;
 import serveur.element.Potion;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -72,8 +73,27 @@ public class AreneTournoi extends Arene {
 		super.run();
 	}
 	
-	
-	
+	@Override
+	public synchronized boolean connecte(int refRMI, String ipConsole, 
+			Personnage personnage, int nbTours, Point position) throws RemoteException {
+		boolean res;
+		
+		int portConsole = port + refRMI;
+		String adr = Constantes.nomRMI(ipConsole, portConsole, "Console" + refRMI);
+		
+		if(partieCommencee) {
+			// refus si la partie a commence
+			res = false;
+			
+			logger.info(Constantes.nomClasse(this), 
+					"Demande de connexion refusee (partie deja commencee) (" + adr + ")");
+		} else {
+			res = super.connecte(refRMI, ipConsole, personnage, nbTours, position);
+		}
+		
+		return res;
+	}
+
 	@Override
 	public boolean verifieMotDePasse(char[] motDePasse) throws RemoteException{
 		boolean retour = false;

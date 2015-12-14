@@ -40,7 +40,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	/**
 	 * Port a utiliser pour la connexion.
 	 */
-	private int port;
+	protected int port;
 
 	/**
 	 * Adresse IP de la machine hebergeant l'arene.
