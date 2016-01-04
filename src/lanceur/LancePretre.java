@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.util.HashMap;
 
 import client.StrategiePersonnage;
+import client.StrategiePretre;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import utilitaires.Calculs;
@@ -74,11 +75,11 @@ public class LancePretre {
 
 			caracts.put(Caracteristique.FORCE, 30);
 			caracts.put(Caracteristique.INITIATIVE, 100);
-	
+			
 			
 			Point position = Calculs.positionAleatoireArene();	
 			
-			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+			new StrategiePretre(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());

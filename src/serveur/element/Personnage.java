@@ -15,7 +15,9 @@ import utilitaires.Calculs;
 public class Personnage extends Element {
 	
 	private static final long serialVersionUID = 1L;
-
+	private int maxVie;
+	private int maxForce;
+	private int maxInit;
 	/**
 	 * Cree un personnage avec un nom et un groupe.
 	 * @param nom du personnage
@@ -24,6 +26,26 @@ public class Personnage extends Element {
 	 */
 	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
 		super(nom, groupe, caracts);
+	}
+	
+	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts, int v, int f, int i ) {
+		super(nom, groupe, caracts);
+		this.maxVie = v; 
+		this.maxForce = f;
+		this.maxInit = i;
+	}
+	
+	public int getMaxVie(){
+		return this.maxVie;
+		
+	}
+	public int getMaxForce(){
+		return this.maxForce;
+		
+	}
+	public int getMaxInit(){
+		return this.maxInit;
+		
 	}
 	
 	/**

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.HashMap;
 
+import client.StrategieGuerrier;
 import client.StrategiePersonnage;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
@@ -78,7 +79,7 @@ public class LanceGuerrier {
 			
 			Point position = Calculs.positionAleatoireArene();	
 			
-			new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+			new StrategieGuerrier(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 			logger.info("lanceur", "Creation du personnage reussie");
 		} catch (Exception e) {
 			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());
