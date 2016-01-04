@@ -1,23 +1,39 @@
 package client;
 
+
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import client.controle.Console;
 import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
+import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.Pretre;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
-public class StrategiePretre extends StrategiePersonnage{
 
-	public StrategiePretre(String ipArene, int port, String ipConsole, String nom, String groupe,
-			HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
-		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
-		// TODO Auto-generated constructor stub
+public class StrategiePretre extends StrategiePersonnage{
+	protected Console console;
+	
+	public StrategiePretre(String ipArene, int port, String ipConsole, 
+			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
+			long nbTours, Point position, LoggerProjet logger) {
+			super(ipArene, port,ipConsole,  nom, groupe, caracts, nbTours, position, logger);
+			try {
+				console = new Console(ipArene, port, ipConsole, this, 
+						new Pretre(caracts), nbTours, position, logger);
+				logger.info("lanceur", "Creation de la console reussie");
+				
+			} catch (Exception e) {
+				logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
+				e.printStackTrace();
+			}
+	
 	}
 	
 	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
@@ -56,8 +72,8 @@ public class StrategiePretre extends StrategiePersonnage{
 
 				} else { // personnage
 					// duel
-					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
-					arene.lanceAttaque(refRMI, refCible);
+					console.setPhrase("Je vais aider " + elemPlusProche.getNom());
+					arene.lanceSoin(refRMI, refCible);
 				}
 				
 			} else { // si voisins, mais plus eloignes

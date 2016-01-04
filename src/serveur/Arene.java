@@ -24,6 +24,7 @@ import serveur.element.Potion;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
 import serveur.interaction.Ramassage;
+import serveur.interaction.Soigner;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -714,7 +715,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
-
+	@Override
 	public boolean lanceSoin(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
 		
@@ -741,25 +742,15 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				// on teste que les deux personnages soient en vie
 				if (pers.estVivant() && persAdv.estVivant()) {
 					console.log(Level.INFO, Constantes.nomClasse(this), 
-							"J'attaque " + nomRaccourciClient(refRMIAdv));
+							"J'aide " + nomRaccourciClient(refRMIAdv));
 					consoleAdv.log(Level.INFO, Constantes.nomClasse(this), 
-							"Je me fait attaquer par " + nomRaccourciClient(refRMI));
+							"Je me fait aider par " + nomRaccourciClient(refRMI));
 					
 					logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
-							" attaque " + nomRaccourciClient(consoleAdv.getRefRMI()));
+							" aide " + nomRaccourciClient(consoleAdv.getRefRMI()));
 			
-					new Duel(this, client, clientAdv).interagir();
+					new Soigner(this, client, clientAdv).interagir();
 					personnages.get(refRMI).executeAction();
-					
-					// si l'adversaire est mort
-					if (!persAdv.estVivant()) {
-						setPhrase(refRMI, "Je tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
-						console.log(Level.INFO, Constantes.nomClasse(this), 
-								"Je tue " + nomRaccourciClient(refRMI));
-						
-						logger.info(Constantes.nomClasse(this), nomRaccourciClient(refRMI) + 
-								" tue " + nomRaccourciClient(consoleAdv.getRefRMI()));
-					}
 					
 					res = true;
 				} else {
@@ -907,6 +898,8 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		int refRMI = vuePersonnage.getRefRMI();
 		IConsole console = consoleFromRef(refRMI);
 		Personnage pers = vuePersonnage.getPersonnage();
+		console.log(Level.INFO, Constantes.nomClasse(this), "CARAC "+carac.getNomComplet()+" val "+increment );
+		
 		
 		// increment de la caracteristique et test si mort
 		if(!pers.incrementeCaract(carac, increment)) {

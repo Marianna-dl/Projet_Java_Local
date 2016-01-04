@@ -247,6 +247,8 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
+
+	public boolean lanceSoin(int refRMI, int refCible) throws RemoteException;
 	
 }
 

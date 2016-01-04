@@ -6,7 +6,9 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
+import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.Voleur;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
@@ -35,15 +37,46 @@ public class Ramassage extends Interaction<VuePotion> {
 			
 			// si le personnage est vivant et la potion non encore ramassee
 			if(attaquant.getElement().estVivant() && defenseur.getElement().estVivant()) {
-
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
+				Personnage pRamasseur = (Personnage) attaquant.getElement();
+				int vie = pRamasseur.getCaract(Caracteristique.VIE);
+				int init = pRamasseur.getCaract(Caracteristique.INITIATIVE);
+				int force = pRamasseur.getCaract(Caracteristique.FORCE);
+
+				int maxVie = pRamasseur.getMaxVie();
+				logs(Level.INFO, "MAXVIEEE "+maxVie);
+				int maxForce = pRamasseur.getMaxForce();
+				int maxInit = pRamasseur.getMaxInit();
+
 				
 				for(Caracteristique c : valeursPotion.keySet()) {
-					arene.ajouterCaractElement(attaquant, c, valeursPotion.get(c));
+				
+					if(c.getNomComplet().equals("Vie") && valeursPotion.get(c)+vie > maxVie){
+						logs(Level.INFO, "INFOOOOOOOOOOO "+( (maxVie+valeursPotion.get(c))-(vie+valeursPotion.get(c))) );
+						logs(Level.INFO, "valeurPo "+valeursPotion.get(c) );
+						logs(Level.INFO, "vie "+vie );
+						logs(Level.INFO, "maxvie "+maxVie);
+						logs(Level.INFO, "1e  "+(maxVie+valeursPotion.get(c)) );
+						logs(Level.INFO, "2e  "+((vie+valeursPotion.get(c))) );
+						
+						arene.ajouterCaractElement(attaquant, c, ( (maxVie+valeursPotion.get(c))-(vie+valeursPotion.get(c))) );
+						
+					}
+					else if(c.getNomComplet().equals("Force") && valeursPotion.get(c)+force > maxForce){
+						arene.ajouterCaractElement(attaquant, c, ( (maxForce+valeursPotion.get(c))-(force+valeursPotion.get(c))) );
+					}
+					else if(c.getNomComplet().equals("Initiative") && valeursPotion.get(c)+init > maxInit){
+						arene.ajouterCaractElement(attaquant, c, ( (maxInit+valeursPotion.get(c))-(init+valeursPotion.get(c))) );
+					}
+					else{
+						arene.ajouterCaractElement(attaquant, c, valeursPotion.get(c));
+					}
 				}
 				
 				logs(Level.INFO, "Potion bue !");
+				
+				logs(Level.INFO, "INFOOOOOOOOOOO "+pRamasseur.getCaract(Caracteristique.VIE));
 				
 				// test si mort
 				if(!attaquant.getElement().estVivant()) {

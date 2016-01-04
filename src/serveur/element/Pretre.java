@@ -11,7 +11,7 @@ import utilitaires.Calculs;
 public class Pretre extends Personnage {
 
 	public Pretre(HashMap<Caracteristique, Integer> caracts) {
-		super("Pretre", "24", caracts);
+		super("Pretre", "24", caracts,100,30,100);
 		// TODO Auto-generated constructor stub
 	}
 
