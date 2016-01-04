@@ -4,11 +4,14 @@
 	import java.rmi.RemoteException;
 	import java.util.HashMap;
 
-	import logger.LoggerProjet;
+import client.controle.Console;
+import logger.LoggerProjet;
 	import serveur.IArene;
-	import serveur.element.Caracteristique;
+import serveur.element.Archer;
+import serveur.element.Caracteristique;
 	import serveur.element.Element;
-	import serveur.element.Potion;
+import serveur.element.Guerrier;
+import serveur.element.Potion;
 	import utilitaires.Calculs;
 	import utilitaires.Constantes;
 
@@ -18,7 +21,17 @@
 				HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
 			super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 			// TODO Auto-generated constructor stub
+					logger.info("lanceur", "Creation de la console reussie");
+		try {
+			console = new Console(ipArene, port, ipConsole, this, 
+					new Archer("archer","24",caracts), nbTours, position, logger);
+
+			
+		} catch (Exception e) {
+			logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
+			e.printStackTrace();
 		}
+	}
 		
 		public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
 			// arene
@@ -46,6 +59,7 @@
 				int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 				Element elemPlusProche = arene.elementFromRef(refCible);
+
 				if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION)
 				 { // si suffisamment proches
 					// j'interagis directement
@@ -53,8 +67,8 @@
 						// ramassage
 						console.setPhrase("Je ramasse une potion");
 						arene.ramassePotion(refRMI, refCible);
-
-					} else if(distPlusProche <= 10){ // personnage
+					}
+				if(distPlusProche <= 10){ // personnage
 						// duel
 						console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
 						arene.lanceAttaqueArcher(refRMI, refCible);
