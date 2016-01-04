@@ -61,7 +61,10 @@ package lanceur;
 				
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
+
 				caractsPotion.put(Caracteristique.VIE, Calculs.nombreAleatoire(-30, 30));
+				caractsPotion.put(Caracteristique.FORCE, 0);
+				caractsPotion.put(Caracteristique.INITIATIVE, 0);
 				
 				// ajout de la potion
 				arene.ajoutePotion(new Potion(nom, groupe, caractsPotion));
