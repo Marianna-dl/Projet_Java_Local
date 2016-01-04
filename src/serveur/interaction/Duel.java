@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.Personnage;
+import serveur.element.Voleur;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -38,7 +39,18 @@ public class Duel extends Interaction<VuePersonnage> {
 
 			// ejection du defenseur
 			defenseur.setPosition(positionEjection);
-
+			
+			//On teste si c'est un voleur
+			if(pAttaquant instanceof Voleur){
+				Personnage pDefenseur = (Personnage) defenseur.getElement();
+				int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
+				int voleInit = Calculs.nombreAleatoire(0,init);			
+				arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
+				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
+						+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
+				
+			}
+			
 			// degats
 			if (perteVie > 0) {
 				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -perteVie);

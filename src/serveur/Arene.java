@@ -714,6 +714,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
+	
 	@Override
 	public boolean lanceAttaque(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
