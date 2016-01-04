@@ -600,7 +600,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 */
 	private boolean estVoisin(VuePersonnage courant, VueElement voisin) throws RemoteException {		
 		return (voisin instanceof VuePotion || voisin.getRefRMI() != courant.getRefRMI()) && 
-				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION && 
+				Calculs.distanceChebyshev(voisin.getPosition(), courant.getPosition()) <= Constantes.VISION + courant.getPersonnage().getVue() && 
 				voisin.getElement().estVivant() && courant.getElement().estVivant();
 	}
 

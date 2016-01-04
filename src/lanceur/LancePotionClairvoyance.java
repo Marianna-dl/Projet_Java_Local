@@ -7,15 +7,16 @@ import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
-import serveur.element.PotionVie;
+import serveur.element.PotionClairvoyance;
+import serveur.element.PotionForce;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
-public class LancePotionVie {
+public class LancePotionClairvoyance {
 	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		String nom = "Potion de Vie";
+		String nom = "Potion de Clairvoyance";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
 		String groupe = "G" + Calculs.nombreAleatoire(0,99); 
@@ -61,12 +62,11 @@ public class LancePotionVie {
 			
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
-			caractsPotion.put(Caracteristique.VIE, Calculs.nombreAleatoire(0, 100));
+			caractsPotion.put(Caracteristique.VIE, 0);
 			caractsPotion.put(Caracteristique.FORCE, 0);
-			caractsPotion.put(Caracteristique.INITIATIVE, 0);
-			
+			caractsPotion.put(Caracteristique.INITIATIVE,0);
 			// ajout de la potion
-			arene.ajoutePotion(new PotionVie(caractsPotion));
+			arene.ajoutePotion(new PotionClairvoyance(Calculs.nombreAleatoire(0, 10),caractsPotion));
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {

@@ -10,6 +10,7 @@ import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Magicien;
+import serveur.element.Paladin;
 import serveur.element.Potion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -20,6 +21,15 @@ public class StrategieMagicien extends StrategiePersonnage{
 			HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 		// TODO Auto-generated constructor stub
+		try {
+			console = new Console(ipArene, port, ipConsole, this, 
+					new Magicien(caracts), nbTours, position, logger);
+			logger.info("lanceur", "Creation de la console reussie");
+			
+		} catch (Exception e) {
+			logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -53,11 +63,15 @@ public class StrategieMagicien extends StrategiePersonnage{
 
 					if(distPlusProche <= 5) { // si suffisamment proches
 						// j'interagis directement
-						if(elemPlusProche instanceof Potion &&
-								distPlusProche<=Constantes.DISTANCE_MIN_INTERACTION) { // potion
+						if(elemPlusProche instanceof Potion) { // potion
 							// ramassage
-							console.setPhrase("Je ramasse une potion");
-							arene.ramassePotion(refRMI, refCible);
+							if(distPlusProche<=Constantes.DISTANCE_MIN_INTERACTION){
+								console.setPhrase("Je ramasse une potion");
+								arene.ramassePotion(refRMI, refCible);
+							}else{
+								console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
+								arene.deplace(refRMI, refCible);
+							}
 
 						} else { // personnage
 							// duel

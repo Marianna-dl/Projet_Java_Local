@@ -26,4 +26,8 @@ public class VuePotion extends VueElement implements Comparable<VuePotion> {
 	public int compareTo(VuePotion vp2) {
 		return vp2.getRefRMI() - this.getRefRMI();
 	}
+	
+	public Potion getPotion(){
+		return (Potion) getElement();
+	}
 }

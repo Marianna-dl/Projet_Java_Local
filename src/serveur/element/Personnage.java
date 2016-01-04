@@ -14,6 +14,7 @@ import utilitaires.Calculs;
  */
 public class Personnage extends Element {
 	
+	private int vue=0;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -26,6 +27,14 @@ public class Personnage extends Element {
 		super(nom, groupe, caracts);
 	}
 	
+
+	public int getVue(){
+		return this.vue;
+	}
+	
+	public void augmenterVue(int v){
+		this.vue+=v;
+	}
 	/**
 	 * Incremente la caracteristique donnee de la valeur donnee.
 	 * Si la caracteristique n'existe pas, elle sera cree avec la valeur 
@@ -50,4 +59,5 @@ public class Personnage extends Element {
 		Integer vie = caracts.get(Caracteristique.VIE);
 		return vie != null && vie > 0;
 	}
+
 }

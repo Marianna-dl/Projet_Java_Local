@@ -43,7 +43,7 @@ public class StrategiePersonnage {
 		
 		logger.info("lanceur", "Creation de la console...");
 		
-		try {
+		/*try {
 			console = new Console(ipArene, port, ipConsole, this, 
 					new Personnage(nom, groupe, caracts), nbTours, position, logger);
 			logger.info("lanceur", "Creation de la console reussie");
@@ -51,7 +51,7 @@ public class StrategiePersonnage {
 		} catch (Exception e) {
 			logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
 			e.printStackTrace();
-		}
+		}*/
 	}
 
 	// TODO etablir une strategie afin d'evoluer dans l'arene de combat

@@ -62,6 +62,8 @@ public class LancePotionForce {
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
 			caractsPotion.put(Caracteristique.FORCE, Calculs.nombreAleatoire(0, 100));
+			caractsPotion.put(Caracteristique.VIE, 0);
+			caractsPotion.put(Caracteristique.INITIATIVE, 0);
 			
 			// ajout de la potion
 			arene.ajoutePotion(new PotionForce(caractsPotion));

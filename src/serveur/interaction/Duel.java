@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
+import serveur.element.Paladin;
 import serveur.element.Personnage;
 import serveur.element.Voleur;
 import serveur.vuelement.VuePersonnage;
@@ -43,11 +44,19 @@ public class Duel extends Interaction<VuePersonnage> {
 			//On teste si c'est un voleur
 			if(pAttaquant instanceof Voleur){
 				Personnage pDefenseur = (Personnage) defenseur.getElement();
-				int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
-				int voleInit = Calculs.nombreAleatoire(0,init);			
-				arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
-				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
-						+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
+				//On teste si on attaque un Paladin
+				if(pDefenseur instanceof Paladin){
+					if(blocAttaque(pAttaquant.getCaracts().get(Caracteristique.FORCE),
+							pDefenseur.getCaracts().get(Caracteristique.FORCE)))
+						perteVie=0;
+					else{
+						int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
+						int voleInit = Calculs.nombreAleatoire(0,init);			
+						arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
+						logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
+							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
+					}
+				}
 				
 			}
 			
@@ -66,6 +75,22 @@ public class Duel extends Interaction<VuePersonnage> {
 		} catch (RemoteException e) {
 			logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
 		}
+	}
+
+	//Calcul la probabilite que le Paladin ait de bloquer une attaque
+	private boolean blocAttaque(Integer forceAtk, Integer forceDef) {
+		// TODO Auto-generated method stub
+		int bloc=Calculs.nombreAleatoire(0, 100);
+		if(2*forceAtk<=forceDef)
+			return(bloc>=5);
+		if(forceAtk<forceDef)
+			return(bloc>=20);
+		if(forceAtk>=2*forceDef)
+			return (bloc>=90);
+		if(forceAtk>forceDef)
+			return (bloc>=75);
+		else
+			return(bloc>=50);
 	}
 
 	/**
