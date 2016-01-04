@@ -18,6 +18,8 @@ public class Personnage extends Element {
 	private int maxVie;
 	private int maxForce;
 	private int maxInit;
+	
+	private int vue=0;
 	/**
 	 * Cree un personnage avec un nom et un groupe.
 	 * @param nom du personnage
@@ -48,6 +50,10 @@ public class Personnage extends Element {
 		
 	}
 	
+	public int getVue(){
+		return this.vue;
+	}
+	
 	/**
 	 * Incremente la caracteristique donnee de la valeur donnee.
 	 * Si la caracteristique n'existe pas, elle sera cree avec la valeur 
@@ -71,5 +77,11 @@ public class Personnage extends Element {
 	public boolean estVivant() {
 		Integer vie = caracts.get(Caracteristique.VIE);
 		return vie != null && vie > 0;
+	}
+
+	public void augmenterVue(int vue) {
+		this.vue+=vue;
+		// TODO Auto-generated method stub
+		
 	}
 }
