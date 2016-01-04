@@ -192,6 +192,9 @@ public interface IArene extends Remote {
 	 * @return vrai si l'action a bien eu lieu, faux sinon
 	 * @throws RemoteException
 	 */
+	
+	public boolean lanceAttaqueMagicien(int refRMI, int refAdv) throws RemoteException;
+	
 	public boolean deplace(int refRMI, int refCible) throws RemoteException;
 	
 	/**
