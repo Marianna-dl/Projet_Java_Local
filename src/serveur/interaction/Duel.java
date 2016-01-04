@@ -52,10 +52,21 @@ public class Duel extends Interaction<VuePersonnage> {
 					else{
 						int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
 						int voleInit = Calculs.nombreAleatoire(0,init);			
-						arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
-						logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
+						if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
+							arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
+							logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
 							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
+						}
 					}
+				}
+				int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
+				int voleInit = Calculs.nombreAleatoire(0,init);	
+				if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
+					
+					arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
+							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
+					
 				}
 				
 			}

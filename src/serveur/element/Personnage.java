@@ -14,9 +14,12 @@ import utilitaires.Calculs;
  */
 public class Personnage extends Element {
 	
-	private int vue=0;
 	private static final long serialVersionUID = 1L;
-
+	private int maxVie;
+	private int maxForce;
+	private int maxInit;
+	
+	private int vue=0;
 	/**
 	 * Cree un personnage avec un nom et un groupe.
 	 * @param nom du personnage
@@ -27,14 +30,30 @@ public class Personnage extends Element {
 		super(nom, groupe, caracts);
 	}
 	
-
+	public Personnage(String nom, String groupe, HashMap<Caracteristique, Integer> caracts, int v, int f, int i ) {
+		super(nom, groupe, caracts);
+		this.maxVie = v; 
+		this.maxForce = f;
+		this.maxInit = i;
+	}
+	
+	public int getMaxVie(){
+		return this.maxVie;
+		
+	}
+	public int getMaxForce(){
+		return this.maxForce;
+		
+	}
+	public int getMaxInit(){
+		return this.maxInit;
+		
+	}
+	
 	public int getVue(){
 		return this.vue;
 	}
 	
-	public void augmenterVue(int v){
-		this.vue+=v;
-	}
 	/**
 	 * Incremente la caracteristique donnee de la valeur donnee.
 	 * Si la caracteristique n'existe pas, elle sera cree avec la valeur 
@@ -60,4 +79,9 @@ public class Personnage extends Element {
 		return vie != null && vie > 0;
 	}
 
+	public void augmenterVue(int vue) {
+		this.vue+=vue;
+		// TODO Auto-generated method stub
+		
+	}
 }
