@@ -48,4 +48,6 @@ public class PaireRefRMIIntitiative implements Comparable<PaireRefRMIIntitiative
 		
 		return res;
 	}
+	
+
 }

@@ -160,6 +160,8 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 						IConsole console = consoleFromRef(refRMI);
 						Personnage personnage = (Personnage) elementFromRef(refRMI);
 						
+						logger.info(Constantes.nomClasse(this), "Perso "+personnage);
+						
 						// on teste si le client est actif
 						// (il a pu etre tue plus tot dans le tour)
 						if (!personnage.estVivant()) {
@@ -722,11 +724,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage client = personnages.get(refRMI);
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+	/*	if (personnages.get(refRMI).isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			IConsole console = consoleFromRef(refRMI);
 			IConsole consoleAdv = consoleFromRef(refRMIAdv);
@@ -768,7 +770,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
 						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = " + distance);
 			}
-		}
+	//	}
 		
 		return res;
 	}
@@ -780,11 +782,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage client = personnages.get(refRMI);
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+		/*if (personnages.get(refRMI).isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			IConsole console = consoleFromRef(refRMI);
 			IConsole consoleAdv = consoleFromRef(refRMIAdv);
@@ -836,7 +838,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
 						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = " + distance);
 			}
-		}
+		//}
 		
 		return res;
 	}
@@ -913,11 +915,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage client = personnages.get(refRMI);
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+		/*if (personnages.get(refRMI).isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			IConsole console = consoleFromRef(refRMI);
 			IConsole consoleAdv = consoleFromRef(refRMIAdv);
@@ -969,7 +971,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
 						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = " + distance);
 			}
-		}
+		//}
 		
 		return res;
 	}
@@ -980,17 +982,17 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		VuePersonnage client = personnages.get(refRMI);
 		
-		if (client.isActionExecutee()) {
+		/*if (client.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).seTeleporter();
 			client.executeAction();
 			
 			res = true;
-		}
+		//}
 		
 		return res;
 	}
@@ -1001,17 +1003,17 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		VuePersonnage client = personnages.get(refRMI);
 		
-		if (client.isActionExecutee()) {
+		/*if (client.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).fuir();
 			client.executeAction();
 			
 			res = true;
-		}
+		//}
 		
 		return res;
 	}
@@ -1023,17 +1025,17 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		VuePersonnage client = personnages.get(refRMI);
 		
-		if (client.isActionExecutee()) {
+		/*if (client.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(refCible);
 			client.executeAction();
 			
 			res = true;
-		}
+		//}
 		
 		return res;
 	}
@@ -1044,21 +1046,72 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		VuePersonnage client = personnages.get(refRMI);
 		
-		if (client.isActionExecutee()) {
+		/*if (client.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			new Deplacement(client, getVoisins(refRMI)).seDirigerVers(objectif);
 			client.executeAction();
 
 			res = true;
-		}
+		//}
 		
 		return res;
 	}
 	
+	public boolean verifierPotion(int refCible) throws RemoteException{
+		Element potion = elementFromRef(refCible) ;
+		if(potion.getCaract(Caracteristique.VIE) <0 || potion.getCaract(Caracteristique.INITIATIVE) <0 
+				|| potion.getCaract(Caracteristique.FORCE) <0){
+			return false;
+			
+		}
+	
+		return true;
+	}
+	
+	
+	public int chercherElementFaible(int refBase, HashMap<Integer, Point> voisins) throws RemoteException{
+		int faible = -1;
+		int i = 0;
+		
+		Element aComp = null;
+		//Element persoReferent = elementFromRef(refBase);
+		Element pers = null ;
+		
+		IConsole console = consoleFromRef(refBase);
+		
+		//Si il y a une potion, on va en priorite vers elle
+		//Sinon, on va vers le personnage ayant le moins d'initiative
+		for(int refVoisin : voisins.keySet()) {
+			if(i == 0){
+				aComp = elementFromRef(refVoisin);
+				faible = refVoisin;
+				if(aComp instanceof Potion){
+					return refVoisin;
+				}
+				i++;
+			}
+			else{
+				pers = elementFromRef(refVoisin);
+				console.log(Level.INFO, Constantes.nomClasse(this), 
+						pers.getNom()+" a moins d'initiative que moi !");
+				
+				if(pers instanceof Potion){
+					return refVoisin;
+					
+				}
+				if(!(pers instanceof Potion) && pers.getCaract(Caracteristique.INITIATIVE) <= aComp.getCaract(Caracteristique.INITIATIVE)){
+					aComp = pers;
+					faible = refVoisin;
+	
+				}				
+			}
+		}
 
+		return faible;	
+	}
 	
 	
 	

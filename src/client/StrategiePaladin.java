@@ -3,6 +3,7 @@ package client;
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import client.controle.Console;
 import logger.LoggerProjet;
@@ -39,7 +40,7 @@ public class StrategiePaladin extends StrategiePersonnage{
 				
 				// reference RMI de l'element courant
 				int refRMI = 0;
-				
+				int distPlusProche;
 				// position de l'element courant
 				Point position = null;
 				
@@ -52,32 +53,48 @@ public class StrategiePaladin extends StrategiePersonnage{
 				
 				if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
 					console.setPhrase("J'erre...");
+					
 					arene.deplace(refRMI, 0); 
 					
-				} else {
-					int refCible = Calculs.chercherElementProche(position, voisins);
-					int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
-
-					Element elemPlusProche = arene.elementFromRef(refCible);
-
-					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
-						// j'interagis directement
-						if(elemPlusProche instanceof Potion) { // potion
-							// ramassage
-							console.setPhrase("Je ramasse une potion");
-							arene.ramassePotion(refRMI, refCible);
-
-						} else { // personnage
-							// duel
-							console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
-							arene.lanceAttaque(refRMI, refCible);
-						}
+				} else { //un ou plusieurs voisins
+					//int refCible = Calculs.chercherElementProche(position, voisins);
+					int refCible = arene.chercherElementFaible(refRMI, voisins);
+					distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
+					Element elemPlusFaible = arene.elementFromRef(refCible);
 						
-					} else { // si voisins, mais plus eloignes
-						// je vais vers le plus proche
-						console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
-						arene.deplace(refRMI, refCible);
+						if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
+							interagir(arene,refRMI, refCible, elemPlusFaible );
+							
+						} else { // si voisins, mais plus eloignes
+							// je vais vers le plus proche
+							console.setPhrase("Je vais vers mon voisin " + elemPlusFaible.getNom());
+							arene.deplace(refRMI, refCible);
+							refCible = arene.chercherElementFaible(refRMI, voisins);
+							elemPlusFaible = arene.elementFromRef(refCible);
+							if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+								interagir(arene,refRMI, refCible, elemPlusFaible );
+							}
+						}				
 					}
-				}
+
+				
 	}
+
+	public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusFaible ) throws RemoteException{
+		
+		// j'interagis directement
+		if(elemPlusFaible instanceof Potion) { // potion
+			// ramassage
+			console.setPhrase("Je ramasse une potion");
+			arene.ramassePotion(refRMI, refCible);
+
+		} else { // personnage
+			// duel
+			console.setPhrase("Je fais un duel avec " + elemPlusFaible.getNom());
+			arene.lanceAttaque(refRMI, refCible);
+		}
+
+		}	
+	
+	
 }

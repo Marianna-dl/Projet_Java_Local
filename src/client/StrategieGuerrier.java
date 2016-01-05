@@ -4,6 +4,7 @@ package client;
 import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import client.controle.Console;
 import logger.LoggerProjet;
@@ -75,25 +76,34 @@ public class StrategieGuerrier extends StrategiePersonnage {
 			Element elemPlusProche = arene.elementFromRef(refCible);
 
 			if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
-				// j'interagis directement
-				if(elemPlusProche instanceof Potion) { // potion
-					// ramassage
-					console.setPhrase("Je ramasse une potion");
-					arene.ramassePotion(refRMI, refCible);
-
-				} else { // personnage
-					// duel
-					console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
-					arene.lanceAttaque(refRMI, refCible);
-				}
+				interagir(arene,refRMI, refCible, elemPlusProche );
 				
 			} else { // si voisins, mais plus eloignes
 				// je vais vers le plus proche
 				console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 				arene.deplace(refRMI, refCible);
+				refCible = Calculs.chercherElementProche(position, voisins);
+				elemPlusProche = arene.elementFromRef(refCible);
+				if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+					interagir(arene,refRMI, refCible, elemPlusProche );
+				}
 			}
 		}
 	}
 
+public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusProche) throws RemoteException{
+		
+		// j'interagis directement
+		if(elemPlusProche instanceof Potion) { // potion
+			// ramassage
+			console.setPhrase("Je ramasse une potion");
+			arene.ramassePotion(refRMI, refCible);
+
+		} else { // personnage
+			// duel
+			console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+			arene.lanceAttaque(refRMI, refCible);
+		}
+	}
 	
 }

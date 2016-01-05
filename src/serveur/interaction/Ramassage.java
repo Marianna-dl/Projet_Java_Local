@@ -47,7 +47,7 @@ public class Ramassage extends Interaction<VuePotion> {
 					attaquant.getPersonnage().augmenterVue(popo.getVue());
 				}
 
-				// caracteristiques de la potion
+				// caracteristiques de la potion + seuil max carac personnages
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
 				Personnage pRamasseur = (Personnage) attaquant.getElement();
 				int vie = pRamasseur.getCaract(Caracteristique.VIE);
@@ -63,7 +63,6 @@ public class Ramassage extends Interaction<VuePotion> {
 				
 					if(c.getNomComplet().equals("Vie") && valeursPotion.get(c)+vie > maxVie){
 		
-						
 						arene.ajouterCaractElement(attaquant, c, ( (maxVie+valeursPotion.get(c))-(vie+valeursPotion.get(c))) );
 						
 					}

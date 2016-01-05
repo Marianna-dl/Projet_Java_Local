@@ -62,27 +62,37 @@ import serveur.element.Potion;
 
 				if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION)
 				 { // si suffisamment proches
-					// j'interagis directement
-					if(elemPlusProche instanceof Potion) { // potion
-						// ramassage
-						console.setPhrase("Je ramasse une potion");
-						arene.ramassePotion(refRMI, refCible);
-					}
-				if(distPlusProche <= 10){ // personnage
-						// duel
-						console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
-						arene.lanceAttaqueArcher(refRMI, refCible);
-					}
+					interagir(arene,refRMI, refCible, elemPlusProche, distPlusProche );
 					
 				} else { // si voisins, mais plus eloignes
 					// je vais vers le plus proche
 					console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 					arene.deplace(refRMI, refCible);
+					refCible = Calculs.chercherElementProche(position, voisins);
+					elemPlusProche = arene.elementFromRef(refCible);
+					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+						interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );
+					}
 				}
 			}
 		}
+		
+	public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusProche, int distPlusProche) throws RemoteException{
+			
+			// j'interagis directement
+			if(elemPlusProche instanceof Potion) { // potion
+				// ramassage
+				console.setPhrase("Je ramasse une potion");
+				arene.ramassePotion(refRMI, refCible);
+			}
+			if(distPlusProche <= 10){ // personnage
+				// duel
+				console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+				arene.lanceAttaqueArcher(refRMI, refCible);
+			}
 
 	}
+}
 
 	
 

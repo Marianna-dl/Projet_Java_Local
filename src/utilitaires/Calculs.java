@@ -9,6 +9,7 @@ import java.util.Random;
 import static utilitaires.Constantes.*;
 
 import serveur.element.Caracteristique;
+import serveur.vuelement.VuePersonnage;
 
 /**
  * Classe regroupant quelques methodes utiles pour l'arene (distance, case vide,
@@ -125,6 +126,8 @@ public class Calculs {
 		
 		return refPlusProche;
 	}
+	
+	
 	
 	/**
 	 * Genere un entier dans un intervalle donne.

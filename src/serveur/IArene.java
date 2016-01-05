@@ -261,6 +261,10 @@ public interface IArene extends Remote {
 	public boolean teleportation(int refRMI) throws RemoteException;
 	
 	public boolean fuir(int refRMI) throws RemoteException;
+
+	public int chercherElementFaible(int refRMI, HashMap<Integer, Point> voisins) throws RemoteException;
+
+	public boolean verifierPotion(int refCible)throws RemoteException;
 	
 }
 

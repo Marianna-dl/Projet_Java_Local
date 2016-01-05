@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 import client.controle.Console;
 import logger.LoggerProjet;
@@ -65,36 +66,53 @@ public class StrategiePretre extends StrategiePersonnage{
 
 			Element elemPlusProche = arene.elementFromRef(refCible);
 			boolean verifie = personnesSoignees.contains(refCible);
+		
 			if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
-				// j'interagis directement
-				if(elemPlusProche instanceof Potion) { // potion
-					// ramassage
-					console.setPhrase("Je ramasse une potion");
-					arene.ramassePotion(refRMI, refCible);
-
-				} else { // personnage
-					// duel
-					if(verifie){
-						arene.fuir(refRMI);
-					}
-					else{
-						console.setPhrase("Je vais aider " + elemPlusProche.getNom());
-						arene.lanceSoin(refRMI, refCible);
-						personnesSoignees.add(refCible);
-					}
-				}
-				
+				interagir(arene,refRMI, refCible, elemPlusProche );
+			
 			} else { // si voisins, mais plus eloignes
 				// je vais vers le plus proche
 				if(!verifie){
 					console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 					arene.deplace(refRMI, refCible);
+					refCible = Calculs.chercherElementProche(position, voisins);
+					elemPlusProche = arene.elementFromRef(refCible);
+					distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
+					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+						interagir(arene,refRMI, refCible, elemPlusProche );
+					}
+						
 				}
 				else{
+					console.setPhrase("Je fuis !!");
 					arene.fuir(refRMI);
 				}
 			}
 		}
 	}
+	
+public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusProche) throws RemoteException{
+	boolean verifie = personnesSoignees.contains(refCible);
+	// j'interagis directement
+	if(elemPlusProche instanceof Potion) { // potion
+		// ramassage
+		console.setPhrase("Je ramasse une potion");
+		arene.ramassePotion(refRMI, refCible);
+
+	} else { // personnage
+		// duel
+		if(verifie){
+			arene.fuir(refRMI);
+		}
+		else{
+			console.setPhrase("Je vais aider " + elemPlusProche.getNom());
+			arene.lanceSoin(refRMI, refCible);
+			personnesSoignees.add(refCible);
+		}
+	}
+	
+	
+}
+	
 
 }

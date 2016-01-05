@@ -76,7 +76,6 @@ public class LancePretre {
 			caracts.put(Caracteristique.FORCE, 30);
 			caracts.put(Caracteristique.INITIATIVE, 100);
 			
-			
 			Point position = Calculs.positionAleatoireArene();	
 			
 			new StrategiePretre(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);

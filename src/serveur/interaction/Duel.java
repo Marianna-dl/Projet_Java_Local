@@ -5,7 +5,9 @@ import java.rmi.RemoteException;
 import java.util.logging.Level;
 
 import serveur.Arene;
+import serveur.element.Archer;
 import serveur.element.Caracteristique;
+import serveur.element.Magicien;
 import serveur.element.Paladin;
 import serveur.element.Personnage;
 import serveur.element.Voleur;
@@ -36,10 +38,13 @@ public class Duel extends Interaction<VuePersonnage> {
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
 		
-			Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
-
-			// ejection du defenseur
-			defenseur.setPosition(positionEjection);
+			if(!(pAttaquant instanceof Magicien) && !(pAttaquant instanceof Archer)){
+				logs(Level.INFO, "MAGICIEN "+(pAttaquant instanceof Magicien));
+				
+				Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
+				// ejection du defenseur
+				defenseur.setPosition(positionEjection);
+			}
 			
 			//On teste si c'est un voleur
 			if(pAttaquant instanceof Voleur){

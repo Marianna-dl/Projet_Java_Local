@@ -62,28 +62,39 @@ public class StrategieMagicien extends StrategiePersonnage{
 					Element elemPlusProche = arene.elementFromRef(refCible);
 
 					if(distPlusProche <= 5) { // si suffisamment proches
-						// j'interagis directement
-						if(elemPlusProche instanceof Potion) { // potion
-							// ramassage
-							if(distPlusProche<=Constantes.DISTANCE_MIN_INTERACTION){
-								console.setPhrase("Je ramasse une potion");
-								arene.ramassePotion(refRMI, refCible);
-							}else{
-								console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
-								arene.deplace(refRMI, refCible);
-							}
-
-						} else { // personnage
-							// duel
-							console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
-							arene.lanceAttaqueMagicien(refRMI, refCible);
-						}
+						interagir(arene,refRMI, refCible, elemPlusProche, distPlusProche );
 						
 					} else { // si voisins, mais plus eloignes
 						// je vais vers le plus proche
 						console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 						arene.deplace(refRMI, refCible);
+						refCible = Calculs.chercherElementProche(position, voisins);
+						elemPlusProche = arene.elementFromRef(refCible);
+						if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+							interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );
+						}
 					}
 				}
+	}
+	
+public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusProche, int distPlusProche ) throws RemoteException{
+	
+	// j'interagis directement
+	if(elemPlusProche instanceof Potion) { // potion
+		// ramassage
+		if(distPlusProche<=Constantes.DISTANCE_MIN_INTERACTION){
+			console.setPhrase("Je ramasse une potion");
+			arene.ramassePotion(refRMI, refCible);
+		}else{
+			console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
+			arene.deplace(refRMI, refCible);
+		}
+
+	} else { // personnage
+		// duel
+		console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
+		arene.lanceAttaqueMagicien(refRMI, refCible);
+	}
+
 	}
 }

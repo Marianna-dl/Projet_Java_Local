@@ -47,7 +47,11 @@ public class Soigner extends Interaction<VuePersonnage> {
 				
 				if(soin != 0){
 					int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
-					arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -init);
+					arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, -init);
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " soigne ("
+							+ soin + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
+					
+					
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " enlève en contrepartie ("
 							+ init + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
 				}
