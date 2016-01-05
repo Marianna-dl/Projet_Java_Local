@@ -12,7 +12,7 @@ import java.util.HashMap;
 public class Archer extends Personnage  {
 	
 		public Archer (String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
-		super(nom, groupe, caracts);
+		super("archer", "24", caracts, 20,50,40);
 }
 		
 }
