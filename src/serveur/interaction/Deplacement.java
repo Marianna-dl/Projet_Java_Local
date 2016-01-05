@@ -85,4 +85,39 @@ public class Deplacement {
 			personnage.setPosition(dest);
 		}
 	}
+	
+	public void seTeleporter() throws RemoteException {
+		
+		// on cherche le point voisin vide
+		int valX = Calculs.nombreAleatoire(-5, 5);
+		int valY = Calculs.nombreAleatoire(-5, 5);
+		
+		Point dest = new Point ((int)(personnage.getPosition()).getX()+valX, (int)(personnage.getPosition()).getY()+valY);
+		
+		if(dest != null) {
+			personnage.setPosition(dest);
+		}
+	}
+	
+	public void fuir() throws RemoteException {
+		
+		// on cherche le point voisin vide
+		int valXAlea = Calculs.nombreAleatoire(0, 1);
+		int valYAlea = Calculs.nombreAleatoire(0, 1);
+		int valX= -2;
+		int valY = -2;
+		
+		if(valXAlea == 1){
+			valX = 2;
+		}
+		if(valYAlea == 1){
+			valY = 2;
+		}
+		
+		Point dest = new Point ((int)(personnage.getPosition()).getX()+valX, (int)(personnage.getPosition()).getY()+valY);
+		
+		if(dest != null) {
+			personnage.setPosition(dest);
+		}
+	}
 }

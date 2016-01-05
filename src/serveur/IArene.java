@@ -257,6 +257,10 @@ public interface IArene extends Remote {
 	public void lancePotionEnAttente(int refRMI, String mdp) throws RemoteException;
 
 	public boolean lanceSoin(int refRMI, int refCible) throws RemoteException;
+
+	public boolean teleportation(int refRMI) throws RemoteException;
+	
+	public boolean fuir(int refRMI) throws RemoteException;
 	
 }
 

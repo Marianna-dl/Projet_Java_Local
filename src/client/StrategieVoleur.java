@@ -65,7 +65,11 @@ public class StrategieVoleur extends StrategiePersonnage{
 		
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
 			console.setPhrase("J'erre...");
-			arene.deplace(refRMI, 0); 
+			Point p = arene.getPosition(refRMI);
+			
+			Point avance = new Point((int)p.getX()+50, (int)p.getY()+50);		
+			//arene.deplace(refRMI, avance); 
+			arene.teleportation(refRMI); 
 			
 		} else {
 			int refCible = Calculs.chercherElementProche(position, voisins);

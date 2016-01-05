@@ -3,6 +3,7 @@ package client;
 
 import java.awt.Point;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import client.controle.Console;
@@ -19,6 +20,7 @@ import utilitaires.Constantes;
 
 public class StrategiePretre extends StrategiePersonnage{
 	protected Console console;
+	ArrayList<Integer> personnesSoignees = new ArrayList<Integer>(); 
 	
 	public StrategiePretre(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
@@ -62,7 +64,7 @@ public class StrategiePretre extends StrategiePersonnage{
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 			Element elemPlusProche = arene.elementFromRef(refCible);
-
+			boolean verifie = personnesSoignees.contains(refCible);
 			if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) { // si suffisamment proches
 				// j'interagis directement
 				if(elemPlusProche instanceof Potion) { // potion
@@ -72,14 +74,25 @@ public class StrategiePretre extends StrategiePersonnage{
 
 				} else { // personnage
 					// duel
-					console.setPhrase("Je vais aider " + elemPlusProche.getNom());
-					arene.lanceSoin(refRMI, refCible);
+					if(verifie){
+						arene.fuir(refRMI);
+					}
+					else{
+						console.setPhrase("Je vais aider " + elemPlusProche.getNom());
+						arene.lanceSoin(refRMI, refCible);
+						personnesSoignees.add(refCible);
+					}
 				}
 				
 			} else { // si voisins, mais plus eloignes
 				// je vais vers le plus proche
-				console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
-				arene.deplace(refRMI, refCible);
+				if(!verifie){
+					console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
+					arene.deplace(refRMI, refCible);
+				}
+				else{
+					arene.fuir(refRMI);
+				}
 			}
 		}
 	}
