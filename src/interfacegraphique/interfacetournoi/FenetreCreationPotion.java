@@ -182,7 +182,7 @@ public class FenetreCreationPotion extends JFrame {
 		} catch (CaractNonValideException e) {
 			validValues = false;
 			erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
-					+ e.afficherCaracts());					
+					+ e.afficheCaracts());					
 		}
 		
 		try {
@@ -198,7 +198,7 @@ public class FenetreCreationPotion extends JFrame {
 		if (validValues) {
 			ihmTournoi.lancePotion(nom, caracts, position);
 		} else {
-			afficherMessageErreur(erreurMessage);
+			afficheMessageErreur(erreurMessage);
 		}
 	}
 
@@ -207,7 +207,7 @@ public class FenetreCreationPotion extends JFrame {
 	 * Affiche une liste de messages d'erreur dans une JOptionPane.
 	 * @param messages messages d'erreur
 	 */
-	private void afficherMessageErreur(List<String> messages) {
+	private void afficheMessageErreur(List<String> messages) {
 		String s = "<html><body><div width='300px' align='center'>";
 		
 		for (String msg : messages) {
@@ -281,7 +281,7 @@ public class FenetreCreationPotion extends JFrame {
      * l'arene est selectionnee.
      * @return vrai si la checkbox est selectionnee
      */
-    public boolean isClicPourPoserSelectionne() {
+    public boolean estClicPourPoserSelectionne() {
     	return clicPourPoser.isSelected();
     }
     

@@ -23,11 +23,11 @@ public class LanceArene {
 		
 		// nombre de tours du serveur, sachant qu'un tour dure environ 1 seconde
 		// si negatif, duree illimite
-		long duree = Constantes.NB_TOURS_DEFAUT;
+		int duree = Constantes.NB_TOURS_DEFAUT;
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {
@@ -44,7 +44,7 @@ public class LanceArene {
 				try {
 					duree = Integer.parseInt(args[1]);
 				} catch (NumberFormatException e) {
-					ErreurLancement.TTL_INCORRECT.erreur(usage);
+					ErreurLancement.NB_TOURS_INCORRECT.erreur(usage);
 				}
 			}
 		}
@@ -62,16 +62,16 @@ public class LanceArene {
 		try {
 			ipArene = InetAddress.getLocalHost().getHostAddress();
 			
-			logger.info("lanceur", "Creation du registre RMI sur le port " + port + "...");
+			logger.info("Lanceur", "Creation du registre RMI sur le port " + port + "...");
 			java.rmi.registry.LocateRegistry.createRegistry(port);
-			logger.info("lanceur", "Creation du registre RMI reussie");
+			logger.info("Lanceur", "Creation du registre RMI reussie");
 
-			logger.info("lanceur", "Creation du serveur sur le port " + port + "...");
+			logger.info("Lanceur", "Creation du serveur sur le port " + port + "...");
 			new Arene(port, ipArene, duree, logger);
-			logger.info("lanceur", "Creation du serveur reussie");
+			logger.info("Lanceur", "Creation du serveur reussie");
 			
 		} catch (Exception e) {
-			logger.severe("lanceur", "Erreur lancement :\n"+e.getCause());
+			logger.severe("Lanceur", "Erreur lancement :\n"+e.getCause());
 			e.printStackTrace();
 			System.exit(ErreurLancement.suivant);
 		}

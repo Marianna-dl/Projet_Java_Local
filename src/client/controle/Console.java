@@ -70,7 +70,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	 * @throws RemoteException
 	 */
 	public Console(String ipArene, int port, String ipConsole,
-			StrategiePersonnage strategiePer, Personnage pers, long nbTours, 
+			StrategiePersonnage strategiePer, Personnage pers, int nbTours, 
 			Point position, LoggerProjet logger) throws RemoteException {
 		
 		super();
@@ -98,7 +98,7 @@ public class Console extends UnicastRemoteObject implements IConsole {
 			// a faire une seule fois par serveur de console pour un port donne
 			// doit rester "localhost"
 			logger.info(Constantes.nomClasse(this), "Demande d'allocation de port");
-			tempRefRMI = arene.allocateRefRMI();
+			tempRefRMI = arene.alloueRefRMI();
 			
 		} catch (Exception e) {
  			logger.severe(Constantes.nomClasse(this), 
@@ -140,19 +140,19 @@ public class Console extends UnicastRemoteObject implements IConsole {
 	}
 
 	@Override
-	public void run() throws RemoteException {
+	public void executeStrategie() throws RemoteException {
 		// met a jour les voisins 
 		HashMap<Integer, Point> voisins = arene.getVoisins(refRMI);
 		
 		// applique la strategie du personnage
-		strategiePer.strategie(voisins);
+		strategiePer.executeStrategie(voisins);
 	}
 
 
 	@Override
-	public void shutDown(String cause) throws RemoteException {
+	public void deconnecte(String cause) throws RemoteException {
 		logger.info(Constantes.nomClasse(this), "Console deconnectee : " + cause);
-		System.exit(0);
+		unexportObject(this, true);
 	}
 
 

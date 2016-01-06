@@ -26,7 +26,7 @@ public class LancePotionVie {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {
@@ -61,13 +61,12 @@ public class LancePotionVie {
 			
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
-			//caractsPotion.put(Caracteristique.VIE, Calculs.nombreAleatoire(0, 100));
-			caractsPotion.put(Caracteristique.VIE, -10);
+			caractsPotion.put(Caracteristique.VIE, Calculs.nombreAleatoire(0, 100));
 			caractsPotion.put(Caracteristique.FORCE, 0);
 			caractsPotion.put(Caracteristique.INITIATIVE, 0);
 			
 			// ajout de la potion
-			arene.ajoutePotion(new PotionVie(caractsPotion));
+			arene.ajoutePotion(new PotionVie(caractsPotion), Calculs.positionAleatoireArene());
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {

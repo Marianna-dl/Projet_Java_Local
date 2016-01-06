@@ -39,7 +39,7 @@ public class Portrait extends JPanel {
 		super.paintComponent(g);
 		g.setColor(color);
 		
-		if (personnage) {
+		if(personnage) {
 			g.fillOval(10, 10, this.getWidth() - 20, this.getWidth() - 20);	
 			
 		} else {

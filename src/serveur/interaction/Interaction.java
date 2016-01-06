@@ -14,7 +14,7 @@ import utilitaires.Constantes;
  *
  * @param <T> vue de l'autre element
  */
-public abstract class Interaction<T extends VueElement> {
+public abstract class Interaction<T extends VueElement<?>> {
 	
 	/**
 	 * Arene (serveur).
@@ -48,7 +48,7 @@ public abstract class Interaction<T extends VueElement> {
 	/**
 	 * Realise l'interaction.
 	 */
-	public abstract void interagir();
+	public abstract void interagit();
 	
 	/**
 	 * Remplit le log de l'arene et des deux clients. 

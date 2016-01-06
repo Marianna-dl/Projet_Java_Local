@@ -25,7 +25,8 @@ public class StrategiePretre extends StrategiePersonnage{
 	
 	public StrategiePretre(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
-			long nbTours, Point position, LoggerProjet logger) {
+			int nbTours, Point position, LoggerProjet logger) {
+		
 			super(ipArene, port,ipConsole,  nom, groupe, caracts, nbTours, position, logger);
 			try {
 				console = new Console(ipArene, port, ipConsole, this, 
@@ -39,7 +40,7 @@ public class StrategiePretre extends StrategiePersonnage{
 	
 	}
 	
-	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
+	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
 		// arene
 		IArene arene = console.getArene();
 		
@@ -61,7 +62,7 @@ public class StrategiePretre extends StrategiePersonnage{
 			arene.deplace(refRMI, 0); 
 			
 		} else {
-			int refCible = Calculs.chercherElementProche(position, voisins);
+			int refCible = Calculs.chercheElementProche(position, voisins);
 			int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 			Element elemPlusProche = arene.elementFromRef(refCible);
@@ -75,7 +76,7 @@ public class StrategiePretre extends StrategiePersonnage{
 				if(!verifie){
 					console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 					arene.deplace(refRMI, refCible);
-					refCible = Calculs.chercherElementProche(position, voisins);
+					refCible = Calculs.chercheElementProche(position, voisins);
 					elemPlusProche = arene.elementFromRef(refCible);
 					distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {

@@ -18,7 +18,7 @@ import serveur.element.Potion;
 	public class StrategieArcher extends StrategiePersonnage{
 
 		public StrategieArcher(String ipArene, int port, String ipConsole, String nom, String groupe,
-				HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
+				HashMap<Caracteristique, Integer> caracts, int nbTours, Point position, LoggerProjet logger) {
 			super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 			// TODO Auto-generated constructor stub
 					logger.info("lanceur", "Creation de la console reussie");
@@ -33,7 +33,7 @@ import serveur.element.Potion;
 		}
 	}
 		
-		public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
+		public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
 			// arene
 			IArene arene = console.getArene();
 			
@@ -55,7 +55,7 @@ import serveur.element.Potion;
 				arene.deplace(refRMI, 0); 
 				
 			} else {
-				int refCible = Calculs.chercherElementProche(position, voisins);
+				int refCible = Calculs.chercheElementProche(position, voisins);
 				int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 				Element elemPlusProche = arene.elementFromRef(refCible);
@@ -68,7 +68,7 @@ import serveur.element.Potion;
 					// je vais vers le plus proche
 					console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 					arene.deplace(refRMI, refCible);
-					refCible = Calculs.chercherElementProche(position, voisins);
+					refCible = Calculs.chercheElementProche(position, voisins);
 					elemPlusProche = arene.elementFromRef(refCible);
 					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
 						interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );
@@ -92,6 +92,8 @@ import serveur.element.Potion;
 			}
 
 	}
+
+
 }
 
 	

@@ -15,17 +15,17 @@ import serveur.element.Personnage;
 public interface IConsole extends Remote {
 	
 	/**
-	 * Execute le thread de l'element (joue la strategie). 
+	 * Execute la strategie de l'element. 
 	 * @throws RemoteException
 	 */
-	public void run() throws RemoteException;
+	public void executeStrategie() throws RemoteException;
 			
 	/**
 	 * Deconnexion du serveur.
 	 * @param cause cause de la deconnexion
 	 * @throws RemoteException
 	 */
-	public void shutDown(String cause) throws RemoteException;
+	public void deconnecte(String cause) throws RemoteException;
 
 	/**
 	 * Renvoie l'arene (le serveur) avec laquelle communique la console. 

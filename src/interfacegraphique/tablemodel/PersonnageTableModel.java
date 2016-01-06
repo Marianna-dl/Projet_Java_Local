@@ -1,11 +1,9 @@
 package interfacegraphique.tablemodel;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import serveur.element.Caracteristique;
 import serveur.vuelement.VuePersonnage;
-import utilitaires.Constantes;
 
 /**
  * TableModel des personnages, connectes ou deconnectes.
@@ -36,18 +34,5 @@ public class PersonnageTableModel extends ElementTableModel<VuePersonnage> {
 		
 		// phrase du personnage
 		colonnes.add(new InformationColonne<VuePersonnage>("Phrase", 300, String.class, new ValeurColonnePhrase())); 
-	}
-	
-	@Override
-	public Color getColor(int rowIndex) {
-		Color res;
-		
-		if (!vues.get(rowIndex).getElement().estVivant()) {
-			res = Constantes.COULEUR_MORTS_OU_EN_ATTENTE;
-		} else {
-			res = super.getColor(rowIndex);
-		}
-		
-		return res;
 	}
 }

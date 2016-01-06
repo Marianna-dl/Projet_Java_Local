@@ -29,7 +29,7 @@ public class Soigner extends Interaction<VuePersonnage> {
 	}
 	
 	@Override
-	public void interagir() {
+	public void interagit() {
 		try {
 			Personnage pAttaquant = (Personnage) attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
@@ -40,14 +40,14 @@ public class Soigner extends Interaction<VuePersonnage> {
 				Personnage pDefenseur = (Personnage) defenseur.getElement();
 				int vie = pDefenseur.getCaract(Caracteristique.VIE);
 				int soin = Calculs.nombreAleatoire(0,100-vie);				
-				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, +soin);
+				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, +soin);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " soigne ("
 						+ soin + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
 				
 				if(soin != 0){
 					int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
-					arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, -init);
+					arene.incrementeCaractElement(defenseur, Caracteristique.INITIATIVE, -init);
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " soigne ("
 							+ soin + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
 					
@@ -71,7 +71,7 @@ public class Soigner extends Interaction<VuePersonnage> {
 	 * @throws RemoteException
 	 */
 	private void incrementerInitiative(VuePersonnage defenseur) throws RemoteException {
-		arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, 
+		arene.incrementeCaractElement(defenseur, Caracteristique.INITIATIVE, 
 				Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 	
@@ -81,7 +81,7 @@ public class Soigner extends Interaction<VuePersonnage> {
 	 * @throws RemoteException
 	 */
 	private void decrementerInitiative(VuePersonnage attaquant) throws RemoteException {
-		arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, 
+		arene.incrementeCaractElement(attaquant, Caracteristique.INITIATIVE, 
 				-Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 

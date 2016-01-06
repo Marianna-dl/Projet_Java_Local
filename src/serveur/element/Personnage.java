@@ -60,20 +60,27 @@ public class Personnage extends Element {
 	 * donnee.
 	 * @param c caracteristique
 	 * @param inc increment (peut etre positif ou negatif)
-	 * @return vrai si le personnage est toujours vivant apres l'ajout
-	 * de l'increment
 	 */
-	public boolean incrementeCaract(Caracteristique c, int inc) {		
+	public void incrementeCaract(Caracteristique c, int inc) {		
 		if(caracts.containsKey(c)) {
-			caracts.put(c, Calculs.restreindreCarac(c, caracts.get(c) + inc));
+			caracts.put(c, Calculs.restreintCarac(c, caracts.get(c) + inc));
 		} else {
-			caracts.put(c, Calculs.restreindreCarac(c, inc));
+			caracts.put(c, Calculs.restreintCarac(c, inc));
 		}
-		
-		return estVivant();
+	}
+	
+	/**
+	 * Tue ce personnage en mettant son nombre de poins de vie a 0.
+	 */
+	public void tue() {
+		caracts.put(Caracteristique.VIE, 0);
 	}
 
-	@Override
+	/**
+	 * Teste si le personnage est vivant, i.e., son nombre de points de vie
+	 * est strictement superieur a 0.
+	 * @return vrai si le personnage est vivant, faux sinon
+	 */
 	public boolean estVivant() {
 		Integer vie = caracts.get(Caracteristique.VIE);
 		return vie != null && vie > 0;
