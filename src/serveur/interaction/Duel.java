@@ -37,7 +37,8 @@ public class Duel extends Interaction<VuePersonnage> {
 			Personnage pAttaquant = (Personnage) attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
-		
+			Personnage pDefenseur = (Personnage) defenseur.getElement();
+			
 			if(!(pAttaquant instanceof Magicien) && !(pAttaquant instanceof Archer)){
 				logs(Level.INFO, "MAGICIEN "+(pAttaquant instanceof Magicien));
 				
@@ -46,24 +47,17 @@ public class Duel extends Interaction<VuePersonnage> {
 				defenseur.setPosition(positionEjection);
 			}
 			
+			//On teste si on attaque un Paladin
+			if(pDefenseur instanceof Paladin){
+				if(blocAttaque(pAttaquant.getCaracts().get(Caracteristique.FORCE),
+						pDefenseur.getCaracts().get(Caracteristique.FORCE)))
+					perteVie=0;
+
+				}
+		
+			
 			//On teste si c'est un voleur
 			if(pAttaquant instanceof Voleur){
-				Personnage pDefenseur = (Personnage) defenseur.getElement();
-				//On teste si on attaque un Paladin
-				if(pDefenseur instanceof Paladin){
-					if(blocAttaque(pAttaquant.getCaracts().get(Caracteristique.FORCE),
-							pDefenseur.getCaracts().get(Caracteristique.FORCE)))
-						perteVie=0;
-					else{
-						int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
-						int voleInit = Calculs.nombreAleatoire(0,init);			
-						if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
-							arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
-							logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
-							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
-						}
-					}
-				}
 				int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
 				int voleInit = Calculs.nombreAleatoire(0,init);	
 				if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
@@ -71,9 +65,8 @@ public class Duel extends Interaction<VuePersonnage> {
 					arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
 							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
-					
 				}
-				
+					
 			}
 			
 			// degats
