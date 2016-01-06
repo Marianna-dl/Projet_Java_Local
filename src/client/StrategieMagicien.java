@@ -19,7 +19,7 @@ import utilitaires.Constantes;
 public class StrategieMagicien extends StrategiePersonnage{
 
 	public StrategieMagicien(String ipArene, int port, String ipConsole, String nom, String groupe,
-			HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
+			HashMap<Caracteristique, Integer> caracts, int nbTours, Point position, LoggerProjet logger) {
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 		// TODO Auto-generated constructor stub
 		try {
@@ -34,7 +34,7 @@ public class StrategieMagicien extends StrategiePersonnage{
 	}
 
 	@Override
-	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
+	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
 		// TODO Auto-generated method stub
 		// arene
 				IArene arene = console.getArene();
@@ -57,7 +57,7 @@ public class StrategieMagicien extends StrategiePersonnage{
 					arene.deplace(refRMI, 0); 
 					
 				} else {
-					int refCible = Calculs.chercherElementProche(position, voisins);
+					int refCible = Calculs.chercheElementProche(position, voisins);
 					int distPlusProche = Calculs.distanceChebyshev(position, arene.getPosition(refCible));
 
 					Element elemPlusProche = arene.elementFromRef(refCible);
@@ -71,7 +71,7 @@ public class StrategieMagicien extends StrategiePersonnage{
 						// je vais vers le plus proche
 						console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
 						arene.deplace(refRMI, refCible);
-						refCible = Calculs.chercherElementProche(position, voisins);
+						refCible = Calculs.chercheElementProche(position, voisins);
 						elemPlusProche = arene.elementFromRef(refCible);
 						if(distPlusProche <= 5) {
 							interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );

@@ -91,7 +91,7 @@ public class IHM extends JFrame implements Runnable {
 	 * VueElement correspondant a l'element actuellement selectionnee dans le 
 	 * tableau.
 	 */
-	protected VueElement elementSelectionne;
+	protected VueElement<?> elementSelectionne;
 	
 	
 	/**
@@ -214,12 +214,14 @@ public class IHM extends JFrame implements Runnable {
 
 			public void actionPerformed(ActionEvent ae) {
 				JOptionPane.showMessageDialog(null,
-						"Arene\nInspiree des TP de L3\n" +
-						"Remise au gout du jout par les soins de\nClement Chaumel," +
-						"\nValentin Chevalier,\n et Christophe Claustre\n", "A propos",
+						"Projet de programmation L3 - Université Paul Sabatier\n" + 
+						"Repris par Clement Chaumel, Valentin Chevalier, Christophe Claustre\n" +
+						"lors du TER L3 de 2014/2015\n" +
+						"Modifie pour le projet de programmation 2015/2016", "A propos",
 						JOptionPane.PLAIN_MESSAGE);
 			}
 		};
+		
 		fileMenu.add(aboutAction);
 
 		// ajout d'une action pour arreter l'execution de l'interface graphique
@@ -261,9 +263,9 @@ public class IHM extends JFrame implements Runnable {
 		if ((state == State.INIT) || (erreurConnexion)) {
 			// affiche le message correspondant
 			if (!erreurConnexion) {
-				arenePanel.afficherMessage("Connexion en cours sur le serveur Arene...");
+				arenePanel.afficheMessage("Connexion en cours sur le serveur Arene...");
 			} else {
-				arenePanel.afficherMessage("Erreur de connexion !");
+				arenePanel.afficheMessage("Erreur de connexion !");
 			}
 			
 			// verifie si la connexion a ete realisee
@@ -289,14 +291,15 @@ public class IHM extends JFrame implements Runnable {
 				// MAJ du timer
 				int tempsRestant = arene.getNbToursRestants();
 				int nbTour = arene.getTour();
+				
 				timerLabel.setText("Duree de la partie : "
 						+ Calculs.timerToString(nbTour)
 						+ "   -   Temps restant : "
 						+ Calculs.timerToString(tempsRestant));
 
-				if (!isPartieCommencee())
+				if (!estPartieCommencee())
 					arenePanel
-							.afficherMessage("La partie n'a pas encore commence");
+							.afficheMessage("La partie n'a pas encore commence");
 
 			} catch (RemoteException e) {
 				erreurConnexion(e);
@@ -310,13 +313,16 @@ public class IHM extends JFrame implements Runnable {
 	 * Teste si la partie a commence sur le serveur.
 	 * @return vrai si la partie a commence
 	 */
-	private boolean isPartieCommencee() {
+	private boolean estPartieCommencee() {
+		boolean res = false;
+		
 		try {
-			return arene.isPartieCommencee();
+			res = arene.estPartieCommencee();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return false;
+		
+		return res;
 	}
 
 	/**
@@ -343,7 +349,7 @@ public class IHM extends JFrame implements Runnable {
 	 * Renvoie la vue correspondant a l'element selectionne dans l'IHM.
 	 * @return vue selectionnee
 	 */
-	public VueElement getElementSelectionne() {
+	public VueElement<?> getElementSelectionne() {
 		return elementSelectionne;
 	}
 
@@ -351,7 +357,7 @@ public class IHM extends JFrame implements Runnable {
 	 * Definit la vue correspondant a l'element selectionne dans l'IHM.
 	 * @param vue vue a selectionner
 	 */
-	public void setElementSelectionne(VueElement vue) {
+	public void setElementSelectionne(VueElement<?> vue) {
 		this.elementSelectionne = vue;
 	}
 
@@ -405,7 +411,7 @@ public class IHM extends JFrame implements Runnable {
 	@Override
 	public void run() {
 		try {
-			while (state == State.INIT || !arene.isPartieFinie()) {
+			while (state == State.INIT || !arene.estPartieFinie()) {
 				repaint();
 				try {
 					Thread.sleep(500);
@@ -414,7 +420,7 @@ public class IHM extends JFrame implements Runnable {
 				}
 			}
 
-			if (arene.isPartieFinie()) {
+			if (arene.estPartieFinie()) {
 				finDePartie();
 			}
 		} catch (RemoteException e) {
@@ -427,9 +433,14 @@ public class IHM extends JFrame implements Runnable {
 			List<VuePersonnage> classement = arene.getClassement();
 			new FenetreClassement(classement);
 
-			this.setGlassPane(new VictoryScreen(arene.getGagnant()));
-			((JPanel) this.getGlassPane()).setOpaque(false);
-			((JPanel) this.getGlassPane()).setVisible(true);
+			VuePersonnage gagnant = arene.getGagnant();
+			
+			if(gagnant != null) {
+				this.setGlassPane(new VictoryScreen(arene.getGagnant()));
+				((JPanel) this.getGlassPane()).setOpaque(false);
+				((JPanel) this.getGlassPane()).setVisible(true);
+			}
+			
 		} catch (RemoteException e) {
 			erreurConnexion(e);
 		}

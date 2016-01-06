@@ -40,11 +40,6 @@ public class ControleJPanel extends JPanel {
 	private JButton ajouterPotionButton;
 	
 	/**
-	 * Bouton permettant d'envoyer une potion selectionnee.
-	 */
-	private JButton envoyerPotionButton;
-	
-	/**
 	 * Bouton permettant d'acceder aux fonctionnalites admin de l'interface, 
 	 * apres avoir tape le mot de passe.
 	 */
@@ -77,13 +72,12 @@ public class ControleJPanel extends JPanel {
 		detaillerButton = new JButton("Vue detaillee");
 		lancerPartieButton = new JButton("Lancer la partie");
 		ajouterPotionButton = new JButton("Ajouter une potion");
-		envoyerPotionButton = new JButton("Envoyer la potion");
 		deverrouillerButton = new JButton("Deverouiller");	
 		
 		// listeners
 		lancerPartieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		ihmTournoi.lancerCompteARebours();	
+        		ihmTournoi.lanceCompteARebours();	
             }
         });		
 		
@@ -105,21 +99,13 @@ public class ControleJPanel extends JPanel {
 		
 		ajouterPotionButton.addActionListener(new ActionListener() { 
 			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.afficherFenetrePotion();
+				ihmTournoi.afficheFenetrePotion();
 			}			
 		});
-		
-		envoyerPotionButton.addActionListener(new ActionListener() { 
-			public void actionPerformed(ActionEvent e) { 
-				ihmTournoi.envoyerPotionSelectionnee();
-			}			
-		});
-		
-		envoyerPotionButton.setEnabled(false);
 		
 		deverrouillerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ihmTournoi.demanderMotDePasse();				
+				ihmTournoi.demandeMotDePasse();				
 			}
 		});
 				
@@ -127,10 +113,9 @@ public class ControleJPanel extends JPanel {
 		this.add(ejecterButton);
 		this.add(lancerPartieButton);
 		this.add(ajouterPotionButton);
-		this.add(envoyerPotionButton);
 		this.add(deverrouillerButton);
 		
-		verouiller();
+		verouille();
 		
 		this.setVisible(true);
 	}
@@ -138,12 +123,11 @@ public class ControleJPanel extends JPanel {
 	/**
 	 * Verrouille le panneau de controle.
 	 */
-	public void verouiller() {
+	public void verouille() {
 		detaillerButton.setVisible(false);
 		ejecterButton.setVisible(false);
 		lancerPartieButton.setVisible(false);
 		ajouterPotionButton.setVisible(false);
-		envoyerPotionButton.setVisible(false);
 		
 		deverrouillerButton.setVisible(true);		
 	}
@@ -151,12 +135,11 @@ public class ControleJPanel extends JPanel {
 	/**
 	 * Deverrouille le panneau de controle.
 	 */
-	public void deverouiller() {
+	public void deverouille() {
 		detaillerButton.setVisible(true);
 		ejecterButton.setVisible(true);
 		lancerPartieButton.setVisible(true);
 		ajouterPotionButton.setVisible(true);
-		envoyerPotionButton.setVisible(true);
 		
 		deverrouillerButton.setVisible(false);		
 	}
@@ -173,10 +156,5 @@ public class ControleJPanel extends JPanel {
 	public JButton getDetaillerButton() {
 		return detaillerButton;
 	}
-
-	public JButton getEnvoyerPotionButton() {
-		return envoyerPotionButton;
-	}
-
 
 }

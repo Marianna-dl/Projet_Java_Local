@@ -6,7 +6,6 @@ import java.net.InetAddress;
 import java.util.HashMap;
 
 import client.StrategiePersonnage;
-import client.StrategieVoleur;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import utilitaires.Calculs;
@@ -27,9 +26,9 @@ public class LancePersonnage {
 		String groupe = "G 24"; 
 		
 		// nombre de tours pour ce personnage avant d'etre deconnecte 
-		// (20 minutes par defaut)
+		// (30 minutes par defaut)
 		// si negatif, illimite
-		long nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
+		int nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -37,7 +36,7 @@ public class LancePersonnage {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {
@@ -58,7 +57,7 @@ public class LancePersonnage {
 		// creation du logger
 		LoggerProjet logger = null;
 		try {
-			logger = new LoggerProjet(true, "personnage_"+nom+groupe);
+			logger = new LoggerProjet(true, "personnage_" + nom + groupe);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(ErreurLancement.suivant);
@@ -68,7 +67,7 @@ public class LancePersonnage {
 		try {
 			String ipConsole = InetAddress.getLocalHost().getHostAddress();
 			
-			logger.info("lanceur", "Creation du personnage...");
+			logger.info("Lanceur", "Creation du personnage...");
 			
 			// caracteristiques du personnage
 			HashMap<Caracteristique, Integer> caracts = new HashMap<Caracteristique, Integer>();
@@ -76,12 +75,13 @@ public class LancePersonnage {
 			caracts.put(Caracteristique.FORCE, 
 					Calculs.valeurCaracAleatoire(Caracteristique.FORCE)); 
 			
-			Point position = Calculs.positionAleatoireArene();	
+			Point position = Calculs.positionAleatoireArene();
 			
-			new StrategieVoleur(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
-			logger.info("lanceur", "Creation du personnage reussie");
+			/*new StrategiePersonnage(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
+			logger.info("Lanceur", "Creation du personnage reussie");*/
+			
 		} catch (Exception e) {
-			logger.severe("lanceur", "Erreur lancement :\n" + e.getCause());
+			logger.severe("Lanceur", "Erreur lancement :\n" + e.getCause());
 			e.printStackTrace();
 			System.exit(ErreurLancement.suivant);
 		}

@@ -37,16 +37,18 @@ public abstract class StrategiePersonnage {
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 */
+
 	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
-			long nbTours, Point position, LoggerProjet logger) {
+			int nbTours, Point position, LoggerProjet logger){
 		
-		logger.info("lanceur", "Creation de la console...");
+		logger.info("Lanceur", "Creation de la console...");
 		
 		/*try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe, caracts), nbTours, position, logger);
-			logger.info("lanceur", "Creation de la console reussie");
+					new Personnage(nom, groupe, caracts), 
+					nbTours, position, logger);
+			logger.info("Lanceur", "Creation de la console reussie");
 			
 		} catch (Exception e) {
 			logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
@@ -63,7 +65,7 @@ public abstract class StrategiePersonnage {
 	 * @param voisins element voisins de cet element (elements qu'il voit)
 	 * @throws RemoteException
 	 */
-	public abstract void strategie(HashMap<Integer, Point> voisins) throws RemoteException;
 
+	public abstract void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException;
 	
 }

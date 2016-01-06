@@ -16,10 +16,10 @@ public class LancePotionClairvoyance {
 	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		String nom = "Potion de Clairvoyance";
+		String nom = "Potion de clairvoyance";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "G" + Calculs.nombreAleatoire(0,99); 
+		String groupe = "G 24";  
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -27,7 +27,7 @@ public class LancePotionClairvoyance {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {
@@ -58,15 +58,18 @@ public class LancePotionClairvoyance {
 		try {
 			IArene arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
 
-			logger.info("lanceur", "Lancement de la potion sur le serveur...");
+			logger.info("Lanceur", "Lancement de la potion sur le serveur...");
 			
 			// caracteristiques de la potion
+			
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
 			caractsPotion.put(Caracteristique.VIE, 0);
 			caractsPotion.put(Caracteristique.FORCE, 0);
 			caractsPotion.put(Caracteristique.INITIATIVE,0);
 			// ajout de la potion
-			arene.ajoutePotion(new PotionClairvoyance(Calculs.nombreAleatoire(0, 10),caractsPotion));
+			//arene.ajoutePotion(new PotionClairvoyance(Calculs.nombreAleatoire(0, 10),Calculs.positionAleatoireArene()));
+			arene.ajoutePotion(new PotionClairvoyance(Calculs.nombreAleatoire(0, 10), caractsPotion), Calculs.positionAleatoireArene());
+
 			logger.info("lanceur", "Lancement de la potion reussi");
 			
 		} catch (Exception e) {

@@ -24,7 +24,7 @@ public class LancePaladin {
 		// nombre de tours pour ce personnage avant d'etre deconnecte 
 		// (20 minutes par defaut)
 		// si negatif, illimite
-		long nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
+		int nbTours = Constantes.NB_TOURS_PERSONNAGE_DEFAUT;
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;
@@ -32,7 +32,7 @@ public class LancePaladin {
 		
 		if (args.length > 0) {
 			if (args[0].equals("--help") || args[0].equals("-h")) {
-				ErreurLancement.help(usage);
+				ErreurLancement.aide(usage);
 			}
 			
 			if (args.length > 2) {

@@ -124,7 +124,7 @@ public class ElementsJPanel extends JPanel {
         MouseListener listener = new MouseAdapter() {			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				clickOnTable(e);
+				clicSurTable(e);
 			}		
 			
 		};
@@ -270,12 +270,12 @@ public class ElementsJPanel extends JPanel {
 	 * Traitement a realiser lors du clic sur un tableau.
 	 * @param ev evenement de la souris
 	 */
-	private void clickOnTable(MouseEvent ev) {
-		// vue clique
-		VueElement newSelect = null;
+	private void clicSurTable(MouseEvent ev) {
+		// vue cliquee
+		VueElement<?> newSelect = null;
 		
-		// vue deja selectionne
-		VueElement prevSelect = ihm.getElementSelectionne();
+		// vue deja selectionnee
+		VueElement<?> prevSelect = ihm.getElementSelectionne();
 		
 		// recuperation de la vue clique
 		JTable table = ((JTable) ev.getSource());

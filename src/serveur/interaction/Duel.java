@@ -32,61 +32,61 @@ public class Duel extends Interaction<VuePersonnage> {
 	}
 	
 	@Override
-	public void interagir() {
+	public void interagit() {
 		try {
-			Personnage pAttaquant = (Personnage) attaquant.getElement();
+			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
 			int perteVie = forceAttaquant;
-		
+			Personnage pDefenseur = (Personnage) defenseur.getElement();
+			
 			if(!(pAttaquant instanceof Magicien) && !(pAttaquant instanceof Archer)){
-				logs(Level.INFO, "MAGICIEN "+(pAttaquant instanceof Magicien));
 				
 				Point positionEjection = positionEjection(defenseur.getPosition(), attaquant.getPosition(), forceAttaquant);
 				// ejection du defenseur
 				defenseur.setPosition(positionEjection);
 			}
 			
+			//On teste si on attaque un Paladin
+			if(pDefenseur instanceof Paladin){
+				if(blocAttaque(pAttaquant.getCaracts().get(Caracteristique.FORCE),
+						pDefenseur.getCaracts().get(Caracteristique.FORCE)))
+					perteVie=0;
+
+				}
+		
+			
 			//On teste si c'est un voleur
 			if(pAttaquant instanceof Voleur){
-				Personnage pDefenseur = (Personnage) defenseur.getElement();
-				//On teste si on attaque un Paladin
-				if(pDefenseur instanceof Paladin){
-					if(blocAttaque(pAttaquant.getCaracts().get(Caracteristique.FORCE),
-							pDefenseur.getCaracts().get(Caracteristique.FORCE)))
-						perteVie=0;
-					else{
-						int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
-						int voleInit = Calculs.nombreAleatoire(0,init);			
-						if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
-							arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
-							logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
-							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
-						}
-					}
-				}
 				int init = pDefenseur.getCaract(Caracteristique.INITIATIVE);
 				int voleInit = Calculs.nombreAleatoire(0,init);	
 				if(!((voleInit+pAttaquant.getCaract(Caracteristique.INITIATIVE))> pAttaquant.getMaxInit())){
 					
-					arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
+					arene.incrementeCaractElement(attaquant, Caracteristique.INITIATIVE, +voleInit);
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vole l'initiative  ("
 							+ voleInit + " points d'initiative) a " + Constantes.nomRaccourciClient(defenseur));
-					
 				}
-				
+					
 			}
 			
 			// degats
 			if (perteVie > 0) {
-				arene.ajouterCaractElement(defenseur, Caracteristique.VIE, -perteVie);
+				//On test si c'est un Archer
+                if(pAttaquant instanceof Archer){
+                    int reussite= Calculs.nombreAleatoire(0, 10);
+                    int saveVie =perteVie;
+                    perteVie=0;
+                    if (reussite==0)
+                        perteVie=saveVie;
+                }
+				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
 						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
 			}
 			
 			// initiative
-			incrementerInitiative(defenseur);
-			decrementerInitiative(attaquant);
+			incrementeInitiative(defenseur);
+			decrementeInitiative(attaquant);
 			
 		} catch (RemoteException e) {
 			logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
@@ -114,8 +114,8 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param defenseur defenseur
 	 * @throws RemoteException
 	 */
-	private void incrementerInitiative(VuePersonnage defenseur) throws RemoteException {
-		arene.ajouterCaractElement(defenseur, Caracteristique.INITIATIVE, 
+	private void incrementeInitiative(VuePersonnage defenseur) throws RemoteException {
+		arene.incrementeCaractElement(defenseur, Caracteristique.INITIATIVE, 
 				Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 	
@@ -124,8 +124,8 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param attaquant attaquant
 	 * @throws RemoteException
 	 */
-	private void decrementerInitiative(VuePersonnage attaquant) throws RemoteException {
-		arene.ajouterCaractElement(attaquant, Caracteristique.INITIATIVE, 
+	private void decrementeInitiative(VuePersonnage attaquant) throws RemoteException {
+		arene.incrementeCaractElement(attaquant, Caracteristique.INITIATIVE, 
 				-Constantes.INCR_DECR_INITIATIVE_DUEL);
 	}
 
@@ -165,7 +165,7 @@ public class Duel extends Interaction<VuePersonnage> {
 		int x = posDefenseur.x + dirX;
 		int y = posDefenseur.y + dirY;
 		
-		return Calculs.restreindrePositionArene(new Point(x, y));
+		return Calculs.restreintPositionArene(new Point(x, y));
 	}
 	
 	/**

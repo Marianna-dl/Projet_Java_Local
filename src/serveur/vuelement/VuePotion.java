@@ -7,7 +7,7 @@ import serveur.element.Potion;
 /**
  * Donnees que le serveur doit conserver sur chacun de ces clients potions.
  */
-public class VuePotion extends VueElement implements Comparable<VuePotion> {
+public class VuePotion extends VueElement<Potion> implements Comparable<VuePotion> {
 	
 	private static final long serialVersionUID = 4227900415029065269L;
 
@@ -16,10 +16,9 @@ public class VuePotion extends VueElement implements Comparable<VuePotion> {
 	 * @param potion potion correspondante
 	 * @param position position courante
 	 * @param ref reference RMI
-	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VuePotion(Potion potion, Point position, int ref, boolean envoyeImm) {
-		super(potion, position, ref, envoyeImm);
+	public VuePotion(Potion potion, Point position, int ref) {
+		super(potion, position, ref);
 	}
 
 	@Override

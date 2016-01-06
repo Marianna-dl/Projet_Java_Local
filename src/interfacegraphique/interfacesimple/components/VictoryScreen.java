@@ -36,7 +36,7 @@ public class VictoryScreen extends JPanel {
 	 */
 	public VictoryScreen(VuePersonnage vue) {
 		nom = vue.getElement().getNom();
-		color = vue.getColor();
+		color = vue.getCouleur();
 	}
 
 	@Override

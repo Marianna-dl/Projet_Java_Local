@@ -32,7 +32,7 @@ public class CaractNonValideException extends Exception {
 	 * @return caracteristiques non valides sous forme d'une chaine de 
 	 * caracteres
 	 */
-	public String afficherCaracts() {
+	public String afficheCaracts() {
 		String s = "";
 		
 		ListIterator<Caracteristique> it = listeCaractNotValid.listIterator();

@@ -24,13 +24,12 @@ public class Constantes {
 	/**
 	 * Nombre de tours par defaut (30 minutes).
 	 */
-	public static final long NB_TOURS_DEFAUT = 60 * 30;
+	public static final int NB_TOURS_DEFAUT = 60 * 30;
 	
 	/**
-	 * Nombre de tours par defaut pour un personnage client (20 minutes), 
-	 * hors tournoi. 
+	 * Nombre de tours par defaut pour un personnage client.
 	 */
-	public static final long NB_TOURS_PERSONNAGE_DEFAUT = 60 * 20;
+	public static final int NB_TOURS_PERSONNAGE_DEFAUT = NB_TOURS_DEFAUT;
 	
 	/**
 	 * Taille du champ de vision des personnages. 
@@ -83,10 +82,9 @@ public class Constantes {
 	public static final int YMAX_ARENE = 100;
 	
 	/**
-	 * Couleur sur l'IHM pour les personnages qui sont morts ou les potions qui
-	 * sont en attente.
+	 * Couleur sur l'IHM pour les personnages qui sont morts.
 	 */
-	public static final Color COULEUR_MORTS_OU_EN_ATTENTE = new Color(112, 112, 112);
+	public static final Color COULEUR_MORTS = new Color(112, 112, 112);
 	
 	/**
 	 * Retourne le nom de la classe de l'objet passe en parametre, sous 
@@ -115,7 +113,7 @@ public class Constantes {
 	 * @return chaine de caracteres contenant la reference RMI de client, son 
 	 * nom et son groupe. 
 	 */
-	public static String nomRaccourciClient(VueElement client) {
+	public static String nomRaccourciClient(VueElement<?> client) {
 		return "(Client" + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
 
@@ -125,7 +123,7 @@ public class Constantes {
 	 * @return chaine de caracters contenant la classe du client, sa reference
 	 * RMI, son nom et son groupe.
 	 */
-	public static String nomCompletClient(VueElement client) {
+	public static String nomCompletClient(VueElement<?> client) {
 		return "("+ nomClasse(client) + client.getRefRMI() + " * " + client.getElement().getNomGroupe() + ")";
 	}
 }

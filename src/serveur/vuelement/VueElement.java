@@ -13,9 +13,10 @@ import utilitaires.Calculs;
  * position dans l'arene, sa reference...
  * Ces vues ne devraient pas etre utilisees dans le client pour le personnage, 
  * mais seulement dans le serveur et dans l'IHM. 
+ * 
+ * @param <T> type de l'element
  */
-// TODO parametriser? possible?
-public class VueElement implements Serializable {
+public class VueElement<T extends Element> implements Serializable {
 	
 	private static final long serialVersionUID = 1750601856220885598L;
 
@@ -25,9 +26,9 @@ public class VueElement implements Serializable {
 	protected final int refRMI;
 
 	/**
-	 * L'element : son nom, son groupe, ses caracteristiques.
+	 * Element.
 	 */
-	protected Element element;
+	protected T element;
 	
 	/**
 	 * Position dans l'arene.
@@ -37,7 +38,7 @@ public class VueElement implements Serializable {
 	/**
 	 * Couleur de l'element.
 	 */
-	protected Color color;
+	protected Color couleur;
 	
 	/**
 	 * Phrase dite par l'element.
@@ -50,42 +51,27 @@ public class VueElement implements Serializable {
 	protected boolean selectionne = false;
 	
 	/**
-	 * Vrai si l'element est en attente d'etre envoye sur l'arene.
-	 */
-	protected boolean enAttente;
-	
-	/**
 	 * Cree un element pour le serveur.
 	 * @param element element correspondant
 	 * @param position position courante
 	 * @param ref reference
-	 * @param envoyeImm vrai si l'element doit etre envoye immediatement
 	 */
-	public VueElement(Element element, Point position, int ref, boolean envoyeImm) {
+	public VueElement(T element, Point position, int ref) {
 		this.element = element;
 		this.position = position;
 		this.refRMI = ref;
 		
 		Random r = new Random(ref);
-		color = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), 200);
+		couleur = new Color(r.nextInt(255), r.nextInt(255), r.nextInt(255), 200);
 		
 		phrase = "";
-		
-		enAttente = !envoyeImm;
-	}
-	
-	/**
-	 * Envoie un element en attente, en jeu.
-	 */
-	public void envoyer() {
-		enAttente = false;
 	}
 
 	public int getRefRMI() {
 		return refRMI;
 	}
 
-	public Element getElement() {
+	public T getElement() {
 		return element;
 	}
 
@@ -94,11 +80,11 @@ public class VueElement implements Serializable {
 	}
 
 	public void setPosition(Point position) {
-		this.position = Calculs.restreindrePositionArene(position);
+		this.position = Calculs.restreintPositionArene(position);
 	}
 	
-	public Color getColor() {
-		return color;
+	public Color getCouleur() {
+		return couleur;
 	}
 	
 	public String getPhrase() {
@@ -115,9 +101,5 @@ public class VueElement implements Serializable {
 
 	public void setSelectionne(boolean selectionne) {
 		this.selectionne = selectionne;
-	}
-
-	public boolean isEnAttente() {
-		return enAttente;
 	}
 }

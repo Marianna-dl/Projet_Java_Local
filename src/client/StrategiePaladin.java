@@ -19,7 +19,7 @@ import utilitaires.Constantes;
 public class StrategiePaladin extends StrategiePersonnage{
 	protected Console console;
 	public StrategiePaladin(String ipArene, int port, String ipConsole, String nom, String groupe,
-			HashMap<Caracteristique, Integer> caracts, long nbTours, Point position, LoggerProjet logger) {
+			HashMap<Caracteristique, Integer> caracts, int nbTours, Point position, LoggerProjet logger) {
 		super(ipArene, port, ipConsole, nom, groupe, caracts, nbTours, position, logger);
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
@@ -33,7 +33,7 @@ public class StrategiePaladin extends StrategiePersonnage{
 		// TODO Auto-generated constructor stub
 	}
 
-	public void strategie(HashMap<Integer, Point> voisins) throws RemoteException {
+	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
 		// TODO Auto-generated method stub
 		// arene
 				IArene arene = console.getArene();
