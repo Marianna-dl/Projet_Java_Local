@@ -11,6 +11,7 @@ import serveur.element.Archer;
 import serveur.element.Caracteristique;
 	import serveur.element.Element;
 import serveur.element.Guerrier;
+import serveur.element.Personnage;
 import serveur.element.Potion;
 	import utilitaires.Calculs;
 	import utilitaires.Constantes;
@@ -60,9 +61,14 @@ import serveur.element.Potion;
 
 				Element elemPlusProche = arene.elementFromRef(refCible);
 
-				if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION)
+				if(distPlusProche <= 10)
 				 { // si suffisamment proches
 					interagir(arene,refRMI, refCible, elemPlusProche, distPlusProche );
+					if(elemPlusProche instanceof Potion){
+						console.setPhrase("Je vais vers mon voisin " + elemPlusProche.getNom());
+						arene.deplace(refRMI, refCible);
+					}
+						
 					
 				} else { // si voisins, mais plus eloignes
 					// je vais vers le plus proche
@@ -70,8 +76,10 @@ import serveur.element.Potion;
 					arene.deplace(refRMI, refCible);
 					refCible = Calculs.chercherElementProche(position, voisins);
 					elemPlusProche = arene.elementFromRef(refCible);
-					if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+					if(distPlusProche <= 10) {
 						interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );
+						if (distPlusProche<=3)
+							arene.fuir(refRMI);
 					}
 				}
 			}
@@ -80,12 +88,12 @@ import serveur.element.Potion;
 	public void interagir(IArene arene, int refRMI, int refCible, Element elemPlusProche, int distPlusProche) throws RemoteException{
 			
 			// j'interagis directement
-			if(elemPlusProche instanceof Potion) { // potion
+			if(elemPlusProche instanceof Potion && distPlusProche<=Constantes.DISTANCE_MIN_INTERACTION) { // potion
 				// ramassage
 				console.setPhrase("Je ramasse une potion");
 				arene.ramassePotion(refRMI, refCible);
 			}
-			if(distPlusProche <= 10){ // personnage
+			if(elemPlusProche instanceof Personnage && distPlusProche <= 10){ // personnage
 				// duel
 				console.setPhrase("Je fais un duel avec " + elemPlusProche.getNom());
 				arene.lanceAttaqueArcher(refRMI, refCible);

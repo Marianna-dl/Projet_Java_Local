@@ -11,6 +11,7 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Magicien;
 import serveur.element.Paladin;
+import serveur.element.Personnage;
 import serveur.element.Potion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -63,6 +64,8 @@ public class StrategieMagicien extends StrategiePersonnage{
 
 					if(distPlusProche <= 5) { // si suffisamment proches
 						interagir(arene,refRMI, refCible, elemPlusProche, distPlusProche );
+						if(elemPlusProche instanceof Personnage)
+							arene.teleportation(refRMI);
 						
 					} else { // si voisins, mais plus eloignes
 						// je vais vers le plus proche
@@ -70,7 +73,7 @@ public class StrategieMagicien extends StrategiePersonnage{
 						arene.deplace(refRMI, refCible);
 						refCible = Calculs.chercherElementProche(position, voisins);
 						elemPlusProche = arene.elementFromRef(refCible);
-						if(distPlusProche <= Constantes.DISTANCE_MIN_INTERACTION) {
+						if(distPlusProche <= 5) {
 							interagir(arene,refRMI, refCible, elemPlusProche,distPlusProche );
 						}
 					}

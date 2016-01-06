@@ -693,11 +693,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage vuePersonnage = personnages.get(refRMI);
 		VuePotion vuePotion = potions.get(refPotion);
 		
-		if (vuePersonnage.isActionExecutee()) {
+		/*if (vuePersonnage.isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			int distance = Calculs.distanceChebyshev(vuePersonnage.getPosition(), vuePotion.getPosition());
 			
@@ -712,7 +712,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 						" a tente d'interagir avec " + vuePotion.getElement().getNom() + 
 						", alors qu'il est trop eloigne !\nDistance = " + distance);
 			}
-		}
+		//}
 		
 		return res;
 	}
@@ -848,11 +848,11 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		VuePersonnage client = personnages.get(refRMI);
 		VuePersonnage clientAdv = personnages.get(refRMIAdv);
 		
-		if (personnages.get(refRMI).isActionExecutee()) {
+		/*if (personnages.get(refRMI).isActionExecutee()) {
 			// si une action a deja ete executee
 			logActionDejaExecutee(refRMI);
 			
-		} else {
+		} else {*/
 			// sinon, on tente de jouer l'interaction
 			IConsole console = consoleFromRef(refRMI);
 			IConsole consoleAdv = consoleFromRef(refRMIAdv);
@@ -904,7 +904,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				console.log(Level.WARNING, "AVERTISSEMENT ARENE", 
 						nomRaccourciClient(refRMIAdv) + " est trop eloigne !\nDistance = " + distance);
 			}
-		}
+		//}
 		
 		return res;
 	}
